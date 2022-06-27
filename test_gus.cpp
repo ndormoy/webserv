@@ -18,8 +18,24 @@
 	for image: https://docs.microsoft.com/en-us/previous-versions/exchange-server/exchange-10/ms527550(v=exchg.10)?redirectedfrom=MSDN
 	HTML EXAMPLE: https://www.w3schools.com/html/html_examples.asp
 	HTML & CSS ANIMATION: https://blog.hubspot.com/website/css-animation-examples
+	telnet localhost 8080
+
+	Never use the GET method if you have password or other sensitive information to pass to the server.
+	The GET method has size limitation and you can pass upto 1024 characters in a request string
 */
 
+std::string	find_path(char * buffer)
+{
+	std::string path = "";
+	int i = 4;
+	while (buffer[i] != ' ')
+	{
+		path += buffer[i];
+		i++;
+	}
+	return path;
+
+} 
 
 int main(int argc, char const *argv[])
 {
@@ -30,9 +46,9 @@ int main(int argc, char const *argv[])
     int addrlen = sizeof(address);
     
     // Only this line has been changed. Everything is same.
-    std::string hello = "HTTP/1.1 200 OK\nContent-Type: text/html;charset=UTF-8\nContent-Length: 1800\n\n";
-    //char *hello = "HTTP/1.1 200 OK\nContent-Type: text/html;charset=UTF-8\nContent-Length: 1800\n\n<html>\n<body>\n\n<h2>HTML Buttons</h2>\n<p>HTML buttons are defined with the button tag:</p>\n\n<button>Click me</button>\n\n</body>\n</html>";
-    //char *hello = "HTTP/1.1 200 OK\nContent-Type: text/plain;charset=UTF-8\nContent-Length: 12\n\nHello world!";
+    //std::string hello = "HTTP/1.1 200 OK\nContent-Type: text/html;charset=UTF-8\nContent-Length: 1800\n\n";
+    std::string	hello = "HTTP/1.1 200 OK\nContent-Type: text/html;charset=UTF-8\nContent-Length: 1800\n\n<html>\n<body>\n\n<h2>HTML Buttons</h2>\n<p>HTML buttons are defined with the button tag:</p>\n\n<button>Click me</button>\n\n</body>\n</html>";
+    //std::string	hello = "HTTP/1.1 200 OK\nContent-Type: text/plain;charset=UTF-8\nContent-Length: 12\n\nHello world!";
     
     // Creating socket file descriptor
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) // il faut que ca soit inf a 0 pour moi
@@ -71,7 +87,7 @@ int main(int argc, char const *argv[])
         char buffer[30000] = {0};
         valread = read( new_socket , buffer, 30000);
         printf("%s\n",buffer );
-		hello.append(buffer);
+		//hello.append(find_path(buffer));
         write(new_socket , hello.c_str() , strlen(hello.c_str()));
         printf("------------------Hello message sent-------------------");
         close(new_socket);
