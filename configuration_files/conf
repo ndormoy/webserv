@@ -1,0 +1,12 @@
+# test comment
+
+server
+{
+	server_name exemple.fr;
+	listen 3200 default_server;
+}
+
+server {
+	client_max_body_size 100M;
+	error_page 404 /custom_404.html;		
+}
