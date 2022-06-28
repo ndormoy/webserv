@@ -49,7 +49,7 @@
 std::string	find_path(char * buffer)
 {
 	std::string path = "";
-	int i = 4;
+	int i = 5;
 	while (buffer[i] != ' ')
 	{
 		path += buffer[i];
@@ -59,20 +59,26 @@ std::string	find_path(char * buffer)
 
 } 
 
+// ATTENTION IL NE FAUT PAS LE PREMIER / DANS LE PATH
 std::string	read_open(std::string path)
 {
+	//std::cout << BRED << path << CRESET << std::endl;
 	std::string content = "";
-	FILE * fd = fopen(path.c_str(), "r");
-	if (fd)
+	std::ifstream file(path);
+	if (file.is_open())
 	{
-		char buffer[1024];
-		while (fgets(buffer, 1024, fd))
+		std::string line;
+		while (getline(file, line))
 		{
-			content += buffer;
+			content += line + "\n";
 		}
-		fclose(fd);
+		file.close();
 	}
-	std::cout << BRED << content << CRESET << std::endl;
+	else
+	{
+		content = "Error 404: File not found";
+	}
+	std::cout << BRED << content << CRESET ;
 	return content;
 }
 
@@ -83,7 +89,7 @@ int main(int argc, char const *argv[])
     int server_fd, new_socket; long valread;
     struct sockaddr_in address;
     int addrlen = sizeof(address);
-    
+    std::string tmp = "";
     // Only this line has been changed. Everything is same.
     std::string hello = "HTTP/1.1 200 OK\nContent-Type: text/html;charset=UTF-8\nContent-Length: 1800\n\n";
     //std::string	hello = "HTTP/1.1 200 OK\nContent-Type: text/html;charset=UTF-8\nContent-Length: 1800\n\n<html>\n<body>\n\n<h2>HTML Buttons</h2>\n<p>HTML buttons are defined with the button tag:</p>\n\n<button>Click me</button>\n\n</body>\n</html>";
@@ -130,9 +136,10 @@ int main(int argc, char const *argv[])
         char buffer[30000] = {0};
         valread = read( new_socket , buffer, 30000);
         printf("%s\n",buffer );
-		read_open(find_path(buffer));
-		hello.append(find_path(buffer));
+		tmp = hello;
+		hello.append(read_open(find_path(buffer)));
         write(new_socket , hello.c_str() , strlen(hello.c_str()));
+		hello = tmp;
         printf("------------------Hello message sent-------------------");
         close(new_socket);
     }
