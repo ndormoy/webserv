@@ -22,6 +22,9 @@
 
 	Never use the GET method if you have password or other sensitive information to pass to the server.
 	The GET method has size limitation and you can pass upto 1024 characters in a request string
+
+	Le chemin virtuel (ou URI - Uniform Resource Identifier) ​​est similaire à un chemin que vous utiliseriez pour accéder à un document ou à une image ordinaire.
+	 C'est-à-dire qu'il pointe le serveur vers le fichier qui contient le programme CGI que vous souhaitez exécuter.
 */
 
 std::string	find_path(char * buffer)
