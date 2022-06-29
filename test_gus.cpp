@@ -30,8 +30,8 @@ int main(int argc, char const *argv[])
     int addrlen = sizeof(address);
     
     // Only this line has been changed. Everything is same.
-    std::string hello = "HTTP/1.1 200 OK\nContent-Type: text/html;charset=UTF-8\nContent-Length: 1800\n\n";
-    //char *hello = "HTTP/1.1 200 OK\nContent-Type: text/html;charset=UTF-8\nContent-Length: 1800\n\n<html>\n<body>\n\n<h2>HTML Buttons</h2>\n<p>HTML buttons are defined with the button tag:</p>\n\n<button>Click me</button>\n\n</body>\n</html>";
+    // std::string hello = "HTTP/1.1 200 OK\nContent-Type: text/html;charset=UTF-8\nContent-Length: 1800\n\n";
+    std::string hello = "HTTP/1.1 200 OK\nContent-Type: text/html;charset=UTF-8\nContent-Length: 1800\n\n<html>\n<body>\n\n<h2>HTML Buttons</h2>\n<p>HTML buttons are defined with the button tag:</p>\n\n<button>Click me</button>\n\n</body>\n</html>";
     //char *hello = "HTTP/1.1 200 OK\nContent-Type: text/plain;charset=UTF-8\nContent-Length: 12\n\nHello world!";
     
     // Creating socket file descriptor
@@ -71,7 +71,7 @@ int main(int argc, char const *argv[])
         char buffer[30000] = {0};
         valread = read( new_socket , buffer, 30000);
         printf("%s\n",buffer );
-		hello.append(buffer);
+		// hello.append(buffer);
         write(new_socket , hello.c_str() , strlen(hello.c_str()));
         printf("------------------Hello message sent-------------------");
         close(new_socket);
