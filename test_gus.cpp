@@ -44,6 +44,8 @@
 	Cependant, si le serveur détecte des lignes d'en-tête impaires, 
 	le serveur enregistre une erreur 500 et ne renvoie aucune donnée au client.
 	 texte/html, texte/ plain, image/gif, image/jpeg, audio/basic
+
+	 http://www.mnuwer.dbasedeveloper.co.uk/dlearn/web/session01.htm
 */
 
 std::string	find_path(char * buffer)
