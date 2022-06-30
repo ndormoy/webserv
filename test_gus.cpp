@@ -68,7 +68,7 @@ std::string	read_open(std::string path)
 {
 	//std::cout << BRED << path << CRESET << std::endl;
 	std::string content = "";
-	std::ifstream file(path); //
+	std::ifstream file(path.c_str());
 	if (file.is_open())
 	{
 		std::string line;
