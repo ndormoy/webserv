@@ -138,11 +138,11 @@ int main(int argc, char const *argv[])
         }
         
         char buffer[30000] = {0};
-        valread = read( new_socket , buffer, 30000);
+        valread = read( new_socket , buffer, 30000); //BUG ici on utiliserai plustot recv ??
         printf("%s\n",buffer );
 		tmp = hello;
 		hello.append(read_open(find_path(buffer)));
-        write(new_socket , hello.c_str() , strlen(hello.c_str()));
+        write(new_socket , hello.c_str() , strlen(hello.c_str())); //BUG ici on utiliserai plustot send ??
 		hello = tmp;
         printf("------------------Hello message sent-------------------");
         close(new_socket);
