@@ -46,6 +46,8 @@
 	 texte/html, texte/ plain, image/gif, image/jpeg, audio/basic
 
 	 http://www.mnuwer.dbasedeveloper.co.uk/dlearn/web/session01.htm
+
+	https://stackoverflow.com/questions/49427697/epoll-eventsepollet-only-triggered-once
 */
 
 std::string	find_path(char * buffer)
@@ -66,7 +68,7 @@ std::string	read_open(std::string path)
 {
 	//std::cout << BRED << path << CRESET << std::endl;
 	std::string content = "";
-	std::ifstream file(path);
+	std::ifstream file(path); //
 	if (file.is_open())
 	{
 		std::string line;
