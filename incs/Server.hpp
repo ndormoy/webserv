@@ -6,15 +6,14 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:55:35 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/01 16:41:34 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/04 10:45:31 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SERVER_HPP
 # define SERVER_HPP
 
-#include "_utils.hpp"
-#include "_location.hpp"
+#include "webserv.hpp"
 
 _BEGIN_NAMESPACE_WEBSERV
 
@@ -29,7 +28,6 @@ class Server {
 		
 
 	public:
-
 		Server (void) :
 			_port(0),
 			_max_body_size(0),
@@ -38,17 +36,24 @@ class Server {
 			_locations()
 		{ }
 		
+		~Server (void)
+		{ }
+		
 		Server (const Server& ref) {
 			*this = ref;
 		}
-		
-		~Server (void) { }
-		
+
 		Server&	operator= (const Server& ref) {
 			if (this == &ref) {return (*this);}
-
+			
+			_port = ref._port;
+			_max_body_size = ref._max_body_size;
+			_server_name = ref._server_name;
+			_error_pages = ref._error_pages;
+			_locations = ref._locations;
 			return (*this);
 		}
+		
 };
 
 _END_NAMESPACE_WEBSERV

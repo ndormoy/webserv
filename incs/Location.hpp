@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _location.hpp                                      :+:      :+:    :+:   */
+/*   Location.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 16:03:56 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/01 16:17:42 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/04 10:42:20 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef _LOCATION_HPP
 # define _LOCATION_HPP
 
-#include "_utils.hpp"
+#include "webserv.hpp"
 
 _BEGIN_NAMESPACE_WEBSERV
 

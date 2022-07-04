@@ -1,8 +1,13 @@
 make --dry-run --always-make --keep-going --print-directory
 make: Entering directory '/mnt/nfs/homes/mamaurai/42/webserv'
- 
+printf "%-15s \033[33msrcs/Configuration.cpp\033[37m...\n" "Compiling"
+clang++  -I ./incs -c srcs/Configuration.cpp -o srcs/Configuration.o
+printf "%-15s \033[33msrcs/Server.cpp\033[37m...\n" "Compiling"
+clang++  -I ./incs -c srcs/Server.cpp -o srcs/Server.o
+printf "%-15s \033[33msrcs/main.cpp\033[37m...\n" "Compiling"
+clang++  -I ./incs -c srcs/main.cpp -o srcs/main.o
 printf "%-15s \033[35mwebserv\033[37m...\n" "Compiling"
-clang++ -Wall -Wextra -Werror -std=c++98 -fsanitize=address -g3 -o webserv -I . 
+clang++  -o webserv -I ./incs ./srcs/Configuration.o ./srcs/Server.o ./srcs/main.o
 printf "\n\033[32mCompilation done !\033[37m\n"
 make: Leaving directory '/mnt/nfs/homes/mamaurai/42/webserv'
  

@@ -6,10 +6,11 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Wed Jun 29 17:33:13 2022
+# Make data base, printed on Mon Jul  4 09:47:34 2022
 
 # Variables
 
+ 
 # automatic
 <D = $(patsubst %/,%,$(dir $<))
 # automatic
@@ -27,7 +28,7 @@ VSCODE_LOG_NATIVE = false
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # makefile (from 'Makefile', line 6)
-CPPFLAGS = -Wall -Wextra -Werror -std=c++98 -fsanitize=address -g3
+CPPFLAGS = 
 # automatic
 @D = $(patsubst %/,%,$(dir $@))
 # environment
@@ -51,7 +52,7 @@ VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupp
 # environment
 _ = /usr/bin/code
 # environment
-JOURNAL_STREAM = 9:68586
+JOURNAL_STREAM = 9:53456
 # environment
 XDG_CONFIG_DIRS = /etc/xdg/xdg-ubuntu:/etc/xdg
 # makefile (from 'Makefile', line 1)
@@ -75,17 +76,17 @@ SYSTEM = ${shell uname}
 # makefile (from 'Makefile', line 7)
 OBJS = ${SRCS:.cpp=.o}
 # environment
-MANAGERPID = 6902
+MANAGERPID = 3234
 # makefile (from 'Makefile', line 9)
-INCS = -I .
+INCS = -I ./incs
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/40485/vscode-ipc-35f63817-45b5-40ed-9f68-ae59162441c6.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/40485/vscode-ipc-ff92a2a4-147d-478e-8230-30ada1a704d3.sock
 # environment
 VSCODE_CWD = /mnt/nfs/homes/mamaurai/42/webserv
 # environment
 XDG_SESSION_PATH = /org/freedesktop/DisplayManager/Session0
 # environment
-KRB5CCNAME = FILE:/tmp/krb5cc_40485_YbE8kX
+KRB5CCNAME = FILE:/tmp/krb5cc_40485_rzkgMt
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # makefile (from 'Makefile', line 31)
@@ -99,7 +100,7 @@ GPG_AGENT_INFO = /run/user/40485/gnupg/S.gpg-agent:0:1
 # environment
 LSCOLORS = Gxfxcxdxbxegedabagacad
 # environment
-SESSION_MANAGER = local/e2r3p10.42.fr:@/tmp/.ICE-unix/7395,unix/e2r3p10.42.fr:/tmp/.ICE-unix/7395
+SESSION_MANAGER = local/e1r12p4.42.fr:@/tmp/.ICE-unix/3752,unix/e1r12p4.42.fr:/tmp/.ICE-unix/3752
 # environment
 XDG_RUNTIME_DIR = /run/user/40485
 # makefile (from 'Makefile', line 28)
@@ -111,7 +112,7 @@ VSCODE_LOG_STACK = false
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-INVOCATION_ID = f4c2818213ac4d2e9b4ccfb26ad9ab22
+INVOCATION_ID = 701d0f45f37b40138b08742e367f2247
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -125,7 +126,7 @@ XDG_SESSION_DESKTOP = ubuntu
 # environment
 SSH_AUTH_SOCK = /run/user/40485/keyring/ssh
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 7775
+GIO_LAUNCHED_DESKTOP_FILE_PID = 5941
 # automatic
 %F = $(notdir $%)
 # environment
@@ -137,7 +138,7 @@ PWD = /mnt/nfs/homes/mamaurai/42/webserv
 # default
 .LOADED := 
 # environment
-SSH_AGENT_PID = 7359
+SSH_AGENT_PID = 3717
 # makefile (from 'Makefile', line 33)
 _PURPLE = $'\033[35m
 # environment
@@ -181,9 +182,9 @@ MAKECMDGOALS := all
 # environment
 QT_IM_MODULE = ibus
 # makefile (from 'Makefile', line 3)
-SRCS = 
+SRCS = ${shell find ./srcs -name "*.cpp"}
 # environment
-SHLVL = 1
+SHLVL = 2
 # makefile (from 'Makefile', line 5)
 CC = clang++
 # environment
@@ -205,7 +206,7 @@ LESS = -R
 # default
 MAKE_COMMAND := make
 # environment
-OLDPWD = /mnt/nfs/homes/mamaurai/42
+OLDPWD = /mnt/nfs/homes/mamaurai
 # environment
 TERMINATOR_DBUS_PATH = /net/tenshu/Terminator2
 # default
@@ -269,22 +270,21 @@ TERMINATOR_DBUS_NAME = net.tenshu.Terminator21a9d5db22c73a993ff0b42f64b396873
 # environment
 DOCKER_HOST = unix:///run/user/40485/docker.sock
 # environment
-VSCODE_PID = 7926
+VSCODE_PID = 6099
 # environment
-TERMINATOR_UUID = urn:uuid:0dc9082f-ecbf-4080-b293-d906d15ce0a1
+TERMINATOR_UUID = urn:uuid:055196ab-2d0a-4a8b-bc3b-bf2f0b533fbf
 # variable set hash-table stats:
-# Load=131/1024=13%, Rehash=0, Collisions=26/189=14%
+# Load=131/1024=13%, Rehash=0, Collisions=21/173=12%
 
 # Pattern-specific Variable Values
- 
 
 # No pattern-specific variable values.
 
 # Directories
 
-# . (device 59, inode 59679226): 13 files, no impossibilities.
+# . (device 58, inode 258646725): 14 files, no impossibilities.
 
-# 13 files, no impossibilities in 1 directories.
+# 14 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -292,40 +292,27 @@ TERMINATOR_UUID = urn:uuid:0dc9082f-ecbf-4080-b293-d906d15ce0a1
 
 # Files
 
+# Not a target:
+srcs/Configuration.o:
+#  Implicit rule search has been done.
+ 
+#  Last modified 2022-07-01 16:45:00.332046926
+#  File has been updated.
+#  Successfully updated.
+
 all: webserv
 #  Phony target (prerequisite of .PHONY).
 #  Command line target.
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has been updated.
-#  Needs to be updated (-q is set).
-# variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/20=0%
+#  Successfully updated.
 
-webserv:
+webserv: srcs/Configuration.o srcs/Server.o srcs/main.o
 #  Implicit rule search has not been done.
-#  Implicit/static pattern stem: ''
-#  File does not exist.
+#  Last modified 2022-07-01 16:54:17.796563675
 #  File has been updated.
-#  Needs to be updated (-q is set).
-# automatic
-# @ := webserv
-# automatic
-# % := 
-# automatic
-# * := 
-# automatic
-# + := 
-# automatic
-# | := 
-# automatic
-# < := 
-# automatic
-# ^ := 
-# automatic
-# ? := 
-# variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=6/28=21%
+#  Successfully updated.
 #  recipe to execute (from 'Makefile', line 45):
 				@printf "%-15s ${_PURPLE}${_BOLD}${NAME}${_END}...\n" "Compiling"
 				@${CC} ${CPPFLAGS} -o ${NAME} ${INCS} ${OBJS}
@@ -337,15 +324,9 @@ webserv:
 #  File has not been updated.
 
 # Not a target:
-.SUFFIXES:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-
-# Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-27 13:29:36.036509088
+#  Last modified 2022-07-01 16:44:57.736025885
 #  File has been updated.
 #  Successfully updated.
 
@@ -387,20 +368,34 @@ clean:
 				@printf "%-15s ${_RED}${_BOLD}${NAME} binary files${_END}...\n" "Deleting"
 				@${RM} ${OBJS}
 
+# Not a target:
+srcs/Server.o:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-01 16:45:00.748050298
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+srcs/main.o:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-01 16:54:17.704562931
+#  File has been updated.
+#  Successfully updated.
+
 # files hash-table stats:
-# Load=10/1024=1%, Rehash=0, Collisions=0/30=0%
+# Load=13/1024=1%, Rehash=0, Collisions=0/35=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 24 / storage = 194 B / avg = 8 B
-# current buf: size = 8162 B / used = 194 B / count = 24 / avg = 8 B
+# strcache buffers: 1 (0) / strings = 27 / storage = 241 B / avg = 8 B
+# current buf: size = 8162 B / used = 241 B / count = 27 / avg = 8 B
 
-# strcache performance: lookups = 45 / hit rate = 46%
+# strcache performance: lookups = 48 / hit rate = 43%
 # hash-table stats:
-# Load=24/8192=0%, Rehash=0, Collisions=1/45=2%
-# Finished Make data base on Wed Jun 29 17:33:13 2022
+# Load=27/8192=0%, Rehash=0, Collisions=1/48=2%
+# Finished Make data base on Mon Jul  4 09:47:34 2022
 
  
