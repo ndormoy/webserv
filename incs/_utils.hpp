@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:33:58 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/04 11:10:53 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/04 15:26:49 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@
 # define FILE_MISSING					"configuration file missing\n./webserv [--debug=`debug_value`] [configuration_file]"
 
 # define SYSCALL_ERR					(-1)
+# define COUT(x)						std::cout << x << std::endl;
+# define CERR(x)						std::cerr << x << std::endl;
+
+# define CONFIG_STRING_MAX_SIZE			100
 
 enum {
 	M_GET = (1 << 0),
