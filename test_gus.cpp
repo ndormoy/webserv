@@ -45,9 +45,12 @@
 	le serveur enregistre une erreur 500 et ne renvoie aucune donnée au client.
 	 texte/html, texte/ plain, image/gif, image/jpeg, audio/basic
 
-	 http://www.mnuwer.dbasedeveloper.co.uk/dlearn/web/session01.htm
+	Par exemple, les trois URI suivants sont équivalents :
 
-	https://stackoverflow.com/questions/49427697/epoll-eventsepollet-only-triggered-once
+   http://example.com:80/~smith/home.html
+   http://EXAMPLE.com/%7Esmith/home.html
+   http://EXEMPLE.com:/%7esmith/home.html
+
 */
 
 std::string	find_path(char * buffer)
@@ -82,7 +85,7 @@ std::string	read_open(std::string path)
 	{
 		content = "Error 404: File not found";
 	}
-	std::cout << BRED << content << CRESET ;
+	//std::cout << BRED << content << CRESET ;
 	return content;
 }
 
@@ -143,6 +146,7 @@ int main(int argc, char const *argv[])
 		tmp = hello;
 		hello.append(read_open(find_path(buffer)));
         write(new_socket , hello.c_str() , strlen(hello.c_str())); //BUG ici on utiliserai plustot send ??
+		std::cout << BRED << hello << CRESET << std::endl;
 		hello = tmp;
         printf("------------------Hello message sent-------------------");
         close(new_socket);
