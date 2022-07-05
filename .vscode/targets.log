@@ -1,6 +1,4 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
-make: *** No rule to make target 'srcs/Configuration.o', needed by 'webserv'.  Stop.
-
 # GNU Make 4.2.1
 # Built for x86_64-pc-linux-gnu
 # Copyright (C) 1988-2016 Free Software Foundation, Inc.
@@ -8,7 +6,7 @@ make: *** No rule to make target 'srcs/Configuration.o', needed by 'webserv'.  S
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Tue Jul  5 08:00:07 2022
+# Make data base, printed on Tue Jul  5 13:02:37 2022
 
 # Variables
 
@@ -44,8 +42,6 @@ CURDIR := /mnt/nfs/homes/mamaurai/42/webserv
 SHELL = /bin/sh
 # makefile (from 'Makefile', line 9)
 RM = rm -f
-# environment
-GDM_LANG = en
 # makefile (from 'Makefile', line 30)
 _RED = $'\033[31m
 # environment
@@ -55,7 +51,7 @@ VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupp
 # environment
 _ = /usr/bin/code
 # environment
-JOURNAL_STREAM = 9:51205
+JOURNAL_STREAM = 9:433383
 # environment
 XDG_CONFIG_DIRS = /etc/xdg/xdg-ubuntu:/etc/xdg
 # makefile (from 'Makefile', line 1)
@@ -79,17 +75,17 @@ SYSTEM = ${shell uname}
 # makefile (from 'Makefile', line 8)
 OBJS = ${SRCS:.cpp=.o}
 # environment
-MANAGERPID = 2433
+MANAGERPID = 106011
 # makefile (from 'Makefile', line 10)
 INCS = -I ./incs
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/40485/vscode-ipc-462e3496-201d-4601-893d-dceaed939190.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/40485/vscode-ipc-9a36a6ba-a742-4aa2-9a34-f788f6d43bb8.sock
 # environment
 VSCODE_CWD = /mnt/nfs/homes/mamaurai/42/webserv
 # environment
-XDG_SESSION_PATH = /org/freedesktop/DisplayManager/Session0
+XDG_SESSION_PATH = /org/freedesktop/DisplayManager/Session5
 # environment
-KRB5CCNAME = FILE:/tmp/krb5cc_40485_QpHCPc
+KRB5CCNAME = FILE:/tmp/krb5cc_40485_UZnSgr
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # makefile (from 'Makefile', line 32)
@@ -103,7 +99,7 @@ GPG_AGENT_INFO = /run/user/40485/gnupg/S.gpg-agent:0:1
 # environment
 LSCOLORS = Gxfxcxdxbxegedabagacad
 # environment
-SESSION_MANAGER = local/e1r12p2.42.fr:@/tmp/.ICE-unix/2976,unix/e1r12p2.42.fr:/tmp/.ICE-unix/2976
+SESSION_MANAGER = local/e1r13p4.clusters.42paris.fr:@/tmp/.ICE-unix/106527,unix/e1r13p4.clusters.42paris.fr:/tmp/.ICE-unix/106527
 # environment
 XDG_RUNTIME_DIR = /run/user/40485
 # makefile (from 'Makefile', line 29)
@@ -115,7 +111,7 @@ VSCODE_LOG_STACK = false
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-INVOCATION_ID = 056429e28f544468a95ffe9f89ba1986
+INVOCATION_ID = e48b499b26bb4f6eb683530e54209688
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -129,7 +125,7 @@ XDG_SESSION_DESKTOP = ubuntu
 # environment
 SSH_AUTH_SOCK = /run/user/40485/keyring/ssh
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 3344
+GIO_LAUNCHED_DESKTOP_FILE_PID = 106970
 # automatic
 %F = $(notdir $%)
 # environment
@@ -141,7 +137,7 @@ PWD = /mnt/nfs/homes/mamaurai/42/webserv
 # default
 .LOADED := 
 # environment
-SSH_AGENT_PID = 2940
+SSH_AGENT_PID = 106491
 # makefile (from 'Makefile', line 34)
 _PURPLE = $'\033[35m
 # environment
@@ -209,15 +205,13 @@ LESS = -R
 # default
 MAKE_COMMAND := make
 # environment
-OLDPWD = /mnt/nfs/homes/mamaurai
+OLDPWD = /mnt/nfs/homes/mamaurai/42
 # environment
 TERMINATOR_DBUS_PATH = /net/tenshu/Terminator2
 # default
 .VARIABLES := 
 # automatic
 *F = $(notdir $*)
-# environment
-LANGUAGE = en
 # environment
 XDG_SEAT_PATH = /org/freedesktop/DisplayManager/Seat0
 # environment
@@ -275,22 +269,22 @@ TERMINATOR_DBUS_NAME = net.tenshu.Terminator21a9d5db22c73a993ff0b42f64b396873
 # environment
 DOCKER_HOST = unix:///run/user/40485/docker.sock
 # environment
-VSCODE_PID = 3463
+VSCODE_PID = 108184
 # environment
-TERMINATOR_UUID = urn:uuid:e222b750-02db-4972-bee2-3f64a499fa23
+TERMINATOR_UUID = urn:uuid:d4d05fe7-89ba-4680-9f43-b50d557b108e
 # variable set hash-table stats:
-# Load=133/1024=13%, Rehash=0, Collisions=21/177=12%
+# Load=131/1024=13%, Rehash=0, Collisions=21/175=12%
 
 # Pattern-specific Variable Values
-
  
+
 # No pattern-specific variable values.
 
 # Directories
 
-# . (device 59, inode 258646725): 13 files, no impossibilities.
+# . (device 58, inode 258646725): 14 files, no impossibilities.
 
-# 13 files, no impossibilities in 1 directories.
+# 14 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -301,20 +295,23 @@ TERMINATOR_UUID = urn:uuid:e222b750-02db-4972-bee2-3f64a499fa23
 # Not a target:
 srcs/Configuration.o:
 #  Implicit rule search has been done.
-#  File does not exist.
-#  File has not been updated.
+#  Last modified 2022-07-05 11:54:28.872290626
+#  File has been updated.
+#  Successfully updated.
 
 all: webserv
 #  Phony target (prerequisite of .PHONY).
 #  Command line target.
 #  Implicit rule search has not been done.
 #  File does not exist.
-#  File has not been updated.
+#  File has been updated.
+#  Successfully updated.
 
 webserv: srcs/Configuration.o srcs/parsing/parsing.o srcs/Server.o srcs/main.o
 #  Implicit rule search has not been done.
-#  File does not exist.
-#  File has not been updated.
+#  Last modified 2022-07-05 11:54:29.255290198
+#  File has been updated.
+#  Successfully updated.
 #  recipe to execute (from 'Makefile', line 46):
 				@printf "%-15s ${_PURPLE}${_BOLD}${NAME}${_END}...\n" "Compiling"
 				@${CC} ${CPPFLAGS} -o ${NAME} ${INCS} ${OBJS}
@@ -328,7 +325,7 @@ webserv: srcs/Configuration.o srcs/parsing/parsing.o srcs/Server.o srcs/main.o
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-04 14:06:14.064831366
+#  Last modified 2022-07-05 09:30:28.91775966
 #  File has been updated.
 #  Successfully updated.
 
@@ -372,21 +369,24 @@ clean:
 
 # Not a target:
 srcs/Server.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-07-05 11:38:51.441339816
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 srcs/parsing/parsing.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-07-05 10:30:34.878575533
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 srcs/main.o:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-07-05 10:30:36.01357389
+#  File has been updated.
+#  Successfully updated.
 
 # files hash-table stats:
 # Load=14/1024=1%, Rehash=0, Collisions=0/37=0%
@@ -396,12 +396,12 @@ srcs/main.o:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 28 / storage = 264 B / avg = 9 B
-# current buf: size = 8162 B / used = 264 B / count = 28 / avg = 9 B
+# strcache buffers: 1 (0) / strings = 28 / storage = 267 B / avg = 9 B
+# current buf: size = 8162 B / used = 267 B / count = 28 / avg = 9 B
 
-# strcache performance: lookups = 48 / hit rate = 41%
+# strcache performance: lookups = 49 / hit rate = 42%
 # hash-table stats:
-# Load=28/8192=0%, Rehash=0, Collisions=1/48=2%
-# Finished Make data base on Tue Jul  5 08:00:07 2022
+# Load=28/8192=0%, Rehash=0, Collisions=1/49=2%
+# Finished Make data base on Tue Jul  5 13:02:37 2022
 
  

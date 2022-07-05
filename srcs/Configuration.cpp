@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:38:48 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/05 09:26:59 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/05 14:12:16 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,19 @@
 	TODO add _set_server_name in server class
 */
 
-#define NBR_DIFFERENT_BLOCKS_	2
+bool
+str_is_print (std::string str) {
+	const char *s = str.c_str();
+	
+	for (size_t i = 0; i < str.length(); i++) {
+		if (!isprint(s[i]))
+			return (false);
+	}
+	return (true);
+}
 
-static std::vector<std::string>
-vector_spliter_ (std::string str) {
+std::vector<std::string>
+vector_spliter (std::string str) {
 	std::vector<std::string> vector;
 	std::string stockage;
 
@@ -46,40 +55,52 @@ void
 INLINE_NAMESPACE::Configuration::_parse_server (std::ifstream &ifs) {
 	std::string 				buffer;
 	std::vector<std::string> 	v;
-	t_function_pair_server pairs[2] = {	{&Server::_set_server_name, "server_name"},
-										{&Server::_set_listen, "listen"}};
-	
+	int							idx;
 	INLINE_NAMESPACE::Server server;
+	t_function_pair_server pairs[] = {	{&Server::_set_server_name, "server_name"},
+										{&Server::_set_listen, "listen"},
+										{&Server::_set_error_page, "error_page"},
+										{&Server::_set_client_max_body_size, "client_max_body_size"},
+										{NULL, ""}};
+	
 
-	while (!ifs.eof()) {
+	for (size_t i = 0; !ifs.eof(); i++) {
 		std::getline(ifs, buffer);
-		v = vector_spliter_(buffer);
-
-		for (int i = 0; i < 2; i++) {
-			if (v.empty()) {
-				continue;
-			} else if (v[0] == pairs[i].str) {
-				(server.*(pairs[i].f))(v);
+		v = vector_spliter(buffer);
+		
+		if (i == 0 && (v.empty() || v[0] != "{"))
+			throw Configuration::SyntaxError();
+		if (!v.empty() && v[0] == "}")
+			break;
+		for (idx = 0; !pairs[idx].str.empty(); idx++) {
+			if (v.empty() || v[0][0] == '#' || v[0][0] == '{' || v[0][0] == '}') {
+				break;
+			} else if (v[0] == pairs[idx].str) {
+				(server.*(pairs[idx].f))(v);
+				break;
+			} else if (v[0] == "location") {
+				server._parse_location(ifs, v);
 			}
 		}
+		if (pairs[idx].str.empty()) {
+			COUT(v[0]); // ! TO DELETE
+			throw (Server::InvalidServerBlock());
+		}
 	}
+	if (v.empty() || v[0] != "}" || v.size() != 1)
+		throw Configuration::SyntaxError();
 	_servers.push_back(server);
 	DEBUG_1(COUT(server));
 }
-
-void
-INLINE_NAMESPACE::Configuration::_parse_location (std::ifstream &ifs) {
-	COUT("location");
-}
-
 
 void
 INLINE_NAMESPACE::Configuration::parse (std::string conf_file) {
 	std::string 				buffer;
 	std::ifstream				ifs;
 	std::vector<std::string> 	v;
-	t_function_pair_config 		pairs[NBR_DIFFERENT_BLOCKS_] = {{&Configuration::_parse_server, "server"},
-													{&Configuration::_parse_location, "location"}};
+	// t_function_pair_config 		pairs[] = {	{&Configuration::_parse_server, "server"},
+	// 										{&Configuration::_parse_location, "location"},
+	// 										{NULL, ""}};
 	
 	ifs.open(conf_file);
 	if (ifs.fail()) {
@@ -88,15 +109,16 @@ INLINE_NAMESPACE::Configuration::parse (std::string conf_file) {
 
 	while (!ifs.eof()) {
 		std::getline(ifs, buffer);
-		v = vector_spliter_(buffer);
+		v = vector_spliter(buffer);
 
-		for (int i = 0; i < NBR_DIFFERENT_BLOCKS_; i++) {
-			if (v.empty()) {
-				continue;
-			} else if (v[0] == pairs[i].str) {
-				(this->*(pairs[i].f))(ifs);
-			}
+		
+		if (v.empty() || v[0][0] == '#') {
+			continue;
+		} else if (v[0] == "server") {
+			_parse_server(ifs);
 		}
+		
 	}
+	ifs.close();
 	DEBUG_1(COUT(*this));
 }

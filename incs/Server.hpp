@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:55:35 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/05 09:24:11 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/05 13:37:00 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ class Server {
 			return (*this);
 		}
 
+		void	_parse_location (std::ifstream &, std::vector<std::string> &);
+
 		void	_set_server_name (std::vector<std::string> &);
 		void	_set_listen (std::vector<std::string> &);
 		void	_set_error_page (std::vector<std::string> &);
@@ -81,6 +83,10 @@ class Server {
 
 		EXCEPTION(InvalidServerName, "configuration_file : invalid server_name field")
 		EXCEPTION(InvalidPort, "configuration_file : invalid listen field")
+		EXCEPTION(InvalidServerBlock, "configuration_file : syntax error in server block")
+		EXCEPTION(InvalidErrorPage, "configuration_file : invalid error_page field")
+		EXCEPTION(CannotOpenErrorPage, "configuration_file : cannot open error_page")
+		EXCEPTION(InvalidBodySize, "configuration_file : invalid client_max_body_size field")
 };
 
 typedef struct s_function_pair_server {
@@ -91,4 +97,4 @@ typedef struct s_function_pair_server {
 
 _END_NAMESPACE_WEBSERV
 
-#endif
+#endif /* SERVER_HPP */

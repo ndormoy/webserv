@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:11:19 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/05 08:33:08 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/05 14:11:51 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,11 @@
 #include <iostream>
 #include <fstream>
 #include <iosfwd>
+#include <cctype>
 
 extern int g_debug_prog_level;
 
+#include "_colors.hpp"
 #include "_utils.hpp"
 #include "Location.hpp"
 #include "Server.hpp"
@@ -31,4 +33,4 @@ extern int g_debug_prog_level;
 
 extern INLINE_NAMESPACE::Configuration g_config;
 
-#endif
+#endif /* WEBSERV_HPP */

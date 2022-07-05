@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:33:58 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/05 09:10:53 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/05 14:09:49 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,8 @@ enum {
 	M_POST = (1 << 1),
 	M_DELETE = (1 << 2)
 };	
+
+std::vector<std::string>	vector_spliter (std::string str);
+bool						str_is_print(std::string str);
 
 #endif /* _UTILS_HPP */

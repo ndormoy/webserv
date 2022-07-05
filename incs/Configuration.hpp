@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:32:45 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/05 09:06:40 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/05 13:31:41 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include "webserv.hpp"
 
 _BEGIN_NAMESPACE_WEBSERV
-
 
 class Configuration {
 
@@ -44,7 +43,6 @@ class Configuration {
 		}
 
 		void	_parse_server (std::ifstream &);
-		void	_parse_location (std::ifstream &);
 
 	public:
 		void	parse(std::string);
@@ -60,6 +58,7 @@ class Configuration {
     	}
 
 	EXCEPTION(FileCannotBeOpened, "configuration_file can't be opened, please check if the file exist and your allowed to open it")
+	EXCEPTION(SyntaxError, "configuration_file : syntax error")
 };
 
 typedef struct s_function_pair_config {
@@ -69,4 +68,4 @@ typedef struct s_function_pair_config {
 
 _END_NAMESPACE_WEBSERV
 
-#endif
+#endif /* CONFIGURATION_FILE_HPP */
