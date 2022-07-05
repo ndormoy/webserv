@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   Configuration.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:32:45 by mamaurai          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/07/05 13:31:41 by mamaurai         ###   ########.fr       */
+=======
+/*   Updated: 2022/07/05 10:10:26 by gmary            ###   ########.fr       */
+>>>>>>> deccaa03e2d382eb622670e9cfecee83446eedf1
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +58,7 @@ class Configuration {
 			for (vector_server::const_iterator it = c._servers.begin(); it != c._servers.end(); it++) {
 				CO(*it, o);
 			}
-        	return (o);            
+        	return (o);
     	}
 
 	EXCEPTION(FileCannotBeOpened, "configuration_file can't be opened, please check if the file exist and your allowed to open it")
