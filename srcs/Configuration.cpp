@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:38:48 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/04 15:32:28 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/05 09:26:59 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,24 +43,13 @@ vector_spliter_ (std::string str) {
 }
 
 void
-INLINE_NAMESPACE::Configuration::_set_server_name (std::vector<std::string> v) {
-	if (v.size() != 2 || v[1].length() > CONFIG_STRING_MAX_SIZE) {
-		throw Configuration::InvalidServerName();
-	} else {
-		
-	}
-}
-
-void
 INLINE_NAMESPACE::Configuration::_parse_server (std::ifstream &ifs) {
 	std::string 				buffer;
 	std::vector<std::string> 	v;
-	t_function_vector pairs[2] = {	{&Configuration::_set_server_name, "server_name"},
-									{&Configuration::_set_server_name, "listen"},
-									{&Configuration::_set_server_name, "error_page"},
-									{&Configuration::_set_server_name, "client_max_body_size"},};
+	t_function_pair_server pairs[2] = {	{&Server::_set_server_name, "server_name"},
+										{&Server::_set_listen, "listen"}};
+	
 	INLINE_NAMESPACE::Server server;
-
 
 	while (!ifs.eof()) {
 		std::getline(ifs, buffer);
@@ -70,10 +59,12 @@ INLINE_NAMESPACE::Configuration::_parse_server (std::ifstream &ifs) {
 			if (v.empty()) {
 				continue;
 			} else if (v[0] == pairs[i].str) {
-				(this->*(pairs[i].f))(ifs);
+				(server.*(pairs[i].f))(v);
 			}
 		}
 	}
+	_servers.push_back(server);
+	DEBUG_1(COUT(server));
 }
 
 void
@@ -87,7 +78,7 @@ INLINE_NAMESPACE::Configuration::parse (std::string conf_file) {
 	std::string 				buffer;
 	std::ifstream				ifs;
 	std::vector<std::string> 	v;
-	t_function_stream pairs[NBR_DIFFERENT_BLOCKS_] = {{&Configuration::_parse_server, "server"},
+	t_function_pair_config 		pairs[NBR_DIFFERENT_BLOCKS_] = {{&Configuration::_parse_server, "server"},
 													{&Configuration::_parse_location, "location"}};
 	
 	ifs.open(conf_file);
@@ -107,4 +98,5 @@ INLINE_NAMESPACE::Configuration::parse (std::string conf_file) {
 			}
 		}
 	}
+	DEBUG_1(COUT(*this));
 }

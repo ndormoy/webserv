@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:55:35 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/04 10:45:31 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/05 09:24:11 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,15 @@ _BEGIN_NAMESPACE_WEBSERV
 
 class Server {
 
+	typedef typename std::vector<std::pair<int, std::string> > 	error_page_type;
+	typedef typename std::vector<t_location>					location_type;
+
 	private:
 		int 										_port;
 		size_t 										_max_body_size;
 		std::string									_server_name;
-		std::vector<std::pair<int, std::string> >	_error_pages;
-		std::vector<Server>							_locations;
+		error_page_type								_error_pages;
+		location_type								_locations;
 		
 
 	public:
@@ -53,8 +56,38 @@ class Server {
 			_locations = ref._locations;
 			return (*this);
 		}
-		
+
+		void	_set_server_name (std::vector<std::string> &);
+		void	_set_listen (std::vector<std::string> &);
+		void	_set_error_page (std::vector<std::string> &);
+		void	_set_client_max_body_size (std::vector<std::string> &);
+
+		public:
+			friend std::ostream & operator<< (std::ostream & o, const Server & s) {
+				CO("server :", o);
+				CO("port -> " << s._port, o);
+				CO("max_body_size -> " << s._max_body_size, o);
+				CO("server_name -> " << s._server_name, o);
+				CO("error pages :", o);
+				for (error_page_type::const_iterator it = s._error_pages.begin(); it != s._error_pages.end(); it++) {
+					CO(it->first << " -- " << it->second, o);
+				}
+				CO("location :", o);
+				for (location_type::const_iterator it = s._locations.begin(); it != s._locations.end(); it++) {
+					CO(*it, o);
+				}
+				return (o);
+			}
+
+		EXCEPTION(InvalidServerName, "configuration_file : invalid server_name field")
+		EXCEPTION(InvalidPort, "configuration_file : invalid listen field")
 };
+
+typedef struct s_function_pair_server {
+	void (Server::*f) (std::vector<std::string> &);
+	std::string	str;
+}	t_function_pair_server;
+
 
 _END_NAMESPACE_WEBSERV
 

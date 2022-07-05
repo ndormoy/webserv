@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 16:03:56 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/04 10:42:20 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/05 09:02:25 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include "webserv.hpp"
 
 _BEGIN_NAMESPACE_WEBSERV
+
+// TODO operator overload "<<"
 
 typedef struct s_location
 {
@@ -39,6 +41,10 @@ typedef struct s_location
 	bool	_autoindex;
 	std::string	_cgi;
 	std::string _upload_path;
+
+	friend std::ostream & operator<< (std::ostream & o, const struct s_location & l) {
+		return (o);
+	}
 	
 }	t_location;
 

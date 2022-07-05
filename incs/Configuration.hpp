@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:32:45 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/04 15:28:40 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/05 09:06:40 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ _BEGIN_NAMESPACE_WEBSERV
 
 class Configuration {
 
+	typedef typename std::vector<Server> vector_server;
+
 	private :
-		std::vector<Server>	_servers;
+		vector_server	_servers;
 
 	public:
 		Configuration (void)
@@ -31,52 +33,39 @@ class Configuration {
 		{ }
 
 	private:
-		Configuration (const Configuration& ref) {
+		Configuration (const Configuration & ref) {
 			*this = ref;
 		}
 		
-		Configuration&	operator= (const Configuration& ref) {
-			if (this == &ref) {return (*this);}
+		Configuration &	operator= (const Configuration & ref) {
+			if (this ==  &ref) {return (*this);}
 
 			return (*this);
 		}
 
-		void	_parse_server (std::ifstream&);
-		void	_parse_location (std::ifstream&);
+		void	_parse_server (std::ifstream &);
+		void	_parse_location (std::ifstream &);
 
-		void	_set_server_name (std::vector<std::string>);
-		void	_set_listen (std::vector<std::string>);
-		void	_set_error_page (std::vector<std::string>);
-		void	_set_client_max_body_size (std::vector<std::string>);
-	
 	public:
 		void	parse(std::string);
 
 	public:
-		class FileCannotBeOpened : public std::exception {
-			public:
-				const char * what (void) const throw() {
-					return ("configuration_file can't be opened, please check if the file exist and your allowed to open it");
-				}
-		};
+		friend std::ostream & operator<< (std::ostream & o, const Configuration & c ) { 
+        	CO("configuration of webserv", o);
+			CO("debug_level = " << g_debug_prog_level, o);
+			for (vector_server::const_iterator it = c._servers.begin(); it != c._servers.end(); it++) {
+				CO(*it, o);
+			}
+        	return (o);            
+    	}
 
-		class InvalidServerName : public std::exception {
-			public:
-				const char * what (void) const throw() {
-					return ("configuration_file : invalid server_name");
-				}
-		};
+	EXCEPTION(FileCannotBeOpened, "configuration_file can't be opened, please check if the file exist and your allowed to open it")
 };
 
-typedef struct s_function_stream {
-	void (Configuration::*f) (std::ifstream &);
+typedef struct s_function_pair_config {
+	void (Configuration::*f) (std::ifstream  &);
 	std::string	str;
-}	t_function_stream;
-
-typedef struct s_function_vector {
-	void (Configuration::*f) (std::ifstream &);
-	std::string	str;
-}	t_function_vector;
+}	t_function_pair_config;
 
 _END_NAMESPACE_WEBSERV
 

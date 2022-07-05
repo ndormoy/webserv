@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:11:19 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/04 11:17:42 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/05 08:33:08 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,13 @@
 #include <fstream>
 #include <iosfwd>
 
+extern int g_debug_prog_level;
+
 #include "_utils.hpp"
 #include "Location.hpp"
 #include "Server.hpp"
 #include "Configuration.hpp"
+
+extern INLINE_NAMESPACE::Configuration g_config;
 
 #endif

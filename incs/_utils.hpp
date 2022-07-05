@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:33:58 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/04 15:26:49 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/05 09:10:53 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,18 @@
 
 # define SYSCALL_ERR					(-1)
 # define COUT(x)						std::cout << x << std::endl;
+# define CO(x, o)						o << x << std::endl;
 # define CERR(x)						std::cerr << x << std::endl;
 
 # define CONFIG_STRING_MAX_SIZE			100
+
+# define EXCEPTION(x, y)				public: class x : public std::exception {const char * what (void) const throw() {return (y);}};
+
+# define DEBUG_1(x)						if (g_debug_prog_level >= 1) { x }
+# define DEBUG_2(x)						if (g_debug_prog_level >= 2) { x }
+# define DEBUG_3(x)						if (g_debug_prog_level >= 3) { x }
+# define DEBUG_4(x)						if (g_debug_prog_level >= 4) { x }
+# define DEBUG_5(x)						if (g_debug_prog_level >= 5) { x }
 
 enum {
 	M_GET = (1 << 0),
