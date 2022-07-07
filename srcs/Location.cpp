@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 13:18:15 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/06 16:01:38 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/07 15:25:21 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ INLINE_NAMESPACE::Location::_set_methods (string_vector::const_iterator & it) {
 	// ! CONDITION
 
 	for (string_vector::const_iterator vit = v.begin(); vit != v.end(); vit++) {
-		COUT(*vit)
 		if (*vit == "GET") {
 			_methods |= M_GET;
 		} else if (*vit == "POST") {
@@ -114,7 +113,7 @@ INLINE_NAMESPACE::Location::_set_return (string_vector::const_iterator & it) {
 void
 INLINE_NAMESPACE::Location::create_location (string_vector::const_iterator & it) {
 	int idx;
-	const t_function_pair_location	pairs[] = {{&Location::_set_methods, "allow_methods"},
+	const t_function_pair_location	pairs[] = {	{&Location::_set_methods, "allow_methods"},
 												{&Location::_set_root, "root"},
 												{&Location::_set_index, "index"},
 												{&Location::_set_auto_index,"auto_index"},
@@ -132,9 +131,7 @@ INLINE_NAMESPACE::Location::create_location (string_vector::const_iterator & it)
 			}
 		}
 		if (pairs[idx].str == "") {
-			// COUT(*it)
-			DEBUG_2(COUT(*this))
-			throw Server::InvalidKeyword();
+			throw Configuration::InvalidKeyword();
 		}
 		if (it != LEXER.end())
 			it++;
@@ -142,4 +139,5 @@ INLINE_NAMESPACE::Location::create_location (string_vector::const_iterator & it)
 	if (it == LEXER.end()) {
 		throw Configuration::SyntaxError();
 	}
+	
 }

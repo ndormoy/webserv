@@ -1,7 +1,6 @@
 #test comment
 
-server 
-{ 
+server {
 	server_name exemple.fr;
 	listen 3200;
 	error_page 404 example_html/bar.html;

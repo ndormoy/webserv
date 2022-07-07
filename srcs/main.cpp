@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 16:28:05 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/06 07:39:24 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/07 14:21:17 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ main (int ac, char **av)
 			std::cerr << e.what() << std::endl;
 			return (EXIT_FAILURE);
 		}
+
+		DEBUG_2(COUT(g_config))
 		
 		/* start server */
 

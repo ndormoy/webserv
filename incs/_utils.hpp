@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:33:58 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/06 15:08:41 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/07 16:54:59 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,12 @@
 
 # define SYSCALL_ERR					(-1)
 
-# define COUT(x)						std::cout << x << std::endl;
-# define CO(x, o)						o << x << std::endl;
-# define CERR(x)						std::cerr << x << std::endl;
+# define COUT(x)						std::cout << x;
+# define CO(x, o)						o << x;
+# define CERR(x)						std::cerr << x;
+# define CNOUT(x)						std::cout << x << std::endl;
+# define CNO(x, o)						o << x << std::endl;
+# define CNERR(x)						std::cerr << x << std::endl;
 
 # define CONFIG_STRING_MAX_SIZE			100
 
@@ -43,8 +46,10 @@
 # define LEXER							g_config.getLexer()
 # define SERVERS						g_config.getServers()
 
+# define COUNT_SERVERS					g_config.getServers().size()
+
 // TODO TO DELETE
-# define PUT_VECTOR(x)					for (auto it = x.begin(); it != x.end(); it++) { std::cout << *it; }  std::cout << std::endl;
+# define PUT_VECTOR(x)					for (auto it = x.begin(); it != x.end(); it++) { std::cout << *it << " "; }  std::cout << std::endl;
 
 enum {
 	M_GET = (1 << 0),
@@ -54,8 +59,28 @@ enum {
 
 typedef typename std::vector<std::string> string_vector;
 
-std::vector<std::string>	vector_spliter (std::string str);
+/**
+ * @brief Split the string in a vector of string
+ * 
+ * @param str String to split
+ * @return string_vector Vector of string
+ */
+string_vector	vector_spliter (std::string str);
+
+/**
+ * @brief Return a bool to know if the string is printable 
+ * 
+ * @param str String to check
+ * @return bool true = is_printable, false = not_printable
+ */
 bool						str_is_print(std::string str);
+
+/**
+ * @brief Copy and increment the iterator until found out a string ending with semicolon
+ * 
+ * @param it Iterator that navigates the lexer
+ * @return string_vector new vector of string
+ */
 string_vector				get_until_semicolon (string_vector::const_iterator & it);
 
 #endif /* _UTILS_HPP */

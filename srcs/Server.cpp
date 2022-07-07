@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 17:09:05 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/06 16:00:47 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/07 16:43:19 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,7 @@
 */
 
 
-string_vector
-get_until_semicolon (string_vector::const_iterator & it) {
-	string_vector ret;
 
-
-	for (; it != LEXER.end(); it++) {
-		if ((*it).find(";") == (*it).length() - 1) {
-			ret.push_back((*it).substr(0, (*it).length() -1 ));
-			break;
-		} else {
-			ret.push_back(*it);
-		}
-	}
-	// PUT_VECTOR(ret)
-	return ret;
-}
 
 void
 INLINE_NAMESPACE::Server::_set_port (string_vector::const_iterator & it) {
@@ -97,9 +82,10 @@ INLINE_NAMESPACE::Server::_set_location (string_vector::const_iterator & it) {
 	// TODO Do better than this
 
 	if (it != LEXER.end() && (it + 1) != LEXER.end() && (*it) != "{" && (*(it + 1)) == "{") {
-		Location loc(*it);
+		INLINE_NAMESPACE::Location* loc = new Location(*it);
 		it += 2;
-		loc.create_location(it);
+		loc->create_location(it);
+		_locations.push_back(loc);
 	} else {
 		throw Configuration::InvalidLocation();
 	}
@@ -124,9 +110,8 @@ INLINE_NAMESPACE::Server::create_server (string_vector::const_iterator & it) {
 			}
 		}
 		if (pairs[idx].str == "") {
-			COUT(*it)
-			DEBUG_2(COUT(*this))
-			throw Server::InvalidKeyword();
+			CNOUT(*it)
+			throw Configuration::InvalidKeyword();
 		}
 		if (it != LEXER.end())
 			it++;
@@ -135,5 +120,4 @@ INLINE_NAMESPACE::Server::create_server (string_vector::const_iterator & it) {
 		throw Configuration::SyntaxError();
 	}
 
-	DEBUG_2(COUT(*this))
 }
