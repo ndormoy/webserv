@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 16:28:05 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/06 07:39:24 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/08 08:21:39 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,9 @@ main (int ac, char **av)
 			std::cerr << e.what() << std::endl;
 			return (EXIT_FAILURE);
 		}
+
+		DEBUG_1(CNOUT(BGRN << "Configuration parsed" << CRESET))
+		DEBUG_2(CNOUT(g_config))
 		
 		/* start server */
 

@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 13:18:15 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/06 16:01:38 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/08 12:08:22 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,16 @@ void
 INLINE_NAMESPACE::Location::_set_methods (string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
 
-	// ! CONDITION
+	if (!CHECKER(v, CHECK_METHODS))
+		throw Configuration::InvalidMethod();
 
 	for (string_vector::const_iterator vit = v.begin(); vit != v.end(); vit++) {
-		COUT(*vit)
 		if (*vit == "GET") {
 			_methods |= M_GET;
 		} else if (*vit == "POST") {
 			_methods |= M_POST;
-		} else if (*vit == "DELETE") {
-			_methods |= M_DELETE;
 		} else {
-			throw Configuration::InvalidMethod();
+			_methods |= M_DELETE;
 		}
 	}
 }
@@ -36,42 +34,35 @@ void
 INLINE_NAMESPACE::Location::_set_root (string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
 
-	// ! CONDITION
-
-	if (v.size() != 1) {
+	if (CHECKER(v, CHECK_SIZE_ONE | CHECK_IS_DIR)) {
+		_root = v[0];
+	} else {
 		throw Configuration::InvalidRoot();
 	}
-	_root = v[0];
 }
 
 void
 INLINE_NAMESPACE::Location::_set_index (string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
 
-	// ! CONDITION
-
-	if (v.size() != 1) {
+	if (CHECKER(v, CHECK_SIZE_ONE | CHECK_IS_DIR)) {
+		_index = v[0];
+	} else {
 		throw Configuration::InvalidIndex();
 	}
-	_index = v[0];
 }
 
 void
 INLINE_NAMESPACE::Location::_set_auto_index(string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
 
-	// ! CONDITION
-
-	if (v.size() != 1) {
+	if (!CHECKER(v, CHECK_SIZE_ONE | CHECK_SWITCH_ON)) {
 		throw Configuration::InvalidAutoIndex();
 	}
-	
 	if (v[0] == "on") {
 		_autoindex = true;
-	} else if (v[0] == "off") {
-		_autoindex = false;
 	} else {
-		throw Configuration::InvalidAutoIndex();
+		_autoindex = false;
 	}
 }
 
@@ -79,42 +70,39 @@ void
 INLINE_NAMESPACE::Location::_set_upload (string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
 
-	// ! CONDITION
-
-	if (v.size() != 1) {
+	if (CHECKER(v, CHECK_SIZE_ONE | CHECK_IS_DIR)) {
+		_upload_path = v[0];
+	} else {
 		throw Configuration::InvalidUpload();
 	}
-	_upload_path = v[0];
 }
 
 void
 INLINE_NAMESPACE::Location::_set_cgi (string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
-
-	// ! CONDITION
 	
-	if (v.size() != 2) {
+	if (CHECKER(v, CHECK_SIZE_TWO | CHECK_EXTENTION | CHECK_CORRECT_PATH)) {
+		_cgi.push_back(std::make_pair(v[0], v[1]));
+	} else {
 		throw Configuration::InvalidCgi();
 	}
-	_cgi = std::make_pair(v[0], v[1]);
 }
 
 void
 INLINE_NAMESPACE::Location::_set_return (string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
 
-	// ! CONDITION
-
-	if (v.size() != 2) {
+	if (CHECKER(v, CHECK_SIZE_TWO | CHECK_IS_DIR | CHECK_ERROR_CODE)) {
+		_return.push_back(std::make_pair(std::stoi(v[0]), v[1]));
+	} else {
 		throw Configuration::InvalidReturn();
 	}
-	_return.push_back(std::make_pair(std::stoi(v[0]), v[1]));
 }
 
 void
 INLINE_NAMESPACE::Location::create_location (string_vector::const_iterator & it) {
 	int idx;
-	const t_function_pair_location	pairs[] = {{&Location::_set_methods, "allow_methods"},
+	const t_function_pair_location	pairs[] = {	{&Location::_set_methods, "allow_methods"},
 												{&Location::_set_root, "root"},
 												{&Location::_set_index, "index"},
 												{&Location::_set_auto_index,"auto_index"},
@@ -132,9 +120,7 @@ INLINE_NAMESPACE::Location::create_location (string_vector::const_iterator & it)
 			}
 		}
 		if (pairs[idx].str == "") {
-			// COUT(*it)
-			DEBUG_2(COUT(*this))
-			throw Server::InvalidKeyword();
+			throw Configuration::InvalidKeyword();
 		}
 		if (it != LEXER.end())
 			it++;
@@ -142,4 +128,5 @@ INLINE_NAMESPACE::Location::create_location (string_vector::const_iterator & it)
 	if (it == LEXER.end()) {
 		throw Configuration::SyntaxError();
 	}
+	
 }

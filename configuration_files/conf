@@ -1,25 +1,56 @@
 #test comment
 
-server 
-{ 
+server {
 	server_name exemple.fr;
-	listen 3200;
+	listen 8080;
 	error_page 404 example_html/bar.html;
-	client_max_body_size 1000000;
+	client_max_body_size 1m;
 	
-	location /index
+	location example_html
 	{
 		allow_methods GET POST DELETE;
-		root /root;
-		index /index/1;
+		root example_html;
+		index example_html;
 		
-		return 301 /index/error;
+		return 301 example_html;
 		auto_index on;
-		cgi .php ./www/bin/php-cgi;
-		upload /home/upload;
+		cgi .php example_html/bar.html;
+		upload example_html;
+	}
+}
+
+#test
+
+server {
+	server_name exemple.fr;
+	listen 8080;
+	error_page 404 example_html/bar.html;
+	client_max_body_size 1m;
+	
+	location example_html
+	{
+		allow_methods GET POST DELETE;
+		root example_html;
+		index example_html;
+		
+		return 301 example_html;
+		auto_index on;
+		cgi .php example_html/bar.html;
+		upload example_html;
 	}
 
+	location example_html {
+		allow_methods GET POST DELETE;
+		root example_html;
+		index example_html;
+		
+		return 301 example_html;
+		auto_index on;
+		cgi .php example_html/bar.html;
+		upload example_html;
+	}
 }
+
 
 
 

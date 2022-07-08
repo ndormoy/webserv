@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:55:35 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/06 15:16:59 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/08 09:07:03 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ _BEGIN_NAMESPACE_WEBSERV
 
 class Server {
 
-	typedef typename std::vector<std::pair<int, std::string> > 	error_page_type;
-	typedef typename std::vector<Location>					location_type;
+	typedef typename std::vector<std::pair<int, std::string> > 			error_page_type;
+	typedef typename std::vector<Location*>								location_type;
+	
 
 	private:
 		int 										_port;
@@ -31,6 +32,10 @@ class Server {
 		
 
 	public:
+	
+		/**
+		 * @brief Construct a new Server object
+		 */
 		Server (void) :
 			_port(0),
 			_max_body_size(0),
@@ -39,13 +44,30 @@ class Server {
 			_locations()
 		{ }
 		
-		virtual ~Server (void)
-		{ }
+		/**
+		 * @brief Destroy the Server object
+		 */
+		virtual ~Server (void) {
+			for (location_type::iterator it = _locations.begin(); it != _locations.end(); ++it) {
+				delete *it;
+			}
+			_locations.clear();
+			_error_pages.clear();
+		}
 		
+		/**
+		 * @brief Construct a new Server object
+		 * @param ref The Server object to copy
+		 */
 		Server (const Server& ref) {
 			*this = ref;
 		}
 
+		/**
+		 * @brief Assign a Server object to another
+		 * @param ref The Server object to assign
+		 * @return The Server object assigned
+		 */
 		Server&	operator= (const Server& ref) {
 			if (this == &ref) {return (*this);}
 			
@@ -57,39 +79,106 @@ class Server {
 			return (*this);
 		}
 
-		void	create_server (string_vector::const_iterator &);
+		// GETTERS
+
+		/**
+		 * @brief Get the server port
+		 */
+		int					get_port (void) const 			{return (_port);}
+
+		/**
+		 * @brief Get the server max body size
+		 */
+		size_t 				get_max_body_size (void) const 	{return (_max_body_size);}
+
+		/**
+		 * @brief Get the server name
+		 */
+		std::string 		get_server_name (void) const 	{return (_server_name);}
+
+		/**
+		 * @brief Get the server error pages
+		 */
+		error_page_type 	get_error_pages (void) const 	{return (_error_pages);}
+
+		/**
+		 * @brief Get the server locations
+		 */
+		location_type 		get_locations (void) const 		{return (_locations);}
+
+		// FUNCTIONS
+
+		/**
+		 * @brief Navigates the vector and stock every server settings
+		 * @param Iterator iterator that navigates the lexer
+		 */
+		void				create_server (string_vector::const_iterator &);
 
 	private:
-		void	_set_port (string_vector::const_iterator &);
-		void	_set_max_body_size (string_vector::const_iterator &);
-		void	_set_server_name (string_vector::const_iterator &);
-		void	_set_error_page (string_vector::const_iterator &);
-		void	_set_location (string_vector::const_iterator &);
+
+		/**
+		 * @brief Set the server listen port
+		 * @param Iterator iterator that navigates the lexer
+		 */
+		void				_set_port (string_vector::const_iterator &);
+
+		/**
+		 * @brief Set the server max body size
+		 * @param Iterator iterator that navigates the lexer
+		 */
+		void				_set_max_body_size (string_vector::const_iterator &);
+
+		/**
+		 * @brief Set the server name
+		 * @param Iterator iterator that navigates the lexer
+		 */
+		void				_set_server_name (string_vector::const_iterator &);
+
+		/**
+		 * @brief Set the server error pages
+		 * @param Iterator iterator that navigates the lexer
+		 */
+		void				_set_error_page (string_vector::const_iterator &);
+
+		/**
+		 * @brief Set the server locations block
+		 * @param Iterator iterator that navigates the lexer
+		 */
+		void				_set_location (string_vector::const_iterator &);
+		
+
 
 	public:
+
+	
+
+		/**
+		 * @brief operator overload << for Server class, used mostly with --debug option
+		 * 
+		 * @param o Output stream
+		 * @param s Server object
+		 * @return std::ostream& - Output stream
+		 */
 		friend std::ostream & operator<< (std::ostream & o, const Server & s) {
-			CO("server :", o);
-			CO("port -> " << s._port, o);
-			CO("max_body_size -> " << s._max_body_size, o);
-			CO("server_name -> " << s._server_name, o);
-			CO("error pages :", o);
+			CNO("server :", o);
+			CNO("port -> " << s._port, o);
+			CNO("max_body_size -> " << s._max_body_size, o);
+			CNO("server_name -> " << s._server_name, o);
+			CNO("error pages :", o);
 			for (error_page_type::const_iterator it = s._error_pages.begin(); it != s._error_pages.end(); it++) {
-				CO(it->first << " -- " << it->second, o);
+				CNO(it->first << " -- " << it->second, o);
 			}
-			CO("location :", o);
+			CNO("location :", o);
 			for (location_type::const_iterator it = s._locations.begin(); it != s._locations.end(); it++) {
-				CO(*it, o);
+				CO(*(*it), o);
 			}
 			return (o);
-		}
-
-		
-		EXCEPTION(InvalidServerBlock, "configuration_file : syntax error in server block")
-		EXCEPTION(CannotOpenErrorPage, "configuration_file : cannot open error_page")
-		EXCEPTION(InvalidKeyword, "configuration_file : invalid keywood")
-		
+		}		
 };
 
+/**
+ * @brief Structure used to store a pair of string and Server member function
+ */
 typedef struct s_function_pair_server {
 	void (Server::*f) (string_vector::const_iterator &);
 	std::string	str;

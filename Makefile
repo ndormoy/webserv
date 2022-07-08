@@ -3,6 +3,7 @@ NAME = 		webserv
 SRCS =		${shell find ./srcs -name "*.cpp"}
 
 CC =		clang++
+CPPFLAGS =	-Ofast
 CPPFLAGS = 	#-Wall -Wextra -Werror -std=c++98
 CPPFLAGS += -fsanitize=address -g3
 OBJS = 		${SRCS:.cpp=.o}
