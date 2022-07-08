@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:33:58 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/08 11:51:54 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/08 16:43:08 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ enum {
 	CHECK_MBS = (1 << 10), // ok
 	CHECK_PORT = (1 << 11), // ok
 	CHECK_ERROR_CODE = (1 << 12), // ok
+	CHECK_DEFAULT = (1 << 13), // ok
 };
 
 

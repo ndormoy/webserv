@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:55:35 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/08 09:07:03 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/08 16:48:30 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ class Server {
 	private:
 		int 										_port;
 		size_t 										_max_body_size;
+		bool										_default;
 		std::string									_server_name;
 		error_page_type								_error_pages;
 		location_type								_locations;
@@ -39,6 +40,7 @@ class Server {
 		Server (void) :
 			_port(0),
 			_max_body_size(0),
+			_default(false),
 			_server_name(""),
 			_error_pages(),
 			_locations()
@@ -74,6 +76,7 @@ class Server {
 			_port = ref._port;
 			_max_body_size = ref._max_body_size;
 			_server_name = ref._server_name;
+			_default = ref._default;
 			_error_pages = ref._error_pages;
 			_locations = ref._locations;
 			return (*this);
@@ -105,6 +108,11 @@ class Server {
 		 * @brief Get the server locations
 		 */
 		location_type 		get_locations (void) const 		{return (_locations);}
+
+		/**
+		 * @brief Get the server default setting
+		 */
+		bool				get_default (void) const 		{return (_default);}
 
 		// FUNCTIONS
 
@@ -164,6 +172,7 @@ class Server {
 			CNO("port -> " << s._port, o);
 			CNO("max_body_size -> " << s._max_body_size, o);
 			CNO("server_name -> " << s._server_name, o);
+			CNO("default -> " << s._default, o);
 			CNO("error pages :", o);
 			for (error_page_type::const_iterator it = s._error_pages.begin(); it != s._error_pages.end(); it++) {
 				CNO(it->first << " -- " << it->second, o);

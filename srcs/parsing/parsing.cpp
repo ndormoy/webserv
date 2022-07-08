@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:09:26 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/08 12:07:58 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/08 16:54:24 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ vector_spliter (std::string str) {
 	return (vector);
 }
 
-inline string_vector
+string_vector
 get_until_semicolon (string_vector::const_iterator & it) {
 	string_vector ret;
 

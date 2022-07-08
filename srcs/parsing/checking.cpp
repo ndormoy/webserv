@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 07:53:38 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/08 12:57:36 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/08 16:48:51 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,15 @@ error_val_ (const string_vector & v) {
 	}
 }
 
+inline static bool
+default_ (const string_vector & v) {
+	if (v.size() == 1)
+		return (true);
+	if (v.size() == 2)
+		return (v[1] == "default_server");
+	return (false);
+}
+
 bool
 checker(const string_vector & v, std::size_t flags) {
 	t_check	pairs[] = {	{&size_one_, CHECK_SIZE_ONE},
@@ -102,6 +111,7 @@ checker(const string_vector & v, std::size_t flags) {
 						{&port_, CHECK_PORT},
 						{&max_b_s_, CHECK_MBS},
 						{&error_val_, CHECK_ERROR_CODE},
+						{&default_, CHECK_DEFAULT},
 						{NULL, 0} };
 
 	for (int i = 0; pairs[i].flag != 0; i++) {

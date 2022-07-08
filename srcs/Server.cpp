@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 17:09:05 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/08 12:08:10 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/08 16:47:37 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ void
 INLINE_NAMESPACE::Server::_set_port (string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
 
-	if (CHECKER(v, CHECK_SIZE_ONE | CHECK_PORT)) {
+	if ((v.size() == 1 || v.size() == 2) && CHECKER(v, CHECK_PORT | CHECK_DEFAULT)) {
 		_port = std::stoll(v[0]);
+		_default = (v.size() == 2 ? true : false);
 	} else {
 		throw Configuration::InvalidPort();
 	}
@@ -41,8 +42,6 @@ INLINE_NAMESPACE::Server::_set_max_body_size (string_vector::const_iterator & it
 	} else {
 		throw Configuration::InvalidBodySizeMax();
 	}
-
-
 }
 
 void
