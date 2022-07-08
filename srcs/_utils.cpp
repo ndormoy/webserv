@@ -6,12 +6,11 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 15:33:04 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/07 16:54:02 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/08 12:01:41 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "webserv.hpp"
-
 
 
 bool
@@ -24,5 +23,3 @@ str_is_print (std::string str) {
 	}
 	return (true);
 }
-
-

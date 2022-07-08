@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:32:45 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/07 15:30:40 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/08 11:54:05 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ class Configuration {
 			for (server_vector::iterator it = _servers.begin(); it != _servers.end(); ++it) {
 				delete *it;
 			}
-
+			_servers.clear();
+			_lexer.clear();
 			delete &_servers;
 			delete &_lexer;
 		}
@@ -104,7 +105,7 @@ class Configuration {
         	CNO("configuration of webserv", o);
 			CNO("debug_level = " << g_debug_prog_level, o);
 			for (server_vector::const_iterator it = c._servers.begin(); it != c._servers.end(); it++) {
-				CO(*(*it), o);
+				CNO(*(*it), o);
 			}
         	return (o);
     	}

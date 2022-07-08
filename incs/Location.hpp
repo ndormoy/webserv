@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 16:03:56 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/07 15:31:06 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/08 10:04:27 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ _BEGIN_NAMESPACE_WEBSERV
 class Location
 {
 	typedef typename std::vector<std::pair<int, std::string> > 	return_type;
-	typedef typename std::pair<std::string, std::string>		cgi_type;
+		typedef typename std::vector<std::pair<std::string, std::string> > 	cgi_type;
 
 	private:
 		uint8_t			_methods;
@@ -202,7 +202,11 @@ class Location
 		CNO("index = " << l._index, o);
 		CNO("path = " << l._path, o);
 		CNO("autoindex = " << l._autoindex, o);
-		CNO("cgi = " << l._cgi.first << " " << l._cgi.second, o);
+		CNO("cgi = ", o);
+		for (cgi_type::const_iterator it = l._cgi.begin(), end = l._cgi.end(); it != end; ++it) {
+			CO(it->first, o);
+			CNO(" " << it->second, o);
+		}
 		CNO("upload_path = " << l._upload_path, o);
 		return (o);
 	}

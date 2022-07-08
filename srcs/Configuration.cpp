@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:38:48 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/07 16:46:48 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/08 11:10:55 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ INLINE_NAMESPACE::Configuration::parser (void) {
 		if (*it == "server" && ((it + 1) != _lexer.end() && (*(it + 1)) == "{")) {
 			INLINE_NAMESPACE::Server* s = new Server();
 			it += 2;
-			s->create_server(it);
 			_servers.push_back(s);
+			s->create_server(it);
 		} else {
 			throw Configuration::SyntaxError();
 		}

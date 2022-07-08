@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:11:19 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/05 14:11:51 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/08 11:28:07 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 #include <fstream>
 #include <iosfwd>
 #include <cctype>
+#include <sys/stat.h>
+#include <bits/stdc++.h>
 
 extern int g_debug_prog_level;
 

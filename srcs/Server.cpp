@@ -6,86 +6,77 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 17:09:05 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/07 16:43:19 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/08 11:51:57 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "webserv.hpp"
 
-# define MAX_BODY_SIZE_ 1000000
-# define MAX_PORT_ 65535
-# define MAX_ERROR_CODE_
+# define KO_SIZE_	1000
+# define MO_SIZE_	1000000
 
-/*
-	TODO add get_until_semicolon in _utils.cpp
-*/
-
-
-
-
-void
+inline void
 INLINE_NAMESPACE::Server::_set_port (string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
 
-	// ! CONDITION
-
-	if (v.size() != 1) {
+	if (CHECKER(v, CHECK_SIZE_ONE | CHECK_PORT)) {
+		_port = std::stoll(v[0]);
+	} else {
 		throw Configuration::InvalidPort();
 	}
-
-	_port = std::stoll(v[0]);
 }
 
-void
+inline void
 INLINE_NAMESPACE::Server::_set_max_body_size (string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
-
-	// ! CONDITION
-
-	if (v.size() != 1) {
+	
+	if (CHECKER(v, CHECK_SIZE_ONE | CHECK_MBS)) {
+		if (v[0].find("m") != std::string::npos || v[0].find("M") != std::string::npos) {
+			_max_body_size = std::atoll(v[0].substr(0, v[0].length() - 1).c_str()) * MO_SIZE_;
+		} else if (v[0].find("k") != std::string::npos || v[0].find("K") != std::string::npos) {
+			_max_body_size = std::atoll(v[0].substr(0, v[0].length() - 1).c_str()) * KO_SIZE_;
+		} else {
+			_max_body_size = std::atoll(v[0].c_str());
+		}
+	} else {
 		throw Configuration::InvalidBodySizeMax();
 	}
 
-	_max_body_size = std::stoll(v[0]);
 
 }
 
-void
+inline void
 INLINE_NAMESPACE::Server::_set_server_name (string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
 
-	if (v.size() != 1) {
+	if (CHECKER(v, CHECK_SIZE_ONE)) {
+		_server_name = v[0];
+	} else {
 		throw Configuration::InvalidServerName();
 	}
-
-	_server_name = v[0];
-
-	// ! CONDITION
 }
 
-void
+inline void
 INLINE_NAMESPACE::Server::_set_error_page (string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
 
-	// ! CONDITION
-
-	if (v.size() != 2) {
+	if (CHECKER(v, CHECK_ERROR_CODE | CHECK_SIZE_TWO | CHECK_CORRECT_PATH)) {
+		_error_pages.push_back(std::make_pair(std::atoi(v[0].c_str()), v[1]));
+	} else {
 		throw Configuration::InvalidErrorPage();
 	}
-
-	_error_pages.push_back(std::make_pair(std::stoi(v[0]), v[1]));
 }
 
-void
+inline void
 INLINE_NAMESPACE::Server::_set_location (string_vector::const_iterator & it) {
-
-	// TODO Do better than this
-
-	if (it != LEXER.end() && (it + 1) != LEXER.end() && (*it) != "{" && (*(it + 1)) == "{") {
-		INLINE_NAMESPACE::Location* loc = new Location(*it);
-		it += 2;
-		loc->create_location(it);
+	
+	string_vector v(1, *(it++));
+	if (!CHECKER(v, CHECK_IS_DIR))
+		throw Configuration::InvalidLocation();
+	if (it != LEXER.end() && (*it) == "{") {
+		INLINE_NAMESPACE::Location* loc = new Location(v[0]);
 		_locations.push_back(loc);
+		loc->create_location(++it);
 	} else {
 		throw Configuration::InvalidLocation();
 	}
@@ -119,5 +110,4 @@ INLINE_NAMESPACE::Server::create_server (string_vector::const_iterator & it) {
 	if (it == LEXER.end()) {
 		throw Configuration::SyntaxError();
 	}
-
 }

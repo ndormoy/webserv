@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:55:35 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/07 15:30:54 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/08 09:07:03 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ _BEGIN_NAMESPACE_WEBSERV
 
 class Server {
 
-	typedef typename std::vector<std::pair<int, std::string> > 	error_page_type;
-	typedef typename std::vector<Location*>					location_type;
+	typedef typename std::vector<std::pair<int, std::string> > 			error_page_type;
+	typedef typename std::vector<Location*>								location_type;
+	
 
 	private:
 		int 										_port;
@@ -50,6 +51,8 @@ class Server {
 			for (location_type::iterator it = _locations.begin(); it != _locations.end(); ++it) {
 				delete *it;
 			}
+			_locations.clear();
+			_error_pages.clear();
 		}
 		
 		/**
