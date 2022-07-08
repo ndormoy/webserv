@@ -6,14 +6,14 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 07:53:38 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/08 11:52:16 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/08 12:57:36 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "webserv.hpp"
 
 # define MAX_PORT_	65535
-# define MAX_ERROR_CODE_ 504
+# define MAX_ERROR_CODE_ 600
 
 inline static bool
 size_one_ (const string_vector & v) {

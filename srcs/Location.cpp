@@ -6,13 +6,13 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 13:18:15 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/08 11:56:16 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/08 12:08:22 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "webserv.hpp"
 
-inline void
+void
 INLINE_NAMESPACE::Location::_set_methods (string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
 
@@ -30,7 +30,7 @@ INLINE_NAMESPACE::Location::_set_methods (string_vector::const_iterator & it) {
 	}
 }
 
-inline void
+void
 INLINE_NAMESPACE::Location::_set_root (string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
 
@@ -41,7 +41,7 @@ INLINE_NAMESPACE::Location::_set_root (string_vector::const_iterator & it) {
 	}
 }
 
-inline void
+void
 INLINE_NAMESPACE::Location::_set_index (string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
 
@@ -52,7 +52,7 @@ INLINE_NAMESPACE::Location::_set_index (string_vector::const_iterator & it) {
 	}
 }
 
-inline void
+void
 INLINE_NAMESPACE::Location::_set_auto_index(string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
 
@@ -66,7 +66,7 @@ INLINE_NAMESPACE::Location::_set_auto_index(string_vector::const_iterator & it) 
 	}
 }
 
-inline void
+void
 INLINE_NAMESPACE::Location::_set_upload (string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
 
@@ -77,7 +77,7 @@ INLINE_NAMESPACE::Location::_set_upload (string_vector::const_iterator & it) {
 	}
 }
 
-inline void
+void
 INLINE_NAMESPACE::Location::_set_cgi (string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
 	
@@ -88,7 +88,7 @@ INLINE_NAMESPACE::Location::_set_cgi (string_vector::const_iterator & it) {
 	}
 }
 
-inline void
+void
 INLINE_NAMESPACE::Location::_set_return (string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
 

@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 17:09:05 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/08 11:51:57 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/08 12:08:10 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 # define KO_SIZE_	1000
 # define MO_SIZE_	1000000
 
-inline void
+void
 INLINE_NAMESPACE::Server::_set_port (string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
 
@@ -26,7 +26,7 @@ INLINE_NAMESPACE::Server::_set_port (string_vector::const_iterator & it) {
 	}
 }
 
-inline void
+void
 INLINE_NAMESPACE::Server::_set_max_body_size (string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
 	
@@ -45,7 +45,7 @@ INLINE_NAMESPACE::Server::_set_max_body_size (string_vector::const_iterator & it
 
 }
 
-inline void
+void
 INLINE_NAMESPACE::Server::_set_server_name (string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
 
@@ -56,7 +56,7 @@ INLINE_NAMESPACE::Server::_set_server_name (string_vector::const_iterator & it) 
 	}
 }
 
-inline void
+void
 INLINE_NAMESPACE::Server::_set_error_page (string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
 
@@ -67,7 +67,7 @@ INLINE_NAMESPACE::Server::_set_error_page (string_vector::const_iterator & it) {
 	}
 }
 
-inline void
+void
 INLINE_NAMESPACE::Server::_set_location (string_vector::const_iterator & it) {
 	
 	string_vector v(1, *(it++));
