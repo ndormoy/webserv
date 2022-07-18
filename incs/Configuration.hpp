@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:32:45 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/08 11:54:05 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/18 11:07:15 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,13 @@ class Configuration {
 		 * @brief Get the Servers object
 		 * @return server_vector&
 		 */
-		server_vector& 	getServers (void) const {return (_servers);}
+		server_vector& 		getServers (void) const {return (_servers);}
 		
 		/**
 		 * @brief Get the Lexer object
 		 * @return lexer_type& 
 		 */
-		lexer_type& 		getLexer (void) const {return (_lexer);}
+		lexer_type& 		getLexer (void) const 	{return (_lexer);}
 
 		/**
 		 * @brief Read the configuration file, then add every element to the lexer vector
@@ -91,6 +91,8 @@ class Configuration {
 		 * @brief Parse the lexer vector
 		 */
 		void	parser (void);
+
+		void	setup (void);
 
 	public:
 

@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:11:19 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/08 11:28:07 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/18 11:28:19 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,17 @@
 #include <iosfwd>
 #include <cctype>
 #include <sys/stat.h>
-#include <bits/stdc++.h>
+// #include <bits/stdc++.h>
+
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <sys/time.h>
+
+#include <stdlib.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#include <fcntl.h>
 
 extern int g_debug_prog_level;
 
@@ -32,6 +42,8 @@ extern int g_debug_prog_level;
 #include "Location.hpp"
 #include "Server.hpp"
 #include "Configuration.hpp"
+#include "Socket.hpp"
+#include "Select.hpp"
 
 extern INLINE_NAMESPACE::Configuration g_config;
 

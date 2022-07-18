@@ -6,17 +6,11 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:38:48 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/08 11:10:55 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/18 10:54:10 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "webserv.hpp"
-
-/*
-	TODO add _set_server_name in server class
-*/
-
-
 
 void
 INLINE_NAMESPACE::Configuration::parser (void) {
@@ -60,6 +54,9 @@ INLINE_NAMESPACE::Configuration::lexer (std::string conf_file) {
 		throw Configuration::InvalidFile();
 	}
 	ifs.close();
+}
 
-
+void
+INLINE_NAMESPACE::Configuration::setup (void) {
+	
 }

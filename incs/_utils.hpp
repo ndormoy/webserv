@@ -6,12 +6,14 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:33:58 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/08 16:43:08 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/18 12:09:21 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef _UTILS_HPP
 # define _UTILS_HPP
+
+class Server;
 
 # define INLINE_NAMESPACE				webserv
 #define _BEGIN_NAMESPACE_WEBSERV		namespace INLINE_NAMESPACE {
@@ -34,6 +36,8 @@
 # define CNERR(x)						std::cerr << x << std::endl;
 
 # define CONFIG_STRING_MAX_SIZE			100
+# define MAX_CLIENT						1024
+# define BUFFER_SIZE					1025 // BUG undifined value
 
 # define EXCEPTION(x, y)				public: class x : public std::exception {const char * what (void) const throw() {return (y);}};
 
@@ -45,10 +49,11 @@
 
 # define LEXER							g_config.getLexer()
 # define SERVERS						g_config.getServers()
+# define FOREACH_SERVER					std::vector<Server*>::const_iterator it = SERVERS.begin(); it != SERVERS.end(); ++it
 
 # define COUNT_SERVERS					g_config.getServers().size()
 
-# define CHECKER(v, x)					(true == checker(v, x)) 
+# define CHECKER(v, x)					(true == checker(v, x))
 
 // TODO TO DELETE
 # define PUT_VECTOR(x)					for (auto it = x.begin(); it != x.end(); it++) { std::cout << *it << " "; }  std::cout << std::endl;
