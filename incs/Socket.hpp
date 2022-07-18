@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:13:50 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/18 11:59:32 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/18 15:31:20 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ class Socket {
 	
 	private:
 		int					_fd;
-		char				_buffer[1025];
+		// char				_buffer[1025];
 		int					_addrlen;
 		int					 _port;
 		int					_master_socket;
-		int					_client_socket[MAX_CLIENT];
 		int					_sub_socket;
 		int					_max_sub_socket;
 		struct sockaddr_in	_address;
+		fd_set				_client;
 		fd_set				_readfds;
 		
 	public:
@@ -43,12 +43,10 @@ class Socket {
 			_addrlen(sizeof(_address))
 		{ 
 			FD_ZERO(&_readfds);
-			for (int i = 0; i < MAX_CLIENT; i++) {
-				_client_socket[i] = 0;
-			}
-			for (int i = 0; i < BUFFER_SIZE; i++) {
-				_buffer[i] = 0;
-			}
+			FD_ZERO(&_client);
+			// for (int i = 0; i < BUFFER_SIZE; i++) {
+			// 	_buffer[i] = 0;
+			// }
 		}
 		
 		Socket (const Socket& ref) {
@@ -62,6 +60,14 @@ class Socket {
 			if (this == &ref) {return (*this);}
 			
 			_fd = ref._fd;
+			// _buffer = ref._buffer;
+			_addrlen = ref._addrlen;
+			_port = ref._port;
+			_master_socket = ref._master_socket;
+			_sub_socket = ref._sub_socket;
+			_max_sub_socket = ref._max_sub_socket;
+			_address = ref._address;
+			_readfds = ref._readfds;
 			
 			return *this;
 		}
@@ -76,8 +82,9 @@ class Socket {
 		// int					get_client_socket (void) const {return (_client_socket);}
 		int					get_sub_socket (void) const {return (_sub_socket);}
 		int					get_max_sub_socket (void) const {return (_max_sub_socket);}
-		struct sockaddr_in	get_address (void) const {return (_address);}
-		fd_set				get_readfds (void) const {return (_readfds);}
+		struct sockaddr_in&	get_address (void) {return (_address);}
+		fd_set&				get_readfds (void) {return (_readfds);}
+		fd_set&  			get_client (void) {return (_client);}
 
 	public:
 	
@@ -87,6 +94,7 @@ class Socket {
 		EXCEPTION(fSocketError, "setup : socket function failed")
 		EXCEPTION(fSetsockoptError, "setup : setsockopt function failed")
 		EXCEPTION(fBindError, "setup : bind function failed")
+		EXCEPTION(fListenError, "setup : listen function failed")
 		
 		
 

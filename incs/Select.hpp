@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:00:32 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/18 12:11:39 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/18 15:31:59 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,14 @@ class Select {
 	public:
 
 		void setup (void);
+		void start (void);
+		void new_request (void);
 				
 	public:
+
+		EXCEPTION(fSelectError, "execution : function select failed")
+		EXCEPTION(fAcceptError, "execution : function accept failed")
+		EXCEPTION(fRecvError, "execution : function recv failed")
 };
 
 _END_NAMESPACE_WEBSERV

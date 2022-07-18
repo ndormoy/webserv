@@ -23,7 +23,7 @@ server {
 
 server {
 	server_name exemple.fr;
-	listen 8080;
+	listen 8081;
 	error_page 404 example_html/bar.html;
 	client_max_body_size 1m;
 	

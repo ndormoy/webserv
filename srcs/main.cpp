@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 16:28:05 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/18 11:29:29 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/18 14:00:05 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ main (int ac, char **av)
 		try {
 			INLINE_NAMESPACE::Select select;
 			select.setup();
+			select.start();
 		} catch (std::exception &e) {
 			std::cerr << e.what() << std::endl;
 			return (EXIT_FAILURE);

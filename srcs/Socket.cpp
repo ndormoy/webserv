@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:45:57 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/18 12:17:53 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/18 13:54:44 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,11 @@ INLINE_NAMESPACE::Socket::setup (int port) {
 	}
 	_address.sin_family = AF_INET;
     _address.sin_addr.s_addr = INADDR_ANY;
-    _address.sin_port = htons(port);
+    _address.sin_port = htons(port);	
 	if (bind(_master_socket, (struct sockaddr *)&_address, sizeof(_address)) < 0) {
 		throw Socket::fBindError();
+	}
+	if (listen(_master_socket, MAX_CLIENT) < 0) {
+		throw Socket::fListenError();
 	}
 }
