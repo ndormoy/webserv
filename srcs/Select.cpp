@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Select.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/18 16:17:06 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/19 09:41:36 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,13 @@ INLINE_NAMESPACE::Select::start (void) {
 		}
 		for (socket_type::iterator it = _sockets.begin(); it != _sockets.end(); ++it) {
 			FD_ZERO(&(it->get_client()));
+			fcntl(it->get_master_socket(), F_SETFL, O_NONBLOCK);
 			if (FD_ISSET(it->get_master_socket(), &r_readfds)) {
 				int addrlen = it->get_addrlen();
 				if ((accept_fd = accept(it->get_master_socket(), (struct sockaddr *)&(it->get_address()), (socklen_t*)&addrlen)) == SYSCALL_ERR) {
 					throw Select::fAcceptError();
 				}
+				fcntl(accept_fd, F_SETFL, O_NONBLOCK);
 				FD_SET(accept_fd, &(it->get_client()));
 			}
 		}
@@ -66,17 +68,19 @@ INLINE_NAMESPACE::Select::new_request (void) {
 	// 	}
 	// }
 		for (int i = 0; i < FD_SETSIZE; i++) {
+			CNOUT("pb looppp ----" << i)
 			if (i != 0 && FD_ISSET(i, &(it->get_client()))) {
 				recv_ret = recv(i, buffer, 1024, 0);
 				// read(i, buffer, 1024);
 				CNOUT(errno);
-				if (recv_ret == SYSCALL_ERR) {
+/* 				if (recv_ret == SYSCALL_ERR) {
 					throw Select::fRecvError();
-				} else if (recv_ret == 0) {
+				} else */ if (recv_ret == 0) {
 					close(i);
-					// FD_CLR(i, &(it->get_client()));
+					// FD_CLR(i, &(it->get_client())); //TODO a remettre a zero
 				}
-				CNOUT(buffer);
+				else
+					CNOUT(buffer);
 			}
 		}
 		// FD_ZERO(&_readfds);
