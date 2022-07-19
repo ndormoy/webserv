@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 16:03:56 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/08 10:04:27 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/19 15:27:35 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ _BEGIN_NAMESPACE_WEBSERV
 
 class Location
 {
-	typedef typename std::vector<std::pair<int, std::string> > 	return_type;
-		typedef typename std::vector<std::pair<std::string, std::string> > 	cgi_type;
+	typedef std::vector<std::pair<int, std::string> > 	return_type;
+		typedef std::vector<std::pair<std::string, std::string> > 	cgi_type;
 
 	private:
 		uint8_t			_methods;

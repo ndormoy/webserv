@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Select.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/19 15:21:36 by gmary            ###   ########.fr       */
+/*   Updated: 2022/07/19 16:01:36 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,11 @@
 void
 INLINE_NAMESPACE::Select::setup (void) {
 	FD_ZERO(&_readfds);
-	FD_ZERO(&_writefds);
 	
 	for (FOREACH_SERVER) {
 		INLINE_NAMESPACE::Socket	sock;
-		for (int i = 0; i < MAX_CLIENT; i++)
-			sock.set_client_socket(0, i);
-		sock.setup((*it)->get_port());
-		
-		fcntl(sock.get_fd(), F_SETFL, O_NONBLOCK);
+		sock.setup((*it)->get_port());		
+		fcntl(sock.get_master_socket(), F_SETFL, O_NONBLOCK);
 		FD_SET(sock.get_master_socket(), &_readfds);
 		_sockets.push_back(sock);
 	}
@@ -47,21 +43,22 @@ INLINE_NAMESPACE::Select::start (void) {
 
 			for (int i = 0; i < MAX_CLIENT; i++)
 			{
-				//CNOUT("inside loop for subsocket = " << it->get_client_socket()[i]);
-				it->set_sub_socket(it->get_client_socket()[i]);
-				//CNOUT(URED << it->get_master_socket() << " client socket [" << i << "] = " << it->get_client_socket()[i] << CRESET)
+				// CNOUT("inside loop for subsocket = " << i << " = "<< it->get_client_socket(i));
+				it->set_sub_socket(it->get_client_socket(i));
+				//CNOUT(URED << it->get_master_socket() << " client socket [" << i << "] = " << it->get_client_socket(i) << CRESET)
 				if (it->get_sub_socket() > 0)
 				{
 					CNOUT("add subsocket to set")
 					FD_SET(it->get_sub_socket(), &_readfds);
 				}
-				if (it->get_sub_socket() > it->get_max_sub_socket())
+				if (it->get_sub_socket() > it->get_max_sub_socket()) {
 					it->set_max_sub_socket(it->get_sub_socket());
+				}
 			}
 
 
 			CNOUT("Selecting...")
-			if (select(it->get_max_sub_socket() + 1, &r_readfds, NULL, NULL, NULL) == SYSCALL_ERR) {
+			if (select(it->get_max_sub_socket() + 1, &_readfds, NULL, NULL, NULL) == SYSCALL_ERR) {
 				throw Select::fSelectError();
 			}
 			new_request(*it);
@@ -69,7 +66,7 @@ INLINE_NAMESPACE::Select::start (void) {
 			int		bytes = 0;
 			for (int i = 0; i < MAX_CLIENT; i++)
 			{
-				it->set_sub_socket(it->get_client_socket()[i]);
+				it->set_sub_socket(it->get_client_socket(i));
 				// if (FD_ISSET(it->get_sub_socket(), &r_readfds))
 				if (FD_ISSET(it->get_sub_socket(), &_readfds))
 				{
@@ -116,7 +113,7 @@ INLINE_NAMESPACE::Select::new_request (Socket it) {
 		fcntl(it.get_sub_socket(), F_SETFL, O_NONBLOCK);
 		for (int i = 0; i < MAX_CLIENT; i++)
 		{
-			if (it.get_client_socket()[i] == 0)
+			if (it.get_client_socket(i) == 0)
 			{
 				CNOUT("Adding \'" << i << "\' to client socket")
 				it.set_client_socket(_new_socket, i);

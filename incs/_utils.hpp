@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _utils.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:33:58 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/19 15:13:04 by gmary            ###   ########.fr       */
+/*   Updated: 2022/07/19 15:28:09 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ class Server;
 // TODO TO DELETE
 # define PUT_VECTOR(x)					for (auto it = x.begin(); it != x.end(); it++) { std::cout << *it << " "; }  std::cout << std::endl;
 
-typedef typename std::vector<std::string> string_vector;
+typedef std::vector<std::string> string_vector;
 
 /**
  * @brief Enum used to define different methods

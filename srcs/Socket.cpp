@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Socket.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:45:57 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/19 14:16:28 by gmary            ###   ########.fr       */
+/*   Updated: 2022/07/19 15:43:27 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,7 @@ void
 INLINE_NAMESPACE::Socket::setup (int port) {
 	
 	int opt = true;
-	
-	// for (int i = 0; i < MAX_CLIENT; i++)
-	// 	_client_socket[i] = 0;
-	
+		
 	if( (_master_socket = socket(AF_INET , SOCK_STREAM , 0)) == 0) {
 		throw Socket::fSocketError();
 	}

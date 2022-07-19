@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Select.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:00:32 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/19 13:22:15 by gmary            ###   ########.fr       */
+/*   Updated: 2022/07/19 15:27:39 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 _BEGIN_NAMESPACE_WEBSERV
 
-typedef typename std::vector<Socket> socket_type;
+typedef std::vector<Socket> socket_type;
 
 class Select {
 	

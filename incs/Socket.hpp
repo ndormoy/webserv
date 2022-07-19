@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Socket.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:13:50 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/19 11:21:24 by gmary            ###   ########.fr       */
+/*   Updated: 2022/07/19 15:59:35 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ class Socket {
 		{ 
 			FD_ZERO(&_readfds);
 			FD_ZERO(&_client);
-			// for (int i = 0; i < BUFFER_SIZE; i++) {
-			// 	_buffer[i] = 0;
-			// }
+			for (int i = 0; i < MAX_CLIENT; i++) {
+				_client_socket[i] = 0;
+			}
 		}
 		
 		Socket (const Socket& ref) {
@@ -69,6 +69,9 @@ class Socket {
 			_max_sub_socket = ref._max_sub_socket;
 			_address = ref._address;
 			_readfds = ref._readfds;
+			for (int i = 0; i < MAX_CLIENT; i++) {
+				_client_socket[i] = ref._client_socket[i];
+			}
 			
 			return *this;
 		}
@@ -86,7 +89,8 @@ class Socket {
 		struct sockaddr_in&	get_address (void) {return (_address);}
 		fd_set&				get_readfds (void) {return (_readfds);}
 		fd_set&  			get_client (void) {return (_client);}
-		int	*				get_client_socket (void) {return (_client_socket);}
+		// int	*				get_client_socket (void) {return (_client_socket);}
+		int					get_client_socket (int i) {return (_client_socket[i]);}
 	
 		void				set_max_sub_socket (int max) {_max_sub_socket = max;}
 		void				set_sub_socket (int sub) {_sub_socket = sub;}
@@ -101,10 +105,13 @@ class Socket {
 		EXCEPTION(fBindError, "setup : bind function failed")
 		EXCEPTION(fListenError, "setup : listen function failed")
 		
-		
-
-	
+	public:
+		friend std::ostream& operator<< (std::ostream& os, const Socket& ref) {
+			// TODO create stream operator	
+			return (os);
+		}
 };
+
 
 _END_NAMESPACE_WEBSERV
 

@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:32:45 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/18 11:07:15 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/19 15:27:30 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ _BEGIN_NAMESPACE_WEBSERV
 
 class Configuration {
 
-	typedef typename std::vector<Server*> server_vector;
-	typedef typename std::vector<std::string> lexer_type;
+	typedef std::vector<Server*> server_vector;
+	typedef std::vector<std::string> lexer_type;
 
 	private :
 		server_vector&	_servers;
