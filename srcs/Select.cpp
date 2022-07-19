@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/19 09:41:36 by gmary            ###   ########.fr       */
+/*   Updated: 2022/07/19 15:21:36 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ INLINE_NAMESPACE::Select::setup (void) {
 	
 	for (FOREACH_SERVER) {
 		INLINE_NAMESPACE::Socket	sock;
+		for (int i = 0; i < MAX_CLIENT; i++)
+			sock.set_client_socket(0, i);
 		sock.setup((*it)->get_port());
+		
 		fcntl(sock.get_fd(), F_SETFL, O_NONBLOCK);
 		FD_SET(sock.get_master_socket(), &_readfds);
 		_sockets.push_back(sock);
@@ -33,57 +36,93 @@ INLINE_NAMESPACE::Select::start (void) {
 
 	while (true) {
 		r_readfds = _readfds;
-		
-		if (select(FD_SETSIZE, &r_readfds, NULL, NULL, NULL) == SYSCALL_ERR) {
-			throw Select::fSelectError();
-		}
+		//BUG ici ajoute function
+		//socket_type::iterator it = _sockets.begin();
 		for (socket_type::iterator it = _sockets.begin(); it != _sockets.end(); ++it) {
-			FD_ZERO(&(it->get_client()));
+			FD_ZERO(&_readfds);
 			fcntl(it->get_master_socket(), F_SETFL, O_NONBLOCK);
-			if (FD_ISSET(it->get_master_socket(), &r_readfds)) {
-				int addrlen = it->get_addrlen();
-				if ((accept_fd = accept(it->get_master_socket(), (struct sockaddr *)&(it->get_address()), (socklen_t*)&addrlen)) == SYSCALL_ERR) {
-					throw Select::fAcceptError();
+			FD_SET(it->get_master_socket(), &_readfds);
+			it->set_max_sub_socket(it->get_master_socket());
+			
+
+			for (int i = 0; i < MAX_CLIENT; i++)
+			{
+				//CNOUT("inside loop for subsocket = " << it->get_client_socket()[i]);
+				it->set_sub_socket(it->get_client_socket()[i]);
+				//CNOUT(URED << it->get_master_socket() << " client socket [" << i << "] = " << it->get_client_socket()[i] << CRESET)
+				if (it->get_sub_socket() > 0)
+				{
+					CNOUT("add subsocket to set")
+					FD_SET(it->get_sub_socket(), &_readfds);
 				}
-				fcntl(accept_fd, F_SETFL, O_NONBLOCK);
-				FD_SET(accept_fd, &(it->get_client()));
+				if (it->get_sub_socket() > it->get_max_sub_socket())
+					it->set_max_sub_socket(it->get_sub_socket());
+			}
+
+
+			CNOUT("Selecting...")
+			if (select(it->get_max_sub_socket() + 1, &r_readfds, NULL, NULL, NULL) == SYSCALL_ERR) {
+				throw Select::fSelectError();
+			}
+			new_request(*it);
+			char	buffer[1025]; // pas sur de l'emplacement
+			int		bytes = 0;
+			for (int i = 0; i < MAX_CLIENT; i++)
+			{
+				it->set_sub_socket(it->get_client_socket()[i]);
+				// if (FD_ISSET(it->get_sub_socket(), &r_readfds))
+				if (FD_ISSET(it->get_sub_socket(), &_readfds))
+				{
+					//	CNOUT("RECV SOMETHING")
+					bytes = recv(it->get_sub_socket(), buffer, 1024, 0);
+					if (bytes == SYSCALL_ERR)
+					{
+						throw Select::fRecvError();
+					}
+					else if (bytes == 0)
+					{
+						CNOUT("client disconnected = " << it->get_sub_socket())
+						close(it->get_sub_socket());
+						it->set_client_socket(0, i);
+					}
+					else
+					{
+						//print
+						buffer[bytes] = '\0';
+						CNOUT(BBLU << buffer << CRESET)
+						//send et il y aura du parsing ici
+						std::string str = "HTTP/1.1 200 OK\nContent-Type: text/plain;charset=UTF-8\nContent-Length: 12\n\nHello world!";
+						if (send(it->get_sub_socket(), str.c_str(), str.length(), 0) == SYSCALL_ERR)
+						{
+							throw Select::fSendError();
+						}
+					}
+				}
 			}
 		}
-		new_request();
 	}
 }
 
 void
-INLINE_NAMESPACE::Select::new_request (void) {
-	char 	buffer[1024];
-	int		recv_ret;
-
-	DEBUG_5(CNOUT("new request launched"));
-	for (socket_type::iterator it = _sockets.begin(); it != _sockets.end(); ++it) {
-	// FD_ZERO(&(it->get_client()));
-	// FD_SET(4, &(it->get_client()));
-	// for (int i = 0; i < FD_SETSIZE; i++) {
-	// 	if (i != 0 && FD_ISSET(i, &(it->get_client()))) {
-	// 		CNOUT(i);
-	// 	}
-	// }
-		for (int i = 0; i < FD_SETSIZE; i++) {
-			CNOUT("pb looppp ----" << i)
-			if (i != 0 && FD_ISSET(i, &(it->get_client()))) {
-				recv_ret = recv(i, buffer, 1024, 0);
-				// read(i, buffer, 1024);
-				CNOUT(errno);
-/* 				if (recv_ret == SYSCALL_ERR) {
-					throw Select::fRecvError();
-				} else */ if (recv_ret == 0) {
-					close(i);
-					// FD_CLR(i, &(it->get_client())); //TODO a remettre a zero
-				}
-				else
-					CNOUT(buffer);
+INLINE_NAMESPACE::Select::new_request (Socket it) {
+	if (FD_ISSET(it.get_master_socket(), &_readfds))
+	{
+		CNOUT("FUCKKK")
+		int addrlen = it.get_addrlen();
+		int _new_socket;
+		if ((_new_socket = accept(it.get_master_socket(), (struct sockaddr *)&(it.get_address()), (socklen_t*)&addrlen)) == SYSCALL_ERR) {
+			throw Select::fAcceptError();
+		}
+		fcntl(it.get_sub_socket(), F_SETFL, O_NONBLOCK);
+		for (int i = 0; i < MAX_CLIENT; i++)
+		{
+			if (it.get_client_socket()[i] == 0)
+			{
+				CNOUT("Adding \'" << i << "\' to client socket")
+				it.set_client_socket(_new_socket, i);
+				break;
 			}
 		}
-		// FD_ZERO(&_readfds);
 	}
 }
 

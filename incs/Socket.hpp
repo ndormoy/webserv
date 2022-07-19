@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Socket.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:13:50 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/18 15:31:20 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/19 11:21:24 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ class Socket {
 		int					_master_socket;
 		int					_sub_socket;
 		int					_max_sub_socket;
+		int					_client_socket[MAX_CLIENT];
 		struct sockaddr_in	_address;
 		fd_set				_client;
 		fd_set				_readfds;
@@ -85,7 +86,11 @@ class Socket {
 		struct sockaddr_in&	get_address (void) {return (_address);}
 		fd_set&				get_readfds (void) {return (_readfds);}
 		fd_set&  			get_client (void) {return (_client);}
-
+		int	*				get_client_socket (void) {return (_client_socket);}
+	
+		void				set_max_sub_socket (int max) {_max_sub_socket = max;}
+		void				set_sub_socket (int sub) {_sub_socket = sub;}
+		void				set_client_socket (int fd, int index) {_client_socket[index] = fd;}
 	public:
 	
 		void setup (int);

@@ -5,7 +5,7 @@ SRCS =		${shell find ./srcs -name "*.cpp"}
 CC =		clang++
 CPPFLAGS =	-Ofast
 CPPFLAGS = 	#-Wall -Wextra -Werror -std=c++98
-CPPFLAGS += -fsanitize=address -g3
+CPPFLAGS += -g3 # -fsanitize=address 
 OBJS = 		${SRCS:.cpp=.o}
 RM =		rm -f
 INCS =		-I ./incs
