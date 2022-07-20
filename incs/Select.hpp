@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:00:32 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/20 14:02:14 by gmary            ###   ########.fr       */
+/*   Updated: 2022/07/20 16:29:22 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ class Select {
 		fd_set 			_readfds;
 		fd_set			_writefds;
 		socket_type 	_sockets;
-		int				_max_sub_socket; // TODO check si ok ou pas
+		int				_max_sub_socket;
 		int				_client_socket[MAX_CLIENT];
 	public:
 		Select (void)
@@ -62,7 +62,6 @@ class Select {
 
 		void	setup (void);
 		void	start (void);
-		//void new_request (Socket & it); //BUG ancienne version
 		void	new_request(void);
 	public:
 

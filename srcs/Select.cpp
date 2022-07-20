@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/20 16:05:08 by gmary            ###   ########.fr       */
+/*   Updated: 2022/07/20 17:30:30 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,11 @@ void
 INLINE_NAMESPACE::Select::start (void) {
 	fd_set r_readfds;
 	int		accept_fd = 0;
-
+	usleep(1000);
 	while (true) {
-		r_readfds = _readfds;
-		//BUG ici ajoute function
-		//socket_type::iterator it = _sockets.begin();
+		r_readfds = _readfds; //je crois vraiment pas necessaire au final
 		FD_ZERO(&_readfds);
 		for (socket_type::iterator it = _sockets.begin(); it != _sockets.end(); ++it) {
-			// FD_ZERO(&_readfds);
 			fcntl(it->get_master_socket(), F_SETFL, O_NONBLOCK);
 			FD_SET(it->get_master_socket(), &_readfds);
 			if (it->get_master_socket() > get_max_sub_socket())
@@ -58,7 +55,7 @@ INLINE_NAMESPACE::Select::start (void) {
 			}
 		}
 
-			CNOUT("Selecting...")
+			//CNOUT("Selecting...")
 			if (select(get_max_sub_socket() + 1, &_readfds, NULL, NULL, NULL) == SYSCALL_ERR) {
 				throw Select::fSelectError();
 			}
@@ -67,8 +64,6 @@ INLINE_NAMESPACE::Select::start (void) {
 			int		bytes = 0;
 			for (int i = 0; i < MAX_CLIENT; i++)
 			{
-				//it->set_sub_socket(_client_socket[i]);
-				// if (FD_ISSET(it->get_sub_socket(), &r_readfds))
 				if (_client_socket[i] != 0 && FD_ISSET(_client_socket[i], &_readfds))
 				{
 					bytes = recv(_client_socket[i], buffer, 1024, 0);
@@ -79,10 +74,9 @@ INLINE_NAMESPACE::Select::start (void) {
 					else if (bytes == 0)
 					{
 						CNOUT("client disconnected = " << _client_socket[i])
-						//[ ] pq utiliser FD_CLR ?????
+						FD_CLR(_client_socket[i], &_readfds);
 						if (_client_socket[i] > 0)
 						{
-							//FD_CLR(it->get_sub_socket(), &_readfds);
 							close(_client_socket[i]);
 						}
 						//it->set_client_socket(0, i);
@@ -116,13 +110,15 @@ INLINE_NAMESPACE::Select::new_request (void) {
 			if ((_new_socket = accept(it->get_master_socket(), (struct sockaddr *)&(it->get_address()), (socklen_t*)&addrlen)) == SYSCALL_ERR) {
 				throw Select::fAcceptError();
 			}
-			//fcntl(it->get_sub_socket(), F_SETFL, O_NONBLOCK); //BUG TODO surement faire fcntl de new_socket plustot que de sub socket
 			fcntl(_new_socket, F_SETFL, O_NONBLOCK);
 		}
 	}
 	for (int i = 0; i < MAX_CLIENT; i++)
 	{
-		if (_client_socket[i] == 0)
+		/*
+			la deuxieme conditions permets deviter d'ajouter tj des sockets null pour ensuite rajouter sur le mem index une socket
+		*/
+		if (_client_socket[i] == 0 && _new_socket != 0) //BUG LA SECONDE CONDITION PEUT VRAIMENT TOUT DEFONCER VRAIMENT PAS SUR DE CETTTE AJOUT ATTENTION GUS
 		{
 			CNOUT("Adding \'" << _new_socket << "\' to client socket number " << i)
 			_client_socket[i] = _new_socket;
@@ -130,25 +126,3 @@ INLINE_NAMESPACE::Select::new_request (void) {
 		}
 	}
 }
-
-/* void
-INLINE_NAMESPACE::Select::new_request (Socket & it) {
-	if (FD_ISSET(it.get_master_socket(), &_readfds))
-	{
-		int addrlen = it.get_addrlen();
-		int _new_socket;
-		if ((_new_socket = accept(it.get_master_socket(), (struct sockaddr *)&(it.get_address()), (socklen_t*)&addrlen)) == SYSCALL_ERR) {
-			throw Select::fAcceptError();
-		}
-		fcntl(it.get_sub_socket(), F_SETFL, O_NONBLOCK);
-		for (int i = 0; i < MAX_CLIENT; i++)
-		{
-			if (it.get_client_socket(i) == 0)
-			{
-				CNOUT("Adding \'" << _new_socket << "\' to client socket number " << i)
-				it.set_client_socket(_new_socket, i);
-				break;
-			}
-		}
-	}
-} */

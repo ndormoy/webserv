@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _utils.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:33:58 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/19 15:28:09 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/20 17:27:03 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ class Server;
 # define CNERR(x)						std::cerr << x << std::endl;
 
 # define CONFIG_STRING_MAX_SIZE			100
-# define MAX_CLIENT						5 //BUG need to change number of max client
+# define MAX_CLIENT						600 //BUG which number should we put here, dont put to much if u dont want to fail select()
 # define BUFFER_SIZE					1025 // BUG undifined value
 
 # define EXCEPTION(x, y)				public: class x : public std::exception {const char * what (void) const throw() {return (y);}};
