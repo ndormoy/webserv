@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/20 10:13:25 by gmary            ###   ########.fr       */
+/*   Updated: 2022/07/20 11:07:36 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,10 @@ INLINE_NAMESPACE::Select::start (void) {
 
 			for (int i = 0; i < MAX_CLIENT; i++)
 			{
-				// CNOUT("inside loop for subsocket = " << i << " = "<< it->get_client_socket(i));
 				it->set_sub_socket(it->get_client_socket(i));
-				//CNOUT(URED << it->get_master_socket() << " client socket [" << i << "] = " << it->get_client_socket(i) << CRESET)
 				if (it->get_sub_socket() > 0)
 				{
-					CNOUT("add subsocket to set")
+					//CNOUT("add subsocket to set")
 					FD_SET(it->get_sub_socket(), &_readfds);
 				}
 				if (it->get_sub_socket() > it->get_max_sub_socket()) {
@@ -70,7 +68,6 @@ INLINE_NAMESPACE::Select::start (void) {
 				// if (FD_ISSET(it->get_sub_socket(), &r_readfds))
 				if (FD_ISSET(it->get_sub_socket(), &_readfds))
 				{
-					//	CNOUT("RECV SOMETHING")
 					bytes = recv(it->get_sub_socket(), buffer, 1024, 0);
 					if (bytes == SYSCALL_ERR)
 					{
@@ -104,7 +101,6 @@ void
 INLINE_NAMESPACE::Select::new_request (Socket & it) {
 	if (FD_ISSET(it.get_master_socket(), &_readfds))
 	{
-		//CNOUT("FUCKKK")
 		int addrlen = it.get_addrlen();
 		int _new_socket;
 		if ((_new_socket = accept(it.get_master_socket(), (struct sockaddr *)&(it.get_address()), (socklen_t*)&addrlen)) == SYSCALL_ERR) {
