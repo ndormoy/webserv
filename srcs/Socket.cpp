@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Socket.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:45:57 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/19 15:43:27 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/20 09:36:55 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ INLINE_NAMESPACE::Socket::setup (int port) {
 	if (bind(_master_socket, (struct sockaddr *)&_address, sizeof(_address)) < 0) {
 		throw Socket::fBindError();
 	}
+	//TODO cest surement pas MAX_CLIENT mais autres choses
 	if (listen(_master_socket, MAX_CLIENT) < 0) {
 		throw Socket::fListenError();
 	}

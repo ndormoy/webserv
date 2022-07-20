@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Select.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/19 16:01:36 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/20 10:13:25 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ INLINE_NAMESPACE::Select::setup (void) {
 	for (FOREACH_SERVER) {
 		INLINE_NAMESPACE::Socket	sock;
 		sock.setup((*it)->get_port());		
-		fcntl(sock.get_master_socket(), F_SETFL, O_NONBLOCK);
-		FD_SET(sock.get_master_socket(), &_readfds);
+		//fcntl(sock.get_master_socket(), F_SETFL, O_NONBLOCK); //BUG le pb provient peut etre de linit du master socket
+		//FD_SET(sock.get_master_socket(), &_readfds); //BUG on le refait ces deux lignes juste apres
 		_sockets.push_back(sock);
 	}
 }
@@ -101,10 +101,10 @@ INLINE_NAMESPACE::Select::start (void) {
 }
 
 void
-INLINE_NAMESPACE::Select::new_request (Socket it) {
+INLINE_NAMESPACE::Select::new_request (Socket & it) {
 	if (FD_ISSET(it.get_master_socket(), &_readfds))
 	{
-		CNOUT("FUCKKK")
+		//CNOUT("FUCKKK")
 		int addrlen = it.get_addrlen();
 		int _new_socket;
 		if ((_new_socket = accept(it.get_master_socket(), (struct sockaddr *)&(it.get_address()), (socklen_t*)&addrlen)) == SYSCALL_ERR) {
@@ -115,7 +115,7 @@ INLINE_NAMESPACE::Select::new_request (Socket it) {
 		{
 			if (it.get_client_socket(i) == 0)
 			{
-				CNOUT("Adding \'" << i << "\' to client socket")
+				CNOUT("Adding \'" << _new_socket << "\' to client socket number " << i)
 				it.set_client_socket(_new_socket, i);
 				break;
 			}
