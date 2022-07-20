@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:00:32 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/20 10:07:32 by gmary            ###   ########.fr       */
+/*   Updated: 2022/07/20 14:02:14 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ class Select {
 		fd_set 			_readfds;
 		fd_set			_writefds;
 		socket_type 	_sockets;
-		
+		int				_max_sub_socket; // TODO check si ok ou pas
+		int				_client_socket[MAX_CLIENT];
 	public:
 		Select (void)
 		{ }
@@ -43,7 +44,9 @@ class Select {
 			_readfds = ref._readfds;
 			_writefds = ref._writefds;
 			_sockets = ref._sockets;
-			
+			_max_sub_socket = ref._max_sub_socket;
+			for (int i = 0; i < MAX_CLIENT; i++)
+				_client_socket[i] = ref._client_socket[i];
 			return *this;
 		}
 
@@ -52,13 +55,15 @@ class Select {
 		fd_set&			get_readfds (void) {return (_readfds);}
 		fd_set&			get_writefds (void) {return (_writefds);}
 		socket_type&	get_sockets (void) {return (_sockets);}
+		int				get_max_sub_socket(void) {return (_max_sub_socket);}
 
+		void			set_max_sub_socket(int max) {_max_sub_socket = max;}
 	public:
 
-		void setup (void);
-		void start (void);
-		void new_request (Socket & it);
-				
+		void	setup (void);
+		void	start (void);
+		//void new_request (Socket & it); //BUG ancienne version
+		void	new_request(void);
 	public:
 
 		EXCEPTION(fSelectError, "execution : function select failed")
