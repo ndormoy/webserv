@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/20 15:31:44 by gmary            ###   ########.fr       */
+/*   Updated: 2022/07/20 16:05:08 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,14 @@ INLINE_NAMESPACE::Select::start (void) {
 		r_readfds = _readfds;
 		//BUG ici ajoute function
 		//socket_type::iterator it = _sockets.begin();
+		FD_ZERO(&_readfds);
 		for (socket_type::iterator it = _sockets.begin(); it != _sockets.end(); ++it) {
-			FD_ZERO(&_readfds);
+			// FD_ZERO(&_readfds);
 			fcntl(it->get_master_socket(), F_SETFL, O_NONBLOCK);
 			FD_SET(it->get_master_socket(), &_readfds);
-			set_max_sub_socket(it->get_master_socket());
+			if (it->get_master_socket() > get_max_sub_socket())
+				set_max_sub_socket(it->get_master_socket());
 			
-
 			for (int i = 0; i < MAX_CLIENT; i++)
 			{
 				//it->set_sub_socket(_client_socket[i]);
