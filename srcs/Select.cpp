@@ -31,7 +31,6 @@ void
 INLINE_NAMESPACE::Select::start (void) {
 	fd_set r_readfds;
 	int		accept_fd = 0;
-	usleep(1000);
 	while (true) {
 		r_readfds = _readfds; //je crois vraiment pas necessaire au final
 		FD_ZERO(&_readfds);

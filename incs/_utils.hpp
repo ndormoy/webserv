@@ -36,7 +36,7 @@ class Server;
 # define CNERR(x)						std::cerr << x << std::endl;
 
 # define CONFIG_STRING_MAX_SIZE			100
-# define MAX_CLIENT						600 //BUG which number should we put here, dont put to much if u dont want to fail select()
+# define MAX_CLIENT						999 //BUG which number should we put here, dont put to much if u dont want to fail select()
 # define BUFFER_SIZE					1025 // BUG undifined value
 
 # define EXCEPTION(x, y)				public: class x : public std::exception {const char * what (void) const throw() {return (y);}};
