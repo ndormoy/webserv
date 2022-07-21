@@ -14,6 +14,7 @@
 # define WEBSERV_HPP
 
 #include <vector>
+#include <map>
 #include <iostream>
 #include <cstring>
 #include <stdint.h>
@@ -45,6 +46,7 @@ extern int g_debug_prog_level;
 #include "Configuration.hpp"
 #include "Socket.hpp"
 #include "Select.hpp"
+#include "Request.hpp"
 
 extern INLINE_NAMESPACE::Configuration g_config;
 
