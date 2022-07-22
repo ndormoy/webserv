@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:32:45 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/19 15:27:30 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/22 14:30:50 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,6 @@ class Configuration {
 			_lexer(ref._lexer)
 		{ }
 		
-		// Configuration &	operator= (const Configuration & ref) {
-		// 	if (this ==  &ref) {return (*this);}
-
-		// 	return (*this);
-		// }
-
 		
 
 	public:

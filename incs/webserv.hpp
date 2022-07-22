@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:11:19 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/18 11:28:19 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/22 13:48:52 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,12 @@
 #include <fcntl.h>
 #include <limits.h>
 
-extern int g_debug_prog_level;
+#include "_utils.hpp"
+
+extern int 								g_debug_prog_level;
+extern string_vector 					g_header;
 
 #include "_colors.hpp"
-#include "_utils.hpp"
 #include "Location.hpp"
 #include "Server.hpp"
 #include "Configuration.hpp"
@@ -48,6 +50,6 @@ extern int g_debug_prog_level;
 #include "Select.hpp"
 #include "Request.hpp"
 
-extern INLINE_NAMESPACE::Configuration g_config;
+extern INLINE_NAMESPACE::Configuration 	g_config;
 
 #endif /* WEBSERV_HPP */

@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 16:28:05 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/19 15:56:42 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/22 14:11:17 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,30 @@
 
 int 								g_debug_prog_level = -1;
 INLINE_NAMESPACE::Configuration		g_config;
+string_vector						g_header = {"Accept-Charset",
+												"Accept-Encoding",
+												"Accept-Language",
+												"Accept",
+												"Auth-Scheme",
+												"Autorization",
+												"Content-Type",
+												"Content-Length",
+												"Content-Location",
+												"Content-Type",
+												"Content-Disposition",
+												"Connection",
+												"Cookie",
+												"Host",
+												"Date",
+												"Last-Modified",
+												"Location",
+												"Retry-After",
+												"Transfer-encoding",
+												"Set-Cookie",
+												"Origin",
+												"Referer",
+												"From"
+												};
 
 int
 main (int ac, char **av)
@@ -55,8 +79,6 @@ main (int ac, char **av)
 
 		DEBUG_1(CNOUT(BGRN << "Configuration parsed" << CRESET))
 		DEBUG_2(CNOUT(g_config))
-		
-		/* start server */
 
 	} else {
 		std::cerr << INVALID_ARG << std::endl;
