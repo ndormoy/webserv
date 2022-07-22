@@ -44,7 +44,7 @@ class Request
 			_params(ref._params),
 			_lexer(ref._lexer)
 		{
-			if (this == &ref) {return (*this);}
+			// if (this == &ref) {return (*this);}
 		}
 
 
