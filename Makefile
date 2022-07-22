@@ -12,7 +12,7 @@ RM =		rm -rf
 INCS =		-I ./incs
 SYSTEM =	${shell uname}
 
-OBJDIR =	objs
+OBJDIR =	.objs
 INCDIR =	incs
 
 ifeq (${SYSTEM}, Darwin)
@@ -46,7 +46,7 @@ endif
 
 $(OBJDIR)/%.o: %.cpp
 				@printf "%-15s ${_YELLOW}${_BOLD}$<${_END}...\n" "Compiling"
-				@mkdir -p $(dir $@)
+				@mkdir -p $(dir $@) $(DEPDIR)
 				@${CC} ${CPPFLAGS} ${INCS} -c $< -o $@
 
 ${NAME}:	${OBJS}
@@ -58,7 +58,7 @@ all:		${NAME}
 
 clean:
 				@printf "%-15s ${_RED}${_BOLD}${NAME} binary files${_END}...\n" "Deleting"
-				@${RM} ${OBJDIR} #${OBJS}
+				@${RM} ${OBJDIR} ${OBJS}
 
 fclean:		clean
 				@printf "%-15s ${_RED}${_BOLD}${NAME}${_END}...\n" "Deleting"
