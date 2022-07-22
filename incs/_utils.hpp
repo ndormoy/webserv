@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _utils.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:33:58 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/20 17:27:03 by gmary            ###   ########.fr       */
+/*   Updated: 2022/07/22 13:37:21 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@ class Server;
 
 # define LEXER							g_config.getLexer()
 # define SERVERS						g_config.getServers()
+# define HEADER							g_header
 # define FOREACH_SERVER					std::vector<Server*>::const_iterator it = SERVERS.begin(); it != SERVERS.end(); ++it
+# define FOREACH_HEADER 				for (string_vector::const_iterator it = HEADER.begin(); it != HEADER.end(); ++it)
 
 # define COUNT_SERVERS					g_config.getServers().size()
 
