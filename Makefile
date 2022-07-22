@@ -4,12 +4,17 @@ SRCS =		${shell find ./srcs -name "*.cpp"}
 
 CC =		clang++
 CPPFLAGS =	-Ofast
-CPPFLAGS = 	#-std=c++98 #-Wall -Wextra -Werror 
+CPPFLAGS = 	-MD #-std=c++98 #-Wall -Wextra -Werror 
 CPPFLAGS += -g3  -fsanitize=address 
-OBJS = 		${SRCS:.cpp=.o}
-RM =		rm -f
+#OBJS = 		${SRCS:.cpp=.o}
+OBJS = 		$(addprefix ${OBJDIR}/,${SRCS:.cpp=.o})
+DEP =		$(addprefix ${OBJDIR}/,${SRC:.cpp=.d})
+RM =		rm -rf
 INCS =		-I ./incs
 SYSTEM =	${shell uname}
+
+OBJDIR =	objs
+INCDIR =	incs
 
 ifeq (${SYSTEM}, Darwin)
 _END=$'\x1b[0m
@@ -38,9 +43,15 @@ _WHITE=	$'\033[37m
 _END= $'\033[37m
 endif
 
+-include $(DEP)
 
-.cpp.o:
+#.cpp.o:
+#				@printf "%-15s ${_YELLOW}${_BOLD}$<${_END}...\n" "Compiling"
+#				@${CC} ${CPPFLAGS} ${INCS} -c $< -o $@
+
+$(OBJDIR)/%.o: %.cpp
 				@printf "%-15s ${_YELLOW}${_BOLD}$<${_END}...\n" "Compiling"
+				@mkdir -p $(dir $@)
 				@${CC} ${CPPFLAGS} ${INCS} -c $< -o $@
 
 ${NAME}:	${OBJS}
@@ -52,7 +63,7 @@ all:		${NAME}
 
 clean:
 				@printf "%-15s ${_RED}${_BOLD}${NAME} binary files${_END}...\n" "Deleting"
-				@${RM} ${OBJS}
+				@${RM} ${OBJDIR} #${OBJS}
 
 fclean:		clean
 				@printf "%-15s ${_RED}${_BOLD}${NAME}${_END}...\n" "Deleting"
