@@ -125,9 +125,9 @@ INLINE_NAMESPACE::Select::start (void) {
 						buffer[bytes] = '\0';
 						CNOUT(BBLU << buffer << CRESET)
 						//send et il y aura du parsing ici
-						std::string hello = "HTTP/1.1 200 OK\nContent-Type: text/html;charset=UTF-8\nContent-Length: 1800\n\n";
-						//std::string str = "HTTP/1.1 200 OK\nContent-Type: text/plain;charset=UTF-8\nContent-Length: 12\n\nHello world!";
-						COUT("\n yess= " << find_path(buffer))
+						// std::string hello = "HTTP/1.1 200 OK\nContent-Type: text/html;charset=UTF-8\nContent-Length: 1800\n\n";
+						std::string hello = "HTTP/1.1 200 OK\nContent-Type: text/plain;charset=UTF-8\nContent-Length: 12\n\nHello world!";
+						// COUT("\n yess= " << find_path(buffer))
 						hello.append(read_open(find_path(buffer)));
 						COUT(BRED << hello << CRESET)
 						//if (send(_client_socket[i], str.c_str(), str.length(), 0) == SYSCALL_ERR)
