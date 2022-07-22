@@ -6,7 +6,6 @@ CC =		clang++
 CPPFLAGS =	-Ofast
 CPPFLAGS = 	-MD #-std=c++98 #-Wall -Wextra -Werror 
 CPPFLAGS += -g3  -fsanitize=address 
-#OBJS = 		${SRCS:.cpp=.o}
 OBJS = 		$(addprefix ${OBJDIR}/,${SRCS:.cpp=.o})
 DEP =		$(addprefix ${OBJDIR}/,${SRC:.cpp=.d})
 RM =		rm -rf
@@ -44,10 +43,6 @@ _END= $'\033[37m
 endif
 
 -include $(DEP)
-
-#.cpp.o:
-#				@printf "%-15s ${_YELLOW}${_BOLD}$<${_END}...\n" "Compiling"
-#				@${CC} ${CPPFLAGS} ${INCS} -c $< -o $@
 
 $(OBJDIR)/%.o: %.cpp
 				@printf "%-15s ${_YELLOW}${_BOLD}$<${_END}...\n" "Compiling"
