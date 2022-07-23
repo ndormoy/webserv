@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:38:48 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/18 10:54:10 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/23 16:11:27 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void
 INLINE_NAMESPACE::Configuration::parser (void) {
 	string_vector::const_iterator it = _lexer.begin();
-	
+
 	while (it != _lexer.end()) {
 		if (*it == "server" && ((it + 1) != _lexer.end() && (*(it + 1)) == "{")) {
 			INLINE_NAMESPACE::Server* s = new Server();
@@ -42,7 +42,7 @@ INLINE_NAMESPACE::Configuration::lexer (std::string conf_file) {
 	}
 	while (!ifs.eof()) {
 		std::getline(ifs, buffer);
-		v = vector_spliter(buffer);
+		v = vector_spliter(buffer, "}{;", "\t", true);
 		
 		if (v.empty() || v[0][0] == '#') {
 			continue;
@@ -56,7 +56,7 @@ INLINE_NAMESPACE::Configuration::lexer (std::string conf_file) {
 	ifs.close();
 }
 
-void
-INLINE_NAMESPACE::Configuration::setup (void) {
+// void
+// INLINE_NAMESPACE::Configuration::setup (void) {
 	
-}
+// }

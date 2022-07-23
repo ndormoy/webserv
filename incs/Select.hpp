@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Select.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:00:32 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/20 16:29:22 by gmary            ###   ########.fr       */
+/*   Updated: 2022/07/23 14:38:37 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ class Select {
 
 		void	setup (void);
 		void	start (void);
-		void	new_request(void);
+		void	new_request (void);
 	public:
 
 		EXCEPTION(fSelectError, "execution : function select failed")

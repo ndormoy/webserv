@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:33:58 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/22 13:37:21 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/23 16:10:59 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,12 @@ enum {
 /**
  * @brief Split the string in a vector of string
  * 
- * @param str String to split
- * @return string_vector Vector of string
+ * @param str original string
+ * @param delim list of delimiters to split the string
+ * @param to_del list of character to delete from the string
+ * @return string_vector 
  */
-string_vector	vector_spliter (std::string str);
+string_vector	vector_spliter (std::string str, const char *, const char *, bool);
 
 /**
  * @brief Return a bool to know if the string is printable 
@@ -129,5 +131,13 @@ string_vector				get_until_semicolon (string_vector::const_iterator & it);
  * @return bool - true if all tests are successful 
  */
 bool						checker(const string_vector & v, std::size_t flags);
+
+/**
+ * @brief Return the size of the file given by the path, -1 if the file could not be opened
+ * 
+ * @param filename 
+ * @return int - size of the file
+ */
+int							calculate_size_file (char *filename);
 
 #endif /* _UTILS_HPP */

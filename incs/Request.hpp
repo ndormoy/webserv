@@ -42,15 +42,24 @@ class Request
 
 		Request (const Request & ref) :
 			_params(ref._params),
+			_method(ref._method),
+			_path(ref._path),
+			_version(ref._version),
+			_chunked(ref._chunked),
 			_lexer(ref._lexer)
+		{ }
+
+		Request (const std::string str) :
+			Request()
 		{
-			// if (this == &ref) {return (*this);}
+			_lexer = vector_spliter(str, " ", "\r\n\0", false);
+			DEBUG_5(CNOUT(*this));
 		}
 
 
 	public:
 
-		void	request_parser(void);
+		void	request_parser (void);
 
 	public:
 		Request & operator= (const Request & ref) {
@@ -61,6 +70,7 @@ class Request
 			_version = ref._version;
 			_chunked = ref._chunked;
 			_params = ref._params;
+			_lexer = ref._lexer;
 			return *this;
 		}
 
@@ -72,6 +82,10 @@ class Request
 			o << "Params: " << std::endl;
 			for (std::map<std::string, std::string>::const_iterator it = ref._params.begin(); it != ref._params.end(); ++it) {
 				o << "  " << it->first << ": " << it->second << std::endl;
+			}
+			o << "Lexer: " << std::endl;
+			for (string_vector::const_iterator it = ref._lexer.begin(); it != ref._lexer.end(); ++it) {
+				o << "  [" << *it << "]";
 			}
 			return o;
 		}

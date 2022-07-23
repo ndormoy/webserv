@@ -47,9 +47,9 @@ endif
 $(OBJDIR)/%.o: %.cpp
 				@printf "%-15s ${_YELLOW}${_BOLD}$<${_END}...\n" "Compiling"
 				@mkdir -p $(dir $@) $(DEPDIR)
-				@${CC} ${CPPFLAGS} ${INCS} -c $< -o $@
+				@${CC} ${CPPFLAGS} -o $@ ${INCS} -c $< 
 
-${NAME}:	${OBJS}
+${NAME}:	${OBJS} ${DEP} 
 				@printf "%-15s ${_PURPLE}${_BOLD}${NAME}${_END}...\n" "Compiling"
 				@${CC} ${CPPFLAGS} -o ${NAME} ${INCS} ${OBJS}
 				@printf "\n${_GREEN}${_BOLD}Compilation done !${_END}\n"

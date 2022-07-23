@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Select.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/20 17:30:30 by gmary            ###   ########.fr       */
+/*   Updated: 2022/07/23 17:17:55 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,12 +124,14 @@ INLINE_NAMESPACE::Select::start (void) {
 						//print
 						buffer[bytes] = '\0';
 						CNOUT(BBLU << buffer << CRESET)
+						Request *request = new Request(buffer);
+						// CNOUT(*request);
 						//send et il y aura du parsing ici
 						// std::string hello = "HTTP/1.1 200 OK\nContent-Type: text/html;charset=UTF-8\nContent-Length: 1800\n\n";
-						std::string hello = "HTTP/1.1 200 OK\nContent-Type: text/plain;charset=UTF-8\nContent-Length: 12\n\nHello world!";
+						std::string hello = "HTTP/1.1 200 OK\nContent-Type: text/plain;charset=UTF-8\nContent-Length: 12\n\nHello world!<h1>HELLO</h1>";
 						// COUT("\n yess= " << find_path(buffer))
 						hello.append(read_open(find_path(buffer)));
-						COUT(BRED << hello << CRESET)
+						// COUT(BRED << hello << CRESET)
 						//if (send(_client_socket[i], str.c_str(), str.length(), 0) == SYSCALL_ERR)
 						if (send(_client_socket[i], hello.c_str(), hello.length(), 0) == SYSCALL_ERR)
 						{
