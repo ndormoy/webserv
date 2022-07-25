@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:33:58 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/23 16:10:59 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/25 15:14:23 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ class Server;
 # define FILE_MISSING					"configuration file missing\n./webserv [--debug=`debug_value`] [configuration_file]"
 
 # define SYSCALL_ERR					(-1)
+# define SUCCESS						0
 
 # define COUT(x)						std::cout << x;
 # define CO(x, o)						o << x;
@@ -50,11 +51,11 @@ class Server;
 # define LEXER							g_config.getLexer()
 # define SERVERS						g_config.getServers()
 # define HEADER							g_header
+
 # define FOREACH_SERVER					std::vector<Server*>::const_iterator it = SERVERS.begin(); it != SERVERS.end(); ++it
 # define FOREACH_HEADER 				for (string_vector::const_iterator it = HEADER.begin(); it != HEADER.end(); ++it)
 
 # define COUNT_SERVERS					g_config.getServers().size()
-
 # define CHECKER(v, x)					(true == checker(v, x))
 
 // TODO TO DELETE
@@ -139,5 +140,24 @@ bool						checker(const string_vector & v, std::size_t flags);
  * @return int - size of the file
  */
 int							calculate_size_file (char *filename);
+
+/**
+ * @brief Return if str is a HTTP header
+ * 
+ * @param str 
+ * @return bool - true if the string is a HTTP header
+ */
+bool						is_header (const std::string & str);
+
+/**
+ * @brief Return if the file exist and can be opened
+ * 
+ * @param path 
+ * @return bool - true if the file exist
+ */
+inline bool					file_exist (const std::string & path) {
+	struct stat buffer;   
+	return (stat (path.c_str(), &buffer) == 0); 
+}
 
 #endif /* _UTILS_HPP */

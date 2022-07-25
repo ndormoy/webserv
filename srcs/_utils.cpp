@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 15:33:04 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/23 14:35:33 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/25 15:59:15 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,15 @@ calculate_size_file (char *filename)
 		return (-1);
 	}
 	return (end - begin);
+}
+
+bool
+is_header (const std::string & str) {
+
+	FOREACH_HEADER {
+		// CNOUT("HEEEEEEEEEEEEEEERE" << *it);
+		if (str == *it)
+			return (true);
+	}
+	return (false);
 }

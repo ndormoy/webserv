@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 16:28:05 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/25 12:19:26 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/25 15:59:55 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,30 @@
 
 int 								g_debug_prog_level = -1;
 INLINE_NAMESPACE::Configuration		g_config;
-string_vector						g_header = {"Accept-Charset",
-												"Accept-Encoding",
-												"Accept-Language",
-												"Accept",
-												"Auth-Scheme",
-												"Autorization",
-												"Content-Type",
-												"Content-Length",
-												"Content-Location",
-												"Content-Type",
-												"Content-Disposition",
-												"Connection",
-												"Cookie",
-												"Host",
-												"Date",
-												"Last-Modified",
-												"Location",
-												"Retry-After",
-												"Transfer-encoding",
-												"Set-Cookie",
-												"Origin",
-												"Referer",
-												"From"
+string_vector						g_header = {"Accept-Charsets:",
+											    "Accept-Language:",
+											    "Auth-Scheme:",
+											    "Authorization:",
+											    "Content-Language:",
+											    "Content-Length:",
+											    "Content-Location:",
+											    "Content-Type:",
+											    "Date:",
+											    "Host:",
+											    "Last-Modified:",
+											    "Location:",
+											    "Referer:",
+											    "Retry-After:",
+											    "Transfer-Encoding:",
+											    "User-Agent:",
+											    "Connection:",
+											    "Accept:",
+											    "Cookie:",
+											    "Accept-Encoding:",
+											    "From:"
 												};
+
+
 
 int
 main (int ac, char **av)
