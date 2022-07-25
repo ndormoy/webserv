@@ -24,11 +24,15 @@ class Cgi
 		void 	fill_header(void);
 		void	fill_body(void);
 		void	manage_response(void);
+		std::string auto_index(void);
+		void	create_index(void);
+	
 	private:
 
 		int			_file_size;
 		std::string	_header;
 		Request		_request;
+		string_vector	_files;
 };
 
 _END_NAMESPACE_WEBSERV
