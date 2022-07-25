@@ -6,7 +6,7 @@
 si le fichier est impossible a ouvrir on affiche une erreur et 
 on renvoie -1*/
 
-int calculate_size_file(char *filename)
+int Cgi::calculate_size_file(char *filename)
 {
 	std::streampos begin,end;
 	std::ifstream myfile (filename, std::ios::binary);
@@ -16,7 +16,6 @@ int calculate_size_file(char *filename)
 		myfile.seekg (0, std::ios::end);
 		end = myfile.tellg();
 		myfile.close();
-		//std::cout << "size is: " << (end-begin) << " bytes.\n";
 	}
 	else
 	{
@@ -26,7 +25,12 @@ int calculate_size_file(char *filename)
 	return (end - begin);
 }
 
-// int main(int argc, char *argv[])
-// {
-// 	std::cout << "ret = " << calculate_size_file(argv[1]) << std::endl;
-// }
+void	Cgi::find_status_code(void)
+{
+	_file_size = calculate_size_file((char *)_request.get_path().c_str());
+	if (_file_size == -1)
+		_status_code = "404 Not Found";
+	else
+		_status_code = "200 OK";
+
+}
