@@ -22,7 +22,9 @@ class Request
 	public:
 		std::string	get_path() { return _path; }
 		std::string get_version() { return _version; }
-
+		int			get_error_value() { return _error_value; }
+		std::string	get_content_type() { return _params.at("Content-Type"); }
+		std::string	get_content_length() { return _params.at("Content-Length"); }
 	public:
 		Request (void) :
 			_method(0),

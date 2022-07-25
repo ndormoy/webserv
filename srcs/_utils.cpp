@@ -44,3 +44,19 @@ calculate_size_file (char *filename)
 	}
 	return (end - begin);
 }
+
+std::string	read_file(std::string path)
+{
+	std::string content = "";
+	std::ifstream file(path.c_str());
+	if (file.is_open())
+	{
+		std::string line;
+		while (getline(file, line))
+			content += line + "\n";
+		file.close();
+	}
+	else
+		content = "Problem reading file";
+	return content;
+}

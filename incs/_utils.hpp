@@ -140,4 +140,13 @@ bool						checker(const string_vector & v, std::size_t flags);
  */
 int							calculate_size_file (char *filename);
 
+/**
+ * @brief Return a string with the content of a file
+ * 
+ * @param path
+ * @return string content of the file
+ */
+
+std::string	read_file(std::string path);
+
 #endif /* _UTILS_HPP */
