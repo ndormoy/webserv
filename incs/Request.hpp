@@ -21,6 +21,10 @@ class Request
 		string_vector& _lexer;
 
 	public:
+		std::string	get_path() { return _path; }
+		std::string get_version() { return _version; }
+
+	public:
 		Request (void) :
 			_method(0),
 			_path(""),
