@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:09:26 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/08 16:54:24 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/23 17:48:28 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,20 @@ remove_comment_ (string_vector & v) {
 }
 
 static void
-separe_special_char_ (string_vector & v) {
+separe_special_char_ (string_vector & v, const char * delims) {
 	string_vector::const_iterator it = v.begin();
-	std::string	special_char[] = {"{", "}", ";", ""};
+	// std::string	delims[] = {"{", "}", ";", ""};
 	std::string save_s;
 	std::string c;
 	std::size_t	f_val;
 
 	for (; it != v.end(); it++) {
 		f_val = std::string::npos;
-		for (int i = 0; special_char[i] != ""; i++) {
-			if (*it == special_char[i]) {
+		for (int i = 0; delims[i]; i++) {
+			if ((*it) == (char [2]){delims[i], '\0'}) {
 				break;
-			} else if (((f_val = (*it).find(special_char[i])) != std::string::npos)) {
-				c = special_char[i];
+			} else if (((f_val = (*it).find(delims[i])) != std::string::npos)) {
+				c = delims[i];
 				break;
 			}
 		}
@@ -72,11 +72,13 @@ separe_special_char_ (string_vector & v) {
 }
 
 string_vector
-vector_spliter (std::string str) {
+vector_spliter (std::string str, const char * delims, const char * to_replace, bool rm_comment) {
 	string_vector vector;
 	std::string stockage;
 
-	std::replace( str.begin(), str.end(), '\t', ' '); 
+	for (int i = 0; to_replace[i]; i++) {
+		std::replace(str.begin(), str.end(), to_replace[i], ' ');
+	}
     int start = 0U;
     int end = str.find(' ');
     while (end != std::string::npos)
@@ -91,8 +93,9 @@ vector_spliter (std::string str) {
     stockage = str.substr(start, end);
 	if (!stockage.empty())
 			vector.push_back(stockage);
-	remove_comment_(vector);
-	separe_special_char_(vector);
+	if (rm_comment)
+		remove_comment_(vector);
+	separe_special_char_(vector, delims);
 	return (vector);
 }
 
