@@ -6,12 +6,13 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/23 14:38:52 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/25 11:55:50 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "webserv.hpp"
 
-void	request_parser (void) {
+void
+INLINE_NAMESPACE::Request::request_parser (void) {
 	
 }

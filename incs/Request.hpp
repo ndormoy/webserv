@@ -3,6 +3,8 @@
 
 #include "webserv.hpp"
 
+_BEGIN_NAMESPACE_WEBSERV
+
 class Request
 {
 	public:
@@ -14,6 +16,7 @@ class Request
 		std::string _path;
 		std::string _version;
 		bool		_chunked;
+		int			_error_value;
 		string_vector& _lexer;
 
 	public:
@@ -22,6 +25,7 @@ class Request
 			_path(""),
 			_version(""),
 			_chunked(false),
+			_error_value(0),
 			_params(*new param_type()),
 			_lexer(*new string_vector())
 		{
@@ -46,6 +50,7 @@ class Request
 			_path(ref._path),
 			_version(ref._version),
 			_chunked(ref._chunked),
+			_error_value(ref._error_value),
 			_lexer(ref._lexer)
 		{ }
 
@@ -53,6 +58,8 @@ class Request
 			Request()
 		{
 			_lexer = vector_spliter(str, " ", "\r\n\0", false);
+			_chunked = (str.find("\r\n\r\n") == std::string::npos);
+			request_parser();
 			DEBUG_5(CNOUT(*this));
 		}
 
@@ -70,6 +77,7 @@ class Request
 			_version = ref._version;
 			_chunked = ref._chunked;
 			_params = ref._params;
+			_error_value = ref._error_value;
 			_lexer = ref._lexer;
 			return *this;
 		}
@@ -94,5 +102,7 @@ class Request
 
 	
 };
+
+_END_NAMESPACE_WEBSERV
 
 #endif

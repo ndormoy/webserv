@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:38:48 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/23 16:11:27 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/25 12:10:28 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ INLINE_NAMESPACE::Configuration::parser (void) {
 			it++;
 	}
 }
-  
+
 void
 INLINE_NAMESPACE::Configuration::lexer (std::string conf_file) {
 	std::string 				buffer;
 	std::ifstream				ifs;
-	string_vector 	v;
+	string_vector 				v;
 
 	ifs.open(conf_file);
 	if (ifs.fail()) {
@@ -55,8 +55,3 @@ INLINE_NAMESPACE::Configuration::lexer (std::string conf_file) {
 	}
 	ifs.close();
 }
-
-// void
-// INLINE_NAMESPACE::Configuration::setup (void) {
-	
-// }
