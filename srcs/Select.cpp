@@ -130,7 +130,9 @@ INLINE_NAMESPACE::Select::start (void) {
 						//send et il y aura du parsing ici
 						// std::string hello = "HTTP/1.1 200 OK\nContent-Type: text/html;charset=UTF-8\nContent-Length: 1800\n\n";
 						// std::string hello = "HTTP/1.1 200 OK\nContent-Type: text/plain;charset=UTF-8\nContent-Length: 12\n\nHello world!<h1>HELLO</h1>";
+						CNOUT(*request)
 						Cgi cgi_test(*request);
+						
 						cgi_test.manage_response();
 						std::string hello = cgi_test.get_header();
 						// COUT("\n yess= " << find_path(buffer))
