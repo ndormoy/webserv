@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:32:45 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/22 14:30:50 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/26 15:30:14 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ class Configuration {
 	EXCEPTION(InvalidServerName, "configuration_file : invalid server name")
 	EXCEPTION(InvalidErrorPage, "configuration_file : invalid error page")
 	EXCEPTION(InvalidLocation, "configuration_file : invalid location")
+	EXCEPTION(DuplicatePort, "configuration_file : duplicate port")
 
 	/**
 	 * @brief Exception thrown when a location block is invalid

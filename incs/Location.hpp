@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 16:03:56 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/19 15:27:35 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/26 14:19:23 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ class Location
 	 * @param l Location object
 	 * @return std::ostream&  - Output stream
 	 */
-	friend std::ostream & operator<< (std::ostream & o, const struct Location & l) {
+	friend std::ostream & operator<< (std::ostream & o, const Location & l) {
 		CNO("location of webserv", o);
 		CNO("debug_level = " << g_debug_prog_level, o);
 		CNO("methods = " << l._methods, o);

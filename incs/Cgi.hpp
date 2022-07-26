@@ -10,9 +10,9 @@ class Cgi
 	public:
 		Cgi();
 		Cgi(Request const & request) :
-			_request(request),
 			_file_size(0),
-			_header("HTTP/1.1 ")
+			_header("HTTP/1.1 "),
+			_request(request)
 			{};
 		Cgi(const Cgi & copy);
 

@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 07:53:38 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/08 16:48:51 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/26 15:27:25 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,29 @@ size_is_dir_ (const string_vector & v) {
   	return (stat (((v.size() == 1) ? v[0] : v[1]).c_str(), &buffer) == 0 && buffer.st_mode & S_IFDIR);
 }
 
-inline static bool
+static bool
 port_ (const string_vector & v) {
-	return (v[0].length() < 6 && v[0].find_first_not_of("0123456789") == std::string::npos && std::atoll((v[0].c_str())) < MAX_PORT_);
+	int ret;
+	struct sockaddr_in adr_inet;
+	
+	if ((ret = v[0].find(":")) == std::string::npos) {
+		return (v[0].length() < 6 
+				&& v[0].find_first_not_of("0123456789") == std::string::npos
+				&& std::atoll((v[0].c_str())) < MAX_PORT_);
+	}
+	std::string ip = v[0].substr(0, ret);
+	std::string port = v[0].substr(ret + 1, v[0].length());
+
+	if (ip.empty() || port.empty()) {
+		return (false);
+	}
+	adr_inet.sin_addr.s_addr =  inet_addr(ip.c_str());
+ 	if ( adr_inet.sin_addr.s_addr == INADDR_NONE  || std::count(ip.begin(), ip.end(), '.') != 3) {
+		return (false);
+	}
+	return (port.length() < 6 
+			&& port.find_first_not_of("0123456789") == std::string::npos
+			&& std::atoll((port.c_str())) < MAX_PORT_);
 }
 
 inline static bool

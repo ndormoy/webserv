@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Socket.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:13:50 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/20 16:30:24 by gmary            ###   ########.fr       */
+/*   Updated: 2022/07/26 14:50:57 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ class Socket {
 	public:
 		Socket (void) :
 			_fd(0),
+			_addrlen(sizeof(_address)),
 			_port(0),
 			_master_socket(0),
-			_sub_socket(0),
-			_addrlen(sizeof(_address))
+			_sub_socket(0)
 		{ 
 			FD_ZERO(&_readfds);
 			FD_ZERO(&_client);
@@ -88,7 +88,12 @@ class Socket {
 		
 	public:
 		friend std::ostream& operator<< (std::ostream& os, const Socket& ref) {
-			// TODO create stream operator	
+			os << "--> Socket" << std::endl;
+			os << "Fd : " << ref._fd << std::endl;
+			os << "Addrlen : " << ref._addrlen << std::endl;
+			os << "Port : " << ref._port << std::endl;
+			os << "Master socket : " << ref._master_socket << std::endl;
+			os << "Sub socket : " << ref._sub_socket << std::endl;
 			return (os);
 		}
 };
