@@ -61,6 +61,9 @@ class Server;
 // TODO TO DELETE
 # define PUT_VECTOR(x)					for (auto it = x.begin(); it != x.end(); it++) { std::cout << *it << " "; }  std::cout << std::endl;
 
+# define ITOA( x ) static_cast< std::ostringstream & >( \
+        ( std::ostringstream() << std::dec << x ) ).str()
+
 typedef std::vector<std::string> string_vector;
 
 /**
@@ -157,7 +160,7 @@ bool						is_header (const std::string & str);
  */
 inline bool					file_exist (const std::string & path) {
 	struct stat buffer;   
-	return (stat (path.c_str(), &buffer) == 0); 
+	return (stat (path.c_str(), &buffer) == 0 && buffer.st_mode & S_IFREG); 
 }
 
 /**

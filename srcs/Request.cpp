@@ -14,6 +14,7 @@
 
 int
 INLINE_NAMESPACE::Request::check_first_line (void) {
+	_lexer[1] = "." + _lexer[1];
 	if (_lexer.size() < 3) {
 		return (400);
 	} else if ((_lexer[0] != "GET" && _lexer[0] != "POST" && _lexer[0] != "DELETE")) {
@@ -51,7 +52,7 @@ INLINE_NAMESPACE::Request::request_parser (void) {
 			return (400);
 		}
 		while (it != _lexer.end() && !is_header(*it)) {
-			CNOUT("|" << *it << "|");
+			// CNOUT("|" << *it << "|");
 			if (_params[header_name] != "")
 				_params[header_name] += " ";
 			_params[header_name] += *it;

@@ -28,17 +28,31 @@ void	INLINE_NAMESPACE::Cgi::fill_status_code(void)
 
 void		INLINE_NAMESPACE::Cgi::fill_body(void)
 {
-	_header.append(read_file(_request.get_path()));
+	if (_request.get_error_value() == 200)
+		_header.append(read_file(_request.get_path()));
+	else
+		_header.append(read_file(_error_path));
 	_header.append("\r\n\r\n");
 }
 
 void		INLINE_NAMESPACE::Cgi::fill_header(void)
 {
 	_header.append("Content-Type: ");
-	_header.append(_request.get_content_type());
+	if (_request.get_content_type().empty())
+		_header.append("text/html;charset=UTF-8");
+	else
+		_header.append(_request.get_content_type());
 	_header.append("\r\n");
 	_header.append("Content-Length: ");
-	_header.append(_request.get_content_length());
+	if (_request.get_error_value() == 200)
+		_header.append(ITOA(calculate_size_file((char *)_request.get_path().c_str())));
+	else
+	{
+		_error_path = "./www/error_pages/";
+		_error_path.append(ITOA(_request.get_error_value()));
+		_error_path.append(".html");
+		_header.append(ITOA(calculate_size_file((char *)_error_path.c_str())));
+	}
 	_header.append("\r\n");
 	_header.append("\n\n");
 }

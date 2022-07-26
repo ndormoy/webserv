@@ -36,10 +36,11 @@ class Cgi
 	
 	private:
 
-		int			_file_size;
-		std::string	_header;
-		Request		_request;
+		int				_file_size;
+		std::string		_header;
+		Request			_request;
 		string_vector	_files;
+		std::string		_error_path;
 };
 
 _END_NAMESPACE_WEBSERV

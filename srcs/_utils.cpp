@@ -27,7 +27,7 @@ str_is_print (std::string str) {
 int
 calculate_size_file (char *filename)
 {
-	CNOUT(UMAG << filename << CRESET)
+	// CNOUT(UMAG << filename << CRESET)
 	std::streampos begin,end;
 	std::ifstream myfile (filename, std::ios::binary);
 	if (myfile.is_open())
