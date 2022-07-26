@@ -124,10 +124,10 @@ INLINE_NAMESPACE::Select::start (void) {
 						buffer[bytes] = '\0';
 						CNOUT(BBLU << buffer << CRESET)
 						Request *request = new Request(buffer);
-						Cgi cgi_test(*request);
+						Response response(*request);
 						
-						cgi_test.manage_response();
-						std::string hello = cgi_test.get_header();
+						response.manage_response();
+						std::string hello = response.get_header();
 						if (send(_client_socket[i], hello.c_str(), hello.length(), 0) == SYSCALL_ERR)
 						{
 							throw Select::fSendError();

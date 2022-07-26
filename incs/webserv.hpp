@@ -50,7 +50,7 @@ extern string_vector 					g_header;
 #include "Socket.hpp"
 #include "Select.hpp"
 #include "Request.hpp"
-#include "Cgi.hpp"
+#include "Response.hpp"
 
 extern INLINE_NAMESPACE::Configuration 	g_config;
 

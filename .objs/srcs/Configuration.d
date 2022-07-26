@@ -239,4 +239,4 @@
   /usr/include/x86_64-linux-gnu/bits/uio_lim.h incs/_utils.hpp \
   incs/_colors.hpp incs/Location.hpp incs/Server.hpp \
   incs/Configuration.hpp incs/Socket.hpp incs/Select.hpp \
-  incs/Request.hpp incs/Cgi.hpp
+  incs/Request.hpp incs/Response.hpp

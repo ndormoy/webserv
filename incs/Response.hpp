@@ -1,28 +1,28 @@
-#ifndef CGI_HPP
-# define CGI_HPP
+#ifndef RESPONSE_HPP
+# define RESPONSE_HPP
 
 # include "webserv.hpp"
 
 _BEGIN_NAMESPACE_WEBSERV
 
-class Cgi
+class Response
 {
 	public:
-		Cgi();
-		Cgi(Request const & request) :
+		Response();
+		Response(Request const & request) :
 			_file_size(0),
 			_header("HTTP/1.1 "),
 			_request(request)
 			{};
-		Cgi(const Cgi & copy) :
+		Response(const Response & copy) :
 			_file_size(copy._file_size),
 			_header(copy._header),
 			_request(copy._request),
 			_files(copy._files){};
 
-		~Cgi(){};
+		~Response(){};
 
-		Cgi & operator=(const Cgi & copy);
+		Response & operator=(const Response & copy);
 
 		void	fill_status_code(void);
 		void 	fill_header(void);

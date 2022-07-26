@@ -8,7 +8,7 @@ si le fichier est impossible a ouvrir on affiche une erreur et
 on renvoie -1*/
 
 
-void	INLINE_NAMESPACE::Cgi::fill_status_code(void)
+void	INLINE_NAMESPACE::Response::fill_status_code(void)
 {
 	_file_size = calculate_size_file((char *)_request.get_path().c_str());
 	if (_request.get_error_value() == 200)
@@ -26,7 +26,7 @@ void	INLINE_NAMESPACE::Cgi::fill_status_code(void)
 
 }
 
-void		INLINE_NAMESPACE::Cgi::fill_body(void)
+void		INLINE_NAMESPACE::Response::fill_body(void)
 {
 	if (_request.get_error_value() == 200)
 		_header.append(read_file(_request.get_path()));
@@ -35,7 +35,7 @@ void		INLINE_NAMESPACE::Cgi::fill_body(void)
 	_header.append("\r\n\r\n");
 }
 
-void		INLINE_NAMESPACE::Cgi::fill_header(void)
+void		INLINE_NAMESPACE::Response::fill_header(void)
 {
 	_header.append("Content-Type: ");
 	if (_request.get_content_type().empty())
@@ -57,9 +57,47 @@ void		INLINE_NAMESPACE::Cgi::fill_header(void)
 	_header.append("\n\n");
 }
 
-void	INLINE_NAMESPACE::Cgi::manage_response(void)
+static INLINE_NAMESPACE::Server *
+find_server (const INLINE_NAMESPACE::Request & request) {
+	std::string port;
+	int ret = request.get_params()["Host:"].find(":");
+
+	if (request.get_params()["Host:"].empty()) {
+		return (NULL);
+	}
+	port = request.get_params()["Host:"].substr(ret + 1, request.get_params()["Host:"].length());
+	for (std::vector<INLINE_NAMESPACE::Server*>::iterator it = SERVERS.begin(); it != SERVERS.end(); ++it) {
+		if ((*it)->get_port() == std::stoll(port))
+			return (*it);
+	}
+	return (NULL);
+} 
+
+void	INLINE_NAMESPACE::Response::manage_response(void)
 {
+	Server * server;
+	std::vector<Location *> location;
 	fill_status_code();
+
+	server = find_server(_request);
+	CNOUT(server);
+	location = server->get_locations();
+	for (std::vector<Location *>::iterator it = location.begin(); it != location.end(); it++)
+	{
+		if ((*it)->get_path() == _request.get_path())
+		{
+			if ((*it)->get_autoindex() == true)
+			{
+				auto_index();
+			}
+		}
+		
+	}
+	// for (FOREACH_SERVER)
+	// {
+	// 	(*it)->
+	// }
+	// if (_request.)
 	fill_header();
 	fill_body();
 }
@@ -68,7 +106,7 @@ void	INLINE_NAMESPACE::Cgi::manage_response(void)
 si on clique dessus), et d'ajouter dans une liste les nom des fichiers
 et dossiers presents*/
 
-void	INLINE_NAMESPACE::Cgi::create_index(void)
+void	INLINE_NAMESPACE::Response::create_index(void)
 {
 	DIR *dp;
 	struct dirent *ep;     
@@ -92,7 +130,7 @@ void	INLINE_NAMESPACE::Cgi::create_index(void)
 du repertoire courant, pour pouvoir les afficher en reponse
 c'est l'auto index*/
 
-std::string	INLINE_NAMESPACE::Cgi::auto_index(void)
+std::string	INLINE_NAMESPACE::Response::auto_index(void)
 {
 	std::string index;
 

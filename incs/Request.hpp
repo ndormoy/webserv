@@ -70,7 +70,7 @@ class Request
 
 	public:
 
-		param_type & 			get_params (void) 				{ return (_params); }
+		param_type & 			get_params (void) const 				{ return (_params); }
 		int						get_method (void) 				{ return (_method); }
 		std::string				get_path (void) 				{ return (_path); }
 		std::string				get_version (void) 				{ return (_version); }
@@ -80,7 +80,7 @@ class Request
 		string_vector& 			get_lexer (void) 				{ return (_lexer); }
 		std::string				get_content_type() { return _params.at("Content-Type:"); }
 		std::string				get_content_length() { return _params.at("Content-Length:"); }
-
+		std::string				get_autoindex() { return _params.at("Autoindex:"); }
 		void					clear (void) {
 			_params.clear();
 			_lexer.clear();

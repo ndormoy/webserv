@@ -1,4 +1,4 @@
-.objs/./srcs/Cgi.o: srcs/Cgi.cpp srcs/../incs/webserv.hpp \
+.objs/./srcs/Response.o: srcs/Response.cpp srcs/../incs/webserv.hpp \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/vector \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/stl_algobase.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/x86_64-linux-gnu/c++/9/bits/c++config.h \
@@ -239,6 +239,6 @@
   /usr/include/x86_64-linux-gnu/bits/uio_lim.h incs/_utils.hpp \
   incs/_colors.hpp incs/Location.hpp incs/webserv.hpp incs/Server.hpp \
   incs/Configuration.hpp incs/Socket.hpp incs/Select.hpp \
-  incs/Request.hpp incs/Cgi.hpp /usr/include/dirent.h \
+  incs/Request.hpp incs/Response.hpp /usr/include/dirent.h \
   /usr/include/x86_64-linux-gnu/bits/dirent.h \
   /usr/include/x86_64-linux-gnu/bits/dirent_ext.h
