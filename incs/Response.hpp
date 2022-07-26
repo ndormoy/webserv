@@ -26,6 +26,7 @@ class Response
 
 		void	fill_status_code(void);
 		void 	fill_header(void);
+		void 	fill_start_header(void);
 		void	fill_body(void);
 		void	manage_response(void);
 		std::string auto_index(void);

@@ -35,7 +35,7 @@ void		INLINE_NAMESPACE::Response::fill_body(void)
 	_header.append("\r\n\r\n");
 }
 
-void		INLINE_NAMESPACE::Response::fill_header(void)
+void 	INLINE_NAMESPACE::Response::fill_start_header(void)
 {
 	_header.append("Content-Type: ");
 	if (_request.get_content_type().empty())
@@ -44,6 +44,19 @@ void		INLINE_NAMESPACE::Response::fill_header(void)
 		_header.append(_request.get_content_type());
 	_header.append("\r\n");
 	_header.append("Content-Length: ");
+}
+
+void		INLINE_NAMESPACE::Response::fill_header(void)
+{
+	// _header.append("Content-Type: ");
+	// if (_request.get_content_type().empty())
+	// 	_header.append("text/html;charset=UTF-8");
+	// else
+	// 	_header.append(_request.get_content_type());
+	// _header.append("\r\n");
+	// _header.append("Content-Length: ");
+
+	fill_start_header();
 	if (_request.get_error_value() == 200)
 		_header.append(ITOA(calculate_size_file((char *)_request.get_path().c_str())));
 	else
@@ -75,29 +88,26 @@ find_server (const INLINE_NAMESPACE::Request & request) {
 
 void	INLINE_NAMESPACE::Response::manage_response(void)
 {
-	Server * server;
+	INLINE_NAMESPACE::Server * server = NULL;
 	std::vector<Location *> location;
 	fill_status_code();
 
+	COUT("pouet")
 	server = find_server(_request);
-	CNOUT(server);
-	location = server->get_locations();
+	CNOUT(BGRN << server << CRESET);
+	server->get_locations();
+	CNOUT(BGRN << server << CRESET);
+
+	location =  server->get_locations();
 	for (std::vector<Location *>::iterator it = location.begin(); it != location.end(); it++)
 	{
 		if ((*it)->get_path() == _request.get_path())
-		{
 			if ((*it)->get_autoindex() == true)
 			{
 				auto_index();
+				return ;
 			}
-		}
-		
 	}
-	// for (FOREACH_SERVER)
-	// {
-	// 	(*it)->
-	// }
-	// if (_request.)
 	fill_header();
 	fill_body();
 }
@@ -133,6 +143,9 @@ c'est l'auto index*/
 std::string	INLINE_NAMESPACE::Response::auto_index(void)
 {
 	std::string index;
+	int	 		len;
+
+	fill_start_header();
 
 	index += "<html>";
 	index += "<head><title>Indexito /</title></head>";
@@ -146,5 +159,10 @@ std::string	INLINE_NAMESPACE::Response::auto_index(void)
 		index += "</pre><hr></body>";
 	}
 	index += "</html>";
+	len = index.length();
+	_header.append(ITOA(len));
+	_header.append("\r\n");
+	_header.append("\n\n");
+	_header.append(index);
 	return index;
 }

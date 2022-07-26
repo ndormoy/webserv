@@ -107,7 +107,7 @@ class Server {
 		/**
 		 * @brief Get the server locations
 		 */
-		location_type 		get_locations (void) const 		{return (_locations);}
+		location_type 	&	get_locations (void) const 		{return (_locations);}
 
 		/**
 		 * @brief Get the server default setting
