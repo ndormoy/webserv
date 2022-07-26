@@ -1,6 +1,4 @@
-.objs/./srcs/check_file.o: \
-  /usr/lib/llvm-10/lib/clang/10.0.0/share/asan_blacklist.txt \
-  srcs/check_file.cpp srcs/../incs/webserv.hpp \
+.objs/./srcs/check_file.o: srcs/check_file.cpp srcs/../incs/webserv.hpp \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/vector \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/bits/stl_algobase.h \
   /usr/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/x86_64-linux-gnu/c++/9/bits/c++config.h \

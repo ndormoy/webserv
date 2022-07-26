@@ -34,10 +34,10 @@ class Socket {
 	public:
 		Socket (void) :
 			_fd(0),
+			_addrlen(sizeof(_address)),
 			_port(0),
 			_master_socket(0),
-			_sub_socket(0),
-			_addrlen(sizeof(_address))
+			_sub_socket(0)
 		{ 
 			FD_ZERO(&_readfds);
 			FD_ZERO(&_client);
@@ -88,7 +88,8 @@ class Socket {
 		
 	public:
 		friend std::ostream& operator<< (std::ostream& os, const Socket& ref) {
-			// TODO create stream operator	
+			// TODO create stream operator
+			(void)ref;
 			return (os);
 		}
 };

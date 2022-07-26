@@ -125,10 +125,14 @@ INLINE_NAMESPACE::Select::start (void) {
 						buffer[bytes] = '\0';
 						CNOUT(BBLU << buffer << CRESET)
 						Request *request = new Request(buffer);
+
 						// CNOUT(*request);
 						//send et il y aura du parsing ici
 						// std::string hello = "HTTP/1.1 200 OK\nContent-Type: text/html;charset=UTF-8\nContent-Length: 1800\n\n";
-						std::string hello = "HTTP/1.1 200 OK\nContent-Type: text/plain;charset=UTF-8\nContent-Length: 12\n\nHello world!<h1>HELLO</h1>";
+						// std::string hello = "HTTP/1.1 200 OK\nContent-Type: text/plain;charset=UTF-8\nContent-Length: 12\n\nHello world!<h1>HELLO</h1>";
+						Cgi cgi_test(*request);
+						cgi_test.manage_response();
+						std::string hello = cgi_test.get_header();
 						// COUT("\n yess= " << find_path(buffer))
 						hello.append(read_open(find_path(buffer)));
 						// COUT(BRED << hello << CRESET)

@@ -62,7 +62,7 @@ void	INLINE_NAMESPACE::Cgi::create_index(void)
 	dp = opendir (_request.get_path().c_str());
 	if (dp != NULL)
 	{
-		while (ep = readdir (dp))
+		while ((ep = readdir (dp)))
 		{
 			if (ep->d_type == DT_DIR || ep->d_type == DT_LNK
 				|| ep->d_type == DT_REG || ep->d_type == DT_UNKNOWN)
@@ -94,5 +94,5 @@ std::string	INLINE_NAMESPACE::Cgi::auto_index(void)
 		index += "</pre><hr></body>";
 	}
 	index += "</html>";
-	
+	return index;
 }
