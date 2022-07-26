@@ -157,7 +157,7 @@ bool						is_header (const std::string & str);
  */
 inline bool					file_exist (const std::string & path) {
 	struct stat buffer;   
-	return (stat (path.c_str(), &buffer) == 0); 
+	return (stat (path.c_str() + 1, &buffer) == 0); 
 }
 
 /**

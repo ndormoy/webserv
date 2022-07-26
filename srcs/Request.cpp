@@ -14,6 +14,7 @@
 
 int
 INLINE_NAMESPACE::Request::check_first_line (void) {
+	CNOUT(_lexer[1]);
 	if (_lexer.size() < 3) {
 		return (400);
 	} else if ((_lexer[0] != "GET" && _lexer[0] != "POST" && _lexer[0] != "DELETE")) {
