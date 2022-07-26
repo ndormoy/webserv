@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _utils.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 15:33:04 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/25 15:59:15 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/26 09:23:45 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ calculate_size_file (char *filename)
 	return (end - begin);
 }
 
+//BUG surement a tej pb merge 
 bool
 is_header (const std::string & str) {
 
@@ -54,4 +55,20 @@ is_header (const std::string & str) {
 			return (true);
 	}
 	return (false);
+}
+
+std::string	read_file(std::string path)
+{
+	std::string content = "";
+	std::ifstream file(path.c_str());
+	if (file.is_open())
+	{
+		std::string line;
+		while (getline(file, line))
+			content += line + "\n";
+		file.close();
+	}
+	else
+		content = "Problem reading file";
+	return content;
 }

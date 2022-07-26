@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _utils.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:33:58 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/25 15:14:23 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/26 09:26:39 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,5 +159,14 @@ inline bool					file_exist (const std::string & path) {
 	struct stat buffer;   
 	return (stat (path.c_str(), &buffer) == 0); 
 }
+
+/**
+ * @brief Return a string with the content of a file
+ * 
+ * @param path
+ * @return string content of the file
+ */
+
+std::string	read_file(std::string path);
 
 #endif /* _UTILS_HPP */

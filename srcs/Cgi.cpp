@@ -1,13 +1,98 @@
 #include "../incs/webserv.hpp"
 #include <iostream>
 #include <fstream>
+#include <dirent.h>
 
-void	Cgi::find_status_code(void)
+/*Cette fonction calcule la taille du texte dans un fichier
+si le fichier est impossible a ouvrir on affiche une erreur et 
+on renvoie -1*/
+
+
+void	INLINE_NAMESPACE::Cgi::fill_status_code(void)
 {
 	_file_size = calculate_size_file((char *)_request.get_path().c_str());
-	if (_file_size == -1)
-		_status_code = "404 Not Found";
-	else
-		_status_code = "200 OK";
+	if (_request.get_error_value() == 200)
+		_header.append("200 OK\r\n");
+	else if (_request.get_error_value() == 400)
+		_header.append("400 Bad Request\r\n");
+	else if (_request.get_error_value() == 403)
+		_header.append("403 Forbidden\r\n");
+	else if (_request.get_error_value() == 404)
+		_header.append("404 Not Found\r\n");
+	else if (_request.get_error_value() == 500)
+		_header.append("500 Internal Server Error\r\n");
+	else if (_request.get_error_value() == 505)
+		_header.append("505 HTTP Version Not Supported\r\n");
 
+}
+
+void		INLINE_NAMESPACE::Cgi::fill_body(void)
+{
+	_header.append(read_file(_request.get_path()));
+	_header.append("\r\n\r\n");
+}
+
+void		INLINE_NAMESPACE::Cgi::fill_header(void)
+{
+	_header.append("Content-Type: ");
+	_header.append(_request.get_content_type());
+	_header.append("\r\n");
+	_header.append("Content-Length: ");
+	_header.append(_request.get_content_length());
+	_header.append("\r\n");
+	_header.append("\n\n");
+}
+
+void	INLINE_NAMESPACE::Cgi::manage_response(void)
+{
+	fill_status_code();
+	fill_header();
+	fill_body();
+}
+
+/*Cette fonction permet de regarder dans le repertoire courant (Et ceux d'apres
+si on clique dessus), et d'ajouter dans une liste les nom des fichiers
+et dossiers presents*/
+
+void	INLINE_NAMESPACE::Cgi::create_index(void)
+{
+	DIR *dp;
+	struct dirent *ep;     
+
+	dp = opendir (_request.get_path().c_str());
+	if (dp != NULL)
+	{
+		while (ep = readdir (dp))
+		{
+			if (ep->d_type == DT_DIR || ep->d_type == DT_LNK
+				|| ep->d_type == DT_REG || ep->d_type == DT_UNKNOWN)
+				_files.push_back(ep->d_name);
+		}
+		(void) closedir (dp);
+	}
+	else
+		std::cerr << "Couldn't open the directory" << std::endl;
+}
+
+/*Permet de mettre dans une string en html les fichiers/dossier
+du repertoire courant, pour pouvoir les afficher en reponse
+c'est l'auto index*/
+
+std::string	INLINE_NAMESPACE::Cgi::auto_index(void)
+{
+	std::string index;
+
+	index += "<html>";
+	index += "<head><title>Indexito /</title></head>";
+	index += "<body bgcolor=\"green\">";
+	index += "<h1>Index of </h1><hr><pre><a href=\"../\">../</a>";
+	for (string_vector::iterator it = _files.begin(); it != _files.end(); ++it)
+	{
+		index += "<a href=\"";
+		index += *it;
+		index += "\">" "</a>";
+		index += "</pre><hr></body>";
+	}
+	index += "</html>";
+	
 }

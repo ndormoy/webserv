@@ -20,6 +20,7 @@ class Request
 		std::string _body;
 		string_vector& _lexer;
 
+
 	public:
 		Request (void) :
 			_method(0),
@@ -77,6 +78,8 @@ class Request
 		std::string 			get_body (void) 				{ return (_body); }
 		int						get_error_value (void) 			{ return (_error_value); }
 		string_vector& 			get_lexer (void) 				{ return (_lexer); }
+		std::string				get_content_type() { return _params.at("Content-Type"); }
+		std::string				get_content_length() { return _params.at("Content-Length"); }
 
 		void					clear (void) {
 			_params.clear();
