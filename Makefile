@@ -4,7 +4,7 @@ SRCS =		${shell find ./srcs -name "*.cpp"}
 
 CC =		clang++
 CPPFLAGS =	-Ofast
-CPPFLAGS = 	-MD  -std=c++98 #-Wall -Wextra -Werror 
+CPPFLAGS = 	-MD  #-std=c++98 #-Wall -Wextra -Werror 
 CPPFLAGS += -g3  -fsanitize=address 
 OBJS = 		$(addprefix ${OBJDIR}/,${SRCS:.cpp=.o})
 DEP =		$(addprefix ${OBJDIR}/,${SRC:.cpp=.d})

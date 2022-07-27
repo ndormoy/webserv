@@ -31,7 +31,8 @@ class Request
 			_body("")
 		{
 			FOREACH_HEADER {
-				_params[*it] = "";
+				_params[*it] = " ";
+				CNOUT(*it)
 			}
 			_params["Accept-Language:"] = "en";
 			_params["Content-Disposition:"] = "attachment";
