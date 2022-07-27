@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 13:18:15 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/08 12:08:22 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/27 10:53:11 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ INLINE_NAMESPACE::Location::_set_return (string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
 
 	if (CHECKER(v, CHECK_SIZE_TWO | CHECK_IS_DIR | CHECK_ERROR_CODE)) {
-		_return.push_back(std::make_pair(std::stoi(v[0]), v[1]));
+		_return.push_back(std::make_pair(std::atoi(v[0].c_str()), v[1]));
 	} else {
 		throw Configuration::InvalidReturn();
 	}

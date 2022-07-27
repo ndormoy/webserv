@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:38:48 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/25 12:10:28 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/27 10:52:45 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ INLINE_NAMESPACE::Configuration::lexer (std::string conf_file) {
 	std::ifstream				ifs;
 	string_vector 				v;
 
-	ifs.open(conf_file);
+	ifs.open(conf_file.c_str());
 	if (ifs.fail()) {
 		throw Configuration::FileCannotBeOpened();
 	}

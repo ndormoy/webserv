@@ -18,7 +18,6 @@ class Request
 		bool		_chunked;
 		int			_error_value;
 		std::string _body;
-		string_vector& _lexer;
 
 
 	public:
@@ -29,8 +28,7 @@ class Request
 			_version(""),
 			_chunked(false),
 			_error_value(0),
-			_body(""),
-			_lexer(*new string_vector())
+			_body("")
 		{
 			FOREACH_HEADER {
 				_params[*it] = "";
@@ -42,9 +40,7 @@ class Request
 
 		virtual ~Request (void) {
 			_params.clear();
-			_lexer.clear();
 			delete &_params;
-			delete &_lexer;
 		}
 
 		Request (const Request & ref) :
@@ -54,8 +50,7 @@ class Request
 			_version(ref._version),
 			_chunked(ref._chunked),
 			_error_value(ref._error_value),
-			_body(""),
-			_lexer(ref._lexer)
+			_body("")
 		{ }
 
 		Request (const std::string str) :
@@ -65,11 +60,10 @@ class Request
 			_version(""),
 			_chunked(false),
 			_error_value(0),
-			_body(""),
-			_lexer(*new string_vector())
+			_body("")
 		{
 			_body = str;
-			_lexer = vector_spliter(str, " ", "\r\n\0", false);
+			// _lexer = vector_spliter(str, "\r", "", false);
 			_chunked = (str.find("\r\n\r\n") == std::string::npos);
 			_error_value = request_parser();
 			DEBUG_5(CNOUT(*this));
@@ -84,13 +78,11 @@ class Request
 		bool					get_chunked (void) 				{ return (_chunked); }
 		std::string 			get_body (void) 				{ return (_body); }
 		int						get_error_value (void) 			{ return (_error_value); }
-		string_vector& 			get_lexer (void) 				{ return (_lexer); }
 		std::string				get_content_type() { return _params.at("Content-Type:"); }
 		std::string				get_content_length() { return _params.at("Content-Length:"); }
 		std::string				get_autoindex() { return _params.at("Autoindex:"); }
 		void					clear (void) {
 			_params.clear();
-			_lexer.clear();
 			_method = 0;
 			_path = "";
 			_version = "";
@@ -115,7 +107,6 @@ class Request
 			_params = ref._params;
 			_body = ref._body;
 			_error_value = ref._error_value;
-			_lexer = ref._lexer;
 			return *this;
 		}
 
@@ -130,10 +121,7 @@ class Request
 			for (std::map<std::string, std::string>::const_iterator it = ref._params.begin(); it != ref._params.end(); ++it) {
 				o << "  " << it->first << " " << it->second << std::endl;
 			}
-			o << "Lexer: " << std::endl;
-			for (string_vector::const_iterator it = ref._lexer.begin(); it != ref._lexer.end(); ++it) {
-				o << "  [" << *it << "]";
-			}
+
 			return o;
 		}
 	

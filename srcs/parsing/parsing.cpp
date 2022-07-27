@@ -6,16 +6,16 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:09:26 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/23 17:48:28 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/27 10:56:55 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "webserv.hpp"
 
 template<typename T>
-static typename std::vector<T>::const_iterator
+static typename std::vector<T>::iterator
 find_ (std::vector<T> & v, T const & value) {
-	for (typename std::vector<T>::const_iterator it = v.begin(); it != v.end(); it++) {
+	for (typename std::vector<T>::iterator it = v.begin(); it != v.end(); it++) {
 		if (*it == value) {
 			return it;
 		}
@@ -25,7 +25,7 @@ find_ (std::vector<T> & v, T const & value) {
 
 static void
 remove_comment_ (string_vector & v) {
-	string_vector::const_iterator it = v.begin();
+	string_vector::iterator it = v.begin();
 	std::string replace;
 
 	for (; it != v.end(); it++) {
@@ -42,7 +42,7 @@ remove_comment_ (string_vector & v) {
 
 static void
 separe_special_char_ (string_vector & v, const char * delims) {
-	string_vector::const_iterator it = v.begin();
+	string_vector::iterator it = v.begin();
 	// std::string	delims[] = {"{", "}", ";", ""};
 	std::string save_s;
 	std::string c;

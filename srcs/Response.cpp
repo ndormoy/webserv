@@ -75,12 +75,15 @@ find_server (const INLINE_NAMESPACE::Request & request) {
 	std::string port;
 	int ret = request.get_params()["Host:"].find(":");
 
+	CNOUT(request)
+	CNOUT("|" << request.get_params()["Host:"] << "|")
 	if (request.get_params()["Host:"].empty()) {
 		return (NULL);
 	}
 	port = request.get_params()["Host:"].substr(ret + 1, request.get_params()["Host:"].length());
 	for (std::vector<INLINE_NAMESPACE::Server*>::iterator it = SERVERS.begin(); it != SERVERS.end(); ++it) {
-		if ((*it)->get_port() == std::stoll(port))
+		CNOUT("port: " << (*it)->get_port() << " port 2: " << port);
+		if ((*it)->get_port() == std::atoll(port.c_str()))
 			return (*it);
 	}
 	return (NULL);

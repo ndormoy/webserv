@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _utils.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 15:33:04 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/26 09:23:45 by gmary            ###   ########.fr       */
+/*   Updated: 2022/07/27 10:39:02 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ bool
 is_header (const std::string & str) {
 
 	FOREACH_HEADER {
-		// CNOUT("HEEEEEEEEEEEEEEERE" << *it);
 		if (str == *it)
 			return (true);
 	}

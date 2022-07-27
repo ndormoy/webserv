@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 17:09:05 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/26 15:34:47 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/27 10:58:00 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ INLINE_NAMESPACE::Server::_set_port (string_vector::const_iterator & it) {
 
 	if ((v.size() == 1 || v.size() == 2) && CHECKER(v, CHECK_PORT | CHECK_DEFAULT)) {
 		if ((ret = v[0].find(":")) != std::string::npos) {
-			_ip = std::stoll(v[0].substr(0, ret));
-			port = std::stoll(v[0].substr(ret + 1, v[0].length()));	
+			_ip = std::atoll(v[0].substr(0, ret).c_str());
+			port = std::atoll(v[0].substr(ret + 1, v[0].length()).c_str());	
 		} else {
-			port = std::stoll(v[0]);
+			port = std::atoll(v[0].c_str());
 		}
 		_default = (v.size() == 2 ? true : false);
 		for (FOREACH_SERVER) {
