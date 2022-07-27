@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 17:09:05 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/08 16:47:37 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/26 15:34:47 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,23 @@
 void
 INLINE_NAMESPACE::Server::_set_port (string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
+	int port;
+	int ret;
 
 	if ((v.size() == 1 || v.size() == 2) && CHECKER(v, CHECK_PORT | CHECK_DEFAULT)) {
-		_port = std::stoll(v[0]);
+		if ((ret = v[0].find(":")) != std::string::npos) {
+			_ip = std::stoll(v[0].substr(0, ret));
+			port = std::stoll(v[0].substr(ret + 1, v[0].length()));	
+		} else {
+			port = std::stoll(v[0]);
+		}
 		_default = (v.size() == 2 ? true : false);
+		for (FOREACH_SERVER) {
+			if (port == (*it)->get_port()) {
+				throw Configuration::DuplicatePort();
+			}
+		}
+		_port = port;
 	} else {
 		throw Configuration::InvalidPort();
 	}

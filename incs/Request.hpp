@@ -59,7 +59,14 @@ class Request
 		{ }
 
 		Request (const std::string str) :
-			Request()
+			_params(*new param_type()),
+			_method(0),
+			_path(""),
+			_version(""),
+			_chunked(false),
+			_error_value(0),
+			_body(""),
+			_lexer(*new string_vector())
 		{
 			_body = str;
 			_lexer = vector_spliter(str, " ", "\r\n\0", false);

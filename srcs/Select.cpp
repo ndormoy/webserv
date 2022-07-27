@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/23 17:17:55 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/26 14:52:58 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ INLINE_NAMESPACE::Select::setup (void) {
 void
 INLINE_NAMESPACE::Select::start (void) {
 	fd_set r_readfds;
-	int		accept_fd = 0;
 	while (true) {
 		r_readfds = _readfds; //je crois vraiment pas necessaire au final
 		FD_ZERO(&_readfds);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:55:35 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/19 15:27:46 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/27 09:32:21 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ class Server {
 
 	private:
 		int 										_port;
+		std::string 								_ip;
 		size_t 										_max_body_size;
 		bool										_default;
 		std::string									_server_name;
@@ -39,6 +40,7 @@ class Server {
 		 */
 		Server (void) :
 			_port(0),
+			_ip(""),
 			_max_body_size(0),
 			_default(false),
 			_server_name(""),
@@ -74,6 +76,7 @@ class Server {
 			if (this == &ref) {return (*this);}
 			
 			_port = ref._port;
+			_ip = ref._ip;
 			_max_body_size = ref._max_body_size;
 			_server_name = ref._server_name;
 			_default = ref._default;
@@ -88,6 +91,11 @@ class Server {
 		 * @brief Get the server port
 		 */
 		int					get_port (void) const 			{return (_port);}
+
+		/**
+		 * @brief Get the server ip
+		 */
+		std::string			get_ip (void) const 			{return (_ip);}
 
 		/**
 		 * @brief Get the server max body size
@@ -107,7 +115,7 @@ class Server {
 		/**
 		 * @brief Get the server locations
 		 */
-		location_type 	&	get_locations (void) const 		{return (_locations);}
+		location_type 		get_locations (void) const 		{return (_locations);}
 
 		/**
 		 * @brief Get the server default setting

@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:11:19 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/22 13:48:52 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/26 13:12:16 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,18 @@
 #include <iosfwd>
 #include <cctype>
 #include <sys/stat.h>
+#include <arpa/inet.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <string.h>
+#include <sys/types.h>
 // #include <bits/stdc++.h>
 
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/un.h>
 #include <netinet/in.h>
 #include <sys/time.h>
 

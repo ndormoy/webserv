@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 16:28:05 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/25 15:59:55 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/26 13:11:09 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ string_vector						g_header = {"Accept-Charsets:",
 											    "Accept-Encoding:",
 											    "From:"
 												};
-
-
 
 int
 main (int ac, char **av)
