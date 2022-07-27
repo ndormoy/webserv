@@ -1,4 +1,4 @@
-.objs/./srcs/check_file.o: srcs/check_file.cpp srcs/../incs/webserv.hpp \
+.objs/./srcs/Request.o: srcs/Request.cpp incs/webserv.hpp \
   /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/vector \
   /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/__config \
   /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1/iosfwd \
@@ -252,6 +252,6 @@
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/sys/fcntl.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/sys/_types/_o_sync.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/usr/include/sys/_types/_o_dsync.h \
-  incs/_utils.hpp incs/_init.hpp incs/webserv.hpp incs/_colors.hpp \
-  incs/Location.hpp incs/Server.hpp incs/Configuration.hpp \
-  incs/Socket.hpp incs/Select.hpp incs/Request.hpp incs/Response.hpp
+  incs/_utils.hpp incs/_init.hpp incs/_colors.hpp incs/Location.hpp \
+  incs/Server.hpp incs/Configuration.hpp incs/Socket.hpp incs/Select.hpp \
+  incs/Request.hpp incs/Response.hpp

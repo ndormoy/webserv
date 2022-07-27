@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:33:58 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/26 09:26:39 by gmary            ###   ########.fr       */
+/*   Updated: 2022/07/27 10:20:31 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ class Server;
 # define CNERR(x)						std::cerr << x << std::endl;
 
 # define CONFIG_STRING_MAX_SIZE			100
-# define MAX_CLIENT						999 //BUG which number should we put here, dont put to much if u dont want to fail select()
+# define MAX_CLIENT						400 //BUG which number should we put here, dont put to much if u dont want to fail select()
 # define BUFFER_SIZE					1025 // BUG undifined value
 
 # define EXCEPTION(x, y)				public: class x : public std::exception {const char * what (void) const throw() {return (y);}};

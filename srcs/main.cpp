@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 16:28:05 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/26 13:11:09 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/27 10:14:12 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,7 @@
 
 int 								g_debug_prog_level = -1;
 INLINE_NAMESPACE::Configuration		g_config;
-string_vector						g_header = {"Accept-Charsets:",
-											    "Accept-Language:",
-											    "Auth-Scheme:",
-											    "Authorization:",
-											    "Content-Language:",
-											    "Content-Length:",
-											    "Content-Location:",
-											    "Content-Type:",
-											    "Date:",
-											    "Host:",
-											    "Last-Modified:",
-											    "Location:",
-											    "Referer:",
-											    "Retry-After:",
-											    "Transfer-Encoding:",
-											    "User-Agent:",
-											    "Connection:",
-											    "Accept:",
-											    "Cookie:",
-											    "Accept-Encoding:",
-											    "From:"
-												};
+string_vector						g_header = INLINE_NAMESPACE::init_header();
 
 int
 main (int ac, char **av)
