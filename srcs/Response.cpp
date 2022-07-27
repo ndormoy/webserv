@@ -104,7 +104,6 @@ void	INLINE_NAMESPACE::Response::manage_response(void)
 	std::vector<Location *> location;
 	fill_status_code();
 
-	server = find_server(_request);
 	// CNOUT(BGRN << *server << CRESET)
 	//if (server == NULL)
 	//{
@@ -113,18 +112,26 @@ void	INLINE_NAMESPACE::Response::manage_response(void)
 	//}
 	if (_request.get_error_value() != 200)
 	{
-		server->get_locations();
-		location =  server->get_locations();
-
-		for (std::vector<Location *>::iterator it = location.begin(); it != location.end(); it++)
+		CNOUT(GRN << "ERROR" << CRESET)
+		server = find_server(_request);
+		if (server != NULL)
 		{
-			if ((*it)->get_path() == _request.get_path())
-				if ((*it)->get_autoindex() == true)
+			CNOUT(GRN << "server is not null" << CRESET)
+			location =  server->get_locations();
+			if (location.empty() == false)
+			{
+				CNOUT(GRN << "location not empty" << CRESET)
+				for (std::vector<Location *>::iterator it = location.begin(); it != location.end(); it++)
 				{
-					CNOUT(BGRN << "autoindex" << CRESET)
-					auto_index();
-					return ;
+					if ((*it)->get_path() == _request.get_path())
+						if ((*it)->get_autoindex() == true)
+						{
+							CNOUT(BGRN << "autoindex" << CRESET)
+							auto_index();
+							return ;
+						}
 				}
+			}
 		}
 	}
 	CNOUT(BRED << "AFTER" << CRESET)
