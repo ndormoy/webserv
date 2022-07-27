@@ -70,91 +70,45 @@ void		INLINE_NAMESPACE::Response::fill_header(void)
 	_header.append("\n\n");
 }
 
-static int
-find_server (const INLINE_NAMESPACE::Request & request) {
-	int i = -1;
-	std::string port;
-	int ret = request.get_params()["Host:"].find(":");
-
-	if (request.get_params()["Host:"].empty()) {
-		return (-1);
-	}
-	port = request.get_params()["Host:"].substr(ret + 1, request.get_params()["Host:"].length());
-	for (std::vector<INLINE_NAMESPACE::Server*>::iterator it = SERVERS.begin(); it != SERVERS.end(); ++it) {
-		if ((*it)->get_port() == std::stoll(port))
-		{
-			++i;
-			CNOUT("STARFFFF " << i << " port: " << (*it)->get_port())
-			return (i);
-		}
-	}
-	return (-1);
-} 
-
-void	INLINE_NAMESPACE::Response::manage_response(void)
-{
-	int	index = 0;
-	//INLINE_NAMESPACE::Server * server = NULL;
-	std::vector<Location *> location;
-	fill_status_code();
-
-
-	COUT("pouet")
-	
-	index = find_server(_request);
-	//server = SERVERS;
-	CNOUT(BGRN << SERVERS[index] << CRESET)
-	//SERVERS->get_locations();
-	CNOUT(BGRN << SERVERS[index] << CRESET)
-	location =  SERVERS[index]->get_locations();
-	//CNOUT(location)
-	CNOUT("WHERE DA FUCK")
-	for (std::vector<Location *>::iterator it = location.begin(); it != location.end(); it++)
-	{
-		if ((*it)->get_path() == _request.get_path())
-			if ((*it)->get_autoindex() == true)
-			{
-				auto_index();
-				return ;
-			}
-	}
-	fill_header();
-	fill_body();
-}
-
-
-// static INLINE_NAMESPACE::Server *
+// static int
 // find_server (const INLINE_NAMESPACE::Request & request) {
+// 	int i = -1;
 // 	std::string port;
 // 	int ret = request.get_params()["Host:"].find(":");
 
 // 	if (request.get_params()["Host:"].empty()) {
-// 		return (NULL);
+// 		return (-1);
 // 	}
 // 	port = request.get_params()["Host:"].substr(ret + 1, request.get_params()["Host:"].length());
 // 	for (std::vector<INLINE_NAMESPACE::Server*>::iterator it = SERVERS.begin(); it != SERVERS.end(); ++it) {
 // 		if ((*it)->get_port() == std::stoll(port))
 // 		{
-// 			CNOUT("STARFFFF" << *it << " port: " << (*it)->get_port())
-// 			return (*it);
+// 			++i;
+// 			CNOUT("STARFFFF " << i << " port: " << (*it)->get_port())
+// 			return (i);
 // 		}
 // 	}
-// 	return (NULL);
+// 	return (-1);
 // } 
 
 // void	INLINE_NAMESPACE::Response::manage_response(void)
 // {
-// 	INLINE_NAMESPACE::Server * server = NULL;
+// 	int	index = 0;
+// 	//INLINE_NAMESPACE::Server * server = NULL;
 // 	std::vector<Location *> location;
 // 	fill_status_code();
 
+
 // 	COUT("pouet")
-// 	server = find_server(_request);
-// 	CNOUT(BGRN << server[0] << CRESET)
-// 	server->get_locations();
-// 	CNOUT(BGRN << server << CRESET)
-// 	location =  server->get_locations();
-// 	CNOUT(location[0])
+	
+// 	index = find_server(_request);
+// 	//server = SERVERS;
+// 	CNOUT(BGRN << SERVERS[0] << CRESET)
+// 	//SERVERS->get_locations();
+// 	CNOUT(BGRN << SERVERS[index] << CRESET)
+// 	location =  SERVERS[index]->get_locations();
+// 	//CNOUT(location)
+// 	CNOUT("WHERE DA FUCK")
 // 	for (std::vector<Location *>::iterator it = location.begin(); it != location.end(); it++)
 // 	{
 // 		if ((*it)->get_path() == _request.get_path())
@@ -167,6 +121,52 @@ void	INLINE_NAMESPACE::Response::manage_response(void)
 // 	fill_header();
 // 	fill_body();
 // }
+
+
+static INLINE_NAMESPACE::Server *
+find_server (const INLINE_NAMESPACE::Request & request) {
+	std::string port;
+	int ret = request.get_params()["Host:"].find(":");
+
+	if (request.get_params()["Host:"].empty()) {
+		return (NULL);
+	}
+	port = request.get_params()["Host:"].substr(ret + 1, request.get_params()["Host:"].length());
+	for (std::vector<INLINE_NAMESPACE::Server*>::iterator it = SERVERS.begin(); it != SERVERS.end(); ++it) {
+		if ((*it)->get_port() == std::stoll(port))
+		{
+			CNOUT("STARFFFF" << *it << " port: " << (*it)->get_port())
+			return (*it);
+		}
+	}
+	return (NULL);
+} 
+
+void	INLINE_NAMESPACE::Response::manage_response(void)
+{
+	INLINE_NAMESPACE::Server * server = NULL;
+	std::vector<Location *> location;
+	fill_status_code();
+
+	COUT("pouet")
+	server = find_server(_request);
+	CNOUT(BGRN << server[0] << CRESET)
+	server->get_locations();
+	CNOUT(BGRN << server << CRESET)
+	location =  server[0].get_locations();
+	//CNOUT(location)
+	for (std::vector<Location *>::iterator it = location.begin(); it != location.end(); it++)
+	{
+		if ((*it)->get_path() == _request.get_path())
+			if ((*it)->get_autoindex() == true)
+			{
+				auto_index();
+				return ;
+			}
+	}
+	fill_header();
+	fill_body();
+}
 
 /*Cette fonction permet de regarder dans le repertoire courant (Et ceux d'apres
 si on clique dessus), et d'ajouter dans une liste les nom des fichiers
