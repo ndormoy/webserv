@@ -38,20 +38,18 @@ void		INLINE_NAMESPACE::Response::fill_body(void)
 void 	INLINE_NAMESPACE::Response::fill_start_header(void)
 {
 	_header.append("Content-Type: ");
-		CNOUT(BRED << "0A" << CRESET)
-		CNOUT(BRED << _request << CRESET)
-		CNOUT(BRED << _request.get_content_type() << CRESET)
-	if (_request.get_content_type().empty())
-	{
-		CNOUT(BRED << "0D" << CRESET)
+	// CNOUT(BRED << _request << CRESET)
+	// CNOUT(BRED << _request.get_content_type() << CRESET)
+	//TODO reactiver tout ce qui est grise dans cette fonction
+	//if (_request.get_content_type().empty())
+	//{
 		_header.append("text/html;charset=UTF-8");
-	}
-	else
-	{
-		CNOUT(BRED << "0B" << CRESET)
-		_header.append(_request.get_content_type());
-	}
-	CNOUT(BRED << "0C" << CRESET)
+	//}
+	//else
+	//{
+		//CNOUT(BRED << "0B" << CRESET)
+		//_header.append(_request.get_content_type());
+	//}
 	_header.append("\r\n");
 	_header.append("Content-Length: ");
 }
@@ -66,11 +64,9 @@ void		INLINE_NAMESPACE::Response::fill_header(void)
 	// _header.append("\r\n");
 	// _header.append("Content-Length: ");
 	fill_start_header();
-	CNOUT(BRED << "1" << CRESET)
 	if (_request.get_error_value() == 200)
 	{
 		_header.append(ITOA(calculate_size_file((char *)_request.get_path().c_str())));
-		CNOUT(BRED << "2" << CRESET)
 	}
 	else
 	{
@@ -79,63 +75,9 @@ void		INLINE_NAMESPACE::Response::fill_header(void)
 		_error_path.append(".html");
 		_header.append(ITOA(calculate_size_file((char *)_error_path.c_str())));
 	}
-	CNOUT(BRED << "3" << CRESET)
 	_header.append("\r\n");
 	_header.append("\n\n");
 }
-
-// static int
-// find_server (const INLINE_NAMESPACE::Request & request) {
-// 	int i = -1;
-// 	std::string port;
-// 	int ret = request.get_params()["Host:"].find(":");
-
-// 	if (request.get_params()["Host:"].empty()) {
-// 		return (-1);
-// 	}
-// 	port = request.get_params()["Host:"].substr(ret + 1, request.get_params()["Host:"].length());
-// 	for (std::vector<INLINE_NAMESPACE::Server*>::iterator it = SERVERS.begin(); it != SERVERS.end(); ++it) {
-// 		if ((*it)->get_port() == std::stoll(port))
-// 		{
-// 			++i;
-// 			CNOUT("STARFFFF " << i << " port: " << (*it)->get_port())
-// 			return (i);
-// 		}
-// 	}
-// 	return (-1);
-// } 
-
-// void	INLINE_NAMESPACE::Response::manage_response(void)
-// {
-// 	int	index = 0;
-// 	//INLINE_NAMESPACE::Server * server = NULL;
-// 	std::vector<Location *> location;
-// 	fill_status_code();
-
-
-// 	COUT("pouet")
-	
-// 	index = find_server(_request);
-// 	//server = SERVERS;
-// 	CNOUT(BGRN << SERVERS[0] << CRESET)
-// 	//SERVERS->get_locations();
-// 	CNOUT(BGRN << SERVERS[index] << CRESET)
-// 	location =  SERVERS[index]->get_locations();
-// 	//CNOUT(location)
-// 	CNOUT("WHERE DA FUCK")
-// 	for (std::vector<Location *>::iterator it = location.begin(); it != location.end(); it++)
-// 	{
-// 		if ((*it)->get_path() == _request.get_path())
-// 			if ((*it)->get_autoindex() == true)
-// 			{
-// 				auto_index();
-// 				return ;
-// 			}
-// 	}
-// 	fill_header();
-// 	fill_body();
-// }
-
 
 static INLINE_NAMESPACE::Server *
 find_server (const INLINE_NAMESPACE::Request & request) {
@@ -162,23 +104,30 @@ void	INLINE_NAMESPACE::Response::manage_response(void)
 	std::vector<Location *> location;
 	fill_status_code();
 
-	COUT("pouet")
 	server = find_server(_request);
-	CNOUT(BGRN << *server << CRESET)
-	server->get_locations();
-	CNOUT(BGRN << server << CRESET)
-	location =  server->get_locations();
-	//CNOUT(location)
-
-	for (std::vector<Location *>::iterator it = location.begin(); it != location.end(); it++)
+	// CNOUT(BGRN << *server << CRESET)
+	//if (server == NULL)
+	//{
+	//	CNOUT(BGRN << "\n server is null" << CRESET)
+	//	return ;
+	//}
+	if (_request.get_error_value() != 200)
 	{
-		if ((*it)->get_path() == _request.get_path())
-			if ((*it)->get_autoindex() == true)
-			{
-				auto_index();
-				return ;
-			}
+		server->get_locations();
+		location =  server->get_locations();
+
+		for (std::vector<Location *>::iterator it = location.begin(); it != location.end(); it++)
+		{
+			if ((*it)->get_path() == _request.get_path())
+				if ((*it)->get_autoindex() == true)
+				{
+					CNOUT(BGRN << "autoindex" << CRESET)
+					auto_index();
+					return ;
+				}
+		}
 	}
+	CNOUT(BRED << "AFTER" << CRESET)
 	fill_header();
 	fill_body();
 }
@@ -190,7 +139,7 @@ et dossiers presents*/
 void	INLINE_NAMESPACE::Response::create_index(void)
 {
 	DIR *dp;
-	struct dirent *ep;     
+	struct dirent *ep;
 
 	dp = opendir (_request.get_path().c_str());
 	if (dp != NULL)
