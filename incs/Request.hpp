@@ -11,14 +11,14 @@ class Request
 		typedef std::map<std::string, std::string> param_type;
 
 	private:
-		param_type&	_params;
-		int	_method;
-		std::string _path;
-		std::string _version;
-		bool		_chunked;
-		int			_error_value;
-		std::string _body;
-		string_vector& _lexer;
+		param_type&		_params;
+		int				_method;
+		std::string		_path;
+		std::string		_version;
+		bool			_chunked;
+		int				_error_value;
+		std::string		_body;
+		string_vector&	_lexer;
 
 
 	public:
@@ -89,6 +89,7 @@ class Request
 		std::string				get_content_type() { return _params.at("Content-Type:"); }
 		std::string				get_content_length() { return _params.at("Content-Length:"); }
 		std::string				get_autoindex() { return _params.at("Autoindex:"); }
+		std::string				get_transfert_encoding() { return _params.at("Transfer-Encoding:"); }
 		void					clear (void) {
 			_params.clear();
 			_lexer.clear();

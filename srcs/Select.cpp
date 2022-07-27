@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Select.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/26 14:52:58 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/27 16:49:45 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,14 +124,45 @@ INLINE_NAMESPACE::Select::start (void) {
 						CNOUT(BBLU << buffer << CRESET)
 						Request *request = new Request(buffer);
 						Response response(*request);
-						
-						response.manage_response();
-						std::string hello = response.get_header();
-						if (send(_client_socket[i], hello.c_str(), hello.length(), 0) == SYSCALL_ERR)
-						{
-							throw Select::fSendError();
-						}
-					}
+						CNOUT(BMAG << *request << CRESET)
+					//if (request->get_transfert_encoding() == "chunked")
+					//{
+					//	while(request->get_transfert_encoding() == "chunked")
+					//	{
+					//		for (int i = 0; i < 1024 ; i++)
+					//			buffer[i] = '\0';
+					//		bytes = recv(_client_socket[i], buffer, 1024, 0);
+					//		if (bytes == SYSCALL_ERR)
+					//		{
+					//			throw Select::fRecvError();
+					//		}
+					//		else if (bytes == 0)
+					//		{
+					//			CNOUT("client disconnected = " << _client_socket[i])
+					//			FD_CLR(_client_socket[i], &_readfds);
+					//			if (_client_socket[i] > 0)
+					//			{
+					//				close(_client_socket[i]);
+					//			}
+					//			//it->set_client_socket(0, i);
+					//			_client_socket[i] = 0;
+					//		}
+					//		else
+					//		{
+					//			buffer[bytes] = '\0';
+					//			// CNOUT(BBLU << buffer << CRESET)
+					//			//response.add_chunk(buffer);
+					//		}
+					//	}
+					//	//response.set_chunked();
+					//}
+					//response.manage_response();
+					//response.set_message_send(response.get_header());
+					//if (send(_client_socket[i], response.get_message_send().c_str(), response.get_message_send().length(), 0) == SYSCALL_ERR)
+					//{
+					//	throw Select::fSendError();
+					//}
+					//
 				}
 			}
 		

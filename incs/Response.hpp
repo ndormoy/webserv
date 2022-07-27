@@ -33,7 +33,9 @@ class Response
 		void	create_index(void);
 	
 	public:
-		std::string get_header() { return _header ; }
+		std::string	get_header() { return _header ; }
+		std::string	get_message_send() { return _message_send ; }
+		void	set_message_send(std::string message) { _message_send = message; }
 	
 	private:
 
@@ -42,6 +44,7 @@ class Response
 		Request			_request;
 		string_vector	_files;
 		std::string		_error_path;
+		std::string		_message_send;
 };
 
 _END_NAMESPACE_WEBSERV
