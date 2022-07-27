@@ -38,10 +38,20 @@ void		INLINE_NAMESPACE::Response::fill_body(void)
 void 	INLINE_NAMESPACE::Response::fill_start_header(void)
 {
 	_header.append("Content-Type: ");
+		CNOUT(BRED << "0A" << CRESET)
+		CNOUT(BRED << _request << CRESET)
+		CNOUT(BRED << _request.get_content_type() << CRESET)
 	if (_request.get_content_type().empty())
+	{
+		CNOUT(BRED << "0D" << CRESET)
 		_header.append("text/html;charset=UTF-8");
+	}
 	else
+	{
+		CNOUT(BRED << "0B" << CRESET)
 		_header.append(_request.get_content_type());
+	}
+	CNOUT(BRED << "0C" << CRESET)
 	_header.append("\r\n");
 	_header.append("Content-Length: ");
 }
@@ -55,10 +65,13 @@ void		INLINE_NAMESPACE::Response::fill_header(void)
 	// 	_header.append(_request.get_content_type());
 	// _header.append("\r\n");
 	// _header.append("Content-Length: ");
-
 	fill_start_header();
+	CNOUT(BRED << "1" << CRESET)
 	if (_request.get_error_value() == 200)
+	{
 		_header.append(ITOA(calculate_size_file((char *)_request.get_path().c_str())));
+		CNOUT(BRED << "2" << CRESET)
+	}
 	else
 	{
 		_error_path = "./www/error_pages/";
@@ -66,6 +79,7 @@ void		INLINE_NAMESPACE::Response::fill_header(void)
 		_error_path.append(".html");
 		_header.append(ITOA(calculate_size_file((char *)_error_path.c_str())));
 	}
+	CNOUT(BRED << "3" << CRESET)
 	_header.append("\r\n");
 	_header.append("\n\n");
 }
@@ -150,11 +164,12 @@ void	INLINE_NAMESPACE::Response::manage_response(void)
 
 	COUT("pouet")
 	server = find_server(_request);
-	CNOUT(BGRN << server[0] << CRESET)
+	CNOUT(BGRN << *server << CRESET)
 	server->get_locations();
 	CNOUT(BGRN << server << CRESET)
-	location =  server[0].get_locations();
+	location =  server->get_locations();
 	//CNOUT(location)
+
 	for (std::vector<Location *>::iterator it = location.begin(); it != location.end(); it++)
 	{
 		if ((*it)->get_path() == _request.get_path())
