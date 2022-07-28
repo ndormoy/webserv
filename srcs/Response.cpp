@@ -43,7 +43,8 @@ void 	INLINE_NAMESPACE::Response::fill_start_header(void)
 	//TODO reactiver tout ce qui est grise dans cette fonction
 	//if (_request.get_content_type().empty())
 	//{
-		_header.append("text/html;charset=UTF-8");
+		 _header.append("text/html;charset=UTF-8");
+		//_header.append("image/jpeg");
 	//}
 	//else
 	//{
