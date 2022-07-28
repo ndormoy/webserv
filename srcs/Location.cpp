@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 13:18:15 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/27 10:53:11 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/28 17:22:44 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void
 INLINE_NAMESPACE::Location::_set_index (string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
 
-	if (CHECKER(v, CHECK_SIZE_ONE | CHECK_IS_DIR)) {
+	if (CHECKER(v, CHECK_SIZE_ONE)) {
 		_index = v[0];
 	} else {
 		throw Configuration::InvalidIndex();

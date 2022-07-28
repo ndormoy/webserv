@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/26 14:52:58 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/28 13:46:52 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void
 INLINE_NAMESPACE::Select::setup (void) {
 	FD_ZERO(&_readfds);
 	
-	for (FOREACH_SERVER) {
+	FOREACH_SERVER {
 		INLINE_NAMESPACE::Socket	sock;
 		sock.setup((*it)->get_port());
 		for (int i = 0; i < MAX_CLIENT; i++)

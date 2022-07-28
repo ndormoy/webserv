@@ -4,11 +4,11 @@ server {
 	error_page 404 example_html/bar.html;
 	client_max_body_size 1m;
 	
-	location example_html
+	location /
 	{
 		allow_methods GET POST DELETE;
 		root example_html;
-		index example_html;
+		index bar.html;
 		
 		return 301 example_html;
 		auto_index on;

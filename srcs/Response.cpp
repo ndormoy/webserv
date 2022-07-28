@@ -66,7 +66,8 @@ void		INLINE_NAMESPACE::Response::fill_header(void)
 	fill_start_header();
 	if (_request.get_error_value() == 200)
 	{
-		_header.append(ITOA(calculate_size_file((char *)_request.get_path().c_str())));
+		std::string i = ITOA(calculate_size_file((char *)_request.get_path().c_str()));
+		_header.append(i);
 	}
 	else
 	{
@@ -82,14 +83,14 @@ void		INLINE_NAMESPACE::Response::fill_header(void)
 static INLINE_NAMESPACE::Server *
 find_server (const INLINE_NAMESPACE::Request & request) {
 	std::string port;
-	int ret = request.get_params()["Host:"].find(":");
+	int ret = request.get_params()["Host"].find(":");
 
 	CNOUT(request)
-	CNOUT("|" << request.get_params()["Host:"] << "|")
-	if (request.get_params()["Host:"].empty()) {
+	CNOUT("|" << request.get_params()["Host"] << "|")
+	if (request.get_params()["Host"].empty()) {
 		return (NULL);
 	}
-	port = request.get_params()["Host:"].substr(ret + 1, request.get_params()["Host:"].length());
+	port = request.get_params()["Host"].substr(ret + 1, request.get_params()["Host"].length());
 	for (std::vector<INLINE_NAMESPACE::Server*>::iterator it = SERVERS.begin(); it != SERVERS.end(); ++it) {
 		if ((*it)->get_port() == std::stoll(port))
 		{

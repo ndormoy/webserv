@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:55:35 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/27 10:48:18 by gmary            ###   ########.fr       */
+/*   Updated: 2022/07/28 16:17:15 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ _BEGIN_NAMESPACE_WEBSERV
 
 class Server {
 
-	typedef std::vector<std::pair<int, std::string> > 			error_page_type;
-	typedef std::vector<Location*>								location_type;
+	public:
+		typedef std::vector<std::pair<int, std::string> > 			error_page_type;
+		typedef std::vector<Location*>								location_type;
 	
 
 	private:

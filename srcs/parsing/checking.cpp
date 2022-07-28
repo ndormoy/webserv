@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 07:53:38 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/26 15:27:25 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/28 17:21:37 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,17 @@ extention_ (const string_vector &v) {
 }
 
 inline static bool
-size_is_dir_ (const string_vector & v) {
+file_is_dir_ (const string_vector & v) {
 	struct stat buffer;
 	
   	return (stat (((v.size() == 1) ? v[0] : v[1]).c_str(), &buffer) == 0 && buffer.st_mode & S_IFDIR);
+}
+
+inline static bool
+file_is_reg_ (const string_vector & v) {
+	struct stat buffer;
+	
+  	return (stat (((v.size() == 1) ? v[0] : v[1]).c_str(), &buffer) == 0 && buffer.st_mode & S_IFREG);
 }
 
 static bool
@@ -127,11 +134,12 @@ checker(const string_vector & v, std::size_t flags) {
 						{&methods_, CHECK_METHODS},
 						{&extention_, CHECK_EXTENTION},
 						{&size_correct_path_, CHECK_CORRECT_PATH},
-						{&size_is_dir_, CHECK_IS_DIR},
+						{&file_is_dir_, CHECK_IS_DIR},
 						{&port_, CHECK_PORT},
 						{&max_b_s_, CHECK_MBS},
 						{&error_val_, CHECK_ERROR_CODE},
 						{&default_, CHECK_DEFAULT},
+						{&file_is_reg_, CHECK_IS_REG},
 						{NULL, 0} };
 
 	for (int i = 0; pairs[i].flag != 0; i++) {

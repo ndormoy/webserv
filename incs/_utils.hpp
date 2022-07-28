@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _utils.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:33:58 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/27 10:23:42 by gmary            ###   ########.fr       */
+/*   Updated: 2022/07/28 17:20:53 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,16 @@ class Server;
 # define SERVERS						g_config.getServers()
 # define HEADER							g_header
 
-# define FOREACH_SERVER					std::vector<Server*>::const_iterator it = SERVERS.begin(); it != SERVERS.end(); ++it
+# define FOREACH_SERVER					for (std::vector<INLINE_NAMESPACE::Server*>::const_iterator it = SERVERS.begin(); it != SERVERS.end(); ++it)
 # define FOREACH_HEADER 				for (string_vector::const_iterator it = HEADER.begin(); it != HEADER.end(); ++it)
 
 # define COUNT_SERVERS					g_config.getServers().size()
 # define CHECKER(v, x)					(true == checker(v, x))
 
 // TODO TO DELETE
-# define PUT_VECTOR(x)					for (auto it = x.begin(); it != x.end(); it++) { std::cout << *it << " "; }  std::cout << std::endl;
+# define PUT_VECTOR(x)					for (auto it = x.begin(); it != x.end(); it++) { std::cout << *it << " " << std::endl; }  std::cout << std::endl;
 
-# define ITOA( x ) static_cast< std::ostringstream & >( \
+# define ITOA( x ) static_cast< const std::ostringstream & >( \
         ( std::ostringstream() << std::dec << x ) ).str()
 
 typedef std::vector<std::string> string_vector;
@@ -99,6 +99,7 @@ enum {
 	CHECK_PORT = (1 << 11), // ok
 	CHECK_ERROR_CODE = (1 << 12), // ok
 	CHECK_DEFAULT = (1 << 13), // ok
+	CHECK_IS_REG = (1 << 14), // ok
 };
 
 
@@ -171,6 +172,16 @@ inline bool					file_exist (const std::string & path) {
  * @return string content of the file
  */
 
-std::string	read_file(std::string path);
+std::string					read_file(std::string path);
+
+/**
+ * @brief Return if a path is a directory or not
+ * 
+ * @param str path
+ * @return bool - true if the file exist and is a directory
+ */
+bool						path_is_dir (const std::string & str);
+
+bool						path_is_valid (const std::string & str);
 
 #endif /* _UTILS_HPP */

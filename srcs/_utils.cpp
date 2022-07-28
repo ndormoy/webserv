@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 15:33:04 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/27 10:39:02 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/28 17:13:01 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,18 @@ std::string	read_file(std::string path)
 	else
 		content = "Problem reading file";
 	return content;
+}
+
+bool
+path_is_dir (const std::string & str) {
+	struct stat buffer;
+	
+  	return (stat (str.c_str(), &buffer) == 0 && buffer.st_mode & S_IFDIR);
+}
+
+bool
+path_is_valid (const std::string & str) {
+	struct stat buffer;
+	
+  	return (stat (str.c_str(), &buffer) == 0);
 }
