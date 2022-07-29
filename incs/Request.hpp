@@ -88,17 +88,17 @@ class Request
 	public:
 
 		param_type & 			get_params (void) const 		{ return (_params); }
-		int						get_method (void) 				{ return (_method); }
-		std::string				get_path (void) 				{ return (_path); }
-		std::string				get_construct_path (void) 	{ return (_construct_path); }
-		std::string				get_version (void) 				{ return (_version); }
-		bool					get_chunked (void) 				{ return (_chunked); }
-		std::string 			get_body (void) 				{ return (_body); }
-		int						get_error_value (void) 			{ return (_error_value); }
-		std::string 			get_query_string (void) 		{ return (_query_string); }
-		Server *				get_server (void) 				{ return (_server); }
-		Location *				get_location (void) 			{ return (_location); }
-		std::string				get_params (std::string str) 	{ return (_params.at(str)); }
+		int						get_method (void) const				{ return (_method); }
+		std::string				get_path (void) const				{ return (_path); }
+		std::string				get_construct_path (void) const 	{ return (_construct_path); }
+		std::string				get_version (void) const				{ return (_version); }
+		bool					get_chunked (void) const				{ return (_chunked); }
+		std::string 			get_body (void)const 				{ return (_body); }
+		int						get_error_value (void)const			{ return (_error_value); }
+		std::string 			get_query_string (void) const		{ return (_query_string); }
+		Server *				get_server (void) const				{ return (_server); }
+		Location *				get_location (void) const			{ return (_location); }
+		std::string				get_params (std::string str) const	{ return (_params.at(str)); }
 
 		void					set_chunked (bool b) 			{ _chunked = b; }
 

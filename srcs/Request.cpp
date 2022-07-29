@@ -6,11 +6,13 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/29 14:32:23 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/29 15:47:24 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "webserv.hpp"
+
+// TODO rework those functions
 
 static string_vector
 request_spliter_ (std::string str) {

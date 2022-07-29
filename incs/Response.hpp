@@ -7,22 +7,62 @@ _BEGIN_NAMESPACE_WEBSERV
 
 class Response
 {
-	public:
-		Response();
-		Response(Request const & request) :
+	public: /* Constructors */
+
+		Response (void) :
+			_file_size(0),
+			_header(""),
+			_request(),
+			_files(),
+			_error_path(""),
+			_message_send(""),
+			_error_value(0),
+			_server(NULL),
+			_location(NULL)
+		{ }
+		
+		Response (const Request & request) :
 			_file_size(0),
 			_header("HTTP/1.1 "),
-			_request(request)
-			{};
-		Response(const Response & copy) :
-			_file_size(copy._file_size),
-			_header(copy._header),
-			_request(copy._request),
-			_files(copy._files){};
+			_request(request),
+			_files(),
+			_error_path(""),
+			_message_send(""),
+			_error_value(request.get_error_value()),
+			_server(request.get_server()),
+			_location(request.get_location())
+		{ }
 
-		~Response(){};
+		Response (const Response & copy) {
+			*this = copy;
+		}
 
-		Response & operator=(const Response & copy);
+		~Response (void)
+		{ }
+
+	public: /* Accessors */
+
+		int 				get_file_size (void) const 				{ return _file_size; }
+		std::string 		get_header (void) const 				{ return _header; }
+		Request & 			get_request (void)		 				{ return _request; }
+		string_vector & 	get_files  (void)  						{ return _files; }
+		std::string 		get_error_path (void) const 			{ return _error_path; }
+		std::string 		get_message_send (void) const 			{ return _message_send; }
+		int 				get_error_value (void) const 			{ return _error_value; }
+		Server * 			get_server (void) const 				{ return _server; }
+		Location * 			get_location (void) const 				{ return _location; }
+
+		void				set_file_size(int size) 				{ _file_size = size; }
+		void				set_header(std::string header) 			{ _header = header; }
+		void				set_request(Request & request) 			{ _request = request; }
+		void				set_files(string_vector & files) 		{ _files = files; }
+		void				set_error_path(std::string path) 		{ _error_path = path; }
+		void				set_message_send(std::string message) 	{ _message_send = message; }
+		void				set_error_value(int value) 				{ _error_value = value; }
+		void				set_server(Server * server) 			{ _server = server; }
+		void				set_location(Location * location) 		{ _location = location; }
+	
+	public: /* Functions */
 
 		void	fill_status_code(void);
 		void 	fill_header(void);
@@ -32,12 +72,7 @@ class Response
 		std::string auto_index(std::string location_path);
 		void	create_index(void);
 	
-	public:
-		std::string	get_header() { return _header ; }
-		std::string	get_message_send() { return _message_send ; }
-		void	set_message_send(std::string message) { _message_send = message; }
-	
-	private:
+	private: /* Attributes */
 
 		int				_file_size;
 		std::string		_header;
@@ -45,6 +80,40 @@ class Response
 		string_vector	_files;
 		std::string		_error_path;
 		std::string		_message_send;
+		int				_error_value;
+		Server *		_server;
+		Location *		_location;
+
+	public: /* Operators overloaded */
+
+		friend std::ostream& operator<<(std::ostream& o, const Response & ref) {
+			o << ref._file_size << std::endl;
+			o << ref._header << std::endl;
+			o << ref._request << std::endl;
+			// o << ref._files << std::endl;
+			o << ref._error_path << std::endl;
+			o << ref._message_send << std::endl;
+			o << ref._error_value << std::endl;
+			o << ref._server << std::endl;
+			o << ref._location << std::endl;
+			return o;
+		}
+
+		Response & operator=(const Response & copy) {
+			if (this == &copy) {return (*this);}
+			_file_size = copy._file_size;
+			_header = copy._header;
+			_request = copy._request;
+			// _files = copy._files;
+			_error_path = copy._error_path;
+			_message_send = copy._message_send;
+			_error_value = copy._error_value;
+			_server = copy._server;
+			_location = copy._location;
+			return (*this);
+		}
+
+		public: /* Exceptions */
 };
 
 _END_NAMESPACE_WEBSERV
