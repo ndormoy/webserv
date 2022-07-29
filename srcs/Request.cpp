@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/29 11:11:47 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/29 14:32:23 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,13 @@ find_location (INLINE_NAMESPACE::Server * srv, std::string path) {
 	std::string tmp_path;
 	
 	for (INLINE_NAMESPACE::Server::location_type::const_iterator it = loc.begin(); it != loc.end(); it++) {
-		tmp_path = (((*it)->get_path().rfind("/", 0) == 0) ? "" : "/" ) + (*it)->get_path();
-		tmp_path = (tmp_path + ((tmp_path[tmp_path.length() - 1] != '/') ? "/" : ""));
-		if (path.rfind(tmp_path, 0) == 0)
+		tmp_path = (*it)->get_path().substr((((*it)->get_path()[0] == '/') ? 1 : 0), (*it)->get_path().length());
+		if (!tmp_path.empty())
+			tmp_path = (tmp_path + ((tmp_path[tmp_path.length() - 1] != '/') ? "/" : ""));
+
+		CNOUT(tmp_path << " " << path << std::endl)
+
+		if (tmp_path.empty() || path.rfind(tmp_path, 0) == 0)
 			return ((*it));
 	}
 	return (NULL);
@@ -86,7 +90,7 @@ INLINE_NAMESPACE::Request::parse_first_line (std::string str) {
 	} else if (vector[0] == "DELETE") {
 		_method |= M_DELETE;
 	}
-	_path = vector[1];
+	_path = vector[1].substr(((vector[1][0] == '/') ? 1 : 0), vector[1].length());
 	_version = vector[2];
 	
 	return (true);
@@ -117,7 +121,10 @@ INLINE_NAMESPACE::Request::request_line_parser (std::string str) {
 
 void
 INLINE_NAMESPACE::Request::set_final_path (void) {
-	if (_location == NULL) {return;}
+	if (_location == NULL) {
+		// _construct_path = _path;
+		return;
+	}
 	std::string tmp;
 
 	if (_location->get_root() != "") {
@@ -126,6 +133,7 @@ INLINE_NAMESPACE::Request::set_final_path (void) {
 	} else {
 		tmp = _path;
 	}
+
 	if (path_is_dir(tmp)) {
 		if (tmp[tmp.size() - 1] != '/')
 				tmp += "/";
