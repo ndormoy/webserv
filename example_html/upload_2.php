@@ -26,7 +26,7 @@
 					$file_type = $_FILES['file']['type'];
 					$file_path = 'uploads/' . $file_name;
 					
-					if(move_uploaded_file($file_tmp_name, $file_path)){
+					if(move_uploaded_file($_FILES['file']['tmp_name'], 'uploads/' . $file_name)){
 						echo 'Uploaded successfully';
 					} else {
 						echo 'Error uploading file';
