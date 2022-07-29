@@ -29,7 +29,7 @@ class Response
 		void 	fill_start_header(void);
 		void	fill_body(void);
 		void	manage_response(void);
-		std::string auto_index(void);
+		std::string auto_index(std::string location_path);
 		void	create_index(void);
 	
 	public:

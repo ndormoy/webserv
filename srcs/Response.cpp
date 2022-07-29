@@ -28,6 +28,9 @@ void	INLINE_NAMESPACE::Response::fill_status_code(void)
 
 void		INLINE_NAMESPACE::Response::fill_body(void)
 {
+	CNOUT(BYEL << _request.get_path() << CRESET)
+	CNOUT(BYEL << _error_path << CRESET)
+
 	if (_request.get_error_value() == 200)
 		_header.append(read_file(_request.get_path()));
 	else
@@ -65,9 +68,10 @@ void		INLINE_NAMESPACE::Response::fill_header(void)
 	// _header.append("\r\n");
 	// _header.append("Content-Length: ");
 	fill_start_header();
+	CNOUT(BYEL << _request.get_error_value() << CRESET)
 	if (_request.get_error_value() == 200)
 	{
-		CNOUT(UMAG << _request.get_path() << CRESET)
+		//CNOUT(UMAG << _request.get_path() << CRESET)
 		std::string i = ITOA(calculate_size_file((char *)_request.get_path().c_str()));
 		_header.append(i);
 	}
@@ -81,27 +85,6 @@ void		INLINE_NAMESPACE::Response::fill_header(void)
 	_header.append("\r\n");
 	_header.append("\n\n");
 }
-
-static INLINE_NAMESPACE::Server *
-find_server (const INLINE_NAMESPACE::Request & request) {
-	std::string port;
-	int ret = request.get_params()["Host"].find(":");
-
-	CNOUT(request)
-	CNOUT("|" << request.get_params()["Host"] << "|")
-	if (request.get_params()["Host"].empty()) {
-		return (NULL);
-	}
-	port = request.get_params()["Host"].substr(ret + 1, request.get_params()["Host"].length());
-	for (std::vector<INLINE_NAMESPACE::Server*>::iterator it = SERVERS.begin(); it != SERVERS.end(); ++it) {
-		if ((*it)->get_port() == std::stoll(port))
-		{
-			CNOUT("STARFFFF" << *it << " port: " << (*it)->get_port())
-			return (*it);
-		}
-	}
-	return (NULL);
-} 
 
 void	INLINE_NAMESPACE::Response::manage_response(void)
 {
@@ -118,11 +101,13 @@ void	INLINE_NAMESPACE::Response::manage_response(void)
 	if (_request.get_error_value() != 200)
 	{
 		CNOUT(GRN << "ERROR" << CRESET)
-		server = find_server(_request);
+		server = _request.get_server();
+		//server = find_server(_request);
 		if (server != NULL)
 		{
 			CNOUT(GRN << "server is not null" << CRESET)
 			location =  server->get_locations();
+			//TODO check si location a comme option / (tout les dossier son apte a l'autoindex)
 			if (location.empty() == false)
 			{
 				CNOUT(GRN << "location not empty" << CRESET)
@@ -132,7 +117,9 @@ void	INLINE_NAMESPACE::Response::manage_response(void)
 						if ((*it)->get_autoindex() == true)
 						{
 							CNOUT(BGRN << "autoindex" << CRESET)
-							auto_index();
+							// CNOUT(BGRN << "path: " << (*it)->get_path() << CRESET)
+							create_index();
+							auto_index((*it)->get_path());
 							return ;
 						}
 				}
@@ -152,7 +139,7 @@ void	INLINE_NAMESPACE::Response::create_index(void)
 {
 	DIR *dp;
 	struct dirent *ep;
-
+	
 	dp = opendir (_request.get_path().c_str());
 	if (dp != NULL)
 	{
@@ -160,7 +147,11 @@ void	INLINE_NAMESPACE::Response::create_index(void)
 		{
 			if (ep->d_type == DT_DIR || ep->d_type == DT_LNK
 				|| ep->d_type == DT_REG || ep->d_type == DT_UNKNOWN)
-				_files.push_back(ep->d_name);
+				{
+
+					//CNOUT(UMAG << ep->d_name << CRESET)
+					_files.push_back(ep->d_name);
+				}
 		}
 		(void) closedir (dp);
 	}
@@ -172,29 +163,34 @@ void	INLINE_NAMESPACE::Response::create_index(void)
 du repertoire courant, pour pouvoir les afficher en reponse
 c'est l'auto index*/
 
-std::string	INLINE_NAMESPACE::Response::auto_index(void)
+std::string	INLINE_NAMESPACE::Response::auto_index(std::string location_path)
 {
 	std::string index;
 	int	 		len;
 
 	fill_start_header();
 
-	index += "<html>";
-	index += "<head><title>Indexito /</title></head>";
-	index += "<body bgcolor=\"green\">";
-	index += "<h1>Index of </h1><hr><pre><a href=\"../\">../</a>";
+	index += "<html>\n";
+	index += "<head><title>Indexito /</title></head>\n";
+	index += "<body bgcolor=\"green\">\n";
+	index += "<h1>Index of </h1><hr><pre><a href=\"../\">../</a>\n";
 	for (string_vector::iterator it = _files.begin(); it != _files.end(); ++it)
 	{
 		index += "<a href=\"";
+		index += location_path;
+		index += "/";
 		index += *it;
-		index += "\">" "</a>";
-		index += "</pre><hr></body>";
+		index += "\">";
+		index += *it;
+		index += "</a>\n";
+		index += "</pre><hr>\n";
 	}
-	index += "</html>";
+	index += "</body>\n</html>\n";
 	len = index.length();
 	_header.append(ITOA(len));
 	_header.append("\r\n");
 	_header.append("\n\n");
 	_header.append(index);
+	// CNOUT(BYEL << _header << CRESET)
 	return index;
 }
