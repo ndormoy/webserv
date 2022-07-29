@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/28 13:46:52 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/29 12:11:14 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,31 @@ INLINE_NAMESPACE::Select::start (void) {
 						CNOUT(BBLU << buffer << CRESET)
 						Request *request = new Request(buffer);
 						Response response(*request);
+
+						if (request->get_chunked() == true) {
+							while (request->get_chunked() == true) {
+								bytes = recv(_client_socket[i], buffer, 1024, 0);
+								if (bytes == SYSCALL_ERR) {
+									throw Select::fRecvError();
+								} else if (bytes == 0) {
+									FD_CLR(_client_socket[i], &_readfds);
+									if (_client_socket[i] > 0)
+									{
+										close(_client_socket[i]);
+									}
+									//it->set_client_socket(0, i);
+									_client_socket[i] = 0;
+								} else {
+									buffer[bytes] = '\0';
+									request->get_body() += buffer;
+								}
+								
+								std::string buffer_s(buffer);
+								if (buffer_s.find("\r\n\r\n") != std::string::npos) {
+									request->set_chunked(false);
+								}
+							}
+						}
 						
 						response.manage_response();
 						std::string hello = response.get_header();

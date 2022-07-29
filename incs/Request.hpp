@@ -100,6 +100,8 @@ class Request
 		Location *				get_location (void) 			{ return (_location); }
 		std::string				get_params (std::string str) 	{ return (_params.at(str)); }
 
+		void					set_chunked (bool b) 			{ _chunked = b; }
+
 		void					clear (void) {
 			_params.clear();
 			_method = 0;
