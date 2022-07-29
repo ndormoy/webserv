@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Select.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/29 12:11:14 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/07/29 13:50:58 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,8 +151,9 @@ INLINE_NAMESPACE::Select::start (void) {
 						}
 						
 						response.manage_response();
-						std::string hello = response.get_header();
-						if (send(_client_socket[i], hello.c_str(), hello.length(), 0) == SYSCALL_ERR)
+						response.set_message_send(response.get_header());
+						CNOUT(BGRN << response.get_message_send() << CRESET)
+						if (send(_client_socket[i], response.get_message_send().c_str(), response.get_message_send().length(), 0) == SYSCALL_ERR)
 						{
 							throw Select::fSendError();
 						}

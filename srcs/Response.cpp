@@ -43,7 +43,8 @@ void 	INLINE_NAMESPACE::Response::fill_start_header(void)
 	//TODO reactiver tout ce qui est grise dans cette fonction
 	//if (_request.get_content_type().empty())
 	//{
-		_header.append("text/html;charset=UTF-8");
+		 _header.append("text/html;charset=UTF-8");
+		//_header.append("image/jpeg");
 	//}
 	//else
 	//{
@@ -66,6 +67,7 @@ void		INLINE_NAMESPACE::Response::fill_header(void)
 	fill_start_header();
 	if (_request.get_error_value() == 200)
 	{
+		CNOUT(UMAG << _request.get_path() << CRESET)
 		std::string i = ITOA(calculate_size_file((char *)_request.get_path().c_str()));
 		_header.append(i);
 	}
