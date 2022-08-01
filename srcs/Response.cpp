@@ -105,9 +105,11 @@ void	INLINE_NAMESPACE::Response::manage_response_delete(void)
 	_header.append("<h1>FILE DELETED</h1>\n");
 	_header.append("</body>\n");
 	_header.append("</html>\n");
-	// fill_header();
-	//_header.append(read_file(_error_path));
-	//fill_body();
+}
+
+void	INLINE_NAMESPACE::Response::manage_response_post(void)
+{
+	
 }
 
 void	INLINE_NAMESPACE::Response::manage_response_get(void)
