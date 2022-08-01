@@ -86,18 +86,12 @@ void		INLINE_NAMESPACE::Response::fill_header(void)
 	_header.append("\n\n");
 }
 
-void	INLINE_NAMESPACE::Response::manage_response(void)
+void	INLINE_NAMESPACE::Response::manage_response_get(void)
 {
 	INLINE_NAMESPACE::Server * server = NULL;
 	std::vector<Location *> location;
 	fill_status_code();
 
-	// CNOUT(BGRN << *server << CRESET)
-	//if (server == NULL)
-	//{
-	//	CNOUT(BGRN << "\n server is null" << CRESET)
-	//	return ;
-	//}
 	if (_request.get_error_value() != 200)
 	{
 		CNOUT(GRN << "ERROR" << CRESET)
@@ -129,6 +123,19 @@ void	INLINE_NAMESPACE::Response::manage_response(void)
 	CNOUT(BRED << "AFTER" << CRESET)
 	fill_header();
 	fill_body();
+}
+
+void	INLINE_NAMESPACE::Response::manage_response(void)
+{
+	//TODO faire manage cgi
+	if (_request.get_method() == "CGI")
+		manage_response_cgi();
+	else if (_request.get_method() == "GET")
+		manage_response_get();
+	else if (_request.get_method() == "POST")
+		manage_response_post();
+	else if (_request.get_method() == "DELETE")
+		manage_response_delete();
 }
 
 /*Cette fonction permet de regarder dans le repertoire courant (Et ceux d'apres

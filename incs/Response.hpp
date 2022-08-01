@@ -69,6 +69,7 @@ class Response
 		void 	fill_start_header(void);
 		void	fill_body(void);
 		void	manage_response(void);
+		void	manage_response_get(void);
 		std::string auto_index(std::string location_path);
 		void	create_index(void);
 	
