@@ -101,6 +101,7 @@ class Request
 		std::string				get_params (std::string str) const	{ return (_params.at(str)); }
 
 		void					set_chunked (bool b) 			{ _chunked = b; }
+		void					set_error_value (int i)			{ _error_value = i; }
 
 		void					clear (void) {
 			_params.clear();

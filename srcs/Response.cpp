@@ -86,6 +86,30 @@ void		INLINE_NAMESPACE::Response::fill_header(void)
 	_header.append("\n\n");
 }
 
+void	INLINE_NAMESPACE::Response::manage_response_delete(void)
+{
+	//BUG doit on proteger la suppresion du fichier ? si oui qu'elles sont les regles de gestion des droits ?
+	if (std::remove(_request.get_path().c_str()) != 0)
+	{
+		//TODO tester si on ouvre
+		CNOUT(BYEL << "Error deleting file" << CRESET)
+		_request.set_error_value(403);
+	}
+	fill_status_code();
+	fill_start_header();
+	_header.append("52\r\n"); //TODO recalculer des lignes html en dessous
+	_header.append("\r\n");
+	_header.append("\n\n");
+	_header.append("<html>\n");
+	_header.append("<body>\n");
+	_header.append("<h1>FILE DELETED</h1>\n");
+	_header.append("</body>\n");
+	_header.append("</html>\n");
+	// fill_header();
+	//_header.append(read_file(_error_path));
+	//fill_body();
+}
+
 void	INLINE_NAMESPACE::Response::manage_response_get(void)
 {
 	INLINE_NAMESPACE::Server * server = NULL;
@@ -111,7 +135,6 @@ void	INLINE_NAMESPACE::Response::manage_response_get(void)
 						if ((*it)->get_autoindex() == true)
 						{
 							CNOUT(BGRN << "autoindex" << CRESET)
-							// CNOUT(BGRN << "path: " << (*it)->get_path() << CRESET)
 							create_index();
 							auto_index((*it)->get_path());
 							return ;
@@ -128,12 +151,12 @@ void	INLINE_NAMESPACE::Response::manage_response_get(void)
 void	INLINE_NAMESPACE::Response::manage_response(void)
 {
 	//TODO faire manage cgi
-	if (_request.get_method() == "CGI")
-		manage_response_cgi();
+	//if (_request.get_method() == "CGI")
+	//	manage_response_cgi();
 	else if (_request.get_method() == "GET")
 		manage_response_get();
-	else if (_request.get_method() == "POST")
-		manage_response_post();
+	//else if (_request.get_method() == "POST")
+	//	manage_response_post();
 	else if (_request.get_method() == "DELETE")
 		manage_response_delete();
 }
