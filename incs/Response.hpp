@@ -73,6 +73,7 @@ class Response
 		void	manage_response_post(void);
 		void	manage_response_delete(void);
 		void	manage_response_cgi(void);
+		void	manage_autoindex(void);
 		std::string auto_index(std::string location_path);
 		void	create_index(void);
 	

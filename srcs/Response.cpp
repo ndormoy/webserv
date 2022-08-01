@@ -109,14 +109,53 @@ void	INLINE_NAMESPACE::Response::manage_response_delete(void)
 
 void	INLINE_NAMESPACE::Response::manage_response_post(void)
 {
-	
+	bool	isupload = false;
+	if (_request.get_path().find("upload") != std::string::npos)
+		isupload = true;
+	if (isupload)
+	//if (upload_file())
+	//{
+	//	_request.set_error_value(200);
+	//	fill_status_code();
+	//	fill_start_header();
+	//	_header.append("52\r\n"); //TODO recalculer des lignes html en dessous
+	//	_header.append("\r\n");
+	//	_header.append("\n\n");
+	//	_header.append("<html>\n");
+	//	_header.append("<body>\n");
+	//	_header.append("<h1>FILE UPLOADED</h1>\n");
+	//	_header.append("</body>\n");
+	//	_header.append("</html>\n");
+	//}
+	//else
+	//{
+	//	_request.set_error_value(500);
+	//	fill_status_code();
+	//	fill_start_header();
+	//	_header.append("52\r\n"); //TODO recalculer des lignes html en dessous
+	//	_header.append("\r\n");
+	//	_header.append("\n\n");
+	//	_header.append("<html>\n");
+	//	_header.append("<body>\n");
+	//	_header.append("<h1>FILE UPLOAD ERROR</h1>\n");
+	//	_header.append("</body>\n");
+	//	_header.append("</html>\n");
+	//}
 }
 
-void	INLINE_NAMESPACE::Response::manage_response_get(void)
+void	INLINE_NAMESPACE::Response::manage_response_cgi(void)
+{
+
+}
+
+/**
+ * @brief Search and create autoindex.html file
+ */
+
+void	INLINE_NAMESPACE::Response::manage_autoindex(void)
 {
 	INLINE_NAMESPACE::Server * server = NULL;
 	std::vector<Location *> location;
-	fill_status_code();
 
 	if (_request.get_error_value() != 200)
 	{
@@ -145,6 +184,13 @@ void	INLINE_NAMESPACE::Response::manage_response_get(void)
 			}
 		}
 	}
+}
+
+void	INLINE_NAMESPACE::Response::manage_response_get(void)
+{
+
+	fill_status_code();
+	manage_autoindex();
 	CNOUT(BRED << "AFTER" << CRESET)
 	fill_header();
 	fill_body();
@@ -153,12 +199,12 @@ void	INLINE_NAMESPACE::Response::manage_response_get(void)
 void	INLINE_NAMESPACE::Response::manage_response(void)
 {
 	//TODO faire manage cgi
-	//if (_request.get_method() == "CGI")
-	//	manage_response_cgi();
+	if (_request.get_method() == "CGI")
+		manage_response_cgi();
 	else if (_request.get_method() == "GET")
 		manage_response_get();
-	//else if (_request.get_method() == "POST")
-	//	manage_response_post();
+	else if (_request.get_method() == "POST")
+		manage_response_post();
 	else if (_request.get_method() == "DELETE")
 		manage_response_delete();
 }
