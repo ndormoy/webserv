@@ -119,12 +119,12 @@ class Request
 
 	public:
 
-		int	request_parser (void);
-		int check_first_line (void);
-		bool parse_first_line (std::string);
-		void request_line_parser (std::string);
-		void set_final_path (void);
-
+		int		request_parser (void);
+		int		check_first_line (void);
+		bool	parse_first_line (std::string);
+		void	request_line_parser (std::string);
+		void	set_final_path (void);
+		bool	is_upload_case(void);
 	public:
 		Request & operator= (const Request & ref) {
 			if (this == &ref) {return (*this);}

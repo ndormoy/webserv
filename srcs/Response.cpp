@@ -110,37 +110,64 @@ void	INLINE_NAMESPACE::Response::manage_response_delete(void)
 void	INLINE_NAMESPACE::Response::manage_response_post(void)
 {
 	bool	isupload = false;
-	if (_request.get_path().find("upload") != std::string::npos)
+	std::vector<Location *> location;
+	INLINE_NAMESPACE::Server * server = NULL;
+
+	server = _request.get_server();
+	if(server != NULL)
+	{
+		location = server->get_locations();
+	}
+	else
+	{
+		CNOUT(BYEL << "server is null" << CRESET)
+		return ;
+	}
+	if (_request.is_upload_case())
+	{
 		isupload = true;
-	if (isupload)
-	//if (upload_file())
-	//{
-	//	_request.set_error_value(200);
-	//	fill_status_code();
-	//	fill_start_header();
-	//	_header.append("52\r\n"); //TODO recalculer des lignes html en dessous
-	//	_header.append("\r\n");
-	//	_header.append("\n\n");
-	//	_header.append("<html>\n");
-	//	_header.append("<body>\n");
-	//	_header.append("<h1>FILE UPLOADED</h1>\n");
-	//	_header.append("</body>\n");
-	//	_header.append("</html>\n");
-	//}
-	//else
-	//{
-	//	_request.set_error_value(500);
-	//	fill_status_code();
-	//	fill_start_header();
-	//	_header.append("52\r\n"); //TODO recalculer des lignes html en dessous
-	//	_header.append("\r\n");
-	//	_header.append("\n\n");
-	//	_header.append("<html>\n");
-	//	_header.append("<body>\n");
-	//	_header.append("<h1>FILE UPLOAD ERROR</h1>\n");
-	//	_header.append("</body>\n");
-	//	_header.append("</html>\n");
-	//}
+	}
+
+	for (std::vector<Location *>::iterator it = location.begin(); it != location.end(); ++it)
+	{
+		if (!(*it)->get_upload_path().empty())
+		{
+
+			isupload = true;
+			break;
+		}
+	}
+	//if (_request.get_path().find("upload") != std::string::npos)
+	//	isupload = true;
+	//if (isupload)
+	if (isupload == true)
+	{
+		_request.set_error_value(200);
+		fill_status_code();
+		fill_start_header();
+		_header.append("53\r\n"); //TODO recalculer des lignes html en dessous
+		_header.append("\r\n");
+		_header.append("\n\n");
+		_header.append("<html>\n");
+		_header.append("<body>\n");
+		_header.append("<h1>FILE UPLOADED</h1>\n");
+		_header.append("</body>\n");
+		_header.append("</html>\n");
+	}
+	else
+	{
+		_request.set_error_value(500);
+		fill_status_code();
+		fill_start_header();
+		_header.append("57\r\n"); //TODO recalculer des lignes html en dessous
+		_header.append("\r\n");
+		_header.append("\n\n");
+		_header.append("<html>\n");
+		_header.append("<body>\n");
+		_header.append("<h1>FILE UPLOAD ERROR</h1>\n");
+		_header.append("</body>\n");
+		_header.append("</html>\n");
+	}
 }
 
 void	INLINE_NAMESPACE::Response::manage_response_cgi(void)
@@ -199,13 +226,13 @@ void	INLINE_NAMESPACE::Response::manage_response_get(void)
 void	INLINE_NAMESPACE::Response::manage_response(void)
 {
 	//TODO faire manage cgi
-	if (_request.get_method() == "CGI")
+/* 	if (_request.get_method() == "CGI")
 		manage_response_cgi();
-	else if (_request.get_method() == "GET")
+	else */ if (_request.get_method() == M_GET)
 		manage_response_get();
-	else if (_request.get_method() == "POST")
+	else if (_request.get_method() == M_POST)
 		manage_response_post();
-	else if (_request.get_method() == "DELETE")
+	else if (_request.get_method() == M_DELETE)
 		manage_response_delete();
 }
 
