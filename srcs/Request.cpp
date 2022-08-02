@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Request.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/29 15:47:24 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/08/02 15:41:45 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,3 +173,30 @@ INLINE_NAMESPACE::Request::request_parser (void) {
 	// getContent (changed path)
 	return (200);
 }
+
+/**
+ * @brief this function check if we are in a upload process
+ * 
+ */
+
+bool	INLINE_NAMESPACE::Request::is_upload_case (void) {
+	//TODO checker si il y a bien filename dans le header
+	// CNOUT(BRED << *this << CRESET)
+	if (_method == M_POST) {
+		if ((_params["Content-Type"].find("multipart/form-data") != std::string::npos) 
+			&& (_params["Content-Type"].find("boundary=") != std::string::npos)) {
+			return (true);
+		}
+	}
+	return (false);
+}	
+
+
+/* bool	INLINE_NAMESPACE::Request::is_upload_case (void) {
+	if (_method == M_POST) {
+		if (_params["Content-Type"].find("multipart/form-data") != std::string::npos) {
+			return (true);
+		}
+	}
+	return (false);
+}	 */

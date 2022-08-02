@@ -63,7 +63,7 @@ class Request
 			_query_string(ref._query_string),
 			_server(ref._server),
 			_location(ref._location),
-			_body("")
+			_body(ref._body)
 		{ }
 
 		Request (const std::string str) :
@@ -80,6 +80,7 @@ class Request
 			_body("")
 		{
 			_body = str;
+			//CNOUT(BYEL << _body << CRESET)
 			_chunked = (str.find("\r\n\r\n") == std::string::npos);
 			_error_value = request_parser();
 			DEBUG_5(CNOUT(*this));
@@ -101,6 +102,7 @@ class Request
 		std::string				get_params (std::string str) const	{ return (_params.at(str)); }
 
 		void					set_chunked (bool b) 			{ _chunked = b; }
+		void					set_error_value (int i)			{ _error_value = i; }
 
 		void					clear (void) {
 			_params.clear();
@@ -118,12 +120,12 @@ class Request
 
 	public:
 
-		int	request_parser (void);
-		int check_first_line (void);
-		bool parse_first_line (std::string);
-		void request_line_parser (std::string);
-		void set_final_path (void);
-
+		int		request_parser (void);
+		int		check_first_line (void);
+		bool	parse_first_line (std::string);
+		void	request_line_parser (std::string);
+		void	set_final_path (void);
+		bool	is_upload_case(void);
 	public:
 	
 		Request & operator= (const Request & ref) {

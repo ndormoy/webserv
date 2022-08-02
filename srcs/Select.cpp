@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Select.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/02 15:06:00 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/08/02 15:43:47 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,13 @@ INLINE_NAMESPACE::Select::start (void) {
 				throw Select::fSelectError();
 			}
 			new_request();
-			char	buffer[1025]; // pas sur de l'emplacement
+			char	buffer[10025]; // pas sur de l'emplacement
 			int		bytes = 0;
 			for (int i = 0; i < MAX_CLIENT; i++)
 			{
 				if (_client_socket[i] != 0 && FD_ISSET(_client_socket[i], &_readfds))
 				{
-					bytes = recv(_client_socket[i], buffer, 1024, 0);
+					bytes = recv(_client_socket[i], buffer, 10024, 0);
 					if (bytes == SYSCALL_ERR)
 					{
 						throw Select::fRecvError();
@@ -149,7 +149,7 @@ INLINE_NAMESPACE::Select::start (void) {
 								}
 							}
 						}
-						
+						//request->get_body() += buffer; // BUG peut etre ca va foutre la merde pour les requetes de taille > 1024 (chunked)
 						response.manage_response();
 						response.set_message_send(response.get_header());
 						CNOUT(BGRN << response.get_message_send() << CRESET)

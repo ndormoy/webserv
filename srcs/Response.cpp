@@ -86,11 +86,103 @@ void		INLINE_NAMESPACE::Response::fill_header(void)
 	_header.append("\n\n");
 }
 
-void	INLINE_NAMESPACE::Response::manage_response_get(void)
+void	INLINE_NAMESPACE::Response::manage_response_delete(void)
+{
+	//BUG doit on proteger la suppresion du fichier ? si oui qu'elles sont les regles de gestion des droits ?
+	if (std::remove(_request.get_path().c_str()) != 0)
+	{
+		//TODO tester si on ouvre
+		CNOUT(BYEL << "Error deleting file" << CRESET)
+		_request.set_error_value(403);
+	}
+	fill_status_code();
+	fill_start_header();
+	_header.append("52\r\n"); //TODO recalculer des lignes html en dessous
+	_header.append("\r\n");
+	_header.append("\n\n");
+	_header.append("<html>\n");
+	_header.append("<body>\n");
+	_header.append("<h1>FILE DELETED</h1>\n");
+	_header.append("</body>\n");
+	_header.append("</html>\n");
+}
+
+void	INLINE_NAMESPACE::Response::manage_response_post(void)
+{
+	bool	isupload = false;
+	std::vector<Location *> location;
+	INLINE_NAMESPACE::Server * server = NULL;
+
+	server = _request.get_server();
+	if(server != NULL)
+	{
+		location = server->get_locations();
+	}
+	else
+	{
+		CNOUT(BYEL << "server is null" << CRESET)
+		return ;
+	}
+	if (_request.is_upload_case())
+	{
+		isupload = true;
+	}
+
+	for (std::vector<Location *>::iterator it = location.begin(); it != location.end(); ++it)
+	{
+		if (!(*it)->get_upload_path().empty())
+		{
+
+			isupload = true;
+			break;
+		}
+	}
+	//if (_request.get_path().find("upload") != std::string::npos)
+	//	isupload = true;
+	//if (isupload)
+	if (isupload == true)
+	{
+		_request.set_error_value(200);
+		fill_status_code();
+		fill_start_header();
+		_header.append("53\r\n"); //TODO recalculer des lignes html en dessous
+		_header.append("\r\n");
+		_header.append("\n\n");
+		_header.append("<html>\n");
+		_header.append("<body>\n");
+		_header.append("<h1>FILE UPLOADED</h1>\n");
+		_header.append("</body>\n");
+		_header.append("</html>\n");
+	}
+	else
+	{
+		_request.set_error_value(500);
+		fill_status_code();
+		fill_start_header();
+		_header.append("57\r\n"); //TODO recalculer des lignes html en dessous
+		_header.append("\r\n");
+		_header.append("\n\n");
+		_header.append("<html>\n");
+		_header.append("<body>\n");
+		_header.append("<h1>FILE UPLOAD ERROR</h1>\n");
+		_header.append("</body>\n");
+		_header.append("</html>\n");
+	}
+}
+
+void	INLINE_NAMESPACE::Response::manage_response_cgi(void)
+{
+
+}
+
+/**
+ * @brief Search and create autoindex.html file
+ */
+
+void	INLINE_NAMESPACE::Response::manage_autoindex(void)
 {
 	INLINE_NAMESPACE::Server * server = NULL;
 	std::vector<Location *> location;
-	fill_status_code();
 
 	if (_request.get_error_value() != 200)
 	{
@@ -111,7 +203,6 @@ void	INLINE_NAMESPACE::Response::manage_response_get(void)
 						if ((*it)->get_autoindex() == true)
 						{
 							CNOUT(BGRN << "autoindex" << CRESET)
-							// CNOUT(BGRN << "path: " << (*it)->get_path() << CRESET)
 							create_index();
 							auto_index((*it)->get_path());
 							return ;
@@ -120,6 +211,13 @@ void	INLINE_NAMESPACE::Response::manage_response_get(void)
 			}
 		}
 	}
+}
+
+void	INLINE_NAMESPACE::Response::manage_response_get(void)
+{
+
+	fill_status_code();
+	manage_autoindex();
 	CNOUT(BRED << "AFTER" << CRESET)
 	fill_header();
 	fill_body();
@@ -136,6 +234,14 @@ void	INLINE_NAMESPACE::Response::manage_response(void)
 	// 	manage_response_post();
 	// else if (_request.get_method() | M_DELETE)
 	// 	manage_response_delete();
+/* 	if (_request.get_method() == "CGI")
+		manage_response_cgi();
+	else */ if (_request.get_method() == M_GET)
+		manage_response_get();
+	else if (_request.get_method() == M_POST)
+		manage_response_post();
+	else if (_request.get_method() == M_DELETE)
+		manage_response_delete();
 }
 
 /*Cette fonction permet de regarder dans le repertoire courant (Et ceux d'apres
