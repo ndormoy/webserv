@@ -128,14 +128,14 @@ void	INLINE_NAMESPACE::Response::manage_response_get(void)
 void	INLINE_NAMESPACE::Response::manage_response(void)
 {
 	//TODO faire manage cgi
-	if (_request.get_method() == "CGI")
-		manage_response_cgi();
-	else if (_request.get_method() == "GET")
-		manage_response_get();
-	else if (_request.get_method() == "POST")
-		manage_response_post();
-	else if (_request.get_method() == "DELETE")
-		manage_response_delete();
+	// if (_request.get_method()  "CGI")
+		// manage_response_cgi();
+	// if (_request.get_method() | M_GET)
+	// 	manage_response_get();
+	// else if (_request.get_method() | M_POST)
+	// 	manage_response_post();
+	// else if (_request.get_method() | M_DELETE)
+	// 	manage_response_delete();
 }
 
 /*Cette fonction permet de regarder dans le repertoire courant (Et ceux d'apres

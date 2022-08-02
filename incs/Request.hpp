@@ -125,6 +125,7 @@ class Request
 		void set_final_path (void);
 
 	public:
+	
 		Request & operator= (const Request & ref) {
 			if (this == &ref) {return (*this);}
 
