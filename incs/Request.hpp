@@ -63,7 +63,7 @@ class Request
 			_query_string(ref._query_string),
 			_server(ref._server),
 			_location(ref._location),
-			_body("")
+			_body(ref._body)
 		{ }
 
 		Request (const std::string str) :
@@ -80,6 +80,7 @@ class Request
 			_body("")
 		{
 			_body = str;
+			//CNOUT(BYEL << _body << CRESET)
 			_chunked = (str.find("\r\n\r\n") == std::string::npos);
 			_error_value = request_parser();
 			DEBUG_5(CNOUT(*this));

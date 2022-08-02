@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/02 15:16:36 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/02 15:41:45 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,17 +180,11 @@ INLINE_NAMESPACE::Request::request_parser (void) {
  */
 
 bool	INLINE_NAMESPACE::Request::is_upload_case (void) {
-	CNOUT(BRED << "FUNCTION" << CRESET)
-	CNOUT(BRED << _body << CRESET)
-	if (_body.find("boundary=") != std::string::npos)
-	{
-		CNOUT(BRED << "BOUNDARY" << CRESET)
-		return (true);
-	}
-	
+	//TODO checker si il y a bien filename dans le header
+	// CNOUT(BRED << *this << CRESET)
 	if (_method == M_POST) {
-		if (_params["Content-Type"].find("multipart/form-data") != std::string::npos) {
-			CNOUT(BRED << "PARAMS" << CRESET)
+		if ((_params["Content-Type"].find("multipart/form-data") != std::string::npos) 
+			&& (_params["Content-Type"].find("boundary=") != std::string::npos)) {
 			return (true);
 		}
 	}
