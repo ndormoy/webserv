@@ -22,7 +22,7 @@ class Request
 		Server *	_server;
 		Location *  _location;
 		std::string _body;
-
+		std::string	_boundary;
 
 	public:
 		Request (void) :
@@ -36,7 +36,8 @@ class Request
 			_query_string(""),
 			_server(NULL),
 			_location(NULL),
-			_body("")
+			_body(""),
+			_boundary("")
 		{
 			FOREACH_HEADER {
 				_params[*it] = " ";
@@ -63,7 +64,8 @@ class Request
 			_query_string(ref._query_string),
 			_server(ref._server),
 			_location(ref._location),
-			_body(ref._body)
+			_body(ref._body),
+			_boundary(ref._boundary)
 		{ }
 
 		Request (const std::string str) :
@@ -77,7 +79,8 @@ class Request
 			_query_string(""),
 			_server(NULL),
 			_location(NULL),
-			_body("")
+			_body(""),
+			_boundary("")
 		{
 			_body = str;
 			//CNOUT(BYEL << _body << CRESET)
@@ -116,6 +119,7 @@ class Request
 			_query_string = "";
 			_server = NULL;
 			_location = NULL;
+			_boundary = "";
 		}
 
 	public:
@@ -126,6 +130,7 @@ class Request
 		void	request_line_parser (std::string);
 		void	set_final_path (void);
 		bool	is_upload_case(void);
+		bool	define_upload(void);
 	public:
 		Request & operator= (const Request & ref) {
 			if (this == &ref) {return (*this);}
@@ -141,6 +146,7 @@ class Request
 			_query_string = ref._query_string;
 			_server = ref._server;
 			_location = ref._location;
+			_boundary = ref._boundary;
 			return *this;
 		}
 
@@ -155,6 +161,7 @@ class Request
 			o << "Query string: " << ref._query_string << std::endl;
 			o << "Server: " << ref._server << std::endl;
 			o << "Location: " << ref._location << std::endl;
+			o << "Boundary: " << ref._boundary << std::endl;
 			o << "Params: " << std::endl;
 			for (std::map<std::string, std::string>::const_iterator it = ref._params.begin(); it != ref._params.end(); ++it) {
 				o << " -> " << it->first << ": " << it->second << std::endl;
