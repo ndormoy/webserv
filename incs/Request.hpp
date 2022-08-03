@@ -104,6 +104,8 @@ class Request
 		Location *				get_location (void) const			{ return (_location); }
 		std::string				get_params (std::string str) const	{ return (_params.at(str)); }
 
+
+		void					add_body(char * str_add) { _body += str_add; }
 		void					set_chunked (bool b) 			{ _chunked = b; }
 		void					set_error_value (int i)			{ _error_value = i; }
 
