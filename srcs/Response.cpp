@@ -91,7 +91,6 @@ void	INLINE_NAMESPACE::Response::manage_response_delete(void)
 	//BUG doit on proteger la suppresion du fichier ? si oui qu'elles sont les regles de gestion des droits ?
 	if (std::remove(_request.get_path().c_str()) != 0)
 	{
-		//TODO tester si on ouvre
 		CNOUT(BYEL << "Error deleting file" << CRESET)
 		_request.set_error_value(403);
 	}
