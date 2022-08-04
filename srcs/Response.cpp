@@ -123,7 +123,7 @@ void	INLINE_NAMESPACE::Response::manage_response_post(void)
 		CNOUT(BYEL << "server is null" << CRESET)
 		return ;
 	}
-	if (_request.is_upload_case())
+	if (_request.define_upload())
 	{
 		isupload = true;
 	}
@@ -218,7 +218,6 @@ void	INLINE_NAMESPACE::Response::manage_response_get(void)
 
 	fill_status_code();
 	manage_autoindex();
-	CNOUT(BRED << "AFTER" << CRESET)
 	fill_header();
 	fill_body();
 }
