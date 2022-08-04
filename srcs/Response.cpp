@@ -89,6 +89,9 @@ void		INLINE_NAMESPACE::Response::fill_header(void)
 void	INLINE_NAMESPACE::Response::manage_response_delete(void)
 {
 	//BUG doit on proteger la suppresion du fichier ? si oui qu'elles sont les regles de gestion des droits ?
+	// std::fstream file;
+
+	// file.open(_request.)
 	if (std::remove(_request.get_path().c_str()) != 0)
 	{
 		//TODO tester si on ouvre
