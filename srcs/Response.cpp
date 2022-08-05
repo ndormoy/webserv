@@ -130,12 +130,17 @@ void	INLINE_NAMESPACE::Response::manage_response_post(void)
 	{
 		isupload = true;
 	}
+	else
+	{
+		//TODO que faire vraiment ici on est ps dans un cas d'upload mais ca peut etre autres choses ??
+		return ; 
+	}
 
 	for (std::vector<Location *>::iterator it = location.begin(); it != location.end(); ++it)
 	{
 		if (!(*it)->get_upload_path().empty())
 		{
-
+			create_upload_file((*it)->get_upload_path(), _request.get_path());					
 			isupload = true;
 			break;
 		}

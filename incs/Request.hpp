@@ -133,6 +133,7 @@ class Request
 		void	set_final_path (void);
 		bool	is_upload_case(void);
 		bool	define_upload(void);
+		void	create_upload_file(std::string, std::string);
 	public:
 	
 		Request & operator= (const Request & ref) {
