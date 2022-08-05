@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/05 16:07:11 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/05 16:21:46 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ INLINE_NAMESPACE::Select::start (void) {
 					else
 					{
 						buffer[bytes] = '\0';
-						CNOUT(BBLU << buffer << CRESET)
 						Request *request = new Request(buffer);
 						//Response response(*request); // BUG peut etre le pb
 						
@@ -183,9 +182,8 @@ INLINE_NAMESPACE::Select::start (void) {
 						}
 						Response response(*request); // BUG peut etre le pb
 						//CNOUT(UMAG << *request << CRESET)
-						//request->get_body() += buffer; // BUG peut etre ca va foutre la merde pour les requetes de taille > 1024 (chunked)
 						response.manage_response();
-						CNOUT(UMAG << request->get_body() << CRESET)
+						CNOUT(BBLU << request->get_body() << CRESET)
 						response.set_message_send(response.get_header());
 						CNOUT(BGRN << response.get_message_send() << CRESET)
 						if (send(_client_socket[i], response.get_message_send().c_str(), response.get_message_send().length(), 0) == SYSCALL_ERR)
