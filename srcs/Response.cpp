@@ -94,7 +94,6 @@ void	INLINE_NAMESPACE::Response::manage_response_delete(void)
 	// file.open(_request.)
 	if (std::remove(_request.get_path().c_str()) != 0)
 	{
-		//TODO tester si on ouvre
 		CNOUT(BYEL << "Error deleting file" << CRESET)
 		_request.set_error_value(403);
 	}

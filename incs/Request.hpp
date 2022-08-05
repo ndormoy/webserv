@@ -23,6 +23,8 @@ class Request
 		Location *  _location;
 		std::string _body;
 		std::string	_boundary;
+		std::string _filename;
+		std::string _content_file;
 
 	public:
 		Request (void) :
@@ -37,7 +39,9 @@ class Request
 			_server(NULL),
 			_location(NULL),
 			_body(""),
-			_boundary("")
+			_boundary(""),
+			_filename(""),
+			_content_file("")
 		{
 			FOREACH_HEADER {
 				_params[*it] = " ";
@@ -65,7 +69,9 @@ class Request
 			_server(ref._server),
 			_location(ref._location),
 			_body(ref._body),
-			_boundary(ref._boundary)
+			_boundary(ref._boundary),
+			_filename(ref._filename),
+			_content_file(ref._content_file)
 		{ }
 
 		Request (const std::string str) :
@@ -80,7 +86,9 @@ class Request
 			_server(NULL),
 			_location(NULL),
 			_body(""),
-			_boundary("")
+			_boundary(""),
+			_filename(""),
+			_content_file("")
 		{
 			_body = str;
 			//CNOUT(BYEL << _body << CRESET)
@@ -122,6 +130,8 @@ class Request
 			_server = NULL;
 			_location = NULL;
 			_boundary = "";
+			_filename = "";
+			_content_file = "";
 		}
 
 	public:
@@ -151,6 +161,8 @@ class Request
 			_server = ref._server;
 			_location = ref._location;
 			_boundary = ref._boundary;
+			_filename = ref._filename;
+			_content_file = ref._content_file;
 			return *this;
 		}
 
@@ -166,6 +178,8 @@ class Request
 			o << "Server: " << ref._server << std::endl;
 			o << "Location: " << ref._location << std::endl;
 			o << "Boundary: " << ref._boundary << std::endl;
+			o << "Filename: " << ref._filename << std::endl;
+			o << "Content file: " << ref._content_file << std::endl;
 			o << "Params: " << std::endl;
 			for (std::map<std::string, std::string>::const_iterator it = ref._params.begin(); it != ref._params.end(); ++it) {
 				o << " -> " << it->first << ": " << it->second << std::endl;
