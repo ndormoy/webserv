@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/04 14:17:01 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/05 10:33:04 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ INLINE_NAMESPACE::Select::start (void) {
 								}
 							}
 						}
-						CNOUT(UMAG << *request << CRESET)
+						//CNOUT(UMAG << *request << CRESET)
 
 						//request->get_body() += buffer; // BUG peut etre ca va foutre la merde pour les requetes de taille > 1024 (chunked)
 						response.manage_response();

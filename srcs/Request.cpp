@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/03 11:15:30 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/05 10:25:52 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,6 +204,7 @@ bool	INLINE_NAMESPACE::Request::define_upload(void)
 	_boundary = vector_spliter((_params["Content-Type"].substr(_params["Content-Type"].find("boundary=") + 9, _params["Content-Type"].length())), " ", "", false)[0];
 	_boundary += "--";
 	
+	CNOUT(UYEL << "Boundary : " << *this << CRESET)
 	//if ()
 	
 	return (true);
