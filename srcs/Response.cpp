@@ -124,7 +124,7 @@ void	INLINE_NAMESPACE::Response::create_upload_file(std::string upload_path)
 
 	final_path.append("/");
 	final_path.append(_request.get_filename());
-	CNOUT(BRED << _request.get_content_file() << CRESET)
+	// CNOUT(BRED << _request.get_content_file() << CRESET)
 	if (upload_path.empty())
 		file.open("example_html/uploads/" + _request.get_filename(), std::ios::out | std::ios::binary);
 	else
@@ -138,6 +138,7 @@ void	INLINE_NAMESPACE::Response::manage_response_post(void)
 	bool	isupload = false;
 	std::vector<Location *> location;
 	INLINE_NAMESPACE::Server * server = NULL;
+
 
 	server = _request.get_server();
 	if(server != NULL)
