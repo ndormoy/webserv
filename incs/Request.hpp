@@ -23,6 +23,8 @@ class Request
 		Location *  _location;
 		std::string _body;
 		std::string	_boundary;
+		std::string _filename;
+		std::string _content_file;
 
 	public:
 		Request (void) :
