@@ -61,21 +61,22 @@ class Response
 		void				set_error_value(int value) 				{ _error_value = value; }
 		void				set_server(Server * server) 			{ _server = server; }
 		void				set_location(Location * location) 		{ _location = location; }
-	
+
 	public: /* Functions */
 
-		void	fill_status_code(void);
-		void 	fill_header(void);
-		void 	fill_start_header(void);
-		void	fill_body(void);
-		void	manage_response(void);
-		void	manage_response_get(void);
-		void	manage_response_post(void);
-		void	manage_response_delete(void);
-		void	manage_response_cgi(void);
-		void	manage_autoindex(void);
-		std::string auto_index(std::string location_path);
-		void	create_index(void);
+		void			fill_status_code(void);
+		void 			fill_header(void);
+		void 			fill_start_header(void);
+		void			fill_body(void);
+		void			manage_response(void);
+		void			manage_response_get(void);
+		void			manage_response_post(void);
+		void			manage_response_delete(void);
+		void			manage_response_cgi(void);
+		void			manage_autoindex(void);
+		std::string		auto_index(std::string location_path);
+		void			create_index(void);
+		void			create_upload_file(std::string);
 	
 	private: /* Attributes */
 

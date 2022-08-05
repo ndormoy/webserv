@@ -111,7 +111,8 @@ class Request
 		Server *				get_server (void) const				{ return (_server); }
 		Location *				get_location (void) const			{ return (_location); }
 		std::string				get_params (std::string str) const	{ return (_params.at(str)); }
-
+		std::string				get_filename (void) const			{ return (_filename); }
+		std::string				get_content_file (void) const		{ return (_content_file); }
 
 		void					add_body(char * str_add) { _body += str_add; }
 		void					set_chunked (bool b) 			{ _chunked = b; }
@@ -143,7 +144,6 @@ class Request
 		void	set_final_path (void);
 		bool	is_upload_case(void);
 		bool	define_upload(void);
-		void	create_upload_file(std::string, std::string);
 	public:
 	
 		Request & operator= (const Request & ref) {

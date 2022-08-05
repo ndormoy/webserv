@@ -109,6 +109,30 @@ void	INLINE_NAMESPACE::Response::manage_response_delete(void)
 	_header.append("</html>\n");
 }
 
+/**
+ * @brief function that create the file were the content of a file is stored
+ * std::ifstream automatically has the ios::in flag set.
+ * std::ofstream automatically has the ios::out flag set.
+ * std::fstream has neither ios::in or ios::out automatically
+ * @param upload_path 
+ */
+
+void	INLINE_NAMESPACE::Response::create_upload_file(std::string upload_path)
+{
+	std::ofstream	file;
+	std::string		final_path = upload_path;
+
+	final_path.append("/");
+	final_path.append(_request.get_filename());
+	CNOUT(BRED << _request.get_content_file() << CRESET)
+	if (upload_path.empty())
+		file.open("example_html/uploads/" + _request.get_filename(), std::ios::out | std::ios::binary);
+	else
+		file.open(final_path, std::ios::out | std::ios::binary);
+	file << _request.get_content_file();
+	file.close();
+}
+
 void	INLINE_NAMESPACE::Response::manage_response_post(void)
 {
 	bool	isupload = false;
@@ -139,7 +163,7 @@ void	INLINE_NAMESPACE::Response::manage_response_post(void)
 	{
 		if (!(*it)->get_upload_path().empty())
 		{
-			create_upload_file((*it)->get_upload_path(), _request.get_path());					
+			create_upload_file((*it)->get_upload_path());					
 			isupload = true;
 			break;
 		}
