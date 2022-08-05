@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/05 10:25:52 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/05 11:14:01 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,10 +202,14 @@ bool	INLINE_NAMESPACE::Request::define_upload(void)
 		return (false);
 	
 	_boundary = vector_spliter((_params["Content-Type"].substr(_params["Content-Type"].find("boundary=") + 9, _params["Content-Type"].length())), " ", "", false)[0];
-	_boundary += "--";
-	
-	CNOUT(UYEL << "Boundary : " << *this << CRESET)
-	//if ()
-	
+	if (_body.find("filename=") != std::string::npos) {
+		_filename = vector_spliter(_body.substr(_body.find("filename=") + 9, _body.length()), " ", "", false)[0];
+		_filename = _filename.substr(_filename.find("\"") + 1, _filename.length());
+		_filename = _filename.substr(0, _filename.find("\""));
+	}
+	_content_file = _body.substr(_body.find(_boundary) + _boundary.length(), _body.length());
+	_content_file = _content_file.substr(_content_file.find(_boundary) + _boundary.length(), _content_file.length());
+	_content_file = _content_file.substr(0, _content_file.find(_boundary) - 2);
+	_content_file = _content_file.substr(_content_file.find("\r\n\r\n") + 4, _content_file.length());
 	return (true);
 }
