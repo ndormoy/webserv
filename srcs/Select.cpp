@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/03 16:07:07 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/04 14:17:01 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,31 @@ INLINE_NAMESPACE::Select::start (void) {
 						CNOUT(BBLU << buffer << CRESET)
 						Request *request = new Request(buffer);
 						Response response(*request);
+
+						if (request->get_method() | M_POST) {
+							while (bytes > 0) {
+								for (int i = 0; i < 10024; i++) {
+									buffer[i] = '\0';
+								}
+								if(_client_socket[i] != 0 && FD_ISSET(_client_socket[i], &_readfds)) {
+									bytes = recv(_client_socket[i], buffer, 10024, 0);
+									if (bytes == SYSCALL_ERR) {
+										break ;
+									} else if (bytes == 0) {
+										FD_CLR(_client_socket[i], &_readfds);
+										if (_client_socket[i] > 0)
+										{
+											close(_client_socket[i]);
+										}
+										//it->set_client_socket(0, i);
+										_client_socket[i] = 0;
+									} else {
+										buffer[bytes] = '\0';
+										request->add_body(buffer);
+									}
+								}
+							}
+						}
 
 						if (request->get_chunked() == true) {
 							CNOUT(UMAG << "chunked" << CRESET)
