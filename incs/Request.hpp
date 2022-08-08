@@ -85,12 +85,11 @@ class Request
 			_query_string(""),
 			_server(NULL),
 			_location(NULL),
-			_body(""),
+			_body(str),
 			_boundary(""),
 			_filename(""),
 			_content_file("")
 		{
-			_body = str;
 			//CNOUT(BYEL << _body << CRESET)
 			_chunked = (str.find("\r\n\r\n") == std::string::npos);
 			_error_value = request_parser();
@@ -105,7 +104,7 @@ class Request
 		std::string				get_construct_path (void) const 	{ return (_construct_path); }
 		std::string				get_version (void) const				{ return (_version); }
 		bool					get_chunked (void) const				{ return (_chunked); }
-		std::string 			get_body (void)const 				{ return (_body); }
+		std::string &			get_body (void) 				{ return (_body); }
 		int						get_error_value (void)const			{ return (_error_value); }
 		std::string 			get_query_string (void) const		{ return (_query_string); }
 		Server *				get_server (void) const				{ return (_server); }
@@ -115,8 +114,21 @@ class Request
 		std::string				get_content_file (void) const		{ return (_content_file); }
 
 		void					add_body(char * str_add) { _body += str_add; }
+
 		void					set_chunked (bool b) 			{ _chunked = b; }
 		void					set_error_value (int i)			{ _error_value = i; }
+		void                    set_query_string (std::string str)    { _query_string = str; }
+		void					set_server (Server * s)			{ _server = s; }
+		void					set_location (Location * l)		{ _location = l; }
+		void					set_filename (std::string str)		{ _filename = str; }
+		void					set_content_file (std::string str)	{ _content_file = str; }
+		void					set_boundary (std::string str)		{ _boundary = str; }
+		void					set_version (std::string str)		{ _version = str; }
+		void					set_construct_path (std::string str)	{ _construct_path = str; }
+		void					set_path (std::string str)			{ _path = str; }
+		void					set_method (int i)				{ _method = i; }
+		void					set_params (param_type & p)		{ _params = p; }
+		void					set_body (std::string str)			{ _body = str; }
 
 		void					clear (void) {
 			_params.clear();

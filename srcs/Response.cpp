@@ -126,9 +126,9 @@ void	INLINE_NAMESPACE::Response::create_upload_file(std::string upload_path)
 	final_path.append(_request.get_filename());
 	// CNOUT(BRED << _request.get_content_file() << CRESET)
 	if (upload_path.empty())
-		file.open("example_html/uploads/" + _request.get_filename(), std::ios::out | std::ios::binary);
+		file.open(("example_html/uploads/" + _request.get_filename()).c_str(), std::ios::out | std::ios::binary);
 	else
-		file.open(final_path, std::ios::out | std::ios::binary);
+		file.open(final_path.c_str(), std::ios::out | std::ios::binary);
 	file << _request.get_content_file();
 	file.close();
 }
