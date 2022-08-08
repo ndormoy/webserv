@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/08 08:16:14 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/08 10:35:58 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,9 @@ INLINE_NAMESPACE::Select::setup (void) {
 
 void
 INLINE_NAMESPACE::Select::start (void) {
+	
+	size_t size_total = 0;
+
 	fd_set r_readfds;
 	while (true) {
 		r_readfds = _readfds; //je crois vraiment pas necessaire au final
@@ -98,6 +101,9 @@ INLINE_NAMESPACE::Select::start (void) {
 			new_request();
 			char	buffer[10025]; // pas sur de l'emplacement
 			int		bytes = 0;
+
+			size_total += bytes;
+			
 			for (int i = 0; i < MAX_CLIENT; i++)
 			{
 				if (_client_socket[i] != 0 && FD_ISSET(_client_socket[i], &_readfds))
@@ -120,20 +126,24 @@ INLINE_NAMESPACE::Select::start (void) {
 					}
 					else
 					{
+						size_total += bytes;
 						buffer[bytes] = '\0';
 						Request *request = new Request(buffer);
-						//Response response(*request); // BUG peut etre le pb
 						
-						if (request->get_method() | M_POST) {
+						if (request->get_method() == M_POST) {
+							CNOUT(BHMAG << "POST--------------------------------------------------------" << CRESET)
 							while (bytes > 0) {
-								for (int i = 0; i < 10024; i++) {
-									buffer[i] = '\0';
-								}
 								if(_client_socket[i] != 0 && FD_ISSET(_client_socket[i], &_readfds)) {
-									bytes = recv(_client_socket[i], buffer, 10024, 0);
+									for (int i = 0; i < 10025; i++) {
+										buffer[i] = '\0';
+									}
+									bytes = recv(_client_socket[i], buffer, 1024, 0);
 									if (bytes == SYSCALL_ERR) {
+										strerror(errno);
+										CNOUT("error: " << errno)
 										break ;
 									} else if (bytes == 0) {
+										CNOUT("client disconnected = " << _client_socket[i])
 										FD_CLR(_client_socket[i], &_readfds);
 										if (_client_socket[i] > 0)
 										{
@@ -144,12 +154,14 @@ INLINE_NAMESPACE::Select::start (void) {
 									} else {
 										buffer[bytes] = '\0';
 										request->add_body(buffer);
+										CNOUT(BHMAG << buffer << CRESET)
+										usleep(1000);
 									}
 								}
 							}
 						}
 
-						if (request->get_chunked() == true) {
+						if (request->get_chunked() == true/*  || request->get_method() == M_POST */) {
 							CNOUT(UMAG << "chunked" << CRESET)
 							while (bytes > 0) {
 								for (int i = 0; i < 10024; i++) {
@@ -169,21 +181,23 @@ INLINE_NAMESPACE::Select::start (void) {
 										_client_socket[i] = 0;
 									} else {
 										buffer[bytes] = '\0';
-
+										size_total += bytes;
 										request->add_body(buffer);
 									}
 								}
 								std::string buffer_s(buffer);
-								if (buffer_s.find("\r\n\r\n") != std::string::npos) {
+								if (buffer_s.find("\0\r\n\r\n") != std::string::npos) {
 									break ;
 									//request->set_chunked(false);
 								}
 							}
 						}
+						CNOUT(BRED << size_total << CRESET)
 						Response response(*request); // BUG peut etre le pb
 						//CNOUT(UMAG << *request << CRESET)
 						response.manage_response();
 						CNOUT(BBLU << request->get_body() << CRESET)
+						//CNOUT(BBLU << buffer << CRESET)
 						response.set_message_send(response.get_header());
 						CNOUT(BGRN << response.get_message_send() << CRESET)
 						if (send(_client_socket[i], response.get_message_send().c_str(), response.get_message_send().length(), 0) == SYSCALL_ERR)
