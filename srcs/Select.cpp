@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Select.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/08 15:34:24 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/08 16:04:01 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,10 @@ INLINE_NAMESPACE::Select::start (void) {
 			char	buffer[10025]; // pas sur de l'emplacement
 			int		bytes = 0;
 
-			size_total += bytes;
 			
 			for (int i = 0; i < MAX_CLIENT; i++)
 			{
+				size_total = bytes;
 				if (_client_socket[i] != 0 && FD_ISSET(_client_socket[i], &_readfds))
 				{
 					bytes = recv(_client_socket[i], buffer, 10024, 0);
@@ -117,7 +117,7 @@ INLINE_NAMESPACE::Select::start (void) {
 					}
 					else if (bytes == 0)
 					{
-						CNOUT("client disconnected = " << _client_socket[i])
+						// CNOUT("client disconnected = " << _client_socket[i])
 						FD_CLR(_client_socket[i], &_readfds);
 						if (_client_socket[i] > 0)
 						{
@@ -136,11 +136,11 @@ INLINE_NAMESPACE::Select::start (void) {
 
 
 						
-						CNOUT("+++++++++++++++++++++++++++++++++++++++++++++++++++++++=")
-						write(1, request->get_body().c_str(), bytes);
+						// CNOUT("+++++++++++++++++++++++++++++++++++++++++++++++++++++++=")
+						// write(1, request->get_body().c_str(), bytes);
 
 						//CNOUT(UMAG << request->get_body().c_str() << CRESET)
-						CNOUT("+++++++++++++++++++++++++++++++++++++++++++++++++++++++=")
+						// CNOUT("+++++++++++++++++++++++++++++++++++++++++++++++++++++++=")
 						
 
 
@@ -151,19 +151,19 @@ INLINE_NAMESPACE::Select::start (void) {
 
 
 						if (request->get_method() == M_POST) {
-							CNOUT(BHMAG << "POST--------------------------------------------------------" << CRESET)
+							// CNOUT(BHMAG << "POST--------------------------------------------------------" << CRESET)
 							while (bytes > 0) {
 								if(_client_socket[i] != 0 && FD_ISSET(_client_socket[i], &_readfds)) {
 									for (int i = 0; i < 10025; i++) {
 										buffer[i] = '\0';
 									}
 									bytes = recv(_client_socket[i], buffer, 1024, 0);
-									write(1, buffer, bytes);
+									// write(1, buffer, bytes);
 									if (bytes == SYSCALL_ERR) {
-										CNOUT(UMAG << "Error: " << strerror(errno) << CRESET)
+										// CNOUT(UMAG << "Error: " << strerror(errno) << CRESET)
 										break ;
 									} else if (bytes == 0) {
-										CNOUT("client disconnected = " << _client_socket[i])
+										// CNOUT("client disconnected = " << _client_socket[i])
 										FD_CLR(_client_socket[i], &_readfds);
 										if (_client_socket[i] > 0)
 										{
@@ -183,7 +183,7 @@ INLINE_NAMESPACE::Select::start (void) {
 						}
 
 						if (request->get_chunked() == true/*  || request->get_method() == M_POST */) {
-							CNOUT(UMAG << "chunked" << CRESET)
+							// CNOUT(UMAG << "chunked" << CRESET)
 							while (bytes > 0) {
 								for (int i = 0; i < 10024; i++) {
 									buffer[i] = '\0';
@@ -213,10 +213,12 @@ INLINE_NAMESPACE::Select::start (void) {
 							}
 						}
 						Response response(*request); // BUG peut etre le pb
+						// write(1, request->get_body().c_str(), size_total);
 						response.manage_response();
 						response.set_message_send(response.get_header());
 						if (send(_client_socket[i], response.get_message_send().c_str(), response.get_message_send().length(), 0) == SYSCALL_ERR)
 						{
+							CNOUT(UMAG << "Error: " << strerror(errno) << CRESET)
 							throw Select::fSendError();
 						}
 
