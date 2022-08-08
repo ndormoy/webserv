@@ -85,13 +85,35 @@ class Request
 			_query_string(""),
 			_server(NULL),
 			_location(NULL),
-			_body(str),
+			/* _body(str), */
 			_boundary(""),
 			_filename(""),
 			_content_file("")
 		{
-			//CNOUT(BYEL << _body << CRESET)
+			//_body.insert(_body.end(), str, str + strlen(str));
 			_chunked = (str.find("\r\n\r\n") == std::string::npos);
+			_error_value = request_parser();
+			DEBUG_5(CNOUT(*this));
+		}
+
+		Request (char *str, int size) :
+			_params(*new param_type()),
+			_method(0),
+			_path(""),
+			_construct_path(""),
+			_version(""),
+			_chunked(false),
+			_error_value(0),
+			_query_string(""),
+			_server(NULL),
+			_location(NULL),
+			/* _body(str), */
+			_boundary(""),
+			_filename(""),
+			_content_file("")
+		{
+			_body.insert(0, str, size);
+			//_chunked = (str.find("\r\n\r\n") == std::string::npos);
 			_error_value = request_parser();
 			DEBUG_5(CNOUT(*this));
 		}
@@ -113,7 +135,7 @@ class Request
 		std::string				get_filename (void) const			{ return (_filename); }
 		std::string				get_content_file (void) const		{ return (_content_file); }
 
-		void					add_body(char * str_add) { _body += str_add; }
+		void					add_body(char * str_add, int bytes) { _body.insert(_body.size(), str_add, bytes);  }
 
 		void					set_chunked (bool b) 			{ _chunked = b; }
 		void					set_error_value (int i)			{ _error_value = i; }

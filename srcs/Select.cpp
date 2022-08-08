@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Select.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/08 13:44:14 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/08/08 15:34:24 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ INLINE_NAMESPACE::Select::start (void) {
 				{
 					bytes = recv(_client_socket[i], buffer, 10024, 0);
 					// write(1, buffer, bytes);
-					CNOUT(BRED << buffer << CRESET << std::endl << bytes << std::endl)
 					if (bytes == SYSCALL_ERR)
 					{
 						throw Select::fRecvError();
@@ -131,19 +130,16 @@ INLINE_NAMESPACE::Select::start (void) {
 					{
 						size_total += bytes;
 						buffer[bytes] = '\0';
-						Request *request = new Request(buffer);
+						Request *request = new Request(buffer, bytes);
 
 
 
 
 						
 						CNOUT("+++++++++++++++++++++++++++++++++++++++++++++++++++++++=")
-						write(1, buffer, bytes);
+						write(1, request->get_body().c_str(), bytes);
 
-						std::string buffer_s(buffer);
-						request->set_body(buffer_s);
-						// write(1, request->get_body().c_str(), bytes);
-						CNOUT(request->get_body().c_str());
+						//CNOUT(UMAG << request->get_body().c_str() << CRESET)
 						CNOUT("+++++++++++++++++++++++++++++++++++++++++++++++++++++++=")
 						
 
@@ -154,7 +150,6 @@ INLINE_NAMESPACE::Select::start (void) {
 
 
 
-						
 						if (request->get_method() == M_POST) {
 							CNOUT(BHMAG << "POST--------------------------------------------------------" << CRESET)
 							while (bytes > 0) {
@@ -165,8 +160,7 @@ INLINE_NAMESPACE::Select::start (void) {
 									bytes = recv(_client_socket[i], buffer, 1024, 0);
 									write(1, buffer, bytes);
 									if (bytes == SYSCALL_ERR) {
-										// strerror(errno);
-										CNOUT("error: " << errno)
+										CNOUT(UMAG << "Error: " << strerror(errno) << CRESET)
 										break ;
 									} else if (bytes == 0) {
 										CNOUT("client disconnected = " << _client_socket[i])
@@ -179,11 +173,8 @@ INLINE_NAMESPACE::Select::start (void) {
 										_client_socket[i] = 0;
 									} else {
 										buffer[bytes] = '\0';
-										
 										//request->get_body() += buffer;
-										request->add_body(buffer);
-
-
+										request->add_body(buffer, bytes);
 										size_total += bytes;
 									}
 								} else
@@ -208,35 +199,28 @@ INLINE_NAMESPACE::Select::start (void) {
 										{
 											close(_client_socket[i]);
 										}
-										//it->set_client_socket(0, i);
 										_client_socket[i] = 0;
 									} else {
 										buffer[bytes] = '\0';
 										size_total += bytes;
-										request->add_body(buffer);
+										request->add_body(buffer, bytes);
 									}
 								}
 								std::string buffer_s(buffer);
 								if (buffer_s.find("\0\r\n\r\n") != std::string::npos) {
 									break ;
-									//request->set_chunked(false);
 								}
 							}
 						}
-						// CNOUT(BRED << size_total << CRESET)
 						Response response(*request); // BUG peut etre le pb
-						//CNOUT(UMAG << *request << CRESET)
 						response.manage_response();
-						// CNOUT(BBLU << request->get_body() << CRESET)
-						//CNOUT(BBLU << buffer << CRESET)
 						response.set_message_send(response.get_header());
-						// CNOUT(BGRN << response.get_message_send() << CRESET)
 						if (send(_client_socket[i], response.get_message_send().c_str(), response.get_message_send().length(), 0) == SYSCALL_ERR)
 						{
 							throw Select::fSendError();
 						}
 
-						CNOUT(request->get_body().size())
+						// CNOUT(request->get_body().size())
 						// write(1, request->get_body().c_str(), 2124);
 					}
 				}
