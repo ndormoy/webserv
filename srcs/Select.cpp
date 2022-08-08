@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/08 08:25:05 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/08 09:26:52 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,9 +122,8 @@ INLINE_NAMESPACE::Select::start (void) {
 					{
 						buffer[bytes] = '\0';
 						Request *request = new Request(buffer);
-						//Response response(*request); // BUG peut etre le pb
-						if (request->get_method() == M_POST)
-						/* if (request->get_method() | M_POST) */ {
+						
+						if (request->get_method() == M_POST) {
 							CNOUT(BHMAG << "POST--------------------------------------------------------" << CRESET)
 							while (bytes > 0) {
 								for (int i = 0; i < 10024; i++) {
@@ -133,8 +132,11 @@ INLINE_NAMESPACE::Select::start (void) {
 								if(_client_socket[i] != 0 && FD_ISSET(_client_socket[i], &_readfds)) {
 									bytes = recv(_client_socket[i], buffer, 10024, 0);
 									if (bytes == SYSCALL_ERR) {
+										strerror(errno);
+										CNOUT("error: " << errno)
 										break ;
 									} else if (bytes == 0) {
+										CNOUT("client disconnected = " << _client_socket[i])
 										FD_CLR(_client_socket[i], &_readfds);
 										if (_client_socket[i] > 0)
 										{
@@ -145,12 +147,14 @@ INLINE_NAMESPACE::Select::start (void) {
 									} else {
 										buffer[bytes] = '\0';
 										request->add_body(buffer);
+										CNOUT(BHMAG << buffer << CRESET)
+										usleep(1000);
 									}
 								}
 							}
 						}
 
-						if (request->get_chunked() == true) {
+						if (request->get_chunked() == true/*  || request->get_method() == M_POST */) {
 							CNOUT(UMAG << "chunked" << CRESET)
 							while (bytes > 0) {
 								for (int i = 0; i < 10024; i++) {
@@ -175,7 +179,7 @@ INLINE_NAMESPACE::Select::start (void) {
 									}
 								}
 								std::string buffer_s(buffer);
-								if (buffer_s.find("\r\n\r\n") != std::string::npos) {
+								if (buffer_s.find("\0\r\n\r\n") != std::string::npos) {
 									break ;
 									//request->set_chunked(false);
 								}
