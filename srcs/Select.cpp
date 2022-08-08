@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/05 17:26:22 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/08 08:25:05 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,9 @@ INLINE_NAMESPACE::Select::start (void) {
 						buffer[bytes] = '\0';
 						Request *request = new Request(buffer);
 						//Response response(*request); // BUG peut etre le pb
-						
-						if (request->get_method() | M_POST) {
+						if (request->get_method() == M_POST)
+						/* if (request->get_method() | M_POST) */ {
+							CNOUT(BHMAG << "POST--------------------------------------------------------" << CRESET)
 							while (bytes > 0) {
 								for (int i = 0; i < 10024; i++) {
 									buffer[i] = '\0';
