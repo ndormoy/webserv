@@ -6,7 +6,7 @@ server {
 	
 	location /
 	{
-		allow_methods GET POST DELETE;
+		# allow_methods GET POST DELETE;
 		# root example_html;
 		index bar.html;
 		

@@ -173,11 +173,13 @@ class Request
 
 		int		request_parser (void);
 		int		check_first_line (void);
-		bool	parse_first_line (std::string);
+		short	parse_first_line (std::string);
 		void	request_line_parser (std::string);
 		void	set_final_path (void);
-		bool	is_upload_case(void);
-		bool	define_upload(void);
+		bool	is_upload_case (void);
+		bool	define_upload (void);
+        short   check_request (void);
+
 	public:
 	
 		Request & operator= (const Request & ref) {
