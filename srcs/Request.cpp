@@ -74,16 +74,16 @@ find_location (INLINE_NAMESPACE::Server * srv, std::string path) {
 	return (NULL);
 }
 
-bool
+short
 INLINE_NAMESPACE::Request::parse_first_line (std::string str) {
 	string_vector vector = vector_spliter(str, " ", "", false);
 	
 	if (vector.size() < 3)
-		return (false);
+		return (400);
 	else if ((vector[0] != "GET" && vector[0] != "POST" && vector[0] != "DELETE"))
-		return (false);
+		return (405);
 	else if (vector[2] != "HTTP/1.1")
-		return (false);
+		return (505);
 
 	if (vector[0] == "GET") {
 		_method |= M_GET;
@@ -95,7 +95,7 @@ INLINE_NAMESPACE::Request::parse_first_line (std::string str) {
 	_path = vector[1].substr(((vector[1][0] == '/') ? 1 : 0), vector[1].length());
 	_version = vector[2];
 	
-	return (true);
+	return (0);
 }
 
 void
@@ -146,17 +146,27 @@ INLINE_NAMESPACE::Request::set_final_path (void) {
 	_construct_path = tmp;
 }
 
+short
+INLINE_NAMESPACE::Request::check_request (void) {
+    if (!(_method & _location->get_methods()))
+        return (405);
+    else if (!path_is_valid(_construct_path))
+        return (404);
+    return (0);
+}
+
 int
 INLINE_NAMESPACE::Request::request_parser (void) {
 	string_vector v = request_spliter_(_body);
 	int pos;
+    int ret;
 	
 	if (v.size() < 1) {
 		return (400);
-	} else if (false == parse_first_line(v[0])) {
+	} else if ((ret = parse_first_line(v[0])) != 0) {
 		DEBUG_5(CNOUT(BRED << "Request : invalid first line" << CRESET))
-		return (400);
-	} else if ((pos = _path.find("?")) != std::string::npos) {
+		return (ret);
+	} else if ((pos = _path.find('?')) != std::string::npos) {
 		DEBUG_5(CNOUT(BYEL << "Query string has been found" << CRESET));
 		_query_string = _path.substr(pos + 1, _path.length());
 		_path = _path.substr(0, pos);
@@ -169,7 +179,10 @@ INLINE_NAMESPACE::Request::request_parser (void) {
 	_location = find_location(_server, _path);
 	_chunked = ((_params["Transfer-Encoding"].find("chunked")) != std::string::npos);
 	set_final_path();
-	
+
+    if ((ret = check_request()) != 0) {
+        return (ret);
+    }
 	// getContent (changed path)
 	return (200);
 }
