@@ -150,6 +150,7 @@ void	INLINE_NAMESPACE::Response::manage_response_post(void)
 		CNOUT(BYEL << "server is null" << CRESET)
 		return ;
 	}
+
 	if (_request.define_upload())
 	{
 		isupload = true;
@@ -159,11 +160,12 @@ void	INLINE_NAMESPACE::Response::manage_response_post(void)
 		//TODO que faire vraiment ici on est ps dans un cas d'upload mais ca peut etre autres choses ??
 		isupload = false;
 	}
+
 	for (std::vector<Location *>::iterator it = location.begin(); it != location.end(); ++it)
 	{
 		if (!(*it)->get_upload_path().empty() && isupload)
 		{
-			if (server->get_max_body_size() > _request.get_content_file().size())
+			if (server->get_max_body_size() < _request.get_content_file().size())
 			{
 				CNOUT(BRED << "max body size hit" << CRESET)
 				_request.set_error_value(413); //BUG pas sur

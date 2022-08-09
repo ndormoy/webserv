@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:55:35 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/09 12:09:06 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/09 13:48:18 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ class Server {
 		Server (void) :
 			_port(0),
 			_ip(""),
-			_max_body_size(1000000), //TODO check la taille max si cest bon on peut la mettre a 1M
+			_max_body_size(8000000), //TODO check la taille max si cest bon on peut la mettre a 1Mo = 8Mb
 			_default(false),
 			_server_name(""),
 			_error_pages(),
