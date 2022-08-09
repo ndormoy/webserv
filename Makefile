@@ -10,7 +10,11 @@ OBJS = 		$(addprefix ${OBJDIR}/,${SRCS:.cpp=.o})
 DEP =		$(addprefix ${OBJDIR}/,${SRC:.cpp=.d})
 RM =		rm -rf
 INCS =		-I ./incs
-SYSTEM =	${shell uname}
+SYSTEM =	${shell uname -s}
+
+ifeq ($(SYSTEM), Darwin)
+	CPPFLAGS += -D_DARWIN_UNLIMITED_SELECT
+endif
 
 OBJDIR =	.objs
 INCDIR =	incs

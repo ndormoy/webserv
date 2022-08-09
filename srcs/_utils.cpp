@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _utils.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 15:33:04 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/29 14:01:27 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/09 15:07:13 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,34 @@ path_is_valid (const std::string & str) {
 	struct stat buffer;
 	
   	return (stat (str.c_str(), &buffer) == 0);
+}
+
+std::string
+create_html_error_page (int error_code) {
+
+    std::map<short, std::string> error_pages = webserv::init_error_map();
+    std::map<short, std::string>::const_iterator it = error_pages.begin();
+    std::string page = "";
+
+    for (; it != error_pages.end(); ++it) {
+        if (it->first == error_code)
+            break;
+    }
+    if (it == error_pages.end())
+        return ("");
+
+    page += "<!DOCTYPE html>\r\n";
+    page += "<html>\r\n";
+    page += "<head>\r\n";
+    page += "<title>Error " + std::to_string(error_code) + "</title>\r\n";
+    page += "</head>\r\n";
+    page += "<body>\r\n";
+    page += "<h1>Error " + std::to_string(error_code) + "</h1>\r\n";
+    page += "<p>" + it->second + "</p>\r\n";
+    page += "</body>\r\n";
+    page += "</html>\r\n";
+
+    CNOUT(UMAG << page << CRESET)
+
+    return page;
 }

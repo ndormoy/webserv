@@ -20,6 +20,9 @@ _BEGIN_NAMESPACE_WEBSERV
 string_vector
 init_header (void);
 
+std::map<short, std::string>
+init_error_map (void);
+
 _END_NAMESPACE_WEBSERV
 
 #endif /* _INIT_HPP */

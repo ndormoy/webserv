@@ -184,4 +184,6 @@ bool						path_is_dir (const std::string & str);
 
 bool						path_is_valid (const std::string & str);
 
+std::string                 create_html_error_page (int error_code);
+
 #endif /* _UTILS_HPP */

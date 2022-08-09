@@ -80,7 +80,10 @@ void		INLINE_NAMESPACE::Response::fill_header(void)
 		_error_path = "./www/error_pages/";
 		_error_path.append(ITOA(_request.get_error_value()));
 		_error_path.append(".html");
-		_header.append(ITOA(calculate_size_file((char *)_error_path.c_str())));
+
+
+
+//        _header.append(ITOA(calculate_size_file((char *)_error_path.c_str())));
 	}
 	_header.append("\r\n");
 	_header.append("\n\n");
