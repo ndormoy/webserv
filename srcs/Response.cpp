@@ -198,6 +198,7 @@ void	INLINE_NAMESPACE::Response::manage_response_post(void)
 		_request.set_error_value(500);
 		fill_status_code();
 		fill_start_header();
+		//_header.append(create_html_error_page(_request.get_error_value()));
 		_header.append("57\r\n"); //TODO recalculer des lignes html en dessous
 		_header.append("\r\n");
 		_header.append("\n\n");
