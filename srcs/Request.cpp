@@ -150,8 +150,8 @@ short
 INLINE_NAMESPACE::Request::check_request (void) {
     if (!(_method & _location->get_methods()))
         return (405);
-    else if (!path_is_valid(_construct_path))
-        return (404);
+//    else if (!path_is_valid(_construct_path))
+//        return (404);
     return (0);
 }
 
