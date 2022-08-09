@@ -157,21 +157,23 @@ void	INLINE_NAMESPACE::Response::manage_response_post(void)
 	else
 	{
 		//TODO que faire vraiment ici on est ps dans un cas d'upload mais ca peut etre autres choses ??
-		return ; 
+		isupload = false;
 	}
-
 	for (std::vector<Location *>::iterator it = location.begin(); it != location.end(); ++it)
 	{
-		if (!(*it)->get_upload_path().empty())
+		if (!(*it)->get_upload_path().empty() && isupload)
 		{
-			create_upload_file((*it)->get_upload_path());					
-			isupload = true;
+			if (server->get_max_body_size() > _request.get_content_file().size())
+			{
+				CNOUT(BRED << "max body size hit" << CRESET)
+				_request.set_error_value(413); //BUG pas sur
+				isupload = false;
+				break ;
+			}
+			create_upload_file((*it)->get_upload_path());
 			break;
 		}
 	}
-	//if (_request.get_path().find("upload") != std::string::npos)
-	//	isupload = true;
-	//if (isupload)
 	if (isupload == true)
 	{
 		_request.set_error_value(200);
