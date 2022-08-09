@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _utils.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:33:58 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/08 10:50:58 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/08/09 14:22:55 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ class Server;
 # define CNOUT(x)						std::cout << x << std::endl;
 # define CNO(x, o)						o << x << std::endl;
 # define CNERR(x)						std::cerr << x << std::endl;
-
+# define CCOUT(color, x)				std::cout << color << x << CRESET << std::endl;
 # define CONFIG_STRING_MAX_SIZE			100
 // TODO before release the project change the number of max_client to 999 and make some tests
 # define MAX_CLIENT						4 //BUG which number should we put here, dont put to much if u dont want to fail select()
