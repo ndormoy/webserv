@@ -13,7 +13,7 @@ server {
 		return 301 example_html;
 		auto_index on;
 		cgi .php example_html/bar.html;
-		upload example_html;
+		upload example_html/upload;
 	}
 }
 
@@ -34,7 +34,7 @@ server {
 		return 301 example_html;
 		auto_index on;
 		cgi .php example_html/bar.html;
-		upload example_html;
+		upload example_html/upload;
 	}
 
 	location example_html {
@@ -45,7 +45,7 @@ server {
 		return 301 example_html;
 		auto_index on;
 		cgi .php example_html/bar.html;
-		upload example_html;
+		upload example_html/upload;
 	}
 }
 
