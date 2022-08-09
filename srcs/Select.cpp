@@ -217,8 +217,7 @@ INLINE_NAMESPACE::Select::start (void) {
 						response.manage_response();
 						response.set_message_send(response.get_header());
 						CNOUT(BGRN << response.get_message_send() << CRESET)
-
-						
+                        
 						if (send(_client_socket[i], response.get_message_send().c_str(), response.get_message_send().length(), 0) == SYSCALL_ERR)
 						{
 							CNOUT(UMAG << "Error: " << strerror(errno) << CRESET)
