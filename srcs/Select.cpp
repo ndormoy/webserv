@@ -6,13 +6,10 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/08/09 15:07:59 by mamaurai         ###   ########.fr       */
-=======
-/*   Updated: 2022/08/09 13:57:21 by gmary            ###   ########.fr       */
->>>>>>> 1b04558dd4992e9a9ff386f8bd8cb90c7afbf3b2
+/*   Updated: 2022/08/09 15:15:19 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "webserv.hpp"
 
@@ -220,13 +217,10 @@ INLINE_NAMESPACE::Select::start (void) {
 						DEBUG_2(CNOUT(BBLU << request->get_body() << CRESET))
 						response.manage_response();
 						response.set_message_send(response.get_header());
-<<<<<<< HEAD
 						CNOUT(BGRN << response.get_message_send() << CRESET)
 
 						
-=======
 						DEBUG_2(CNOUT(BGRN << response.get_message_send() << CRESET))
->>>>>>> 1b04558dd4992e9a9ff386f8bd8cb90c7afbf3b2
 						if (send(_client_socket[i], response.get_message_send().c_str(), response.get_message_send().length(), 0) == SYSCALL_ERR)
 						{
 							CNOUT(UMAG << "Error: " << strerror(errno) << CRESET)
