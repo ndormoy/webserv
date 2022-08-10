@@ -61,11 +61,13 @@ class Location
 			_return(*new return_type()),
 			_root(""),
 			_index(""),
-			_path(s),
+			_path(""),
 			_autoindex(false),
 			_cgi(),
 			_upload_path()
-		{ }
+		{
+            _path = remove_slash(s);
+        }
 
 		/**
 		 * @brief Destroy the Location object

@@ -40,6 +40,7 @@ class Server;
 // TODO before release the project change the number of max_client to 999 and make some tests
 # define MAX_CLIENT						4 //BUG which number should we put here, dont put to much if u dont want to fail select()
 # define BUFFER_SIZE					1025 // BUG undifined value
+# define WWW_PATH                       "./www/"
 
 # define EXCEPTION(x, y)				public: class x : public std::exception {const char * what (void) const throw() {return (y);}};
 
@@ -185,5 +186,7 @@ bool						path_is_dir (const std::string & str);
 bool						path_is_valid (const std::string & str);
 
 std::string                 create_html_error_page (int error_code);
+
+std::string                 remove_slash (const std::string & str);
 
 #endif /* _UTILS_HPP */

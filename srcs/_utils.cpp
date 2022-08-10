@@ -117,3 +117,11 @@ create_html_error_page (int error_code) {
     page += "</html>\r\n";
     return page;
 }
+
+std::string
+remove_slash (const std::string & str) {
+    if (str == "/")
+        return ("");
+    else
+        return (str.substr(((str[0] == '/') ? 1 : 0), str.size() - ((str[str.size() - 1] == '/') ? 1 : 0)));
+}
