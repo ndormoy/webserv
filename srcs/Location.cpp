@@ -35,7 +35,7 @@ INLINE_NAMESPACE::Location::_set_root (string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
 
 	if (CHECKER(v, CHECK_SIZE_ONE | CHECK_IS_DIR)) {
-		_root = v[0];
+		_root = remove_slash(v[0]);
 	} else {
 		throw Configuration::InvalidRoot();
 	}
@@ -46,7 +46,7 @@ INLINE_NAMESPACE::Location::_set_index (string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
 
 	if (CHECKER(v, CHECK_SIZE_ONE)) {
-		_index = v[0];
+		_index = remove_slash(v[0]);
 	} else {
 		throw Configuration::InvalidIndex();
 	}
@@ -71,7 +71,7 @@ INLINE_NAMESPACE::Location::_set_upload (string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
 
 	if (CHECKER(v, CHECK_SIZE_ONE | CHECK_IS_DIR)) {
-		_upload_path = v[0];
+		_upload_path = remove_slash(v[0]);
 	} else {
 		throw Configuration::InvalidUpload();
 	}
@@ -82,7 +82,7 @@ INLINE_NAMESPACE::Location::_set_cgi (string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
 	
 	if (CHECKER(v, CHECK_SIZE_TWO | CHECK_EXTENTION | CHECK_CORRECT_PATH)) {
-		_cgi.push_back(std::make_pair(v[0], v[1]));
+		_cgi.push_back(std::make_pair(v[0], remove_slash(v[1])));
 	} else {
 		throw Configuration::InvalidCgi();
 	}
@@ -93,7 +93,7 @@ INLINE_NAMESPACE::Location::_set_return (string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
 
 	if (CHECKER(v, CHECK_SIZE_TWO | CHECK_IS_DIR | CHECK_ERROR_CODE)) {
-		_return.push_back(std::make_pair(std::atoi(v[0].c_str()), v[1]));
+		_return.push_back(std::make_pair(std::atoi(v[0].c_str()), remove_slash(v[1])));
 	} else {
 		throw Configuration::InvalidReturn();
 	}

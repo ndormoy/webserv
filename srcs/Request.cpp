@@ -125,34 +125,41 @@ INLINE_NAMESPACE::Request::request_line_parser (std::string str) {
 void
 INLINE_NAMESPACE::Request::set_final_path (void) {
 	if (_location == NULL) {
-		// _construct_path = _path;
+		 _construct_path = _path;
 		return;
 	}
 	std::string tmp;
 
-	if (_location->get_root() != "") {
+    CNOUT("_path : " << _path << std::endl)
+    CNOUT("_location->get_path() : " << _location->get_path() << std::endl)
+
+	if (!_location->get_root().empty()) {
 		tmp = _location->get_root();
-		tmp += _path.substr(_location->get_path().size() - ((tmp[tmp.size() - 1] != '/') ? 1 : 0));
+        if (!_path.empty())
+		tmp += "/" + _path;
 	} else {
 		tmp = _path;
 	}
 
+    CNOUT(BRED << path_is_dir(tmp) << CRESET)
+
 	if (path_is_dir(tmp)) {
-		if (tmp[tmp.size() - 1] != '/')
-				tmp += "/";
-		if (path_is_valid(tmp + _location->get_index())) {
-			tmp += _location->get_index();
-		}
+        tmp += "/" + _location->get_index();
 	}
 	_construct_path = tmp;
+
+    //TODO To delete
+    _path = _construct_path;
+
+    CNOUT("_construct_path : " << _construct_path << std::endl)
 }
 
 short
 INLINE_NAMESPACE::Request::check_request (void) {
     if (!(_location && _method & _location->get_methods()))
         return (405);
-    // else if (!path_is_valid(_construct_path))
-    //     return (404);
+     else if (!path_is_valid(_construct_path))
+         return (404);
     return (0);
 }
 
@@ -179,6 +186,7 @@ INLINE_NAMESPACE::Request::request_parser (void) {
 	_server = find_server(_params["Host"]);
 	_location = find_location(_server, _path);
 	_chunked = ((_params["Transfer-Encoding"].find("chunked")) != std::string::npos);
+//    CNOUT("HEEEEEEERE");
 	set_final_path();
 
     if ((ret = check_request()) != 0) {
