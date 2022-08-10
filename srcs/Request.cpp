@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/10 09:33:09 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/08/10 11:28:39 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,6 @@ INLINE_NAMESPACE::Request::request_line_parser (std::string str) {
 			break;
 		}
 	}
-	
 }
 
 
@@ -150,10 +149,10 @@ INLINE_NAMESPACE::Request::set_final_path (void) {
 
 short
 INLINE_NAMESPACE::Request::check_request (void) {
-    if (!(_method & _location->get_methods()))
+    if (!(_location && _method & _location->get_methods()))
         return (405);
-//    else if (!path_is_valid(_construct_path))
-//        return (404);
+    // else if (!path_is_valid(_construct_path))
+    //     return (404);
     return (0);
 }
 

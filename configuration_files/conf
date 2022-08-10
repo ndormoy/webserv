@@ -31,7 +31,7 @@ server {
 		root example_html;
 		index bar.html;
 		
-		return 301 example_html;
+		return 301 example_html; 
 		auto_index on;
 		cgi .php example_html/bar.html;
 		upload example_html/upload;
