@@ -6,9 +6,9 @@ server {
 	
 	location /
 	{
-		# allow_methods GET POST DELETE;
-		# root example_html;
-		index bar.html;
+		allow_methods GET POST DELETE; # OK
+		root example_html; # OK
+		index bar.html; # OK
 		
 		return 301 example_html;
 		auto_index on;
@@ -48,16 +48,4 @@ server {
 		upload example_html/upload;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
