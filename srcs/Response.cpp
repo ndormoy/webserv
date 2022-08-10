@@ -13,17 +13,6 @@ void	INLINE_NAMESPACE::Response::fill_status_code(void)
 	_file_size = calculate_size_file((char *)_request.get_path().c_str());
 	if (_request.get_error_value() == 200)
 		_header.append("200 OK\r\n");
-	else if (_request.get_error_value() == 400)
-		_header.append("400 Bad Request\r\n");
-	else if (_request.get_error_value() == 403)
-		_header.append("403 Forbidden\r\n");
-	else if (_request.get_error_value() == 404)
-		_header.append("404 Not Found\r\n");
-	else if (_request.get_error_value() == 500)
-		_header.append("500 Internal Server Error\r\n");
-	else if (_request.get_error_value() == 505)
-		_header.append("505 HTTP Version Not Supported\r\n");
-
 }
 
 void		INLINE_NAMESPACE::Response::fill_body(void)
@@ -60,13 +49,6 @@ void 	INLINE_NAMESPACE::Response::fill_start_header(void)
 
 void		INLINE_NAMESPACE::Response::fill_header(void)
 {
-	// _header.append("Content-Type: ");
-	// if (_request.get_content_type().empty())
-	// 	_header.append("text/html;charset=UTF-8");
-	// else
-	// 	_header.append(_request.get_content_type());
-	// _header.append("\r\n");
-	// _header.append("Content-Length: ");
 	fill_start_header();
 	CNOUT(BYEL << _request.get_error_value() << CRESET)
 	if (_request.get_error_value() == 200)
@@ -255,11 +237,16 @@ void	INLINE_NAMESPACE::Response::manage_autoindex(void)
 
 void	INLINE_NAMESPACE::Response::manage_response_get(void)
 {
-
-	fill_status_code();
-	manage_autoindex();
-	fill_header();
-	fill_body();
+	if (_request.get_error_value() == 200)
+	{
+		fill_status_code();
+		manage_autoindex();
+		fill_header();
+		fill_body();
+	}
+	// else if (_location->get_return())
+	else
+		_header.append(create_html_error_page(_request.get_error_value()));
 }
 
 void	INLINE_NAMESPACE::Response::manage_response(void)

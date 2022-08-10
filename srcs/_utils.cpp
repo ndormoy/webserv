@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _utils.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 15:33:04 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/09 15:07:13 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/08/10 11:00:51 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,10 @@ create_html_error_page (int error_code) {
     page += "<!DOCTYPE html>\r\n";
     page += "<html>\r\n";
     page += "<head>\r\n";
-    page += "<title>Error " + std::to_string(error_code) + "</title>\r\n";
+    page += "<title>Error " + ITOA(error_code) + "</title>\r\n";
     page += "</head>\r\n";
     page += "<body>\r\n";
-    page += "<h1>Error " + std::to_string(error_code) + "</h1>\r\n";
+    page += "<h1>Error " + ITOA(error_code) + "</h1>\r\n";
     page += "<p>" + it->second + "</p>\r\n";
     page += "</body>\r\n";
     page += "</html>\r\n";
