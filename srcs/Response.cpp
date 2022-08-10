@@ -64,8 +64,7 @@ void		INLINE_NAMESPACE::Response::fill_header(void)
 
 //        _header.append(ITOA(calculate_size_file((char *)_error_path.c_str())));
 	}
-	_header.append("\r\n");
-	_header.append("\n\n");
+	_header.append("\r\n\n");
 }
 
 void	INLINE_NAMESPACE::Response::manage_response_delete(void)
