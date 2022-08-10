@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 15:33:04 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/10 11:03:00 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/10 11:04:21 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,5 @@ create_html_error_page (int error_code) {
     page += "<p>" + it->second + "</p>\r\n";
     page += "</body>\r\n";
     page += "</html>\r\n";
-
     return page;
 }

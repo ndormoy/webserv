@@ -240,6 +240,7 @@ void	INLINE_NAMESPACE::Response::manage_response_get(void)
 {
 	if (_request.get_error_value() == 200)
 	{
+		CNOUT(BRED << "INSIDE---------------" << CRESET)
 		fill_status_code();
 		manage_autoindex();
 		fill_header();
