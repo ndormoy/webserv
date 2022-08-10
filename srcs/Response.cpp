@@ -92,6 +92,7 @@ void	INLINE_NAMESPACE::Response::manage_response_delete(void)
 	_header.append("<h1>FILE DELETED</h1>\n");
 	_header.append("</body>\n");
 	_header.append("</html>\n");
+
 }
 
 /**

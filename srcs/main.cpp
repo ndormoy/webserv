@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 16:28:05 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/09 15:02:28 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/08/10 09:37:16 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,3 +63,7 @@ main (int ac, char **av)
 	
 	return (EXIT_SUCCESS);
 }
+
+// TODO add Mo and Ko multiplacator in define
+// TODO Change construct path creator
+// TODO 

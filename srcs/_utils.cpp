@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 15:33:04 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/10 11:00:51 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/10 11:03:00 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,10 @@ create_html_error_page (int error_code) {
     if (it == error_pages.end())
         return ("");
 
+    page += ITOA(error_code) + " " + it->second + "\r\n";
+    page += "Content-Type: text/html;charset=UTF-8\r\n";
+    page += "Content-Length: " + ITOA(it->second.length() + 127) + "\r\n\n\n";
+	
     page += "<!DOCTYPE html>\r\n";
     page += "<html>\r\n";
     page += "<head>\r\n";
@@ -111,8 +115,6 @@ create_html_error_page (int error_code) {
     page += "<p>" + it->second + "</p>\r\n";
     page += "</body>\r\n";
     page += "</html>\r\n";
-
-    CNOUT(UMAG << page << CRESET)
 
     return page;
 }
