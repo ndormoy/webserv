@@ -17,25 +17,22 @@ void	INLINE_NAMESPACE::Response::fill_status_code(void)
 
 void		INLINE_NAMESPACE::Response::fill_body(void)
 {
-	CNOUT(BYEL << _request.get_path() << CRESET)
-	CNOUT(BYEL << _error_path << CRESET)
-
 	if (_request.get_error_value() == 200)
 		_header.append(read_file(_request.get_path()));
-	else
-		_header.append(read_file(_error_path));
+		//[ ] je penses que l'on a plus besoin de ca car tout est traite en amont
+	//else
+	//	_header.append(read_file(_error_path));
 	_header.append("\r\n\r\n");
 }
 
 void 	INLINE_NAMESPACE::Response::fill_start_header(void)
 {
 	_header.append("Content-Type: ");
-	// CNOUT(BRED << _request << CRESET)
-	// CNOUT(BRED << _request.get_content_type() << CRESET)
+
 	//TODO reactiver tout ce qui est grise dans cette fonction
 	//if (_request.get_content_type().empty())
 	//{
-		 _header.append("text/html;charset=UTF-8");
+		_header.append("text/html;charset=UTF-8");
 		//_header.append("image/jpeg");
 	//}
 	//else
