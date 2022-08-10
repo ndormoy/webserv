@@ -1,8 +1,20 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: gmary <gmary@student.42.fr>                +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/08/10 15:51:05 by gmary             #+#    #+#              #
+#    Updated: 2022/08/10 15:51:24 by gmary            ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = 		webserv
 
 SRCS =		${shell find ./srcs -name "*.cpp"}
 
-CC =		clang++
+CC =		c++
 CPPFLAGS =	-Ofast
 CPPFLAGS = 	-MD  -std=c++98 #-Wall -Wextra -Werror 
 CPPFLAGS += -g3  -fsanitize=address 
@@ -68,6 +80,7 @@ fclean:		clean
 				@printf "%-15s ${_RED}${_BOLD}${NAME}${_END}...\n" "Deleting"
 				@${RM} ${NAME}
 
-re:			fclean all
+re:			fclean 
+			make all
 
 .PHONY:	all clean fclean re

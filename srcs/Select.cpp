@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Select.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/09 15:15:19 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/08/10 15:51:51 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,6 +213,7 @@ INLINE_NAMESPACE::Select::start (void) {
 								}
 							}
 						}
+						
 						Response response(*request); // BUG peut etre le pb
 						DEBUG_2(CNOUT(BBLU << request->get_body() << CRESET))
 						response.manage_response();

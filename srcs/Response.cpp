@@ -3,11 +3,6 @@
 #include <fstream>
 #include <dirent.h>
 
-/*Cette fonction calcule la taille du texte dans un fichier
-si le fichier est impossible a ouvrir on affiche une erreur et 
-on renvoie -1*/
-
-
 void	INLINE_NAMESPACE::Response::fill_status_code(void)
 {
 	_file_size = calculate_size_file((char *)_request.get_path().c_str());
@@ -27,20 +22,7 @@ void		INLINE_NAMESPACE::Response::fill_body(void)
 
 void 	INLINE_NAMESPACE::Response::fill_start_header(void)
 {
-	_header.append("Content-Type: ");
-
-	//TODO reactiver tout ce qui est grise dans cette fonction
-	//if (_request.get_content_type().empty())
-	//{
-		_header.append("text/html;charset=UTF-8");
-		//_header.append("image/jpeg");
-	//}
-	//else
-	//{
-		//CNOUT(BRED << "0B" << CRESET)
-		//_header.append(_request.get_content_type());
-	//}
-	_header.append("\r\n");
+	_header.append("Content-Type: text/html;charset=UTF-8\r\n");
 	_header.append("Content-Length: ");
 }
 
@@ -50,7 +32,6 @@ void		INLINE_NAMESPACE::Response::fill_header(void)
 	CNOUT(BYEL << _request.get_error_value() << CRESET)
 	if (_request.get_error_value() == 200)
 	{
-		//CNOUT(UMAG << _request.get_path() << CRESET)
 		std::string i = ITOA(calculate_size_file((char *)_request.get_path().c_str()));
 		_header.append(i);
 	}
@@ -59,10 +40,6 @@ void		INLINE_NAMESPACE::Response::fill_header(void)
 		_error_path = "./www/error_pages/";
 		_error_path.append(ITOA(_request.get_error_value()));
 		_error_path.append(".html");
-
-
-
-//        _header.append(ITOA(calculate_size_file((char *)_error_path.c_str())));
 	}
 	_header.append("\r\n\n");
 }
@@ -70,9 +47,6 @@ void		INLINE_NAMESPACE::Response::fill_header(void)
 void	INLINE_NAMESPACE::Response::manage_response_delete(void)
 {
 	//BUG doit on proteger la suppresion du fichier ? si oui qu'elles sont les regles de gestion des droits ?
-	// std::fstream file;
-
-	// file.open(_request.)
 	if (std::remove(_request.get_path().c_str()) != 0)
 	{
 		CNOUT(BYEL << "Error deleting file" << CRESET)
@@ -80,7 +54,7 @@ void	INLINE_NAMESPACE::Response::manage_response_delete(void)
 	}
 	fill_status_code();
 	fill_start_header();
-	_header.append("52\r\n"); //TODO recalculer des lignes html en dessous
+	_header.append("52\r\n");
 	_header.append("\r\n");
 	_header.append("\n\n");
 	_header.append("<html>\n");
@@ -106,7 +80,6 @@ void	INLINE_NAMESPACE::Response::create_upload_file(std::string upload_path)
 
 	final_path.append("/");
 	final_path.append(_request.get_filename());
-	// CNOUT(BRED << _request.get_content_file() << CRESET)
 	if (upload_path.empty())
 		file.open(("example_html/uploads/" + _request.get_filename()).c_str(), std::ios::out | std::ios::binary);
 	else
@@ -124,25 +97,19 @@ void	INLINE_NAMESPACE::Response::manage_response_post(void)
 
 	server = _request.get_server();
 	if(server != NULL)
-	{
 		location = server->get_locations();
-	}
 	else
 	{
 		CNOUT(BYEL << "server is null" << CRESET)
 		return ;
 	}
-
 	if (_request.define_upload())
-	{
 		isupload = true;
-	}
 	else
 	{
 		//TODO que faire vraiment ici on est ps dans un cas d'upload mais ca peut etre autres choses ??
 		isupload = false;
 	}
-
 	for (std::vector<Location *>::iterator it = location.begin(); it != location.end(); ++it)
 	{
 		if (!(*it)->get_upload_path().empty() && isupload)
@@ -236,7 +203,6 @@ void	INLINE_NAMESPACE::Response::manage_response_get(void)
 {
 	if (_request.get_error_value() == 200)
 	{
-		CNOUT(BRED << "INSIDE---------------" << CRESET)
 		fill_status_code();
 		manage_autoindex();
 		fill_header();
@@ -250,14 +216,6 @@ void	INLINE_NAMESPACE::Response::manage_response_get(void)
 void	INLINE_NAMESPACE::Response::manage_response(void)
 {
 	//TODO faire manage cgi
-	// if (_request.get_method()  "CGI")
-		// manage_response_cgi();
-	// if (_request.get_method() | M_GET)
-	// 	manage_response_get();
-	// else if (_request.get_method() | M_POST)
-	// 	manage_response_post();
-	// else if (_request.get_method() | M_DELETE)
-	// 	manage_response_delete();
 /* 	if (_request.get_method() == "CGI")
 		manage_response_cgi();
 	else */ if (_request.get_method() == M_GET)
@@ -285,8 +243,6 @@ void	INLINE_NAMESPACE::Response::create_index(void)
 			if (ep->d_type == DT_DIR || ep->d_type == DT_LNK
 				|| ep->d_type == DT_REG || ep->d_type == DT_UNKNOWN)
 				{
-
-					//CNOUT(UMAG << ep->d_name << CRESET)
 					_files.push_back(ep->d_name);
 				}
 		}
@@ -306,7 +262,6 @@ std::string	INLINE_NAMESPACE::Response::auto_index(std::string location_path)
 	int	 		len;
 
 	fill_start_header();
-
 	index += "<html>\n";
 	index += "<head><title>Indexito /</title></head>\n";
 	index += "<body bgcolor=\"green\">\n";
@@ -328,6 +283,5 @@ std::string	INLINE_NAMESPACE::Response::auto_index(std::string location_path)
 	_header.append("\r\n");
 	_header.append("\n\n");
 	_header.append(index);
-	// CNOUT(BYEL << _header << CRESET)
 	return index;
 }

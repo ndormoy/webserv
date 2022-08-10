@@ -178,7 +178,7 @@ class Request
 		void	set_final_path (void);
 		bool	is_upload_case (void);
 		bool	define_upload (void);
-        short   check_request (void);
+		short	check_request (void);
 
 	public:
 	
