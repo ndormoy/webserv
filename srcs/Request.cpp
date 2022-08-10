@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Request.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/09 11:48:38 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/10 09:33:09 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,8 @@ INLINE_NAMESPACE::Request::request_line_parser (std::string str) {
 	
 }
 
+
+// TODO Rework this function
 void
 INLINE_NAMESPACE::Request::set_final_path (void) {
 	if (_location == NULL) {

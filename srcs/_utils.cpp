@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 15:33:04 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/09 15:07:13 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/08/10 10:37:05 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,16 +101,17 @@ create_html_error_page (int error_code) {
     if (it == error_pages.end())
         return ("");
 
-    page += std::to_string(error_code) + " " + it->second + "\r\n";
+    page += ITOA(error_code) + " " + it->second + "\r\n";
     page += "Content-Type: text/html;charset=UTF-8\r\n";
-    page += "Content-Length: " + std::to_string(it->second.length() + 127) + "\r\n\n\n";
+    page += "Content-Length: " + ITOA(it->second.length() + 127) + "\r\n\n\n";
+	
     page += "<!DOCTYPE html>\r\n";
     page += "<html>\r\n";
     page += "<head>\r\n";
-    page += "<title>Error " + std::to_string(error_code) + "</title>\r\n";
+    page += "<title>Error " + ITOA(error_code) + "</title>\r\n";
     page += "</head>\r\n";
     page += "<body>\r\n";
-    page += "<h1>Error " + std::to_string(error_code) + "</h1>\r\n";
+    page += "<h1>Error " + ITOA(error_code) + "</h1>\r\n";
     page += "<p>" /*+ it->second +*/  "</p>\r\n";
     page += "</body>\r\n";
     page += "</html>\r\n";

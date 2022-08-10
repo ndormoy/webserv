@@ -48,16 +48,3 @@ server {
 		upload example_html/upload;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
