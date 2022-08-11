@@ -5,7 +5,7 @@
 
 _BEGIN_NAMESPACE_WEBSERV
 
-class Header;
+// class Header;
 
 class Response
 {

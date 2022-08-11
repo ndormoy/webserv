@@ -5,7 +5,7 @@
 
 _BEGIN_NAMESPACE_WEBSERV
 
-class Reponse;
+// class Reponse;
 
 class Header
 {
@@ -20,7 +20,12 @@ class Header
 
 	public: /* Constructors */
 
-		Header (void) 
+		Header (void):
+			_header("HTTP/1.1 "),
+			_content_type("Content-Type: "),
+			_content_length("Content-Length: "),
+			_status("\r\n"),
+			_status_code(200)
 		{ }
 
 		Header(const Request & request): 
@@ -28,7 +33,7 @@ class Header
 			_content_type("Content-Type: "),
 			_content_length("Content-Length: "),
 			// _content_encoding("Content-Encoding: "),
-			_status_code(request.get_status_code())
+			_status_code(request.get_error_value())
 		{ }
 
 		~Header()

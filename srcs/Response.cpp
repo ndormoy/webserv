@@ -234,7 +234,7 @@ void	INLINE_NAMESPACE::Response::manage_response(void)
 		// 	manage_response_delete();
 	}
 	Header header();
-	header.fill(_request);
+	header.fill(*this);
 	CNOUT(BRED << _header << CRESET)
 	CNOUT(BGRN << _body << CRESET)
 	_body.insert(0, header.get_header());
