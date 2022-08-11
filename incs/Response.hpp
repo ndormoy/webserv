@@ -5,13 +5,15 @@
 
 _BEGIN_NAMESPACE_WEBSERV
 
+class Header;
+
 class Response
 {
 	public: /* Constructors */
 
 		Response (void) :
 			_file_size(0),
-			_header(""),
+			//_header(""),
 			_request(),
 			_files(),
 			_error_path(""),
@@ -23,7 +25,7 @@ class Response
 		
 		Response (const Request & request) :
 			_file_size(0),
-			_header("HTTP/1.1 "),
+			//_header("HTTP/1.1 "),
 			_request(request),
 			_files(),
 			_error_path(""),
@@ -43,7 +45,7 @@ class Response
 	public: /* Accessors */
 
 		int 				get_file_size (void) const 				{ return _file_size; }
-		std::string 		get_header (void) const 				{ return _header; }
+		//Header &			get_header (void) const 				{ return _header; }
 		Request & 			get_request (void)		 				{ return _request; }
 		string_vector & 	get_files  (void)  						{ return _files; }
 		std::string 		get_error_path (void) const 			{ return _error_path; }
@@ -51,9 +53,10 @@ class Response
 		int 				get_error_value (void) const 			{ return _error_value; }
 		Server * 			get_server (void) const 				{ return _server; }
 		Location * 			get_location (void) const 				{ return _location; }
+		std::string			get_body (void) const 					{ return _body; }
 
 		void				set_file_size(int size) 				{ _file_size = size; }
-		void				set_header(std::string header) 			{ _header = header; }
+		//void				set_header(std::string header) 			{ _header = header; }
 		void				set_request(Request & request) 			{ _request = request; }
 		void				set_files(string_vector & files) 		{ _files = files; }
 		void				set_error_path(std::string path) 		{ _error_path = path; }
@@ -73,7 +76,9 @@ class Response
 		void			manage_response_post(void);
 		void			manage_response_delete(void);
 		void			manage_response_cgi(void);
-		void			manage_autoindex(void);
+		bool			manage_autoindex(void);
+		void			manage_error_page(void);
+		void			generate_header(void);
 		std::string		auto_index(std::string location_path);
 		void			create_index(void);
 		void			create_upload_file(std::string);
@@ -81,7 +86,8 @@ class Response
 	private: /* Attributes */
 
 		int				_file_size;
-		std::string		_header;
+		std::string		_body;
+		//std::string		_header; //TODO a enlever
 		Request			_request;
 		string_vector	_files;
 		std::string		_error_path;
@@ -89,12 +95,13 @@ class Response
 		int				_error_value;
 		Server *		_server;
 		Location *		_location;
+		//Header	&		_header;
 
 	public: /* Operators overloaded */
 
 		friend std::ostream& operator<<(std::ostream& o, const Response & ref) {
 			o << ref._file_size << std::endl;
-			o << ref._header << std::endl;
+			//o << ref._header << std::endl;
 			o << ref._request << std::endl;
 			// o << ref._files << std::endl;
 			o << ref._error_path << std::endl;
@@ -108,7 +115,7 @@ class Response
 		Response & operator=(const Response & copy) {
 			if (this == &copy) {return (*this);}
 			_file_size = copy._file_size;
-			_header = copy._header;
+			//_header = copy._header;
 			_request = copy._request;
 			// _files = copy._files;
 			_error_path = copy._error_path;

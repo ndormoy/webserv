@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 15:33:04 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/10 11:04:21 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/11 15:49:49 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,4 +124,13 @@ remove_slash (const std::string & str) {
         return ("");
     else
         return (str.substr(((str[0] == '/') ? 1 : 0), str.size() - ((str[str.size() - 1] == '/') ? 1 : 0)));
+}
+
+std::string
+get_file_extension(const std::string & path)
+{
+	size_t ret;
+	if ((ret = path.rfind('.')) != std::string::npos)
+		return (path.substr(ret));
+	return ("");
 }

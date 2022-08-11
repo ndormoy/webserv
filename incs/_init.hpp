@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 10:07:54 by gmary             #+#    #+#             */
-/*   Updated: 2022/07/27 10:18:49 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/11 15:45:35 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ init_header (void);
 
 std::map<short, std::string>
 init_error_map (void);
+
+std::map<std::string, std::string>
+init_content_type (void);
 
 _END_NAMESPACE_WEBSERV
 

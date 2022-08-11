@@ -3,169 +3,169 @@
 #include <fstream>
 #include <dirent.h>
 
-void	INLINE_NAMESPACE::Response::fill_status_code(void)
-{
-	_file_size = calculate_size_file((char *)_request.get_path().c_str());
-	if (_request.get_error_value() == 200)
-		_header.append("200 OK\r\n");
-}
+// void	INLINE_NAMESPACE::Response::fill_status_code(void)
+// {
+// 	_file_size = calculate_size_file((char *)_request.get_path().c_str());
+// 	if (_request.get_error_value() == 200)
+// 		_header.append("200 OK\r\n");
+// }
 
-void		INLINE_NAMESPACE::Response::fill_body(void)
-{
-	if (_request.get_error_value() == 200)
-		_header.append(read_file(_request.get_path()));
-		//[ ] je penses que l'on a plus besoin de ca car tout est traite en amont
-	//else
-	//	_header.append(read_file(_error_path));
-	_header.append("\r\n\r\n");
-}
+// void		INLINE_NAMESPACE::Response::fill_body(void)
+// {
+// 	if (_request.get_error_value() == 200)
+// 		_header.append(read_file(_request.get_path()));
+// 		//[ ] je penses que l'on a plus besoin de ca car tout est traite en amont
+// 	//else
+// 	//	_header.append(read_file(_error_path));
+// 	_header.append("\r\n\r\n");
+// }
 
-void 	INLINE_NAMESPACE::Response::fill_start_header(void)
-{
-	_header.append("Content-Type: text/html;charset=UTF-8\r\n");
-	_header.append("Content-Length: ");
-}
+// void 	INLINE_NAMESPACE::Response::fill_start_header(void)
+// {
+// 	_header.append("Content-Type: text/html;charset=UTF-8\r\n");
+// 	_header.append("Content-Length: ");
+// }
 
-void		INLINE_NAMESPACE::Response::fill_header(void)
-{
-	fill_start_header();
-	CNOUT(BYEL << _request.get_error_value() << CRESET)
-	if (_request.get_error_value() == 200)
-	{
-		std::string i = ITOA(calculate_size_file((char *)_request.get_path().c_str()));
-		_header.append(i);
-	}
-	else
-	{
-		_error_path = "./www/error_pages/";
-		_error_path.append(ITOA(_request.get_error_value()));
-		_error_path.append(".html");
-	}
-	_header.append("\r\n\n");
-}
+// void		INLINE_NAMESPACE::Response::fill_header(void)
+// {
+// 	fill_start_header();
+// 	CNOUT(BYEL << _request.get_error_value() << CRESET)
+// 	if (_request.get_error_value() == 200)
+// 	{
+// 		std::string i = ITOA(calculate_size_file((char *)_request.get_path().c_str()));
+// 		_header.append(i);
+// 	}
+// 	else
+// 	{
+// 		_error_path = "./www/error_pages/";
+// 		_error_path.append(ITOA(_request.get_error_value()));
+// 		_error_path.append(".html");
+// 	}
+// 	_header.append("\r\n\n");
+// }
 
-void	INLINE_NAMESPACE::Response::manage_response_delete(void)
-{
-	//BUG doit on proteger la suppresion du fichier ? si oui qu'elles sont les regles de gestion des droits ?
-	if (std::remove(_request.get_path().c_str()) != 0)
-	{
-		CNOUT(BYEL << "Error deleting file" << CRESET)
-		_request.set_error_value(403);
-	}
-	fill_status_code();
-	fill_start_header();
-	_header.append("52\r\n");
-	_header.append("\r\n");
-	_header.append("\n\n");
-	_header.append("<html>\n");
-	_header.append("<body>\n");
-	_header.append("<h1>FILE DELETED</h1>\n");
-	_header.append("</body>\n");
-	_header.append("</html>\n");
+// void	INLINE_NAMESPACE::Response::manage_response_delete(void)
+// {
+// 	//BUG doit on proteger la suppresion du fichier ? si oui qu'elles sont les regles de gestion des droits ?
+// 	if (std::remove(_request.get_path().c_str()) != 0)
+// 	{
+// 		CNOUT(BYEL << "Error deleting file" << CRESET)
+// 		_request.set_error_value(403);
+// 	}
+// 	fill_status_code();
+// 	fill_start_header();
+// 	_header.append("52\r\n");
+// 	_header.append("\r\n");
+// 	_header.append("\n\n");
+// 	_header.append("<html>\n");
+// 	_header.append("<body>\n");
+// 	_header.append("<h1>FILE DELETED</h1>\n");
+// 	_header.append("</body>\n");
+// 	_header.append("</html>\n");
 
-}
+// }
 
-/**
- * @brief function that create the file were the content of a file is stored
- * std::ifstream automatically has the ios::in flag set.
- * std::ofstream automatically has the ios::out flag set.
- * std::fstream has neither ios::in or ios::out automatically
- * @param upload_path 
- */
+// /**
+//  * @brief function that create the file were the content of a file is stored
+//  * std::ifstream automatically has the ios::in flag set.
+//  * std::ofstream automatically has the ios::out flag set.
+//  * std::fstream has neither ios::in or ios::out automatically
+//  * @param upload_path 
+//  */
 
-void	INLINE_NAMESPACE::Response::create_upload_file(std::string upload_path)
-{
-	std::ofstream	file;
-	std::string		final_path = upload_path;
+// void	INLINE_NAMESPACE::Response::create_upload_file(std::string upload_path)
+// {
+// 	std::ofstream	file;
+// 	std::string		final_path = upload_path;
 
-	final_path.append("/");
-	final_path.append(_request.get_filename());
-	if (upload_path.empty())
-		file.open(("example_html/uploads/" + _request.get_filename()).c_str(), std::ios::out | std::ios::binary);
-	else
-		file.open(final_path.c_str(), std::ios::out | std::ios::binary);
-	file << _request.get_content_file();
-	file.close();
-}
+// 	final_path.append("/");
+// 	final_path.append(_request.get_filename());
+// 	if (upload_path.empty())
+// 		file.open(("example_html/uploads/" + _request.get_filename()).c_str(), std::ios::out | std::ios::binary);
+// 	else
+// 		file.open(final_path.c_str(), std::ios::out | std::ios::binary);
+// 	file << _request.get_content_file();
+// 	file.close();
+// }
 
-void	INLINE_NAMESPACE::Response::manage_response_post(void)
-{
-	bool	isupload = false;
-	std::vector<Location *> location;
-	INLINE_NAMESPACE::Server * server = NULL;
+// void	INLINE_NAMESPACE::Response::manage_response_post(void)
+// {
+// 	bool	isupload = false;
+// 	std::vector<Location *> location;
+// 	INLINE_NAMESPACE::Server * server = NULL;
 
 
-	server = _request.get_server();
-	if(server != NULL)
-		location = server->get_locations();
-	else
-	{
-		CNOUT(BYEL << "server is null" << CRESET)
-		return ;
-	}
-	if (_request.define_upload())
-		isupload = true;
-	else
-	{
-		//TODO que faire vraiment ici on est ps dans un cas d'upload mais ca peut etre autres choses ??
-		isupload = false;
-	}
-	for (std::vector<Location *>::iterator it = location.begin(); it != location.end(); ++it)
-	{
-		if (!(*it)->get_upload_path().empty() && isupload)
-		{
-			if (server->get_max_body_size() < _request.get_content_file().size())
-			{
-				CNOUT(BRED << "max body size hit" << CRESET)
-				_request.set_error_value(413); //BUG pas sur
-				isupload = false;
-				break ;
-			}
-			create_upload_file((*it)->get_upload_path());
-			break;
-		}
-	}
-	if (isupload == true)
-	{
-		_request.set_error_value(200);
-		fill_status_code();
-		fill_start_header();
-		_header.append("53\r\n"); //TODO recalculer des lignes html en dessous
-		_header.append("\r\n");
-		_header.append("\n\n");
-		_header.append("<html>\n");
-		_header.append("<body>\n");
-		_header.append("<h1>FILE UPLOADED</h1>\n");
-		_header.append("</body>\n");
-		_header.append("</html>\n");
-	}
-	else
-	{
-		_request.set_error_value(500);
-		fill_status_code();
-		fill_start_header();
-		//_header.append(create_html_error_page(_request.get_error_value()));
-		_header.append("57\r\n"); //TODO recalculer des lignes html en dessous
-		_header.append("\r\n");
-		_header.append("\n\n");
-		_header.append("<html>\n");
-		_header.append("<body>\n");
-		_header.append("<h1>FILE UPLOAD ERROR</h1>\n");
-		_header.append("</body>\n");
-		_header.append("</html>\n");
-	}
-}
+// 	server = _request.get_server();
+// 	if(server != NULL)
+// 		location = server->get_locations();
+// 	else
+// 	{
+// 		CNOUT(BYEL << "server is null" << CRESET)
+// 		return ;
+// 	}
+// 	if (_request.define_upload())
+// 		isupload = true;
+// 	else
+// 	{
+// 		//TODO que faire vraiment ici on est ps dans un cas d'upload mais ca peut etre autres choses ??
+// 		isupload = false;
+// 	}
+// 	for (std::vector<Location *>::iterator it = location.begin(); it != location.end(); ++it)
+// 	{
+// 		if (!(*it)->get_upload_path().empty() && isupload)
+// 		{
+// 			if (server->get_max_body_size() < _request.get_content_file().size())
+// 			{
+// 				CNOUT(BRED << "max body size hit" << CRESET)
+// 				_request.set_error_value(413); //BUG pas sur
+// 				isupload = false;
+// 				break ;
+// 			}
+// 			create_upload_file((*it)->get_upload_path());
+// 			break;
+// 		}
+// 	}
+// 	if (isupload == true)
+// 	{
+// 		_request.set_error_value(200);
+// 		fill_status_code();
+// 		fill_start_header();
+// 		_header.append("53\r\n"); //TODO recalculer des lignes html en dessous
+// 		_header.append("\r\n");
+// 		_header.append("\n\n");
+// 		_header.append("<html>\n");
+// 		_header.append("<body>\n");
+// 		_header.append("<h1>FILE UPLOADED</h1>\n");
+// 		_header.append("</body>\n");
+// 		_header.append("</html>\n");
+// 	}
+// 	else
+// 	{
+// 		_request.set_error_value(500);
+// 		fill_status_code();
+// 		fill_start_header();
+// 		//_header.append(create_html_error_page(_request.get_error_value()));
+// 		_header.append("57\r\n"); //TODO recalculer des lignes html en dessous
+// 		_header.append("\r\n");
+// 		_header.append("\n\n");
+// 		_header.append("<html>\n");
+// 		_header.append("<body>\n");
+// 		_header.append("<h1>FILE UPLOAD ERROR</h1>\n");
+// 		_header.append("</body>\n");
+// 		_header.append("</html>\n");
+// 	}
+// }
 
-void	INLINE_NAMESPACE::Response::manage_response_cgi(void)
-{
+// void	INLINE_NAMESPACE::Response::manage_response_cgi(void)
+// {
 
-}
+// }
 
 /**
  * @brief Search and create autoindex.html file
  */
 
-void	INLINE_NAMESPACE::Response::manage_autoindex(void)
+bool	INLINE_NAMESPACE::Response::manage_autoindex(void)
 {
 	INLINE_NAMESPACE::Server * server = NULL;
 	std::vector<Location *> location;
@@ -191,40 +191,76 @@ void	INLINE_NAMESPACE::Response::manage_autoindex(void)
 							CNOUT(BGRN << "autoindex" << CRESET)
 							create_index();
 							auto_index((*it)->get_path());
-							return ;
+							return true;
 						}
 				}
 			}
 		}
 	}
+	return false;
 }
 
 void	INLINE_NAMESPACE::Response::manage_response_get(void)
 {
-	if (_request.get_error_value() == 200)
-	{
-		fill_status_code();
-		manage_autoindex();
-		fill_header();
-		fill_body();
-	}
+	if (manage_autoindex() == true)
+		return ;
+	_body.append(read_file(_request.get_path()));
+	_body.append("\r\n\r\n");
 	// else if (_location->get_return())
-	else
-		_header.append(create_html_error_page(_request.get_error_value()));
+	// else
+	// 	_header.append(create_html_error_page(_request.get_error_value()));
+}
+
+void
+INLINE_NAMESPACE::Response::manage_error_page (void) {
+	// create error header
+	_header.set_error_value(_request.get_error_value());
+
+	// create error body
 }
 
 void	INLINE_NAMESPACE::Response::manage_response(void)
 {
 	//TODO faire manage cgi
-/* 	if (_request.get_method() == "CGI")
-		manage_response_cgi();
-	else */ if (_request.get_method() == M_GET)
-		manage_response_get();
-	else if (_request.get_method() == M_POST)
-		manage_response_post();
-	else if (_request.get_method() == M_DELETE)
-		manage_response_delete();
+	if (_error_value != 200)
+		manage_error_page();
+	else
+	{
+		if (_request.get_method() == M_GET)
+			manage_response_get();
+		// else if (_request.get_method() == M_POST)
+		// 	manage_response_post();
+		// else if (_request.get_method() == M_DELETE)
+		// 	manage_response_delete();
+	}
+	Header header();
+	header.fill(_request);
+	CNOUT(BRED << _header << CRESET)
+	CNOUT(BGRN << _body << CRESET)
+	_body.insert(0, header.get_header());
+	/* 	if (_request.get_method() == "CGI")
+			manage_response_cgi(); */
+
+// generate header
+// concat body
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*Cette fonction permet de regarder dans le repertoire courant (Et ceux d'apres
 si on clique dessus), et d'ajouter dans une liste les nom des fichiers
@@ -261,7 +297,7 @@ std::string	INLINE_NAMESPACE::Response::auto_index(std::string location_path)
 	std::string index;
 	int	 		len;
 
-	fill_start_header();
+	//fill_start_header();
 	index += "<html>\n";
 	index += "<head><title>Indexito /</title></head>\n";
 	index += "<body bgcolor=\"green\">\n";
@@ -279,9 +315,33 @@ std::string	INLINE_NAMESPACE::Response::auto_index(std::string location_path)
 	}
 	index += "</body>\n</html>\n";
 	len = index.length();
-	_header.append(ITOA(len));
-	_header.append("\r\n");
-	_header.append("\n\n");
-	_header.append(index);
+	//_header.append(ITOA(len));
+	//_header.append("\r\n");
+	//_header.append("\n\n");
+	_body.append(index);
+	_body.append("\r\n\r\n");
 	return index;
 }
+
+
+void
+INLINE_NAMESPACE::Response::generate_header(void)
+{
+
+}
+
+/*
+
+Check error value
+if (1)
+{
+	fill body
+}
+} else {
+	fill body;
+}
+cgi sur _body
+
+generate header
+concat body
+*/

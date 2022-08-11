@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:33:58 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/09 14:22:55 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/11 15:49:54 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,8 +185,10 @@ bool						path_is_dir (const std::string & str);
 
 bool						path_is_valid (const std::string & str);
 
-std::string                 create_html_error_page (int error_code);
+std::string					create_html_error_page (int error_code);
 
-std::string                 remove_slash (const std::string & str);
+std::string					remove_slash (const std::string & str);
+
+std::string					get_file_extension(const std::string & path)
 
 #endif /* _UTILS_HPP */

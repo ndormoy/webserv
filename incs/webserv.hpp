@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:11:19 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/27 10:16:15 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/11 15:56:24 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ extern string_vector 					g_header;
 #include "Select.hpp"
 #include "Request.hpp"
 #include "Response.hpp"
+#include "Header.hpp"
 
 extern INLINE_NAMESPACE::Configuration 	g_config;
 

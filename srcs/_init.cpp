@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _init.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 10:06:42 by gmary             #+#    #+#             */
-/*   Updated: 2022/07/28 14:15:52 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/08/11 14:30:32 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,4 +108,75 @@ INLINE_NAMESPACE::init_error_map (void) {
     error_map[511] = "Network Authentication Required";
 
     return (error_map);
+}
+
+std::map<std::string, std::string>
+INLINE_NAMESPACE::init_content_type() {
+
+	std::map<std::string, std::string> content_map;
+
+    content_map[".aac"] = "audio/aac";
+	content_map[".abw"] = "application/x-abiword";
+	content_map[".arc"] = "application/octet-stream";
+	content_map[".avi"] = "video/x-msvideo";
+	content_map[".azw"] = "application/vnd.amazon.ebook";
+	content_map[".bin"] = "application/octet-stream";
+	content_map[".bz"]  = "application/x-bzip";
+	content_map[".bz2"] = "application/x-bzip2";
+	content_map[".csh"] = "application/x-csh";
+	content_map[".css"] = "text/css";
+	content_map[".csv"] = "text/csv";
+	content_map[".doc"] = "application/msword";
+	content_map[".epub"]= "application/epub+zip";
+	content_map[".gif"] = "image/gif";
+	content_map[".htm"] = "text/html";
+	content_map[".html"]= "text/html";
+	content_map[".ico"] = "image/x-icon";
+	content_map[".ics"] = "text/calendar";
+	content_map[".jar"] = "Temporary Redirect";
+	content_map[".jpeg"]= "image/jpeg";
+	content_map[".jpg"] = "image/jpeg";
+	content_map[".js"]  = "application/js";
+	content_map[".json"]= "application/json";
+	content_map[".mid"] = "audio/midi";
+	content_map[".midi"]= "audio/midi";
+	content_map[".mpeg"]= "video/mpeg";
+	content_map[".mp4"] = "video/mp4";
+	content_map[".mpkg"]= "application/vnd.apple.installer+xml";
+	content_map[".odp"] = "application/vnd.oasis.opendocument.presentation";
+	content_map[".ods"] = "application/vnd.oasis.opendocument.spreadsheet";
+	content_map[".odt"] = "application/vnd.oasis.opendocument.text";
+	content_map[".oga"] = "audio/ogg";
+	content_map[".ogv"] = "video/ogg";
+	content_map[".ogx"] = "application/ogg";
+	content_map[".png"] = "image/png";
+	content_map[".pdf"] = "application/pdf";
+	content_map[".ppt"] = "application/vnd.ms-powerpoint";
+	content_map[".rar"] = "application/x-rar-compressed";
+	content_map[".rtf"] = "application/rtf";
+	content_map[".sh"]  = "application/x-sh";
+	content_map[".svg"] = "image/svg+xml";
+	content_map[".swf"] = "application/x-shockwave-flash";
+	content_map[".tar"] = "application/x-tar";
+	content_map[".tif"] = "image/tiff";
+	content_map[".tiff"]= "image/tiff";
+	content_map[".ttf"] = "application/x-font-ttf";
+	content_map[".txt"] = "text/plain";
+	content_map[".vsd"] = "application/vnd.visio";
+	content_map[".wav"] = "audio/x-wav";
+	content_map[".weba"]= "audio/webm";
+	content_map[".webm"]= "video/webm";
+	content_map[".webp"]= "image/webp";
+	content_map[".woff"]= "application/x-font-woff";
+	content_map[".xhtml"] = "application/xhtml+xml";
+	content_map[".xls"] = "application/vnd.ms-excel";
+	content_map[".xml"] = "application/xml";
+	content_map[".xul"] = "application/vnd.mozilla.xul+xml";
+	content_map[".zip"] = "application/zip";
+	content_map[".3gp"] = "video/3gpp audio/3gpp";
+	content_map[".3g2"] = "video/3gpp2 audio/3gpp2";
+	content_map[".7z"]  = "application/x-7z-compressed";
+	content_map[".txt"] = "text/plain";
+
+	return (content_map);
 }

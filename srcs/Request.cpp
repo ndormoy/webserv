@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/10 15:50:57 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/11 10:23:58 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,10 +156,10 @@ INLINE_NAMESPACE::Request::set_final_path (void) {
 
 short
 INLINE_NAMESPACE::Request::check_request (void) {
+    if (!path_is_valid(_construct_path))
+         return (404);
     if (!(_location && _method & _location->get_methods()))
         return (405);
-     else if (!path_is_valid(_construct_path))
-         return (404);
     return (0);
 }
 
