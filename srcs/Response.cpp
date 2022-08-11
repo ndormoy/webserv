@@ -238,13 +238,14 @@ void	INLINE_NAMESPACE::Response::manage_response(void)
 		// else if (_request.get_method() == M_DELETE)
 		// 	manage_response_delete();
 	}
-	Header header;
-	header.fill(*this);
-	CCOUT(BRED, header.get_header())
-	CCOUT(BGRN, _body)
-	_body.insert(0, header.get_header());
 	/* 	if (_request.get_method() == "CGI")
 			manage_response_cgi(); */
+	Header header;
+	header.fill(*this);
+	//CCOUT(BRED, header.get_header())
+	//CCOUT(BGRN, _body)
+	_body.insert(0, header.get_header());
+	CCOUT(BYEL, _body)
 
 // generate header
 // concat body
