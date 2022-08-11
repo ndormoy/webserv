@@ -9,6 +9,20 @@ _BEGIN_NAMESPACE_WEBSERV
 
 class Response
 {
+	private: /* Attributes */
+
+		int				_file_size;
+		std::string		_body;
+//		std::string		_header; //TODO a enlever
+		Request			_request;
+		string_vector	_files;
+		std::string		_error_path;
+		std::string		_message_send;
+		int				_error_value;
+		Server *		_server;
+		Location *		_location;
+		//Header	&		_header;
+
 	public: /* Constructors */
 
 		Response (void) :
@@ -22,7 +36,7 @@ class Response
 			_server(NULL),
 			_location(NULL)
 		{ }
-		
+
 		Response (const Request & request) :
 			_file_size(0),
 			//_header("HTTP/1.1 "),
@@ -82,33 +96,21 @@ class Response
 		std::string		auto_index(std::string location_path);
 		void			create_index(void);
 		void			create_upload_file(std::string);
-	
-	private: /* Attributes */
 
-		int				_file_size;
-		std::string		_body;
-		//std::string		_header; //TODO a enlever
-		Request			_request;
-		string_vector	_files;
-		std::string		_error_path;
-		std::string		_message_send;
-		int				_error_value;
-		Server *		_server;
-		Location *		_location;
-		//Header	&		_header;
 
 	public: /* Operators overloaded */
 
 		friend std::ostream& operator<<(std::ostream& o, const Response & ref) {
 			o << ref._file_size << std::endl;
 			//o << ref._header << std::endl;
-			o << ref._request << std::endl;
+			// o << ref._request << std::endl;
 			// o << ref._files << std::endl;
 			o << ref._error_path << std::endl;
 			o << ref._message_send << std::endl;
 			o << ref._error_value << std::endl;
 			o << ref._server << std::endl;
 			o << ref._location << std::endl;
+            o << ref._body << std::endl;
 			return o;
 		}
 

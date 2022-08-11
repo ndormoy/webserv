@@ -92,7 +92,7 @@ void
 INLINE_NAMESPACE::Location::_set_return (string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
 
-	if (CHECKER(v, CHECK_SIZE_TWO | CHECK_IS_DIR | CHECK_ERROR_CODE)) {
+	if (CHECKER(v, CHECK_SIZE_TWO | CHECK_IS_REG | CHECK_ERROR_CODE)) {
 		_return.push_back(std::make_pair(std::atoi(v[0].c_str()), remove_slash(v[1])));
 	} else {
 		throw Configuration::InvalidReturn();
@@ -128,5 +128,14 @@ INLINE_NAMESPACE::Location::create_location (string_vector::const_iterator & it)
 	if (it == LEXER.end()) {
 		throw Configuration::SyntaxError();
 	}
-	
+}
+
+std::string
+INLINE_NAMESPACE::Location::return_path_matching (int return_code) {
+    for (std::vector<std::pair<int, std::string> >::const_iterator it = _return.begin(); it != _return.end(); it++) {
+        if (it->first == return_code) {
+            return (it->second);
+        }
+    }
+    return ("");
 }

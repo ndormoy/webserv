@@ -76,7 +76,7 @@ std::string	read_file(std::string path)
 bool
 path_is_dir (const std::string & str) {
 	struct stat buffer;
-	
+
   	return (stat (str.c_str(), &buffer) == 0 && buffer.st_mode & S_IFDIR);
 }
 
@@ -101,9 +101,9 @@ create_html_error_page (int error_code) {
     if (it == error_pages.end())
         return ("");
 
-    page += ITOA(error_code) + " " + it->second + "\r\n";
+   /* page += ITOA(error_code) + " " + it->second + "\r\n";
     page += "Content-Type: text/html;charset=UTF-8\r\n";
-    page += "Content-Length: " + ITOA(it->second.length() + 127) + "\r\n\n\n";
+    page += "Content-Length: " + ITOA(it->second.length() + 127) + "\r\n\n\n";*/
 	
     page += "<!DOCTYPE html>\r\n";
     page += "<html>\r\n";
@@ -131,6 +131,6 @@ get_file_extension(const std::string & path)
 {
 	size_t ret;
 	if ((ret = path.rfind('.')) != std::string::npos)
-		return (path.substr(ret));
-	return ("");
+		return (path.substr(ret, path.size()));
+	return (".html");
 }

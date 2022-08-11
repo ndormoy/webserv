@@ -28,7 +28,7 @@ INLINE_NAMESPACE::Cgi::init_env (void) {
 							"SERVER_PORT",
 							""};
 
-	for (int i = 0; var_name[i] != ""; i++) {
+	for (int i = 0; !var_name[i].empty(); i++) {
 		
 		// switch (i) {
 		// 	case 0:

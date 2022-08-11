@@ -213,10 +213,20 @@ void	INLINE_NAMESPACE::Response::manage_response_get(void)
 
 void
 INLINE_NAMESPACE::Response::manage_error_page (void) {
-	// create error header
-	//_body.set_error_value(_request.get_error_value());
+    std::string ret;
 
-	// create error body
+    if (_location
+        && _error_value == 404
+        && _location->get_autoindex()
+        && (path_is_dir(_request.get_construct_path())) || _request.get_construct_path().empty()) {
+        create_index();
+        _body = auto_index(_request.get_construct_path());
+    }
+    else if (!(ret = _location->return_path_matching(_error_value)).empty()) {
+        _body.append(read_file(ret));
+    } else {
+        _body.append(create_html_error_page(_request.get_error_value()));
+    }
 }
 
 void	INLINE_NAMESPACE::Response::manage_response(void)
@@ -242,7 +252,7 @@ void	INLINE_NAMESPACE::Response::manage_response(void)
 			manage_response_cgi(); */
 	Header header;
 	header.fill(*this);
-	//CCOUT(BRED, header.get_header())
+	CCOUT(BRED, header.get_header())
 	//CCOUT(BGRN, _body)
 	_body.insert(0, header.get_header());
 	CCOUT(BYEL, _body)

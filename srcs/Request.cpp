@@ -169,7 +169,7 @@ INLINE_NAMESPACE::Request::request_parser (void) {
 	int pos;
     int ret;
 	
-	if (v.size() < 1) {
+	if (v.empty()) {
 		return (400);
 	} else if ((ret = parse_first_line(v[0])) != 0) {
 		DEBUG_5(CNOUT(BRED << "Request : invalid first line" << CRESET))

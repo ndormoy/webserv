@@ -22,4 +22,6 @@ INLINE_NAMESPACE::Header::fill(Response & reponse)
 			_header += _content_type;
 			_header += _content_length;
 
+            CNOUT(BCYN << _header << CRESET)
+
 }
