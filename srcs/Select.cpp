@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/10 16:18:01 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/11 17:30:47 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,7 +217,7 @@ INLINE_NAMESPACE::Select::start (void) {
 						Response response(*request); // BUG peut etre le pb
 						DEBUG_2(CNOUT(BBLU << request->get_body() << CRESET))
 						response.manage_response();
-						response.set_message_send(response.get_header());
+						response.set_message_send(response.get_body());
 						DEBUG_2(CNOUT(BGRN << response.get_message_send() << CRESET))
 						if (send(_client_socket[i], response.get_message_send().c_str(), response.get_message_send().length(), 0) == SYSCALL_ERR)
 						{

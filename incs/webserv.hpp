@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:11:19 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/11 17:10:22 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/11 17:19:51 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@
 #include <limits.h>
 
 #include "_utils.hpp"
-#include "_init.hpp"
 
 extern int 								g_debug_prog_level;
 extern string_vector 					g_header;
 
+#include "_init.hpp"
 #include "_colors.hpp"
 #include "Location.hpp"
 #include "Server.hpp"

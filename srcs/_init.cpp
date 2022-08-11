@@ -6,11 +6,11 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 10:06:42 by gmary             #+#    #+#             */
-/*   Updated: 2022/08/11 16:45:20 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/11 17:56:49 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "webserv.hpp"
+#include "../incs/webserv.hpp"
 
 string_vector
 INLINE_NAMESPACE::init_header (void) { 
@@ -131,6 +131,7 @@ INLINE_NAMESPACE::init_content_type() {
 	content_map[".gif"] = "image/gif";
 	content_map[".htm"] = "text/html";
 	content_map[".html"]= "text/html";
+	content_map[".php"]= "text/html"; // BUG pas sur pour cette ligne
 	content_map[".ico"] = "image/x-icon";
 	content_map[".ics"] = "text/calendar";
 	content_map[".jar"] = "Temporary Redirect";

@@ -56,7 +56,7 @@ class Header
 		int			get_status_code(void) const 			{ return _status_code; }
 	
 	public: /* Methods */
-		void	fill(const Response & response);
+		void	fill(Response & response);
 
 	public: /* Operators */
 		Header & operator=(const Header & copy) {

@@ -214,7 +214,7 @@ void	INLINE_NAMESPACE::Response::manage_response_get(void)
 void
 INLINE_NAMESPACE::Response::manage_error_page (void) {
 	// create error header
-	_header.set_error_value(_request.get_error_value());
+	//_body.set_error_value(_request.get_error_value());
 
 	// create error body
 }
@@ -223,9 +223,14 @@ void	INLINE_NAMESPACE::Response::manage_response(void)
 {
 	//TODO faire manage cgi
 	if (_error_value != 200)
+	{
+		CCOUT(BGRN, _error_value)
+		CCOUT(BRED, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
 		manage_error_page();
+	}
 	else
 	{
+		CCOUT(BGRN, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
 		if (_request.get_method() == M_GET)
 			manage_response_get();
 		// else if (_request.get_method() == M_POST)
@@ -233,10 +238,10 @@ void	INLINE_NAMESPACE::Response::manage_response(void)
 		// else if (_request.get_method() == M_DELETE)
 		// 	manage_response_delete();
 	}
-	Header header();
+	Header header;
 	header.fill(*this);
-	CNOUT(BRED << _header << CRESET)
-	CNOUT(BGRN << _body << CRESET)
+	CCOUT(BRED, header.get_header())
+	CCOUT(BGRN, _body)
 	_body.insert(0, header.get_header());
 	/* 	if (_request.get_method() == "CGI")
 			manage_response_cgi(); */

@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:33:58 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/11 15:49:54 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/11 17:20:39 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,6 @@ std::string					create_html_error_page (int error_code);
 
 std::string					remove_slash (const std::string & str);
 
-std::string					get_file_extension(const std::string & path)
+std::string					get_file_extension(const std::string & path);
 
 #endif /* _UTILS_HPP */
