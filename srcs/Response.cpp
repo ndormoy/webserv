@@ -65,96 +65,80 @@
 
 // }
 
-// /**
-//  * @brief function that create the file were the content of a file is stored
-//  * std::ifstream automatically has the ios::in flag set.
-//  * std::ofstream automatically has the ios::out flag set.
-//  * std::fstream has neither ios::in or ios::out automatically
-//  * @param upload_path 
-//  */
+/**
+ * @brief function that create the file were the content of a file is stored
+ * std::ifstream automatically has the ios::in flag set.
+ * std::ofstream automatically has the ios::out flag set.
+ * std::fstream has neither ios::in or ios::out automatically
+ * @param upload_path 
+ */
 
-// void	INLINE_NAMESPACE::Response::create_upload_file(std::string upload_path)
-// {
-// 	std::ofstream	file;
-// 	std::string		final_path = upload_path;
+void	INLINE_NAMESPACE::Response::create_upload_file(std::string upload_path)
+{
+	std::ofstream	file;
+	std::string		final_path = upload_path;
 
-// 	final_path.append("/");
-// 	final_path.append(_request.get_filename());
-// 	if (upload_path.empty())
-// 		file.open(("example_html/uploads/" + _request.get_filename()).c_str(), std::ios::out | std::ios::binary);
-// 	else
-// 		file.open(final_path.c_str(), std::ios::out | std::ios::binary);
-// 	file << _request.get_content_file();
-// 	file.close();
-// }
+	final_path.append("/");
+	final_path.append(_request.get_filename());
+	if (upload_path.empty())
+		file.open(("example_html/uploads/" + _request.get_filename()).c_str(), std::ios::out | std::ios::binary);
+	else
+		file.open(final_path.c_str(), std::ios::out | std::ios::binary);
+	file << _request.get_content_file();
+	file.close();
+}
 
-// void	INLINE_NAMESPACE::Response::manage_response_post(void)
-// {
-// 	bool	isupload = false;
-// 	std::vector<Location *> location;
-// 	INLINE_NAMESPACE::Server * server = NULL;
+void	INLINE_NAMESPACE::Response::manage_response_post(void)
+{
+	bool	isupload = false;
+	std::vector<Location *> location;
+	INLINE_NAMESPACE::Server * server = NULL;
 
-
-// 	server = _request.get_server();
-// 	if(server != NULL)
-// 		location = server->get_locations();
-// 	else
-// 	{
-// 		CNOUT(BYEL << "server is null" << CRESET)
-// 		return ;
-// 	}
-// 	if (_request.define_upload())
-// 		isupload = true;
-// 	else
-// 	{
-// 		//TODO que faire vraiment ici on est ps dans un cas d'upload mais ca peut etre autres choses ??
-// 		isupload = false;
-// 	}
-// 	for (std::vector<Location *>::iterator it = location.begin(); it != location.end(); ++it)
-// 	{
-// 		if (!(*it)->get_upload_path().empty() && isupload)
-// 		{
-// 			if (server->get_max_body_size() < _request.get_content_file().size())
-// 			{
-// 				CNOUT(BRED << "max body size hit" << CRESET)
-// 				_request.set_error_value(413); //BUG pas sur
-// 				isupload = false;
-// 				break ;
-// 			}
-// 			create_upload_file((*it)->get_upload_path());
-// 			break;
-// 		}
-// 	}
-// 	if (isupload == true)
-// 	{
-// 		_request.set_error_value(200);
-// 		fill_status_code();
-// 		fill_start_header();
-// 		_header.append("53\r\n"); //TODO recalculer des lignes html en dessous
-// 		_header.append("\r\n");
-// 		_header.append("\n\n");
-// 		_header.append("<html>\n");
-// 		_header.append("<body>\n");
-// 		_header.append("<h1>FILE UPLOADED</h1>\n");
-// 		_header.append("</body>\n");
-// 		_header.append("</html>\n");
-// 	}
-// 	else
-// 	{
-// 		_request.set_error_value(500);
-// 		fill_status_code();
-// 		fill_start_header();
-// 		//_header.append(create_html_error_page(_request.get_error_value()));
-// 		_header.append("57\r\n"); //TODO recalculer des lignes html en dessous
-// 		_header.append("\r\n");
-// 		_header.append("\n\n");
-// 		_header.append("<html>\n");
-// 		_header.append("<body>\n");
-// 		_header.append("<h1>FILE UPLOAD ERROR</h1>\n");
-// 		_header.append("</body>\n");
-// 		_header.append("</html>\n");
-// 	}
-// }
+	server = _request.get_server();
+	if(server != NULL)
+		location = server->get_locations();
+	else
+	{
+		CNOUT(BYEL << "server is null" << CRESET)
+		return ;
+	}
+	if (_request.define_upload())
+		isupload = true;
+	else
+	{
+		//TODO que faire vraiment ici on est ps dans un cas d'upload mais ca peut etre autres choses ??
+		isupload = false;
+	}
+	for (std::vector<Location *>::iterator it = location.begin(); it != location.end(); ++it)
+	{
+		if (!(*it)->get_upload_path().empty() && isupload)
+		{
+			if (server->get_max_body_size() < _request.get_content_file().size())
+			{
+				CNOUT(BRED << "max body size hit" << CRESET)
+				_request.set_error_value(413);
+				isupload = false;
+				break ;
+			}
+			create_upload_file((*it)->get_upload_path());
+			break;
+		}
+	}
+	if (isupload == true)
+	{
+		_request.set_error_value(200);
+		_body.append("53\r\n");
+		_body.append("\r\n");
+		_body.append("\n\n");
+		_body.append("<html>\n");
+		_body.append("<body>\n");
+		_body.append("<h1>FILE UPLOADED</h1>\n");
+		_body.append("</body>\n");
+		_body.append("</html>\n");
+	}
+	else
+		_body.append(create_html_error_page(_request.get_error_value()));
+}
 
 // void	INLINE_NAMESPACE::Response::manage_response_cgi(void)
 // {
@@ -230,7 +214,6 @@ INLINE_NAMESPACE::Response::manage_error_page (void) {
 void	INLINE_NAMESPACE::Response::manage_response(void)
 {
 	//TODO faire manage cgi
-    CNOUT(BYEL << _request << CRESET)
 	if (_error_value != 200)
 	{
 		CCOUT(BGRN, _error_value)
@@ -242,8 +225,8 @@ void	INLINE_NAMESPACE::Response::manage_response(void)
 		CCOUT(BGRN, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
 		if (_request.get_method() == M_GET)
 			manage_response_get();
-		// else if (_request.get_method() == M_POST)
-		// 	manage_response_post();
+		else if (_request.get_method() == M_POST)
+			manage_response_post();
 		// else if (_request.get_method() == M_DELETE)
 		// 	manage_response_delete();
 	}
