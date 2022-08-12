@@ -13,7 +13,7 @@ class Response
 
 		int				_file_size;
 		std::string		_body;
-//		std::string		_header; //TODO a enlever
+		std::string		_header; //TODO a enlever
 		Request			_request;
 		string_vector	_files;
 		std::string		_error_path;

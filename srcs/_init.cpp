@@ -129,9 +129,9 @@ INLINE_NAMESPACE::init_content_type() {
 	content_map[".doc"] = "application/msword";
 	content_map[".epub"]= "application/epub+zip";
 	content_map[".gif"] = "image/gif";
-	content_map[".htm"] = "text/html;charset=UTF-8";
-	content_map[".html"]= "text/html;charset=UTF-8";
-	content_map[".php"]= "text/html;charset=UTF-8"; // BUG pas sur pour cette ligne
+	content_map[".htm"] = "text/html";
+	content_map[".html"]= "text/html";
+	content_map[".php"]= "text/html"; // BUG pas sur pour cette ligne
 	content_map[".ico"] = "image/x-icon";
 	content_map[".ics"] = "text/calendar";
 	content_map[".jar"] = "Temporary Redirect";

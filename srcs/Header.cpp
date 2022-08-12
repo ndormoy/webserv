@@ -1,5 +1,15 @@
 #include "../incs/webserv.hpp"
 
+static const std::string
+get_instant_time_ (void) {
+
+    char buf[1000];
+    time_t now = time(NULL);
+    struct tm tm = *gmtime(&now);
+    strftime(buf, sizeof buf, "%a, %d %b %Y %H:%M:%S %Z", &tm);
+    return (buf);
+}
+
 void
 INLINE_NAMESPACE::Header::fill(Response & reponse)
 {
@@ -11,17 +21,29 @@ INLINE_NAMESPACE::Header::fill(Response & reponse)
 			    if (it->first == _status_code)
 			        break;
 			}
-			_status_code = it->first;
-			_header += ITOA(it->first) + " " + it->second + "\r\n";
+
+			_status = "HTTP/1.1 " + ITOA(it->first) + " " + it->second;
 			CNOUT(BYEL << "Status code : " << get_file_extension(reponse.get_request().get_construct_path()) << CRESET)
-			_content_type += init_content_type().at(get_file_extension(reponse.get_request().get_construct_path())) + "\r\n";
-			_content_length += ITOA(reponse.get_body().size() + 127) + "\r\n\n";
-			
 
-			//! CONCAT HEADER
-			_header += _content_type;
-			_header += _content_length;
+            _date = "Date: " + get_instant_time_();
 
-            CNOUT(BCYN << _header << CRESET)
+            _server = "Server: " + reponse.get_server()->get_server_name();
 
+			_content_length = "Content-Length: " + ITOA(reponse.get_body().size());
+
+            _content_type += init_content_type().at(get_file_extension(reponse.get_request().get_construct_path())) + ";charset=UTF-8";
+}
+
+std::string
+INLINE_NAMESPACE::Header::append (void) {
+    std::string header;
+
+    header = _status + "\r\n";
+    header += _date + "\r\n";
+    header += _server + "\r\n";
+    header += _content_type + "\r\n";
+    header += _content_length + "\r\n";
+    header += "\r\n";
+
+    return (header);
 }
