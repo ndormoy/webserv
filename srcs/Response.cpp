@@ -3,51 +3,15 @@
 #include <fstream>
 #include <dirent.h>
 
-// void	INLINE_NAMESPACE::Response::fill_status_code(void)
-// {
-// 	_file_size = calculate_size_file((char *)_request.get_path().c_str());
-// 	if (_request.get_error_value() == 200)
-// 		_header.append("200 OK\r\n");
-// }
-
-// void		INLINE_NAMESPACE::Response::fill_body(void)
-// {
-// 	if (_request.get_error_value() == 200)
-// 		_header.append(read_file(_request.get_path()));
-// 		//[ ] je penses que l'on a plus besoin de ca car tout est traite en amont
-// 	//else
-// 	//	_header.append(read_file(_error_path));
-// 	_header.append("\r\n\r\n");
-// }
-
-// void 	INLINE_NAMESPACE::Response::fill_start_header(void)
-// {
-// 	_header.append("Content-Type: text/html;charset=UTF-8\r\n");
-// 	_header.append("Content-Length: ");
-// }
-
-// void		INLINE_NAMESPACE::Response::fill_header(void)
-// {
-// 	fill_start_header();
-// 	CNOUT(BYEL << _request.get_error_value() << CRESET)
-// 	if (_request.get_error_value() == 200)
-// 	{
-// 		std::string i = ITOA(calculate_size_file((char *)_request.get_path().c_str()));
-// 		_header.append(i);
-// 	}
-// 	else
-// 	{
-// 		_error_path = "./www/error_pages/";
-// 		_error_path.append(ITOA(_request.get_error_value()));
-// 		_error_path.append(".html");
-// 	}
-// 	_header.append("\r\n\n");
-// }
+/*
+	curl -X DELETE localhost:8080/file_to_delete/text.txt
+*/
 
 void	INLINE_NAMESPACE::Response::manage_response_delete(void)
 {
 	//BUG doit on proteger la suppresion du fichier ? si oui qu'elles sont les regles de gestion des droits ?
-	if (std::remove(_request.get_path().c_str()) != 0)
+	CNOUT("INNNNNNNNNNNNNNNNNNNNNN")
+	if (std::remove(_request.get_construct_path().c_str()) != 0)
 	{
 		CNOUT(BYEL << "Error deleting file" << CRESET)
 		_request.set_error_value(403);
