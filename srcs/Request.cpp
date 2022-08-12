@@ -148,9 +148,6 @@ INLINE_NAMESPACE::Request::set_final_path (void) {
 	}
 	_construct_path = tmp;
 
-    //TODO To delete
-    _path = _construct_path;
-
     CNOUT("_construct_path : " << _construct_path << std::endl)
 }
 

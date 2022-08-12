@@ -202,7 +202,7 @@ bool	INLINE_NAMESPACE::Response::manage_autoindex(void)
 
 void	INLINE_NAMESPACE::Response::manage_response_get(void)
 {
-    _body.append(read_file(_request.get_path()));
+    _body.append(read_file(_request.get_construct_path()));
 	_body.append("\r\n\r\n");
 	// else if (_location->get_return())
 	// else
@@ -218,7 +218,7 @@ INLINE_NAMESPACE::Response::manage_error_page (void) {
         && _location->get_autoindex()
         && (path_is_dir(_request.get_construct_path())) || _request.get_construct_path().empty()) {
         create_index();
-        _body = auto_index(_request.get_construct_path());
+        _body = auto_index(_request.get_path());
     }
     else if (!(ret = _location->return_path_matching(_error_value)).empty()) {
         _body.append(read_file(ret));
@@ -286,7 +286,7 @@ void	INLINE_NAMESPACE::Response::create_index(void)
 	DIR *dp;
 	struct dirent *ep;
 	
-	dp = opendir (_request.get_path().c_str());
+	dp = opendir (_request.get_construct_path().c_str());
 	if (dp != NULL)
 	{
 		while ((ep = readdir (dp)))
