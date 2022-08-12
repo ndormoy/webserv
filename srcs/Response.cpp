@@ -202,9 +202,7 @@ bool	INLINE_NAMESPACE::Response::manage_autoindex(void)
 
 void	INLINE_NAMESPACE::Response::manage_response_get(void)
 {
-	if (manage_autoindex() == true)
-		return ;
-	_body.append(read_file(_request.get_path()));
+    _body.append(read_file(_request.get_path()));
 	_body.append("\r\n\r\n");
 	// else if (_location->get_return())
 	// else
@@ -216,7 +214,7 @@ INLINE_NAMESPACE::Response::manage_error_page (void) {
     std::string ret;
 
     if (_location
-        && _error_value == 404
+        && _error_value == 403
         && _location->get_autoindex()
         && (path_is_dir(_request.get_construct_path())) || _request.get_construct_path().empty()) {
         create_index();
@@ -232,6 +230,7 @@ INLINE_NAMESPACE::Response::manage_error_page (void) {
 void	INLINE_NAMESPACE::Response::manage_response(void)
 {
 	//TODO faire manage cgi
+    CNOUT(BYEL << _request << CRESET)
 	if (_error_value != 200)
 	{
 		CCOUT(BGRN, _error_value)

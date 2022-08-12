@@ -143,7 +143,7 @@ INLINE_NAMESPACE::Request::set_final_path (void) {
 
     CNOUT(BRED << path_is_dir(tmp) << CRESET)
 
-	if (path_is_dir(tmp)) {
+	if (path_is_dir(tmp) && !_location->get_index().empty()) {
         tmp += "/" + _location->get_index();
 	}
 	_construct_path = tmp;
@@ -158,6 +158,9 @@ short
 INLINE_NAMESPACE::Request::check_request (void) {
     if (!path_is_valid(_construct_path))
          return (404);
+    if (path_is_dir(_construct_path)) {
+        return (403);
+    }
     if (!(_location && _method & _location->get_methods()))
         return (405);
     return (0);
@@ -177,7 +180,7 @@ INLINE_NAMESPACE::Request::request_parser (void) {
 	} else if ((pos = _path.find('?')) != std::string::npos) {
 		DEBUG_5(CNOUT(BYEL << "Query string has been found" << CRESET));
 		_query_string = _path.substr(pos + 1, _path.length());
-		_path = _path.substr(0, pos);
+		_path = remove_slash(_path.substr(0, pos));
 	}
 	DEBUG_4(CNOUT(BGRN << *this << CRESET));
 	for (string_vector::const_iterator it = v.begin(); it != v.end(); it++) {
