@@ -251,10 +251,13 @@ void	INLINE_NAMESPACE::Response::manage_response(void)
 			manage_response_cgi(); */
 	Header header;
 	header.fill(*this);
-	CCOUT(BRED, header.get_header())
+//    CNOUT(BBLU << header.append() << CRESET)
+    _header = header.append();
+    _body.insert(0, _header);
+
 	//CCOUT(BGRN, _body)
-	_body.insert(0, header.get_header());
-	CCOUT(BYEL, _body)
+	CCOUT(BYEL, header.append())
+    CCOUT(BGRN, _message_send)
 
 // generate header
 // concat body
