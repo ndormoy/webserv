@@ -44,26 +44,25 @@
 // 	_header.append("\r\n\n");
 // }
 
-// void	INLINE_NAMESPACE::Response::manage_response_delete(void)
-// {
-// 	//BUG doit on proteger la suppresion du fichier ? si oui qu'elles sont les regles de gestion des droits ?
-// 	if (std::remove(_request.get_path().c_str()) != 0)
-// 	{
-// 		CNOUT(BYEL << "Error deleting file" << CRESET)
-// 		_request.set_error_value(403);
-// 	}
-// 	fill_status_code();
-// 	fill_start_header();
-// 	_header.append("52\r\n");
-// 	_header.append("\r\n");
-// 	_header.append("\n\n");
-// 	_header.append("<html>\n");
-// 	_header.append("<body>\n");
-// 	_header.append("<h1>FILE DELETED</h1>\n");
-// 	_header.append("</body>\n");
-// 	_header.append("</html>\n");
-
-// }
+void	INLINE_NAMESPACE::Response::manage_response_delete(void)
+{
+	//BUG doit on proteger la suppresion du fichier ? si oui qu'elles sont les regles de gestion des droits ?
+	if (std::remove(_request.get_path().c_str()) != 0)
+	{
+		CNOUT(BYEL << "Error deleting file" << CRESET)
+		_request.set_error_value(403);
+	}
+	if (_request.get_error_value() == 200)
+	{
+		_body.append("<html>\n");
+		_body.append("<body>\n");
+		_body.append("<h1>FILE DELETED</h1>\n");
+		_body.append("</body>\n");
+		_body.append("</html>\n");
+	}
+	else
+		_body.append(create_html_error_page(_request.get_error_value()));
+}
 
 /**
  * @brief function that create the file were the content of a file is stored
@@ -227,8 +226,8 @@ void	INLINE_NAMESPACE::Response::manage_response(void)
 			manage_response_get();
 		else if (_request.get_method() == M_POST)
 			manage_response_post();
-		// else if (_request.get_method() == M_DELETE)
-		// 	manage_response_delete();
+		else if (_request.get_method() == M_DELETE)
+			manage_response_delete();
 	}
 	/* 	if (_request.get_method() == "CGI")
 			manage_response_cgi(); */
