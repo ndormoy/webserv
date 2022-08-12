@@ -21,6 +21,7 @@ class Request
 		std::string _query_string;
 		Server *	_server;
 		Location *  _location;
+		Cookie *	_cookies;
 		std::string _body;
 		std::string	_boundary;
 		std::string _filename;

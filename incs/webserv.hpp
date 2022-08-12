@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:11:19 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/11 17:19:51 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/12 15:06:46 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ extern string_vector 					g_header;
 #include "Configuration.hpp"
 #include "Socket.hpp"
 #include "Select.hpp"
+#include "Cookie.hpp"
 #include "Request.hpp"
 #include "Response.hpp"
 #include "Header.hpp"

@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:33:58 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/11 17:20:39 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/12 15:29:17 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ class Server;
 
 # define FOREACH_SERVER					for (std::vector<INLINE_NAMESPACE::Server*>::const_iterator it = SERVERS.begin(); it != SERVERS.end(); ++it)
 # define FOREACH_HEADER 				for (string_vector::const_iterator it = HEADER.begin(); it != HEADER.end(); ++it)
+# define FOREACH_COOKIE					for (std::map<std::string, std::string>::const_iterator it = _cookies.begin(); it != _cookies.end(); ++it)
 
 # define COUNT_SERVERS					g_config.getServers().size()
 # define CHECKER(v, x)					(true == checker(v, x))
