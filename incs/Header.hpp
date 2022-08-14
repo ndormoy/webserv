@@ -5,8 +5,6 @@
 
 _BEGIN_NAMESPACE_WEBSERV
 
-// class Reponse;
-
 class Header
 {
 	private:
@@ -73,9 +71,6 @@ class Header
 
 
 };
-
-
-
 
 _END_NAMESPACE_WEBSERV
 

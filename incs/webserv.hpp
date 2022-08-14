@@ -60,6 +60,7 @@ extern string_vector 					g_header;
 #include "Select.hpp"
 #include "Cookie.hpp"
 #include "Request.hpp"
+#include "Cgi.hpp"
 #include "Response.hpp"
 #include "Header.hpp"
 
