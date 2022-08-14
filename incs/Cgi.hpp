@@ -54,6 +54,16 @@ class Cgi
 			_output("")
 		{ }
 
+        Cgi (const std::string & ext, const std::string & path) :
+            _env(NULL),
+            _exec(path),
+            _extension(ext),
+            _fd(-1),
+            _request(NULL),
+            _location(NULL),
+            _output("")
+        { }
+
 		Cgi (const Cgi & copy) {
 			*this = copy;
 		}
@@ -119,17 +129,10 @@ class Cgi
 			return (*this);
 		}
 
-	public:
-	
+//	public:
+
 };
 
 _END_NAMESPACE_WEBSERV
-
-		// void	fill_status_code(void);
-		// void 	fill_header(void);
-		// void	fill_body(void);
-		// void	manage_response(void);
-		// std::string auto_index(void);
-		// void	create_index(void);
 
 #endif

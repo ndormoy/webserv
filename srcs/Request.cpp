@@ -36,7 +36,7 @@ request_spliter_ (std::string str) {
 
 
 static INLINE_NAMESPACE::Server *
-find_server (std::string str) {
+find_server_ (std::string str) {
 	if (str.empty()) {
 		return (NULL);
 	}
@@ -54,7 +54,7 @@ find_server (std::string str) {
 }
 
 static INLINE_NAMESPACE::Location *
-find_location (INLINE_NAMESPACE::Server * srv, std::string path) {
+find_location_ (INLINE_NAMESPACE::Server * srv, std::string path) {
 	if (srv == NULL)
 		return (NULL);
 		
@@ -157,6 +157,8 @@ INLINE_NAMESPACE::Request::check_request (void) {
          return (404);
     if (path_is_dir(_construct_path)) {
         return (403);
+    } if (_server && _server->get_max_body_size() < _content_file.length()) {
+        return (413);
     }
     if (!(_location && _method & _location->get_methods()))
         return (405);
@@ -183,12 +185,11 @@ INLINE_NAMESPACE::Request::request_parser (void) {
 	for (string_vector::const_iterator it = v.begin(); it != v.end(); it++) {
 		request_line_parser(*it);
 	}	
-	_server = find_server(_params["Host"]);
-	_location = find_location(_server, _path);
+	_server = find_server_(_params["Host"]);
+	_location = find_location_(_server, _path);
 	_chunked = ((_params["Transfer-Encoding"].find("chunked")) != std::string::npos);
 //    CNOUT("HEEEEEEERE");
 	set_final_path();
-
     if ((ret = check_request()) != 0) {
         return (ret);
     }

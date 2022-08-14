@@ -1,4 +1,4 @@
-#include "../incs/webserv.hpp"
+#include "webserv.hpp"
 #include <iostream>
 #include <fstream>
 #include <dirent.h>
@@ -42,8 +42,9 @@ void	INLINE_NAMESPACE::Response::create_upload_file(std::string upload_path)
 
 	final_path.append("/");
 	final_path.append(_request.get_filename());
+    CNOUT(BYEL << "final_path : " << final_path << CRESET)
 	if (upload_path.empty())
-		file.open(("example_html/uploads/" + _request.get_filename()).c_str(), std::ios::out | std::ios::binary);
+		file.open(("example_html/upload/" + _request.get_filename()).c_str(), std::ios::out | std::ios::binary);
 	else
 		file.open(final_path.c_str(), std::ios::out | std::ios::binary);
 	file << _request.get_content_file();
@@ -53,106 +54,28 @@ void	INLINE_NAMESPACE::Response::create_upload_file(std::string upload_path)
 void	INLINE_NAMESPACE::Response::manage_response_post(void)
 {
 	bool	isupload = false;
-	std::vector<Location *> location;
-	INLINE_NAMESPACE::Server * server = NULL;
+	Location * location_ptr = _request.get_location();
 
-	server = _request.get_server();
-	if(server != NULL)
-		location = server->get_locations();
-	else
+	if (_request.define_upload()) {
+        isupload = true;
+    } if (location_ptr && location_ptr->get_upload_path().empty() && isupload) {
+        create_upload_file(location_ptr->get_upload_path());
+    } if (isupload)
 	{
-		CNOUT(BYEL << "server is null" << CRESET)
-		return ;
-	}
-	if (_request.define_upload())
-		isupload = true;
-	else
-	{
-		//TODO que faire vraiment ici on est ps dans un cas d'upload mais ca peut etre autres choses ??
-		isupload = false;
-	}
-	for (std::vector<Location *>::iterator it = location.begin(); it != location.end(); ++it)
-	{
-		if (!(*it)->get_upload_path().empty() && isupload)
-		{
-			if (server->get_max_body_size() < _request.get_content_file().size())
-			{
-				CNOUT(BRED << "max body size hit" << CRESET)
-				_request.set_error_value(413);
-				isupload = false;
-				break ;
-			}
-			create_upload_file((*it)->get_upload_path());
-			break;
-		}
-	}
-	if (isupload == true)
-	{
-		_request.set_error_value(200);
-		_body.append("53\r\n");
-		_body.append("\r\n");
-		_body.append("\n\n");
 		_body.append("<html>\n");
 		_body.append("<body>\n");
 		_body.append("<h1>FILE UPLOADED</h1>\n");
 		_body.append("</body>\n");
 		_body.append("</html>\n");
 	}
-	else
-		_body.append(create_html_error_page(_request.get_error_value()));
 }
 
-// void	INLINE_NAMESPACE::Response::manage_response_cgi(void)
-// {
 
-// }
-
-/**
- * @brief Search and create autoindex.html file
- */
-
-bool	INLINE_NAMESPACE::Response::manage_autoindex(void)
-{
-	INLINE_NAMESPACE::Server * server = NULL;
-	std::vector<Location *> location;
-
-	if (_request.get_error_value() != 200)
-	{
-		CNOUT(GRN << "ERROR" << CRESET)
-		server = _request.get_server();
-		//server = find_server(_request);
-		if (server != NULL)
-		{
-			CNOUT(GRN << "server is not null" << CRESET)
-			location =  server->get_locations();
-			//TODO check si location a comme option / (tout les dossier son apte a l'autoindex)
-			if (location.empty() == false)
-			{
-				CNOUT(GRN << "location not empty" << CRESET)
-				for (std::vector<Location *>::iterator it = location.begin(); it != location.end(); it++)
-				{
-					if ((*it)->get_path() == _request.get_path())
-						if ((*it)->get_autoindex() == true)
-						{
-							CNOUT(BGRN << "autoindex" << CRESET)
-							create_index();
-							auto_index((*it)->get_path());
-							return true;
-						}
-				}
-			}
-		}
-	}
-	return false;
-}
 
 void	INLINE_NAMESPACE::Response::manage_response_get(void)
 {
     _body.append(read_file(_request.get_construct_path()));
 	_body.append("\r\n\r\n");
-	// else if (_location->get_return())
-	// else
-	// 	_header.append(create_html_error_page(_request.get_error_value()));
 }
 
 void
@@ -173,7 +96,24 @@ INLINE_NAMESPACE::Response::manage_error_page (void) {
     }
 }
 
-void	INLINE_NAMESPACE::Response::manage_response(void)
+void
+INLINE_NAMESPACE::Response::manage_cgi (void) {
+    Location * location_ptr =   _request.get_location();
+    Server * server_ptr =       _request.get_server();
+//    Location::cgi_type cgi =       location_ptr->get_cgi();
+
+    if (location_ptr == NULL)
+        return;
+//    for (Location::cgi_type::const_iterator it = cgi.begin(); it != location_ptr->get_cgi().end(); ++it) {
+//        if ((*it).first == get_file_extension(_request.get_path())) {
+//            _cgi = new Cgi (it->first, it->second);
+//            CNOUT(*_cgi);
+//            break;
+//        }
+//    }
+}
+
+void	INLINE_NAMESPACE::Response::manage_response (void)
 {
 	//TODO faire manage cgi
 	if (_error_value != 200)
@@ -192,20 +132,18 @@ void	INLINE_NAMESPACE::Response::manage_response(void)
 		else if (_request.get_method() == M_DELETE)
 			manage_response_delete();
 	}
-	/* 	if (_request.get_method() == "CGI")
-			manage_response_cgi(); */
+    manage_cgi();
+
 	Header header;
 	header.fill(*this);
-//    CNOUT(BBLU << header.append() << CRESET)
+
     _header = header.append();
     _body.insert(0, _header);
 
-	//CCOUT(BGRN, _body)
+
 	CCOUT(BYEL, header.append())
     CCOUT(BGRN, _message_send)
 
-// generate header
-// concat body
 }
 
 
@@ -287,11 +225,7 @@ std::string	INLINE_NAMESPACE::Response::auto_index(std::string location_path)
 }
 
 
-void
-INLINE_NAMESPACE::Response::generate_header(void)
-{
 
-}
 
 /*
 

@@ -13,44 +13,44 @@
 #include "Cgi.hpp"
 
 void
-INLINE_NAMESPACE::Cgi::init_env (void) {
-	std::string	var_name[] = {
-							"CONTENT_LENGTH",
-							"CONTENT_TYPE",
-							"GATEWAY_INTERFACE",
-							"PATH_INFO",
-							"PATH_TRANSLATED",
-							"QUERY_STRING",
-							"REDIRECT_STATUS",
-							"REQUEST_METHOD",
-							"SCRIPT_FILENAME",
-							"SERVER_PROTOCOL",
-							"SERVER_PORT",
-							""};
+INLINE_NAMESPACE::Cgi::init_env(void) {
+    std::string var_name[] = {
+            "CONTENT_LENGTH",
+            "CONTENT_TYPE",
+            "GATEWAY_INTERFACE",
+            "PATH_INFO",
+            "PATH_TRANSLATED",
+            "QUERY_STRING",
+            "REDIRECT_STATUS",
+            "REQUEST_METHOD",
+            "SCRIPT_FILENAME",
+            "SERVER_PROTOCOL",
+            "SERVER_PORT",
+            ""};
 
-	for (int i = 0; !var_name[i].empty(); i++) {
-		
-		// switch (i) {
-		// 	case 0:
-		// }
-	}
+    for (int i = 0; !var_name[i].empty(); i++) {
 
-	/*
-		Init every env variable.
-	*/
+        // switch (i) {
+        // 	case 0:
+        // }
+    }
+
+    /*
+        Init every env variable.
+    */
 }
 
 int
-INLINE_NAMESPACE::Cgi::read_output (int fd) {
-	char buffer[BUFFER_SIZE];
-	int ret;
+INLINE_NAMESPACE::Cgi::read_output(int fd) {
+    char buffer[BUFFER_SIZE];
+    int ret;
 
-	while ((ret = read(fd, buffer, BUFFER_SIZE)) > 0) {
-		_output.append(buffer, ret);
-	}
-	if (ret == SYSCALL_ERR)
-		return (SYSCALL_ERR);
-	return (0);
+    while ((ret = read(fd, buffer, BUFFER_SIZE)) > 0) {
+        _output.append(buffer, ret);
+    }
+    if (ret == SYSCALL_ERR)
+        return (SYSCALL_ERR);
+    return (0);
 }
 
 

@@ -5,7 +5,7 @@
 
 _BEGIN_NAMESPACE_WEBSERV
 
-// class Header;
+class Cgi;
 
 class Response
 {
@@ -21,6 +21,7 @@ class Response
 		int				_error_value;
 		Server *		_server;
 		Location *		_location;
+        Cgi *           _cgi;
 		//Header	&		_header;
 
 	public: /* Constructors */
@@ -34,7 +35,8 @@ class Response
 			_message_send(""),
 			_error_value(0),
 			_server(NULL),
-			_location(NULL)
+			_location(NULL),
+            _cgi (NULL)
 		{ }
 
 		Response (const Request & request) :
@@ -96,6 +98,7 @@ class Response
 		std::string		auto_index(std::string location_path);
 		void			create_index(void);
 		void			create_upload_file(std::string);
+        void            manage_cgi (void);
 
 
 	public: /* Operators overloaded */
