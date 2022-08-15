@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/15 16:18:30 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/15 16:42:56 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,5 +280,5 @@ void INLINE_NAMESPACE::Request::unchunk_body () {
 		// CNOUT(UMAG << line << CRESET)
 	}
 	_body = head + unchunk_body; //TODO check if it's ok
-	//CNOUT(BYEL << _body << CRESET)
+	CNOUT(BYEL << _body << CRESET)
 }

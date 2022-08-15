@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 10:06:42 by gmary             #+#    #+#             */
-/*   Updated: 2022/08/11 18:11:48 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/15 17:04:12 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ INLINE_NAMESPACE::init_header(void) {
     header.push_back("Accept-Language");
     header.push_back("Auth-Scheme");
     header.push_back("Authorization");
+	header.push_back("Cookie");
     header.push_back("Content-Language");
     header.push_back("Content-Length");
     header.push_back("Content-Location");

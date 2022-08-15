@@ -12,6 +12,7 @@ class Header
         std::string _date;
 		std::string	_content_type;
 		std::string	_content_length;
+		std::string	_cookies_string;
 		std::string _status;
         std::string _server;
 		// std::string	_content_encoding;
@@ -22,6 +23,7 @@ class Header
 		Header (void):
 			_content_type("Content-Type: "),
 			_content_length("Content-Length: "),
+			_cookies_string("Set-Cookie: "),
 			_status("\r\n"),
 			_status_code(200)
 		{ }
@@ -29,6 +31,7 @@ class Header
 		Header(const Request & request): 
 			_content_type("Content-Type: "),
 			_content_length("Content-Length: "),
+			_cookies_string("Set-Cookie: "),
 			// _content_encoding("Content-Encoding: "),
 			_status_code(request.get_error_value())
 		{ }
@@ -45,20 +48,23 @@ class Header
 		void		set_status(std::string status) 			{ _status = status; }
 		void		set_content_length(std::string length)	{ _content_length = length; }
 		void		set_status_code(int value) 				{ _status_code = value; }
+		void		set_cookie_value(std::string value) 	{ _cookies_string = value; }
 		std::string	get_content_type(void) const 			{ return _content_type; }
 		std::string get_status(void) const 					{ return _status; }
 		std::string	get_content_length(void) const 			{ return _content_length; }
+		std::string	get_cookies_string(void) const 			{ return _cookies_string; }
 		int			get_status_code(void) const 			{ return _status_code; }
-	
-	public: /* Methods */
-		void	fill (Response & response);
-        std::string    append (void);
 
+	public: /* Methods */
+		void			fill (Response & response);
+		std::string		append (void);
+		//TODO create a function that put all the cookie in one string with the good notation
 	public: /* Operators */
 		Header & operator=(const Header & copy) {
 			_content_type = copy._content_type;
 			_content_length = copy._content_length;
 			_status_code = copy._status_code;
+			_cookies_string = copy._cookies_string;
 			return *this;
 		}
 
@@ -66,6 +72,7 @@ class Header
 			o << ref._content_type << std::endl;
 			o << ref._content_length << std::endl;
 			o << ref._status_code << std::endl;
+			o << ref._cookies_string << std::endl;
 			return o;
 		}
 
