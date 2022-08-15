@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/15 13:40:19 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/15 14:08:42 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,22 +251,25 @@ void INLINE_NAMESPACE::Request::unchunk_body () {
 	//ss << "putainnnnn mdrrr";
 	ss << _body.substr(_body.find("\r\n\r\n") + 4, _body.length());
 	for (std::string line; std::getline(ss, line); ) {
-		//hex_count = std::stoi(line.substr(0, line.find("\r\n")), nullptr, 16);
 		//count += hex_count;
 		//CNOUT()
 		if ((i != 0) && (i % 2 != 0))
 		{
-			unchunk_body += line.substr(line.find("\r\n") + 2, line.find("\r\n") + 3);
-			CNOUT(BYEL << i << "---------------- " << unchunk_body << CRESET)
+			unchunk_body += line.substr(line.find("\r\n")+ 1, line.length());
+			// CNOUT(BYEL << i << "---------------- " << unchunk_body << CRESET)
 		}
 		i++;
-		if (line.find("0\r\n") != std::string::npos) {
-			CNOUT("INNNN")
+		//TODO check si la taille est bueno ou pas
+		//hex_count = std::stoi(line.substr(0, line.find("\r\n")), nullptr, 16);
+		// BUG ATTENTION LE DELIM EN DESSOUS EST SENSE ETRE 0\r\n mais le \n nique tout 
+		if (line.find("0\r") != std::string::npos) {
+			// CNOUT("INNNN")
 			break;
 		}
 		CNOUT(UMAG << line << CRESET)
 		
 	}
+	CNOUT(BYEL << unchunk_body << CRESET)
 	//unchunk_body = _body.substr(_body.find("\r\n\r\n") + 4, _body.length());
 	//CNOUT(UMAG << unchunk_body << CRESET);
 	//while(1)
