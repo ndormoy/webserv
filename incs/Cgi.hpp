@@ -54,13 +54,13 @@ class Cgi
 			_output("")
 		{ }
 
-        Cgi (const std::string & ext, const std::string & path) :
+        Cgi (const std::string & ext, const std::string & path, Location * loc, Request * req) :
             _env(NULL),
             _exec(path),
             _extension(ext),
             _fd(-1),
-            _request(NULL),
-            _location(NULL),
+            _request(req),
+            _location(loc),
             _output("")
         { }
 
@@ -100,11 +100,12 @@ class Cgi
 
 		void init_env (void);
 		int read_output (int);
+        void start (void);
 
 	public:
 
 		friend std::ostream& operator << (std::ostream& o, const Cgi & ref) {
-			for (int i = 0; ref._env[i]; i++) {
+			for (int i = 0; ref._env && ref._env[i]; i++) {
 				o << ref._env[i] << std::endl;
 			}
 			o << ref._exec << std::endl;

@@ -53,5 +53,10 @@ INLINE_NAMESPACE::Cgi::read_output(int fd) {
     return (0);
 }
 
+void
+INLINE_NAMESPACE::Cgi::start (void) {
+
+}
+
 
 

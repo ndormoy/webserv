@@ -100,17 +100,22 @@ void
 INLINE_NAMESPACE::Response::manage_cgi (void) {
     Location * location_ptr =   _request.get_location();
     Server * server_ptr =       _request.get_server();
-//    Location::cgi_type cgi =       location_ptr->get_cgi();
+    Location::cgi_type cgi =    location_ptr->get_cgi();
 
-    if (location_ptr == NULL)
+    if (location_ptr == NULL) {
         return;
-//    for (Location::cgi_type::const_iterator it = cgi.begin(); it != location_ptr->get_cgi().end(); ++it) {
-//        if ((*it).first == get_file_extension(_request.get_path())) {
-//            _cgi = new Cgi (it->first, it->second);
-//            CNOUT(*_cgi);
-//            break;
-//        }
-//    }
+    }
+    for (Location::cgi_type::const_iterator it = cgi.begin(); it != cgi.end(); ++it) {
+        if ((it->first == get_file_extension(_request.get_path()))) {
+            _cgi = new Cgi (it->first, it->second, location_ptr, &_request);
+            CNOUT(*_cgi);
+            break;
+        }
+    }
+    if (_cgi == NULL) {
+        return;
+    }
+    _cgi->start();
 }
 
 void	INLINE_NAMESPACE::Response::manage_response (void)
