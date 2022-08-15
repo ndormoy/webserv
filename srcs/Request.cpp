@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/15 14:08:42 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/15 16:18:30 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,38 +243,42 @@ bool	INLINE_NAMESPACE::Request::define_upload(void)
 
 void INLINE_NAMESPACE::Request::unchunk_body () {
 	std::string unchunk_body = "";
+	std::string	head = "";
+	std::string	last_line = "";
 	std::stringstream ss;
 	int count = 0;
-	int hex_count = 0;
+	int hex_count = -1;
 	int	i = 0;
 
-	//ss << "putainnnnn mdrrr";
+	head = _body.substr(0, _body.find("\r\n\r\n") + 4);
 	ss << _body.substr(_body.find("\r\n\r\n") + 4, _body.length());
 	for (std::string line; std::getline(ss, line); ) {
-		//count += hex_count;
-		//CNOUT()
 		if ((i != 0) && (i % 2 != 0))
 		{
 			unchunk_body += line.substr(line.find("\r\n")+ 1, line.length());
 			// CNOUT(BYEL << i << "---------------- " << unchunk_body << CRESET)
+			if ((hex_count != -1) && hex_count != (line.length() - 1))
+			{
+				CNOUT(BRED << "Error : chunked are not good." << CRESET)
+				CNOUT(BRED << "->" << hex_count << CRESET)
+				CNOUT(BRED << "XXXXXX" << line.length() << CRESET)
+				//TODO que faire pour le comportement ?
+				return ;
+			}
+		}
+		else
+		{
+			last_line = line;
+			hex_count = std::stoi(last_line.substr(0, last_line.find("\r\n")), nullptr, 16);
+			CNOUT(URED << "hex_count : " << hex_count << CRESET)
 		}
 		i++;
-		//TODO check si la taille est bueno ou pas
-		//hex_count = std::stoi(line.substr(0, line.find("\r\n")), nullptr, 16);
 		// BUG ATTENTION LE DELIM EN DESSOUS EST SENSE ETRE 0\r\n mais le \n nique tout 
-		if (line.find("0\r") != std::string::npos) {
-			// CNOUT("INNNN")
+		if (hex_count == 0 && line.find("0\r") != std::string::npos) {
 			break;
 		}
-		CNOUT(UMAG << line << CRESET)
-		
+		// CNOUT(UMAG << line << CRESET)
 	}
-	CNOUT(BYEL << unchunk_body << CRESET)
-	//unchunk_body = _body.substr(_body.find("\r\n\r\n") + 4, _body.length());
-	//CNOUT(UMAG << unchunk_body << CRESET);
-	//while(1)
-	//{
-	//	if (unchunk_body.find("0\r\n") == std::string::npos)
-	//		break;
-	//}
+	_body = head + unchunk_body; //TODO check if it's ok
+	//CNOUT(BYEL << _body << CRESET)
 }
