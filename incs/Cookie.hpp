@@ -19,6 +19,11 @@ class Cookie
 			}
 		}
 
+		Cookie (const Cookie &rhs) :
+			_cookies(*new cookie_type(rhs._cookies))
+		{
+		}
+
 		virtual ~Cookie (void) {
 			_cookies.clear();
 			delete &_cookies;

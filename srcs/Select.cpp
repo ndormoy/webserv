@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/11 18:10:34 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/15 11:12:07 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,6 +212,8 @@ INLINE_NAMESPACE::Select::start (void) {
 									break ;
 								}
 							}
+							//TODO reparse chunked body
+							request->unchunk_body();
 						}
 						
 						Response response(*request); // BUG peut etre le pb

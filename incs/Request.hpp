@@ -180,6 +180,7 @@ class Request
 		bool	is_upload_case (void);
 		bool	define_upload (void);
 		short	check_request (void);
+		void	unchunk_body (void);
 
 	public:
 	

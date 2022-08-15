@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/11 10:23:58 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/15 13:40:19 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,4 +234,44 @@ bool	INLINE_NAMESPACE::Request::define_upload(void)
 	_content_file = _content_file.substr(0, _content_file.find(_boundary) - 2);
 	_content_file = _content_file.substr(_content_file.find("\r\n\r\n") + 4, _content_file.length());
 	return (true);
+}
+
+/**
+ * @brief this function unchunk the body of the request and check if the hex count is ok
+ * @param request 
+ */
+
+void INLINE_NAMESPACE::Request::unchunk_body () {
+	std::string unchunk_body = "";
+	std::stringstream ss;
+	int count = 0;
+	int hex_count = 0;
+	int	i = 0;
+
+	//ss << "putainnnnn mdrrr";
+	ss << _body.substr(_body.find("\r\n\r\n") + 4, _body.length());
+	for (std::string line; std::getline(ss, line); ) {
+		//hex_count = std::stoi(line.substr(0, line.find("\r\n")), nullptr, 16);
+		//count += hex_count;
+		//CNOUT()
+		if ((i != 0) && (i % 2 != 0))
+		{
+			unchunk_body += line.substr(line.find("\r\n") + 2, line.find("\r\n") + 3);
+			CNOUT(BYEL << i << "---------------- " << unchunk_body << CRESET)
+		}
+		i++;
+		if (line.find("0\r\n") != std::string::npos) {
+			CNOUT("INNNN")
+			break;
+		}
+		CNOUT(UMAG << line << CRESET)
+		
+	}
+	//unchunk_body = _body.substr(_body.find("\r\n\r\n") + 4, _body.length());
+	//CNOUT(UMAG << unchunk_body << CRESET);
+	//while(1)
+	//{
+	//	if (unchunk_body.find("0\r\n") == std::string::npos)
+	//		break;
+	//}
 }
