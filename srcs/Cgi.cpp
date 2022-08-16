@@ -12,33 +12,7 @@
 
 #include "Cgi.hpp"
 
-void
-INLINE_NAMESPACE::Cgi::init_env(void) {
-    std::string var_name[] = {
-            "CONTENT_LENGTH",
-            "CONTENT_TYPE",
-            "GATEWAY_INTERFACE",
-            "PATH_INFO",
-            "PATH_TRANSLATED",
-            "QUERY_STRING",
-            "REDIRECT_STATUS",
-            "REQUEST_METHOD",
-            "SCRIPT_FILENAME",
-            "SERVER_PROTOCOL",
-            "SERVER_PORT",
-            ""};
 
-    for (int i = 0; !var_name[i].empty(); i++) {
-
-        // switch (i) {
-        // 	case 0:
-        // }
-    }
-
-    /*
-        Init every env variable.
-    */
-}
 
 int
 INLINE_NAMESPACE::Cgi::read_output(int fd) {
@@ -55,16 +29,11 @@ INLINE_NAMESPACE::Cgi::read_output(int fd) {
 
 void
 INLINE_NAMESPACE::Cgi::start (void) {
-    // Create dup and exec the program.
+    pid_t pid;
 }
 
 void
 INLINE_NAMESPACE::Cgi::init (void) {
-    // Init env variables.
-}
-
-void
-INLINE_NAMESPACE::Cgi::export_envs (void) {
     string_vector env_vars = create_env();
 
     if (!(_env = static_cast<char **>(malloc(sizeof(char *) * (env_vars.size() + 1)))))

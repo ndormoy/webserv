@@ -89,7 +89,7 @@ INLINE_NAMESPACE::Response::manage_error_page (void) {
         create_index();
         _body = auto_index(_request.get_path());
     }
-    else if (!(ret = _location->return_path_matching(_error_value)).empty()) {
+    else if (_location && !(ret = _location->return_path_matching(_error_value)).empty()) {
         _body.append(read_file(ret));
     } else {
         _body.append(create_html_error_page(_request.get_error_value()));
@@ -115,8 +115,7 @@ INLINE_NAMESPACE::Response::manage_cgi (void) {
     if (_cgi == _nullptr) {
         return;
     }
-    _cgi->export_envs();
-//    _cgi->init();
+    _cgi->init();
 //    _cgi->start();
 }
 

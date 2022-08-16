@@ -98,12 +98,10 @@ class Cgi
 
 	public:
 
-		void init_env (void);
 		int read_output (int);
         void start (void);
         void init (void);
         string_vector create_env (void) const;
-        void  export_envs (void);
 
 	public:
 
