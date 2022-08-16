@@ -115,19 +115,17 @@ INLINE_NAMESPACE::Response::manage_cgi (void) {
     if (_cgi == NULL) {
         return;
     }
-    _cgi->start();
+//    _cgi->export_envs();
+//    _cgi->init();
+//    _cgi->start();
 }
 
 void	INLINE_NAMESPACE::Response::manage_response (void)
 {
+
 	//TODO faire manage cgi
-	if (_error_value != 200)
-	{
-		CCOUT(BGRN, _error_value)
-		CCOUT(BRED, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-		manage_error_page();
-	}
-	else
+
+	if (_error_value == 200)
 	{
 		CCOUT(BGRN, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
 		if (_request.get_method() == M_GET)
@@ -136,8 +134,15 @@ void	INLINE_NAMESPACE::Response::manage_response (void)
 			manage_response_post();
 		else if (_request.get_method() == M_DELETE)
 			manage_response_delete();
+        manage_cgi();
 	}
-    manage_cgi();
+    else
+    {
+        CCOUT(BGRN, _error_value)
+        CCOUT(BRED, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+        manage_error_page();
+    }
+
 
 	Header header;
 	header.fill(*this);

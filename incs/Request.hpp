@@ -45,8 +45,8 @@ class Request
 			_content_file("")
 		{
 			FOREACH_HEADER {
-				_params[*it] = " ";
-				CNOUT(*it)
+				_params[*it] = "";
+				CNOUT("------------> " << *it)
 			}
 			_params["Accept-Language:"] = "en";
 			_params["Content-Disposition:"] = "attachment";
@@ -91,6 +91,13 @@ class Request
 			_filename(""),
 			_content_file("")
 		{
+            FOREACH_HEADER {
+                _params[*it] = "";
+                CNOUT("------------> " << *it)
+            }
+            _params["Accept-Language:"] = "en";
+            _params["Content-Disposition:"] = "attachment";
+            _params["Connection:"] = "keep-alive";
 			//_body.insert(_body.end(), str, str + strlen(str));
 			_chunked = (str.find("\r\n\r\n") == std::string::npos);
 			_error_value = request_parser();
@@ -113,6 +120,13 @@ class Request
 			_filename(""),
 			_content_file("")
 		{
+            FOREACH_HEADER {
+                _params[*it] = "";
+                CNOUT("------------> " << *it)
+            }
+            _params["Accept-Language:"] = "en";
+            _params["Content-Disposition:"] = "attachment";
+            _params["Connection:"] = "keep-alive";
 			_body.insert(0, str, size);
 			//_chunked = (str.find("\r\n\r\n") == std::string::npos);
 			_error_value = request_parser();

@@ -19,6 +19,8 @@ _BEGIN_NAMESPACE_WEBSERV
 
 // TODO operator overload "<<"
 
+class Server;
+
 class Location
 {
 	public:
@@ -34,6 +36,7 @@ class Location
 		bool			_autoindex;
 		cgi_type		_cgi;
 		std::string 	_upload_path;
+        Server  *       _server;
 
 
 	public:
@@ -49,7 +52,8 @@ class Location
 			_path(""),
 			_autoindex(false),
 			_cgi(),
-			_upload_path()
+			_upload_path(),
+            _server(NULL)
 		{ }
 
 		/**
@@ -64,7 +68,8 @@ class Location
 			_path(""),
 			_autoindex(false),
 			_cgi(),
-			_upload_path()
+			_upload_path(),
+            _server(NULL)
 		{
             _path = remove_slash(s);
         }
@@ -93,6 +98,7 @@ class Location
 			_autoindex = ref._autoindex;
 			_cgi = ref._cgi;
 			_upload_path = ref._upload_path;
+            _server = ref._server;
 			return (*this);
 		}
 
@@ -138,12 +144,16 @@ class Location
 		 */
 		std::string		get_upload_path (void) const 	{return (_upload_path);}
 
+        Server *        get_server (void) const         {return (_server);}
+
 		/**
 		 * @brief Navigates the vector and stock every location settings
 		 * @param Iterator iterator that navigates the lexer
 		 */
 		void			create_location (string_vector::const_iterator &);
         std::string     return_path_matching (int);
+
+        void            set_server (Server * s) {_server = s;}
 
 	private:
 	
@@ -188,7 +198,6 @@ class Location
 		 * @param Iterator iterator that navigates the lexer
 		 */
 		void			_set_return (string_vector::const_iterator & it);
-
 		
 	
 	/**
@@ -212,6 +221,7 @@ class Location
 			CNO(" " << it->second, o);
 		}
 		CNO("upload_path = " << l._upload_path, o);
+        CNO("server = " << l._server, o);
 		return (o);
 	}
 	

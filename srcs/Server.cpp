@@ -88,6 +88,7 @@ INLINE_NAMESPACE::Server::_set_location (string_vector::const_iterator & it) {
 	if (it != LEXER.end() && (*it) == "{") {
 		INLINE_NAMESPACE::Location* loc = new Location(v[0]);
 		_locations.push_back(loc);
+        loc->set_server(this);
 		loc->create_location(++it);
 	} else {
 		throw Configuration::InvalidLocation();
