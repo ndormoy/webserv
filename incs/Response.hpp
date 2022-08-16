@@ -70,6 +70,7 @@ class Response
 		Server * 			get_server (void) const 				{ return _server; }
 		Location * 			get_location (void) const 				{ return _location; }
 		std::string			get_body (void) const 					{ return _body; }
+		std::string			get_cookie(void) const 					{ return _request.get_params("Cookie"); }
 
 		void				set_file_size(int size) 				{ _file_size = size; }
 		//void				set_header(std::string header) 			{ _header = header; }
