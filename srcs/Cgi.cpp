@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Cgi.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 14:43:52 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/02 15:32:54 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/08/16 10:15:57 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,19 @@
 void
 INLINE_NAMESPACE::Cgi::init_env(void) {
     std::string var_name[] = {
-            "CONTENT_LENGTH",
-            "CONTENT_TYPE",
-            "GATEWAY_INTERFACE",
-            "PATH_INFO",
-            "PATH_TRANSLATED",
-            "QUERY_STRING",
-            "REDIRECT_STATUS",
-            "REQUEST_METHOD",
-            "SCRIPT_FILENAME",
-            "SERVER_PROTOCOL",
-            "SERVER_PORT",
-            ""};
+			"CONTENT_LENGTH",
+			"CONTENT_TYPE",
+			"GATEWAY_INTERFACE",
+			"PATH_INFO",
+			"PATH_TRANSLATED",
+			"QUERY_STRING",
+			"HTTP_COOKIE",
+			"REDIRECT_STATUS",
+			"REQUEST_METHOD",
+			"SCRIPT_FILENAME",
+			"SERVER_PROTOCOL",
+			"SERVER_PORT",
+			""};
 
     for (int i = 0; !var_name[i].empty(); i++) {
 
