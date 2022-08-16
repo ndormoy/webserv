@@ -109,10 +109,10 @@ INLINE_NAMESPACE::Location::create_location(string_vector::const_iterator &it) {
                                               {&Location::_set_upload,     "upload"},
                                               {&Location::_set_cgi,        "cgi"},
                                               {&Location::_set_return,     "return"},
-                                              {NULL,                       ""}};
+                                              {_nullptr,                       ""}};
 
     while (it != LEXER.end() && *it != "}") {
-        for (idx = 0; pairs[idx].f != NULL; idx++) {
+        for (idx = 0; pairs[idx].f != _nullptr; idx++) {
             if (*it == pairs[idx].str) {
                 ++it;
                 (this->*pairs[idx].f)(it);

@@ -66,4 +66,4 @@ main (int ac, char **av)
 
 // TODO add Mo and Ko multiplacator in define
 // TODO Change construct path creator
-// TODO 
+// TODO Check if cgi exec is executable.

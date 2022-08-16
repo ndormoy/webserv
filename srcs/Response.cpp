@@ -89,7 +89,7 @@ INLINE_NAMESPACE::Response::manage_error_page (void) {
         create_index();
         _body = auto_index(_request.get_path());
     }
-    else if (!(ret = _location->return_path_matching(_error_value)).empty()) {
+    else if (_location && !(ret = _location->return_path_matching(_error_value)).empty()) {
         _body.append(read_file(ret));
     } else {
         _body.append(create_html_error_page(_request.get_error_value()));
@@ -102,7 +102,7 @@ INLINE_NAMESPACE::Response::manage_cgi (void) {
     Server * server_ptr =       _request.get_server();
     Location::cgi_type cgi =    location_ptr->get_cgi();
 
-    if (location_ptr == NULL) {
+    if (location_ptr == _nullptr) {
         return;
     }
     for (Location::cgi_type::const_iterator it = cgi.begin(); it != cgi.end(); ++it) {
@@ -112,22 +112,19 @@ INLINE_NAMESPACE::Response::manage_cgi (void) {
             break;
         }
     }
-    if (_cgi == NULL) {
+    if (_cgi == _nullptr) {
         return;
     }
-    _cgi->start();
+    _cgi->init();
+//    _cgi->start();
 }
 
 void	INLINE_NAMESPACE::Response::manage_response (void)
 {
+
 	//TODO faire manage cgi
-	if (_error_value != 200)
-	{
-		CCOUT(BGRN, _error_value)
-		CCOUT(BRED, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-		manage_error_page();
-	}
-	else
+
+	if (_error_value == 200)
 	{
 		CCOUT(BGRN, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
 		if (_request.get_method() == M_GET)
@@ -136,8 +133,15 @@ void	INLINE_NAMESPACE::Response::manage_response (void)
 			manage_response_post();
 		else if (_request.get_method() == M_DELETE)
 			manage_response_delete();
+        manage_cgi();
 	}
-    manage_cgi();
+    else
+    {
+        CCOUT(BGRN, _error_value)
+        CCOUT(BRED, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+        manage_error_page();
+    }
+
 
 	Header header;
 	header.fill(*this);
@@ -178,7 +182,7 @@ void	INLINE_NAMESPACE::Response::create_index(void)
 	struct dirent *ep;
 	
 	dp = opendir (_request.get_construct_path().c_str());
-	if (dp != NULL)
+	if (dp != _nullptr)
 	{
 		while ((ep = readdir (dp)))
 		{

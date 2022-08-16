@@ -88,6 +88,7 @@ INLINE_NAMESPACE::Server::_set_location (string_vector::const_iterator & it) {
 	if (it != LEXER.end() && (*it) == "{") {
 		INLINE_NAMESPACE::Location* loc = new Location(v[0]);
 		_locations.push_back(loc);
+        loc->set_server(this);
 		loc->create_location(++it);
 	} else {
 		throw Configuration::InvalidLocation();
@@ -102,10 +103,10 @@ INLINE_NAMESPACE::Server::create_server (string_vector::const_iterator & it) {
 										{&Server::_set_server_name, "server_name"},
 										{&Server::_set_error_page, "error_page"},
 										{&Server::_set_location, "location"},
-										{NULL, ""} };
+										{_nullptr, ""} };
 	
 	while (it != LEXER.end() && *it != "}") {
-		for (idx = 0; pairs[idx].f != NULL; idx++) {
+		for (idx = 0; pairs[idx].f != _nullptr; idx++) {
 			if (*it == pairs[idx].str) {
 				++it;
 				(this->*pairs[idx].f)(it);

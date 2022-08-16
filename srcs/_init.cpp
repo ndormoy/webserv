@@ -38,6 +38,7 @@ INLINE_NAMESPACE::init_header(void) {
     header.push_back("Cookie");
     header.push_back("Accept-Encoding");
     header.push_back("From");
+    header.push_back("Cookie");
 
     return (header);
 }

@@ -34,9 +34,9 @@ class Response
 			_error_path(""),
 			_message_send(""),
 			_error_value(0),
-			_server(NULL),
-			_location(NULL),
-            _cgi (NULL)
+			_server(_nullptr),
+			_location(_nullptr),
+            _cgi (_nullptr)
 		{ }
 
 		Response (const Request & request) :

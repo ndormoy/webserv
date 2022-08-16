@@ -37,16 +37,16 @@ class Request
 			_chunked(false),
 			_error_value(0),
 			_query_string(""),
-			_server(NULL),
-			_location(NULL),
+			_server(_nullptr),
+			_location(_nullptr),
 			_body(""),
 			_boundary(""),
 			_filename(""),
 			_content_file("")
 		{
 			FOREACH_HEADER {
-				_params[*it] = " ";
-				CNOUT(*it)
+				_params[*it] = "";
+				CNOUT("------------> " << *it)
 			}
 			_params["Accept-Language:"] = "en";
 			_params["Content-Disposition:"] = "attachment";
@@ -84,13 +84,20 @@ class Request
 			_chunked(false),
 			_error_value(0),
 			_query_string(""),
-			_server(NULL),
-			_location(NULL),
+			_server(_nullptr),
+			_location(_nullptr),
 			/* _body(str), */
 			_boundary(""),
 			_filename(""),
 			_content_file("")
 		{
+            FOREACH_HEADER {
+                _params[*it] = "";
+                CNOUT("------------> " << *it)
+            }
+            _params["Accept-Language:"] = "en";
+            _params["Content-Disposition:"] = "attachment";
+            _params["Connection:"] = "keep-alive";
 			//_body.insert(_body.end(), str, str + strlen(str));
 			_chunked = (str.find("\r\n\r\n") == std::string::npos);
 			_error_value = request_parser();
@@ -106,13 +113,20 @@ class Request
 			_chunked(false),
 			_error_value(0),
 			_query_string(""),
-			_server(NULL),
-			_location(NULL),
+			_server(_nullptr),
+			_location(_nullptr),
 			/* _body(str), */
 			_boundary(""),
 			_filename(""),
 			_content_file("")
 		{
+            FOREACH_HEADER {
+                _params[*it] = "";
+                CNOUT("------------> " << *it)
+            }
+            _params["Accept-Language:"] = "en";
+            _params["Content-Disposition:"] = "attachment";
+            _params["Connection:"] = "keep-alive";
 			_body.insert(0, str, size);
 			//_chunked = (str.find("\r\n\r\n") == std::string::npos);
 			_error_value = request_parser();
@@ -165,8 +179,8 @@ class Request
 			_error_value = 0;
 			_body = "";
 			_query_string = "";
-			_server = NULL;
-			_location = NULL;
+			_server = _nullptr;
+			_location = _nullptr;
 			_boundary = "";
 			_filename = "";
 			_content_file = "";
