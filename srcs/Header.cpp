@@ -32,6 +32,10 @@ INLINE_NAMESPACE::Header::fill(Response & reponse)
 			_content_length = "Content-Length: " + ITOA(reponse.get_body().size());
 
             _content_type += init_content_type().at(get_file_extension(reponse.get_request().get_construct_path())) + ";charset=UTF-8";
+			
+			if (!reponse.cookie_exist())
+				_cookie += reponse.get_cookie();
+				//_cookie = "Set-Cookie: " + reponse.get_cookie();
 }
 
 std::string
@@ -43,7 +47,9 @@ INLINE_NAMESPACE::Header::append (void) {
     header += _server + "\r\n";
     header += _content_type + "\r\n";
     header += _content_length + "\r\n";
-    header += "\r\n";
+	if (_cookie.size() > 12)
+		header += _cookie + "\r\n";
+	header += "\r\n";
 
-    return (header);
+	return (header);
 }

@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   Cgi.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 14:43:52 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/02 15:32:54 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/08/16 10:15:57 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Cgi.hpp"
-
-
 
 int
 INLINE_NAMESPACE::Cgi::read_output(int fd) {
