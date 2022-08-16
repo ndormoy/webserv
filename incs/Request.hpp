@@ -37,8 +37,8 @@ class Request
 			_chunked(false),
 			_error_value(0),
 			_query_string(""),
-			_server(NULL),
-			_location(NULL),
+			_server(_nullptr),
+			_location(_nullptr),
 			_body(""),
 			_boundary(""),
 			_filename(""),
@@ -84,8 +84,8 @@ class Request
 			_chunked(false),
 			_error_value(0),
 			_query_string(""),
-			_server(NULL),
-			_location(NULL),
+			_server(_nullptr),
+			_location(_nullptr),
 			/* _body(str), */
 			_boundary(""),
 			_filename(""),
@@ -113,8 +113,8 @@ class Request
 			_chunked(false),
 			_error_value(0),
 			_query_string(""),
-			_server(NULL),
-			_location(NULL),
+			_server(_nullptr),
+			_location(_nullptr),
 			/* _body(str), */
 			_boundary(""),
 			_filename(""),
@@ -177,8 +177,8 @@ class Request
 			_error_value = 0;
 			_body = "";
 			_query_string = "";
-			_server = NULL;
-			_location = NULL;
+			_server = _nullptr;
+			_location = _nullptr;
 			_boundary = "";
 			_filename = "";
 			_content_file = "";

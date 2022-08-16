@@ -38,25 +38,25 @@ request_spliter_ (std::string str) {
 static INLINE_NAMESPACE::Server *
 find_server_ (std::string str) {
 	if (str.empty()) {
-		return (NULL);
+		return (_nullptr);
 	}
 
 	int pos = str.find(":");
 	std::string port = str.substr(pos + 1);
 	if (port.empty() || pos == std::string::npos || port.length() > 5)
-		return (NULL);
+		return (_nullptr);
 		
 	FOREACH_SERVER {
 		if ((*it)->get_port() == std::atoll(port.c_str()))
 			return ((*it));
 	}
-	return (NULL);
+	return (_nullptr);
 }
 
 static INLINE_NAMESPACE::Location *
 find_location_ (INLINE_NAMESPACE::Server * srv, std::string path) {
-	if (srv == NULL)
-		return (NULL);
+	if (srv == _nullptr)
+		return (_nullptr);
 		
 	INLINE_NAMESPACE::Server::location_type loc = srv->get_locations();
 	std::string tmp_path;
@@ -71,7 +71,7 @@ find_location_ (INLINE_NAMESPACE::Server * srv, std::string path) {
 		if (tmp_path.empty() || path.rfind(tmp_path, 0) == 0)
 			return ((*it));
 	}
-	return (NULL);
+	return (_nullptr);
 }
 
 short
@@ -124,7 +124,7 @@ INLINE_NAMESPACE::Request::request_line_parser (std::string str) {
 // TODO Rework this function
 void
 INLINE_NAMESPACE::Request::set_final_path (void) {
-	if (_location == NULL) {
+	if (_location == _nullptr) {
 		 _construct_path = _path;
 		return;
 	}

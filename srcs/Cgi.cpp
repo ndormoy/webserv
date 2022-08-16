@@ -78,7 +78,7 @@ INLINE_NAMESPACE::Cgi::export_envs (void) {
         }
         _env[i] = const_cast<char *>(env_vars[i].c_str());
     }
-    _env[env_vars.size()] = NULL;
+    _env[env_vars.size()] = _nullptr;
 
     for (int i = 0; _env[i]; i++) {
         CNOUT(BBLU << _env[i] << CRESET);
@@ -90,11 +90,7 @@ string_vector
 INLINE_NAMESPACE::Cgi::create_env (void) const {
     string_vector envs(30);
 
-    envs[0] = "CONTENT_LENGTH=";
-    if (_request->get_method() == M_POST) {
-        envs[0] += ITOA(_request->get_params("Content-Length"));
-    }
-    CNOUT("HEEEEERE")
+    envs[0] = "CONTENT_LENGTH=" + ITOA(_request->get_params("Content-Length"));
     envs[1] = "CONTENT_TYPE=" + _request->get_params("Content-Type"); // mostly text/html
     envs[2] = "GATEWAY_INTERFACE=CGI/1.1"; // CGI/1.1
     envs[3] = "PATH_INFO=" + _request->get_path(); // path to the file
@@ -128,7 +124,7 @@ INLINE_NAMESPACE::Cgi::create_env (void) const {
     envs[17] = "HTTP_REFERER=" + _request->get_params("Referer");
     envs[18] = "HTTP_USER_AGENT=" + _request->get_params("User-Agent"); // Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:45.0) Gecko/20100101 Firefox/45.0
     envs[19] = "HTTP_ACCEPT_ENCODING=" + _request->get_params("Accept-Encoding"); // Accept-Encoding: gzip, deflate
-    envs[20] = "HTTP_ACCEPT_CHARSET=" + _request->get_params("Accept-Charset"); // Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
+    envs[20] = "HTTP_ACCEPT_CHARSET=" + _request->get_params("Accept-Charsets"); // Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
     envs[21] = "DOCUMENT_ROOT=" + _request->get_location()->get_root(); // /home/mamaurai/www
     envs[22] = "REQUEST_URI=" + _request->get_path() + ((!_request->get_query_string().empty()) ? ("?" + _request->get_query_string()) : ""); // /index.html?arg1=value1&arg2=value2
     envs[23] = "UPLOAD_PATH=" + _request->get_location()->get_upload_path(); // /home/mamaurai/www/uploads

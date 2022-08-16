@@ -32,12 +32,12 @@ class Cgi
 	public:
 
 		Cgi (void) :
-			_env(NULL),
+			_env(_nullptr),
 			_exec(""),
 			_extension(""),
 			_fd(-1),
-			_request(NULL),
-			_location(NULL),
+			_request(_nullptr),
+			_location(_nullptr),
 			_output("")
 		{ }
 
@@ -45,7 +45,7 @@ class Cgi
 		{ }
 
 		Cgi (Request & request) :
-			_env(NULL),
+			_env(_nullptr),
 			_exec(""),
 			_extension(""),
 			_fd(-1),
@@ -55,7 +55,7 @@ class Cgi
 		{ }
 
         Cgi (const std::string & ext, const std::string & path, Location * loc, Request * req) :
-            _env(NULL),
+            _env(_nullptr),
             _exec(path),
             _extension(ext),
             _fd(-1),
@@ -87,12 +87,12 @@ class Cgi
 		std::string 		get_output (void) const 				{ return _output; }
 
 		void				clear (void) {
-			_env = NULL;
+			_env = _nullptr;
 			_exec = "";
 			_extension = "";
 			_fd = -1;
-			_request = NULL;
-			_location = NULL;
+			_request = _nullptr;
+			_location = _nullptr;
 			_output = "";
 		}
 

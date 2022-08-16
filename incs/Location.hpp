@@ -53,7 +53,7 @@ class Location
 			_autoindex(false),
 			_cgi(),
 			_upload_path(),
-            _server(NULL)
+            _server(_nullptr)
 		{ }
 
 		/**
@@ -69,7 +69,7 @@ class Location
 			_autoindex(false),
 			_cgi(),
 			_upload_path(),
-            _server(NULL)
+            _server(_nullptr)
 		{
             _path = remove_slash(s);
         }

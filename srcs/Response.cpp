@@ -102,7 +102,7 @@ INLINE_NAMESPACE::Response::manage_cgi (void) {
     Server * server_ptr =       _request.get_server();
     Location::cgi_type cgi =    location_ptr->get_cgi();
 
-    if (location_ptr == NULL) {
+    if (location_ptr == _nullptr) {
         return;
     }
     for (Location::cgi_type::const_iterator it = cgi.begin(); it != cgi.end(); ++it) {
@@ -112,10 +112,10 @@ INLINE_NAMESPACE::Response::manage_cgi (void) {
             break;
         }
     }
-    if (_cgi == NULL) {
+    if (_cgi == _nullptr) {
         return;
     }
-//    _cgi->export_envs();
+    _cgi->export_envs();
 //    _cgi->init();
 //    _cgi->start();
 }
@@ -183,7 +183,7 @@ void	INLINE_NAMESPACE::Response::create_index(void)
 	struct dirent *ep;
 	
 	dp = opendir (_request.get_construct_path().c_str());
-	if (dp != NULL)
+	if (dp != _nullptr)
 	{
 		while ((ep = readdir (dp)))
 		{

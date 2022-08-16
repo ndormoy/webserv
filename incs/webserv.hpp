@@ -53,6 +53,7 @@ extern int 								g_debug_prog_level;
 extern string_vector 					g_header;
 
 #include "_init.hpp"
+#include "_nullptr.hpp"
 #include "_colors.hpp"
 #include "Location.hpp"
 #include "Server.hpp"
