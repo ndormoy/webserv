@@ -153,6 +153,8 @@ class Request
 		void					set_params (param_type & p)		{ _params = p; }
 		void					set_body (std::string str)			{ _body = str; }
 
+		bool					params_exist(std::string str) 						{ if (_params.find(str) != _params.end()) return false; else return true; }
+
 		void					clear (void) {
 			_params.clear();
 			_method = 0;

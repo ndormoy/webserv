@@ -84,6 +84,7 @@ class Response
 
 	public: /* Functions */
 
+		bool			cookie_exist(void)						{ return _request.params_exist("Cookie"); }
 		void			fill_status_code(void);
 		void 			fill_header(void);
 		void 			fill_start_header(void);
