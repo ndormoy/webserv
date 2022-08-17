@@ -14,8 +14,11 @@
 # define CGI_HPP
 
 # include "webserv.hpp"
+# include "Response.hpp"
 
 _BEGIN_NAMESPACE_WEBSERV
+
+class Response;
 
 class Cgi
 {
@@ -99,9 +102,10 @@ class Cgi
 	public:
 
 		int read_output (int);
-        void start (void);
+        void start (Response *);
         void init (void);
         string_vector create_env (void) const;
+        void    manage_output (Response *);
 
 	public:
 

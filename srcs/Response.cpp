@@ -116,7 +116,8 @@ INLINE_NAMESPACE::Response::manage_cgi (void) {
         return;
     }
     _cgi->init();
-//    _cgi->start();
+    _cgi->start(this);
+    _cgi->manage_output(this);
 }
 
 void	INLINE_NAMESPACE::Response::manage_response (void)

@@ -25,8 +25,8 @@ struct nullptr_t
     friend bool operator!=(nullptr_t, nullptr_t) {return false;}
 };
 
-#define _nullptr	nullptr_t(0)
-
 _END_NAMESPACE_WEBSERV
+
+#define _nullptr	INLINE_NAMESPACE::nullptr_t(0)
 
 #endif

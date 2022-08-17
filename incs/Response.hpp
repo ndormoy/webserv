@@ -81,6 +81,7 @@ class Response
 		void				set_error_value(int value) 				{ _error_value = value; }
 		void				set_server(Server * server) 			{ _server = server; }
 		void				set_location(Location * location) 		{ _location = location; }
+        void				set_body(std::string body) 				{ _body = body; }
 
 	public: /* Functions */
 

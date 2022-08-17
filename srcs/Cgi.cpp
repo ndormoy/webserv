@@ -12,12 +12,18 @@
 
 #include "Cgi.hpp"
 
+void
+INLINE_NAMESPACE::Cgi::manage_output (Response * res) {
+    res->set_body(_output);
+}
+
 int
 INLINE_NAMESPACE::Cgi::read_output(int fd) {
     char buffer[BUFFER_SIZE];
     int ret;
 
     while ((ret = read(fd, buffer, BUFFER_SIZE)) > 0) {
+        write(1, buffer, ret);
         _output.append(buffer, ret);
     }
     if (ret == SYSCALL_ERR)
@@ -26,8 +32,44 @@ INLINE_NAMESPACE::Cgi::read_output(int fd) {
 }
 
 void
-INLINE_NAMESPACE::Cgi::start (void) {
+INLINE_NAMESPACE::Cgi::start (Response * res) {
     pid_t pid;
+    int     pip1[2];
+    int     pip2[2];
+
+    if (pipe(pip1) == SYSCALL_ERR || pipe(pip2) == SYSCALL_ERR)
+        return ;
+
+    for (int i = 0; _env[i]; i++) {
+        CNOUT(BBLU << _env[i] << " " << i << CRESET);
+    }
+
+    write(pip1[1], res->get_body().c_str(), res->get_body().size());
+//    write(1, res->get_body().c_str(), res->get_body().size());
+    if ((pid = fork()) == SYSCALL_ERR)
+        return ;
+    if (pid == 0) {
+        close(pip1[1]);
+        dup2(pip1[0], 0);
+        close(pip1[0]);
+
+        close(pip2[0]);
+        dup2(pip2[1], 1);
+        close(pip2[1]);
+
+        execve(_exec.c_str(), NULL, this->_env);
+        exit(EXIT_SUCCESS);
+//        close(pip1[0]);
+    } else {
+        close(pip1[0]);
+        close(pip2[1]);
+        close(pip1[1]);
+
+        _fd = pip2[0];
+        read_output(_fd);
+        CNOUT("OUTPUT -> |" << _output << "|");
+//        close(pip1[1]);
+    }
 }
 
 void
@@ -37,25 +79,19 @@ INLINE_NAMESPACE::Cgi::init (void) {
     if (!(_env = static_cast<char **>(malloc(sizeof(char *) * (env_vars.size() + 1)))))
         return ;
     for (int i = 0; i < env_vars.size(); i++) {
-        if (!(_env[i] = static_cast<char *>(malloc(sizeof(char) * (env_vars[i].size() + 1))))) {
+        if ((_env[i] = strdup(env_vars[i].c_str())) == NULL) {
             for (int j = 0; j < i; j++)
                 free(_env[j]);
             free(_env);
             return ;
         }
-        _env[i] = const_cast<char *>(env_vars[i].c_str());
     }
-    _env[env_vars.size()] = _nullptr;
-
-    for (int i = 0; _env[i]; i++) {
-        CNOUT(BBLU << _env[i] << CRESET);
-    }
-
+    _env[env_vars.size()] = NULL;
 }
 
 string_vector
 INLINE_NAMESPACE::Cgi::create_env (void) const {
-    string_vector envs(30);
+    string_vector envs(24);
 
     envs[0] = "CONTENT_LENGTH=" + ITOA(_request->get_params("Content-Length"));
     envs[1] = "CONTENT_TYPE=" + _request->get_params("Content-Type"); // mostly text/html

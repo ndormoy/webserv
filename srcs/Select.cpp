@@ -114,7 +114,7 @@ INLINE_NAMESPACE::Select::start (void) {
 					// write(1, buffer, bytes);
 					if (bytes == SYSCALL_ERR)
 					{
-						throw Select::fRecvError();
+						break;
 					}
 					else if (bytes == 0)
 					{
