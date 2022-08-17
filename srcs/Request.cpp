@@ -74,6 +74,33 @@ find_location_ (INLINE_NAMESPACE::Server * srv, std::string path) {
 	return (_nullptr);
 }
 
+static std::string
+is_header_ (const std::string & str) {
+    std::string header_name;
+    size_t pos = str.find(": ");
+
+    if (pos == std::string::npos)
+        return ("");
+
+    header_name = str.substr(0, pos);
+    FOREACH_HEADER {
+        if ((*it) == header_name) {
+            return (header_name);
+        }
+    }
+    return ("");
+}
+
+
+
+
+
+
+
+
+
+
+
 short
 INLINE_NAMESPACE::Request::parse_first_line (std::string str) {
 	string_vector vector = vector_spliter(str, " ", "", false);
@@ -119,6 +146,36 @@ INLINE_NAMESPACE::Request::request_line_parser (std::string str) {
 		}
 	}
 }
+
+void
+INLINE_NAMESPACE::Request::parse_content (void) {
+    int ret;
+
+    ret = _body.find("\r\n\r\n");
+    if (ret == std::string::npos)
+        return;
+
+
+    std::string content = _body.substr(ret + 4);
+    CNOUT(content);
+    string_vector vector = request_spliter_(content);
+    for (string_vector::const_iterator it = vector.begin(); it != vector.end(); it++) {
+        _content += *it;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // TODO Rework this function
@@ -182,13 +239,16 @@ INLINE_NAMESPACE::Request::request_parser (void) {
 		_path = remove_slash(_path.substr(0, pos));
 	}
 	DEBUG_4(CNOUT(BGRN << *this << CRESET));
-	for (string_vector::const_iterator it = v.begin(); it != v.end(); it++) {
-		request_line_parser(*it);
-	}	
+	for (string_vector::const_iterator it = v.begin() + 1; it != v.end(); it++) {
+		if (!is_header_(*it).empty()) {
+            request_line_parser(*it);
+        }
+	}
+    parse_content();
+//    CNOUT(_content);
 	_server = find_server_(_params["Host"]);
 	_location = find_location_(_server, _path);
 	_chunked = ((_params["Transfer-Encoding"].find("chunked")) != std::string::npos);
-//    CNOUT("HEEEEEEERE");
 	set_final_path();
     if ((ret = check_request()) != 0) {
         return (ret);

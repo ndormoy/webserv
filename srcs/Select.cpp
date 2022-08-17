@@ -216,7 +216,7 @@ INLINE_NAMESPACE::Select::start (void) {
 							request->unchunk_body();
 						}
 						
-						Response response(*request); // BUG peut etre le pb
+						Response response(request); // BUG peut etre le pb
 						DEBUG_2(CNOUT(BBLU << request->get_body() << CRESET))
 						response.manage_response();
 						CCOUT(BBLU, response.get_body())

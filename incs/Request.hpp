@@ -26,6 +26,7 @@ class Request
 		std::string	_boundary;
 		std::string _filename;
 		std::string _content_file;
+        std::string _content;
 
 	public:
 		Request (void) :
@@ -42,7 +43,8 @@ class Request
 			_body(""),
 			_boundary(""),
 			_filename(""),
-			_content_file("")
+			_content_file(""),
+            _content("")
 		{
 			FOREACH_HEADER {
 				_params[*it] = "";
@@ -72,7 +74,8 @@ class Request
 			_body(ref._body),
 			_boundary(ref._boundary),
 			_filename(ref._filename),
-			_content_file(ref._content_file)
+			_content_file(ref._content_file),
+            _content(ref._content)
 		{ }
 
 		Request (const std::string str) :
@@ -89,7 +92,8 @@ class Request
 			/* _body(str), */
 			_boundary(""),
 			_filename(""),
-			_content_file("")
+			_content_file(""),
+            _content("")
 		{
             FOREACH_HEADER {
                 _params[*it] = "";
@@ -118,7 +122,8 @@ class Request
 			/* _body(str), */
 			_boundary(""),
 			_filename(""),
-			_content_file("")
+			_content_file(""),
+            _content("")
 		{
             FOREACH_HEADER {
                 _params[*it] = "";
@@ -149,6 +154,7 @@ class Request
 		std::string				get_params (std::string str) const	{ return (_params.at(str)); }
 		std::string				get_filename (void) const			{ return (_filename); }
 		std::string				get_content_file (void) const		{ return (_content_file); }
+        std::string             get_content (void) const            { return (_content); }
 
 		void					add_body(char * str_add, int bytes) { _body.insert(_body.size(), str_add, bytes);  }
 
@@ -166,6 +172,7 @@ class Request
 		void					set_method (int i)				{ _method = i; }
 		void					set_params (param_type & p)		{ _params = p; }
 		void					set_body (std::string str)			{ _body = str; }
+        void					set_content (std::string str)		{ _content = str; }
 
 		bool					params_exist(std::string str) 						{ if (_params.find(str) != _params.end()) return false; else return true; }
 
@@ -184,6 +191,7 @@ class Request
 			_boundary = "";
 			_filename = "";
 			_content_file = "";
+            _content = "";
 		}
 
 	public:
@@ -197,6 +205,7 @@ class Request
 		bool	define_upload (void);
 		short	check_request (void);
 		void	unchunk_body (void);
+        void    parse_content (void);
 
 	public:
 	
@@ -217,6 +226,7 @@ class Request
 			_boundary = ref._boundary;
 			_filename = ref._filename;
 			_content_file = ref._content_file;
+            _content = ref._content;
 			return *this;
 		}
 
@@ -234,11 +244,11 @@ class Request
 			o << "Boundary: " << ref._boundary << std::endl;
 			o << "Filename: " << ref._filename << std::endl;
 			o << "Content file: " << ref._content_file << std::endl;
+            o << "Content: " << ref._content << std::endl;
 			o << "Params: " << std::endl;
 			for (std::map<std::string, std::string>::const_iterator it = ref._params.begin(); it != ref._params.end(); ++it) {
 				o << " -> " << it->first << ": " << it->second << std::endl;
 			}
-
 			return o;
 		}
 	

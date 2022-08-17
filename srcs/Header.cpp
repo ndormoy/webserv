@@ -23,7 +23,7 @@ INLINE_NAMESPACE::Header::fill(Response & reponse)
 			}
 
 			_status = "HTTP/1.1 " + ITOA(it->first) + " " + it->second;
-			CNOUT(BYEL << "Status code : " << get_file_extension(reponse.get_request().get_construct_path()) << CRESET)
+			CNOUT(BYEL << "Status code : " << get_file_extension(reponse.get_request()->get_construct_path()) << CRESET)
 
             _date = "Date: " + get_instant_time_();
 
@@ -31,7 +31,7 @@ INLINE_NAMESPACE::Header::fill(Response & reponse)
 
 			_content_length = "Content-Length: " + ITOA(reponse.get_body().size());
 
-            _content_type += init_content_type().at(get_file_extension(reponse.get_request().get_construct_path())) + ";charset=UTF-8";
+            _content_type += init_content_type().at(get_file_extension(reponse.get_request()->get_construct_path())) + ";charset=UTF-8";
 			
 			if (!reponse.cookie_exist())
 				_cookie += reponse.get_cookie();

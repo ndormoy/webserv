@@ -14,7 +14,13 @@
 
 void
 INLINE_NAMESPACE::Cgi::manage_output (Response * res) {
+    int ret;
+    if ((ret = _output.find("\r\n\r\n")) != std::string::npos) {
+        _output.erase(0, ret + 4);
+        res->set_body(_output);
+    }
     res->set_body(_output);
+    close(_fd);
 }
 
 int
@@ -44,7 +50,10 @@ INLINE_NAMESPACE::Cgi::start (Response * res) {
         CNOUT(BBLU << _env[i] << " " << i << CRESET);
     }
 
-    write(pip1[1], res->get_body().c_str(), res->get_body().size());
+
+    write(pip1[1], _request->get_content().c_str(), _request->get_content().length());
+
+//    write(pip1[1], "name=Mathias", strlen("name=Mathias"));
 //    write(1, res->get_body().c_str(), res->get_body().size());
     if ((pid = fork()) == SYSCALL_ERR)
         return ;
@@ -92,6 +101,8 @@ INLINE_NAMESPACE::Cgi::init (void) {
 string_vector
 INLINE_NAMESPACE::Cgi::create_env (void) const {
     string_vector envs(24);
+
+    CNOUT(_request)
 
     envs[0] = "CONTENT_LENGTH=" + ITOA(_request->get_params("Content-Length"));
     envs[1] = "CONTENT_TYPE=" + _request->get_params("Content-Type"); // mostly text/html

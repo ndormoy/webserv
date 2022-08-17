@@ -10,12 +10,12 @@
 void	INLINE_NAMESPACE::Response::manage_response_delete(void)
 {
 	//BUG doit on proteger la suppresion du fichier ? si oui qu'elles sont les regles de gestion des droits ?
-	if (std::remove(_request.get_construct_path().c_str()) != 0)
+	if (std::remove(_request->get_construct_path().c_str()) != 0)
 	{
 		CNOUT(BYEL << "Error deleting file" << CRESET)
-		_request.set_error_value(403);
+		_request->set_error_value(403);
 	}
-	if (_request.get_error_value() == 200)
+	if (_request->get_error_value() == 200)
 	{
 		_body.append("<html>\n");
 		_body.append("<body>\n");
@@ -24,7 +24,7 @@ void	INLINE_NAMESPACE::Response::manage_response_delete(void)
 		_body.append("</html>\n");
 	}
 	else
-		_body.append(create_html_error_page(_request.get_error_value()));
+		_body.append(create_html_error_page(_request->get_error_value()));
 }
 
 /**
@@ -41,22 +41,22 @@ void	INLINE_NAMESPACE::Response::create_upload_file(std::string upload_path)
 	std::string		final_path = upload_path;
 
 	final_path.append("/");
-	final_path.append(_request.get_filename());
+	final_path.append(_request->get_filename());
     CNOUT(BYEL << "final_path : " << final_path << CRESET)
 	if (upload_path.empty())
-		file.open(("example_html/upload/" + _request.get_filename()).c_str(), std::ios::out | std::ios::binary);
+		file.open(("example_html/upload/" + _request->get_filename()).c_str(), std::ios::out | std::ios::binary);
 	else
 		file.open(final_path.c_str(), std::ios::out | std::ios::binary);
-	file << _request.get_content_file();
+	file << _request->get_content_file();
 	file.close();
 }
 
 void	INLINE_NAMESPACE::Response::manage_response_post(void)
 {
 	bool	isupload = false;
-	Location * location_ptr = _request.get_location();
+	Location * location_ptr = _request->get_location();
 
-	if (_request.define_upload()) {
+	if (_request->define_upload()) {
         isupload = true;
     } if (location_ptr && location_ptr->get_upload_path().empty() && isupload) {
         create_upload_file(location_ptr->get_upload_path());
@@ -74,7 +74,7 @@ void	INLINE_NAMESPACE::Response::manage_response_post(void)
 
 void	INLINE_NAMESPACE::Response::manage_response_get(void)
 {
-    _body.append(read_file(_request.get_construct_path()));
+    _body.append(read_file(_request->get_construct_path()));
 	_body.append("\r\n\r\n");
 }
 
@@ -85,33 +85,38 @@ INLINE_NAMESPACE::Response::manage_error_page (void) {
     if (_location
         && _error_value == 403
         && _location->get_autoindex()
-        && (path_is_dir(_request.get_construct_path())) || _request.get_construct_path().empty()) {
+        && (path_is_dir(_request->get_construct_path())) || _request->get_construct_path().empty()) {
         create_index();
-        _body = auto_index(_request.get_path());
+        _body = auto_index(_request->get_path());
     }
     else if (_location && !(ret = _location->return_path_matching(_error_value)).empty()) {
         _body.append(read_file(ret));
     } else {
-        _body.append(create_html_error_page(_request.get_error_value()));
+        _body.append(create_html_error_page(_request->get_error_value()));
     }
 }
 
 void
 INLINE_NAMESPACE::Response::manage_cgi (void) {
-    Location * location_ptr =   _request.get_location();
-    Server * server_ptr =       _request.get_server();
+    Location * location_ptr =   _request->get_location();
+    Server * server_ptr =       _request->get_server();
     Location::cgi_type cgi =    location_ptr->get_cgi();
 
     if (location_ptr == _nullptr) {
         return;
     }
+
+
     for (Location::cgi_type::const_iterator it = cgi.begin(); it != cgi.end(); ++it) {
-        if ((it->first == get_file_extension(_request.get_path()))) {
-            _cgi = new Cgi (it->first, it->second, location_ptr, &_request);
-            CNOUT(*_cgi);
+        CNOUT(BYEL << "ext =  : " << get_file_extension(_request->get_construct_path()) << CRESET)
+        if ((it->first == get_file_extension(_request->get_construct_path()))) {
+            _cgi = new Cgi (it->first, it->second, location_ptr, _request);
+            CNOUT("New cgi created" << std::endl << *_cgi);
             break;
         }
     }
+
+
     if (_cgi == _nullptr) {
         return;
     }
@@ -122,17 +127,16 @@ INLINE_NAMESPACE::Response::manage_cgi (void) {
 
 void	INLINE_NAMESPACE::Response::manage_response (void)
 {
-
 	//TODO faire manage cgi
 
 	if (_error_value == 200)
 	{
 		CCOUT(BGRN, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
-		if (_request.get_method() == M_GET)
+		if (_request->get_method() == M_GET)
 			manage_response_get();
-		else if (_request.get_method() == M_POST)
+		else if (_request->get_method() == M_POST)
 			manage_response_post();
-		else if (_request.get_method() == M_DELETE)
+		else if (_request->get_method() == M_DELETE)
 			manage_response_delete();
         manage_cgi();
 	}
@@ -182,7 +186,7 @@ void	INLINE_NAMESPACE::Response::create_index(void)
 	DIR *dp;
 	struct dirent *ep;
 	
-	dp = opendir (_request.get_construct_path().c_str());
+	dp = opendir (_request->get_construct_path().c_str());
 	if (dp != _nullptr)
 	{
 		while ((ep = readdir (dp)))
