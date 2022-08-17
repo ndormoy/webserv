@@ -134,3 +134,23 @@ get_file_extension(const std::string & path)
 		return (path.substr(ret, path.size()));
 	return (".html");
 }
+
+string_vector
+delimiter_spliter (std::string str) {
+    string_vector vector;
+    std::string stockage;
+
+    int end = str.find("\r\n");
+    while (end != std::string::npos)
+    {
+        stockage = str.substr(0, end);
+        if (!stockage.empty())
+            vector.push_back(stockage);
+        str.erase(0, end + 2);
+        end = str.find("\r\n");
+    }
+    stockage = str.substr(0, end);
+    if (!stockage.empty())
+        vector.push_back(stockage);
+    return (vector);
+}

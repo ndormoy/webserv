@@ -73,7 +73,7 @@ class Response
 		std::string			get_body (void) const 					{ return _body; }
 		std::string			get_cookie(void) const 					{ return _request->get_params("Cookie"); }
         std::string			get_header(void) const 					{ return _header; }
-        Cgi *               get_cgi(void) const 					{ return _cgi; }
+        Cgi *               get_cgi (void) const 					{ return _cgi; }
 
 		void				set_file_size(int size) 				{ _file_size = size; }
 		//void				set_header(std::string header) 			{ _header = header; }
