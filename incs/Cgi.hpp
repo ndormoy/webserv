@@ -31,6 +31,7 @@ class Cgi
 		Request *	_request;
 		Location * 	_location;
 		std::string _output;
+        std::map<std::string, std::string> _params;
 
 	public:
 
@@ -41,8 +42,11 @@ class Cgi
 			_fd(-1),
 			_request(_nullptr),
 			_location(_nullptr),
-			_output("")
-		{ }
+			_output(""),
+            _params()
+		{
+            _params["Set-Cookie"] = "";
+        }
 
 		virtual ~Cgi (void)
 		{ }
@@ -54,8 +58,11 @@ class Cgi
 			_fd(-1),
 			_request(&request),
 			_location(request.get_location()),
-			_output("")
-		{ }
+			_output(""),
+            _params()
+		{
+            _params["Set-Cookie"] = "";
+        }
 
         Cgi (const std::string & ext, const std::string & path, Location * loc, Request * req) :
             _env(_nullptr),
@@ -64,8 +71,11 @@ class Cgi
             _fd(-1),
             _request(req),
             _location(loc),
-            _output("")
-        { }
+            _output(""),
+            _params()
+        {
+            _params["Set-Cookie"] = "";
+        }
 
 		Cgi (const Cgi & copy) {
 			*this = copy;
@@ -81,6 +91,7 @@ class Cgi
 		void				set_location (Location * location) 		{ _location = location; }
 		void				set_output (std::string output) 		{ _output = output; }
 
+
 		char ** 			get_env (void) const 					{ return _env; }
 		std::string 		get_exec (void) const 					{ return _exec; }
 		std::string 		get_extension (void) const 				{ return _extension; }
@@ -88,6 +99,7 @@ class Cgi
 		Request *			get_request (void) const 				{ return _request; }
 		Location *			get_location (void) const 				{ return _location; }
 		std::string 		get_output (void) const 				{ return _output; }
+        std::string         get_param (std::string key) const       { return _params.at(key); }
 
 		void				clear (void) {
 			_env = _nullptr;
@@ -97,6 +109,7 @@ class Cgi
 			_request = _nullptr;
 			_location = _nullptr;
 			_output = "";
+            _params.clear();
 		}
 
 	public:
@@ -106,6 +119,7 @@ class Cgi
         void init (void);
         string_vector create_env (void) const;
         void    manage_output (Response *);
+        void    wait (Response *);
 
 	public:
 
@@ -119,6 +133,9 @@ class Cgi
 			o << ref._request << std::endl;
 			o << ref._location << std::endl;
 			o << ref._output << std::endl;
+            for (std::map<std::string, std::string>::const_iterator it = ref._params.begin(); it != ref._params.end(); ++it) {
+                o << it->first << "=" << it->second << std::endl;
+            }
 			return (o);
 		}
 
@@ -132,6 +149,8 @@ class Cgi
 			_request = copy._request;
 			_location = copy._location;
 			_output = copy._output;
+            _params = copy._params;
+
 			return (*this);
 		}
 

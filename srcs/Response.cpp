@@ -122,7 +122,7 @@ INLINE_NAMESPACE::Response::manage_cgi (void) {
     }
     _cgi->init();
     _cgi->start(this);
-    _cgi->manage_output(this);
+    _cgi->wait(this);
 }
 
 void	INLINE_NAMESPACE::Response::manage_response (void)

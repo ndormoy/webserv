@@ -13,6 +13,40 @@
 #include "Cgi.hpp"
 
 void
+INLINE_NAMESPACE::Cgi::wait (Response * res) {
+    int status;
+
+    waitpid(-1, &status, 0);
+    if (WIFEXITED(status) && WEXITSTATUS(status) == EXIT_FAILURE) {
+        this->_request->set_error_value(502);
+    }
+
+    std::string header;
+    std::string content;
+    size_t ret_find;
+
+    if ((ret_find = _output.find("\r\n\r\n")) != std::string::npos) {
+        header = _output.substr(0, ret_find);
+        content = _output.substr(ret_find + 4, _output.length());
+    }
+    else {
+        header = _output;
+        content = "";
+    }
+    _output = content;
+
+    string_vector headers = delimiter_spliter(header);
+
+    for (string_vector::const_iterator it = headers.begin(); it != headers.end(); it++) {
+        if ((ret_find = (*it).find("Set-Cookie: ")) != std::string::npos) {
+            _params["Set-Cookie"] = (*it).substr(ret_find + 12);
+        }
+    }
+    res->set_body(_output);
+    CNOUT(*this)
+}
+
+void
 INLINE_NAMESPACE::Cgi::manage_output (Response * res) {
     int ret;
     if ((ret = _output.find("\r\n\r\n")) != std::string::npos) {

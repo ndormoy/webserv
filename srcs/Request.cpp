@@ -14,26 +14,6 @@
 
 // TODO rework those functions
 
-static string_vector
-request_spliter_ (std::string str) {
-	string_vector vector;
-	std::string stockage;
-	
-    int end = str.find("\r\n");
-    while (end != std::string::npos)
-    {
-		stockage = str.substr(0, end);
-		if (!stockage.empty())
-			vector.push_back(stockage);
-        str.erase(0, end + 2);
-		end = str.find("\r\n");
-    }
-    stockage = str.substr(0, end);
-	if (!stockage.empty())
-			vector.push_back(stockage);
-	return (vector);
-}
-
 
 static INLINE_NAMESPACE::Server *
 find_server_ (std::string str) {
@@ -158,7 +138,7 @@ INLINE_NAMESPACE::Request::parse_content (void) {
 
     std::string content = _body.substr(ret + 4);
     CNOUT(content);
-    string_vector vector = request_spliter_(content);
+    string_vector vector = delimiter_spliter(content);
     for (string_vector::const_iterator it = vector.begin(); it != vector.end(); it++) {
         _content += *it;
     }
@@ -224,7 +204,7 @@ INLINE_NAMESPACE::Request::check_request (void) {
 
 int
 INLINE_NAMESPACE::Request::request_parser (void) {
-	string_vector v = request_spliter_(_body);
+	string_vector v = delimiter_spliter(_body);
 	int pos;
     int ret;
 	

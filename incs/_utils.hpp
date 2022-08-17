@@ -192,4 +192,6 @@ std::string					remove_slash (const std::string & str);
 
 std::string					get_file_extension(const std::string & path);
 
+string_vector               delimiter_spliter (std::string str);
+
 #endif /* _UTILS_HPP */

@@ -23,7 +23,7 @@ class Header
 		Header (void):
 			_content_type("Content-Type: "),
 			_content_length("Content-Length: "),
-			_cookie("Set-Cookie: "),
+			_cookie(""),
 			_status("\r\n"),
 			_status_code(200)
 		{ }
@@ -61,10 +61,13 @@ class Header
 		//TODO create a function that put all the cookie in one string with the good notation
 	public: /* Operators */
 		Header & operator=(const Header & copy) {
+            _date = copy._date;
 			_content_type = copy._content_type;
 			_content_length = copy._content_length;
 			_status_code = copy._status_code;
 			_cookie = copy._cookie;
+            _status = copy._status;
+            _server = copy._server;
 			return *this;
 		}
 
@@ -73,6 +76,8 @@ class Header
 			o << ref._content_length << std::endl;
 			o << ref._status_code << std::endl;
 			o << ref._cookie << std::endl;
+            o << ref._status << std::endl;
+            o << ref._server << std::endl;
 			return o;
 		}
 
