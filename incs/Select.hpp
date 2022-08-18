@@ -18,6 +18,8 @@
 _BEGIN_NAMESPACE_WEBSERV
 
 typedef std::vector<Socket> socket_type;
+class Response;
+class Request;
 
 class Select {
 	
@@ -56,6 +58,8 @@ class Select {
 		fd_set&			get_writefds (void) {return (_writefds);}
 		socket_type&	get_sockets (void) {return (_sockets);}
 		int				get_max_sub_socket(void) {return (_max_sub_socket);}
+        void            webserv_log_input (Request & request);
+        void            webserv_log_output (Response & response);
 
 		void			set_max_sub_socket(int max) {_max_sub_socket = max;}
 	public:

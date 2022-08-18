@@ -48,7 +48,6 @@ class Request
 		{
 			FOREACH_HEADER {
 				_params[*it] = "";
-				CNOUT("------------> " << *it)
 			}
 			_params["Accept-Language:"] = "en";
 			_params["Content-Disposition:"] = "attachment";
@@ -97,7 +96,6 @@ class Request
 		{
             FOREACH_HEADER {
                 _params[*it] = "";
-                CNOUT("------------> " << *it)
             }
             _params["Accept-Language:"] = "en";
             _params["Content-Disposition:"] = "attachment";
@@ -127,7 +125,6 @@ class Request
 		{
             FOREACH_HEADER {
                 _params[*it] = "";
-                CNOUT("------------> " << *it)
             }
             _params["Accept-Language:"] = "en";
             _params["Content-Disposition:"] = "attachment";

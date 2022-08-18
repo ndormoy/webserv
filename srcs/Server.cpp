@@ -114,7 +114,6 @@ INLINE_NAMESPACE::Server::create_server (string_vector::const_iterator & it) {
 			}
 		}
 		if (pairs[idx].str == "") {
-			CNOUT(*it)
 			throw Configuration::InvalidKeyword();
 		}
 		if (it != LEXER.end())

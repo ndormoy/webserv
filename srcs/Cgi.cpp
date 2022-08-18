@@ -21,6 +21,7 @@ INLINE_NAMESPACE::Cgi::wait (Response * res) {
     if (WIFEXITED(status) && WEXITSTATUS(status) == EXIT_FAILURE) {
         this->_request->set_error_value(502);
     }
+    close (_fd);
 
     std::string header;
     std::string content;
@@ -63,7 +64,6 @@ INLINE_NAMESPACE::Cgi::read_output(int fd) {
     int ret;
 
     while ((ret = read(fd, buffer, BUFFER_SIZE)) > 0) {
-        write(1, buffer, ret);
         _output.append(buffer, ret);
     }
     if (ret == SYSCALL_ERR)
@@ -108,6 +108,7 @@ INLINE_NAMESPACE::Cgi::start (Response * res) {
         close(pip1[1]);
 
         _fd = pip2[0];
+
 //        if (fcntl(_fd, F_SETFL, O_NONBLOCK))
 //            return ;
     }
@@ -134,7 +135,7 @@ string_vector
 INLINE_NAMESPACE::Cgi::create_env (void) const {
     string_vector envs(24);
 
-    CNOUT(_request)
+    DEBUG_5(CNOUT(_request))
 
     envs[0] = "CONTENT_LENGTH=" + ITOA(_request->get_params("Content-Length"));
     envs[1] = "CONTENT_TYPE=" + _request->get_params("Content-Type"); // mostly text/html

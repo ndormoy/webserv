@@ -24,7 +24,54 @@ std::string	find_path(char * buffer)
 	}
 	return path;
 
-} 
+}
+
+void
+INLINE_NAMESPACE::Select::webserv_log_input(Request &request) {
+
+    /* Methods */
+
+    COUT(BWHT << "Incoming Request  ➜ " << CRESET)
+    if (request.get_error_value() == FATAL_ERROR)
+        COUT(BRED << "FATAL ERROR" << CRESET)
+    else {
+        if (request.get_method() == M_GET)
+            COUT(BGRN << "GET " << CRESET)
+        else if (request.get_method() == M_POST)
+            COUT(BGRN << "POST " << CRESET)
+        else if (request.get_method() == M_DELETE)
+            COUT(BGRN << "DELETE " << CRESET)
+        else
+            COUT(BRED << "ERROR " << CRESET)
+    }
+
+    /* Path */
+
+    COUT(BYEL << "/" << request.get_path() << " " << CRESET)
+
+    /* Host */
+
+    if (!request.get_params("Host").empty())
+        COUT(BYEL << "Host: " << request.get_params("Host") << CRESET << std::endl)
+}
+
+void
+INLINE_NAMESPACE::Select::webserv_log_output(Response &response) {
+    std::map<short, std::string> errors = init_error_map();
+
+    COUT(BWHT << "Incoming Response ➜ " << CRESET)
+    COUT(BYEL << "HTTP/1.1 " << CRESET)
+    if (response.get_error_value() == 200)
+        COUT(BGRN << ITOA(response.get_error_value()) << CRESET)
+    else
+        COUT(BRED << ITOA(response.get_error_value()) << CRESET)
+    for (std::map<short, std::string>::iterator it = errors.begin(); it != errors.end(); ++it)
+        if (it->first == response.get_error_value()) {
+            COUT(BYEL << " " << it->second << CRESET)
+            break;
+        }
+    COUT(std::endl)
+}
 
 // ATTENTION IL NE FAUT PAS LE PREMIER / DANS LE PATH
 std::string	read_open(std::string path)
@@ -213,16 +260,20 @@ INLINE_NAMESPACE::Select::start (void) {
 							//TODO reparse chunked body
 							request->unchunk_body();
 						}
-						
+
+                        webserv_log_input(*request);
+
 						Response response(request); // BUG peut etre le pb
 						DEBUG_2(CNOUT(BBLU << request->get_body() << CRESET))
 						response.manage_response();
-						CCOUT(BBLU, response.get_body())
 						response.set_message_send(response.get_body());
 						DEBUG_2(CNOUT(BGRN << response.get_message_send() << CRESET))
+
+                        webserv_log_output(response);
+
 						if (send(_client_socket[i], response.get_message_send().c_str(), response.get_message_send().length(), 0) == SYSCALL_ERR)
 						{
-							CNOUT(UMAG << "Error: " << strerror(errno) << CRESET)
+							DEBUG_3(CNOUT(UMAG << "Error: " << strerror(errno) << CRESET))
 							throw Select::fSendError();
 						}
 					}
@@ -252,7 +303,7 @@ INLINE_NAMESPACE::Select::new_request (void) {
 		*/
 		if (_client_socket[i] == 0 && _new_socket != 0) //BUG LA SECONDE CONDITION PEUT VRAIMENT TOUT DEFONCER VRAIMENT PAS SUR DE CETTTE AJOUT ATTENTION GUS
 		{
-			CNOUT("Adding \'" << _new_socket << "\' to client socket number " << i)
+			//CNOUT("Adding \'" << _new_socket << "\' to client socket number " << i)
 			_client_socket[i] = _new_socket;
 			break;
 		}

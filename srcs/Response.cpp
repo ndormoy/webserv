@@ -12,7 +12,6 @@ void	INLINE_NAMESPACE::Response::manage_response_delete(void)
 	//BUG doit on proteger la suppresion du fichier ? si oui qu'elles sont les regles de gestion des droits ?
 	if (std::remove(_request->get_construct_path().c_str()) != 0)
 	{
-		CNOUT(BYEL << "Error deleting file" << CRESET)
 		_request->set_error_value(403);
 	}
 	if (_request->get_error_value() == 200)
@@ -42,7 +41,6 @@ void	INLINE_NAMESPACE::Response::create_upload_file(std::string upload_path)
 
 	final_path.append("/");
 	final_path.append(_request->get_filename());
-    CNOUT(BYEL << "final_path : " << final_path << CRESET)
 	if (upload_path.empty())
 		file.open(("example_html/upload/" + _request->get_filename()).c_str(), std::ios::out | std::ios::binary);
 	else
@@ -86,7 +84,7 @@ INLINE_NAMESPACE::Response::manage_error_page (void) {
         && _error_value == 403
         && _location->get_autoindex()
         && (path_is_dir(_request->get_construct_path())) || _request->get_construct_path().empty()) {
-//        create_index();
+        _error_value = 200;
         _body = auto_index(_request->get_path());
     }
     else if (_location && !(ret = _location->return_path_matching(_error_value)).empty()) {
@@ -108,10 +106,8 @@ INLINE_NAMESPACE::Response::manage_cgi (void) {
 
 
     for (Location::cgi_type::const_iterator it = cgi.begin(); it != cgi.end(); ++it) {
-        CNOUT(BYEL << "ext =  : " << get_file_extension(_request->get_construct_path()) << CRESET)
         if ((it->first == get_file_extension(_request->get_construct_path()))) {
             _cgi = new Cgi (it->first, it->second, location_ptr, _request);
-            CNOUT("New cgi created" << std::endl << *_cgi);
             break;
         }
     }
@@ -125,13 +121,24 @@ INLINE_NAMESPACE::Response::manage_cgi (void) {
     _cgi->wait(this);
 }
 
+void
+INLINE_NAMESPACE::Response::fatal_error (void) {
+    _body = "HTTP/1.1 500 Internal Server Error\r\n\r\n";
+    _body.append(create_html_error_page(500));
+}
+
 void	INLINE_NAMESPACE::Response::manage_response (void)
 {
 	//TODO faire manage cgi
 
+    if (_error_value == FATAL_ERROR) {
+        _error_value = 500;
+        _body = "HTTP/1.1 500 Internal Server Error\r\n\r\n";
+        _body.append(create_html_error_page(500));
+        return;
+    }
 	if (_error_value == 200)
 	{
-		CCOUT(BGRN, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
 		if (_request->get_method() == M_GET)
 			manage_response_get();
 		else if (_request->get_method() == M_POST)
@@ -142,22 +149,15 @@ void	INLINE_NAMESPACE::Response::manage_response (void)
 	}
     else
     {
-        CCOUT(BGRN, _error_value)
-        CCOUT(BRED, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
         manage_error_page();
     }
 
-
 	Header header;
 	header.fill(*this);
-
     _header = header.append();
     _body.insert(0, _header);
 
-
-	CCOUT(BYEL, header.append())
-    CCOUT(BGRN, _message_send)
-
+    DEBUG_3(CCOUT(BGRN, _message_send))
 }
 
 
@@ -230,7 +230,6 @@ std::string	INLINE_NAMESPACE::Response::auto_index(std::string location_path)
     index += "<table width=\"100%\" border=\"0\">\n";
 
     for (std::vector<struct dirent>::iterator it = list->begin(); it != list->end(); ++it) {
-        CNOUT(BYEL << "it->d_name = " << it->d_name << CRESET)
         if (!strcmp(it->d_name, ".")) {
             continue;
         } else if (!strcmp(it->d_name, "..")) {

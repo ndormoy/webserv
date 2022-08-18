@@ -45,9 +45,6 @@ find_location_ (INLINE_NAMESPACE::Server * srv, std::string path) {
 		tmp_path = (*it)->get_path().substr((((*it)->get_path()[0] == '/') ? 1 : 0), (*it)->get_path().length());
 		if (!tmp_path.empty())
 			tmp_path = (tmp_path + ((tmp_path[tmp_path.length() - 1] != '/') ? "/" : ""));
-
-		CNOUT(tmp_path << " " << path << std::endl)
-
 		if (tmp_path.empty() || path.rfind(tmp_path, 0) == 0)
 			return ((*it));
 	}
@@ -86,11 +83,11 @@ INLINE_NAMESPACE::Request::parse_first_line (std::string str) {
 	string_vector vector = vector_spliter(str, " ", "", false);
 	
 	if (vector.size() < 3)
-		return (400);
+		return (FATAL_ERROR);
 	else if ((vector[0] != "GET" && vector[0] != "POST" && vector[0] != "DELETE"))
-		return (405);
+		return (FATAL_ERROR);
 	else if (vector[2] != "HTTP/1.1")
-		return (505);
+		return (FATAL_ERROR);
 
 	if (vector[0] == "GET") {
 		_method |= M_GET;
@@ -137,7 +134,6 @@ INLINE_NAMESPACE::Request::parse_content (void) {
 
 
     std::string content = _body.substr(ret + 4);
-    CNOUT(content);
     string_vector vector = delimiter_spliter(content);
     for (string_vector::const_iterator it = vector.begin(); it != vector.end(); it++) {
         _content += *it;
@@ -167,9 +163,6 @@ INLINE_NAMESPACE::Request::set_final_path (void) {
 	}
 	std::string tmp;
 
-    CNOUT("_path : " << _path << std::endl)
-    CNOUT("_location->get_path() : " << _location->get_path() << std::endl)
-
 	if (!_location->get_root().empty()) {
 		tmp = _location->get_root();
         if (!_path.empty())
@@ -178,14 +171,11 @@ INLINE_NAMESPACE::Request::set_final_path (void) {
 		tmp = _path;
 	}
 
-    CNOUT(BRED << path_is_dir(tmp) << CRESET)
-
 	if (path_is_dir(tmp) && !_location->get_index().empty()) {
         tmp += "/" + _location->get_index();
 	}
 	_construct_path = tmp;
 
-    CNOUT("_construct_path : " << _construct_path << std::endl)
 }
 
 short
@@ -300,9 +290,9 @@ void INLINE_NAMESPACE::Request::unchunk_body () {
 			// CNOUT(BYEL << i << "---------------- " << unchunk_body << CRESET)
 			if ((hex_count != -1) && hex_count != (line.length() - 1))
 			{
-				CNOUT(BRED << "Error : chunked are not good." << CRESET)
-				CNOUT(BRED << "->" << hex_count << CRESET)
-				CNOUT(BRED << "XXXXXX" << line.length() << CRESET)
+//				CNOUT(BRED << "Error : chunked are not good." << CRESET)
+//				CNOUT(BRED << "->" << hex_count << CRESET)
+//				CNOUT(BRED << "XXXXXX" << line.length() << CRESET)
 				//TODO que faire pour le comportement ?
 				return ;
 			}
@@ -313,7 +303,6 @@ void INLINE_NAMESPACE::Request::unchunk_body () {
             s1 = last_line.substr(0, last_line.find("\r\n"));
             std::istringstream iss(s1);
             iss >> std::hex >> hex_count;
-            CNOUT(URED << "hex_count : " << hex_count << CRESET)
 		}
 		i++;
 		// BUG ATTENTION LE DELIM EN DESSOUS EST SENSE ETRE 0\r\n mais le \n nique tout 
@@ -323,5 +312,5 @@ void INLINE_NAMESPACE::Request::unchunk_body () {
 		// CNOUT(UMAG << line << CRESET)
 	}
 	_body = head + unchunk_body; //TODO check if it's ok
-	CNOUT(BYEL << _body << CRESET)
+	//CNOUT(BYEL << _body << CRESET)
 }

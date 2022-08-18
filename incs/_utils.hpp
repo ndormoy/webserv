@@ -27,6 +27,7 @@ class Server;
 # define FILE_MISSING					"configuration file missing\n./webserv [--debug=`debug_value`] [configuration_file]"
 
 # define SYSCALL_ERR					(-1)
+# define FATAL_ERROR                    (-1)
 # define SUCCESS						0
 
 # define COUT(x)						std::cout << x;
