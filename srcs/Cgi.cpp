@@ -103,8 +103,8 @@ INLINE_NAMESPACE::Cgi::start (Response * res) {
         close(pip1[1]);
 
         _fd = pip2[0];
-        if (fcntl(_fd, F_SETFL, O_NONBLOCK) == SYSCALL_ERR)
-            return ;
+//        if (fcntl(_fd, F_SETFL, O_NONBLOCK) == SYSCALL_ERR)
+//            return ;
     }
 }
 

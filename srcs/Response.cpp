@@ -86,7 +86,7 @@ INLINE_NAMESPACE::Response::manage_error_page (void) {
         && _error_value == 403
         && _location->get_autoindex()
         && (path_is_dir(_request->get_construct_path())) || _request->get_construct_path().empty()) {
-        create_index();
+//        create_index();
         _body = auto_index(_request->get_path());
     }
     else if (_location && !(ret = _location->return_path_matching(_error_value)).empty()) {
@@ -177,30 +177,36 @@ void	INLINE_NAMESPACE::Response::manage_response (void)
 
 
 
+
+
+
+
+
+
+
+
 /*Cette fonction permet de regarder dans le repertoire courant (Et ceux d'apres
 si on clique dessus), et d'ajouter dans une liste les nom des fichiers
 et dossiers presents*/
 
-void	INLINE_NAMESPACE::Response::create_index(void)
+static std::vector<struct dirent> *
+file_vector_(const std::string & path)
 {
+    std::vector<struct dirent> * list = new std::vector<struct dirent>();
 	DIR *dp;
 	struct dirent *ep;
 	
-	dp = opendir (_request->get_construct_path().c_str());
-	if (dp != NULL)
+	dp = opendir (path.c_str());
+	if (dp == NULL)
 	{
-		while ((ep = readdir (dp)))
-		{
-			if (ep->d_type == DT_DIR || ep->d_type == DT_LNK
-				|| ep->d_type == DT_REG || ep->d_type == DT_UNKNOWN)
-				{
-					_files.push_back(ep->d_name);
-				}
-		}
-		(void) closedir (dp);
+        DEBUG_1(CNERR(BRED << "Couldn't open the directory" << CRESET));
+        return (NULL);
 	}
-	else
-		std::cerr << "Couldn't open the directory" << std::endl;
+    while ((ep = readdir(dp))) {
+        list->push_back(*ep);
+    }
+    closedir(dp);
+    return (list);
 }
 
 /*Permet de mettre dans une string en html les fichiers/dossier
@@ -209,30 +215,73 @@ c'est l'auto index*/
 
 std::string	INLINE_NAMESPACE::Response::auto_index(std::string location_path)
 {
+    std::vector<struct dirent> * list = file_vector_(_request->get_construct_path());
+    if (list == NULL)
+        return (create_html_error_page(404));
+
 	std::string index;
 	int	 		len;
 
 	//fill_start_header();
 	index += "<html>\n";
 	index += "<head><title>Indexito /</title></head>\n";
-	index += "<body bgcolor=\"green\">\n";
-	index += "<h1>Index of </h1><hr><pre><a href=\"../\">../</a>\n";
-	for (string_vector::iterator it = _files.begin(); it != _files.end(); ++it)
-	{
-		index += "<a href=\"";
-		index += location_path;
-		index += "/";
-		index += *it;
-		index += "\">";
-		index += *it;
-		index += "</a>\n";
-		index += "</pre><hr>\n";
-	}
-	index += "</body>\n</html>\n";
-	len = index.length();
-	//_header.append(ITOA(len));
-	//_header.append("\r\n");
-	//_header.append("\n\n");
+	index += "<h1>Index of " + _request->get_construct_path() + "</h1>\n";
+    index += "<hr>\n";
+    index += "<table width=\"100%\" border=\"0\">\n";
+
+    for (std::vector<struct dirent>::iterator it = list->begin(); it != list->end(); ++it) {
+        CNOUT(BYEL << "it->d_name = " << it->d_name << CRESET)
+        if (!strcmp(it->d_name, ".")) {
+            continue;
+        } else if (!strcmp(it->d_name, "..")) {
+            index += "<tr><td><a href=\"";
+            index += it->d_name;
+            index += "/\">../</a></td></tr>\n";
+        } else {
+            std::string file = _request->get_construct_path() + "/" + it->d_name;
+            struct stat s;
+            stat(file.c_str(), &s);
+            std::string date = ctime(&s.st_mtime);
+            date.erase(date.size() - 1);
+
+            index += "<tr>\n";
+            index += "<td><a href=\"";
+            index += it->d_name;
+            index += S_ISDIR(s.st_mode) ? "/" : "";
+            index += "\">";
+            index += it->d_name;
+            index += S_ISDIR(s.st_mode) ? "/" : "";
+            index += "</a></td>\n";
+            index += "<td>";
+            index += date;
+            index += "</td>\n";
+            index += "<td align=\"right\">";
+            if (S_ISDIR(s.st_mode) == 0) {
+                if (s.st_size > 1000) {
+                    index += ITOA(s.st_size / 1000) + " Ko";
+                } else if (s.st_size > 1000000) {
+                    index += ITOA(s.st_size / 1000000) + " Mo";
+                } else {
+                    index += ITOA(s.st_size) + " octets";
+                }
+            } else {
+                index += "-";
+            }
+            index += "</td>\n";
+            index += "</tr>\n";
+        }
+    }
+
+
+
+
+
+
+
+
+    index += "</able>\n";
+    index += "</body>\n";
+    index += "</html>\n";
 	_body.append(index);
 	_body.append("\r\n\r\n");
 	return index;

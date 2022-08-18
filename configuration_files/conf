@@ -8,7 +8,7 @@ server {
 	{
 		allow_methods GET POST DELETE;
 		root www;
-		#index select.html;
+		# index index.html;
 
 		return 403 www/error_pages/403.html;
 		auto_index on;

@@ -102,7 +102,6 @@ class Response
 		void			manage_error_page(void);
 		void			generate_header(void);
 		std::string		auto_index(std::string location_path);
-		void			create_index(void);
 		void			create_upload_file(std::string);
         void            manage_cgi (void);
 
