@@ -51,7 +51,8 @@ separe_special_char_ (string_vector & v, const char * delims) {
 	for (; it != v.end(); it++) {
 		f_val = std::string::npos;
 		for (int i = 0; delims[i]; i++) {
-			if ((*it) == (char [2]){delims[i], '\0'}) {
+            std::string str_tmp(1, delims[i]);
+			if ((*it) == str_tmp) {
 				break;
 			} else if (((f_val = (*it).find(delims[i])) != std::string::npos)) {
 				c = delims[i];
