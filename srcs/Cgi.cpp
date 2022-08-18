@@ -95,7 +95,12 @@ INLINE_NAMESPACE::Cgi::start (Response * res) {
             return ;
         close(pip2[1]);
 
-        execve(_exec.c_str(), NULL, this->_env);
+        if (execve(_exec.c_str(), NULL, this->_env) == SYSCALL_ERR) {
+            close(pip1[0]);
+            close(pip2[1]);
+            close(pip1[1]);
+            // TODO free everything we need to free
+        }
         exit(EXIT_SUCCESS);
     } else {
         close(pip1[0]);
@@ -103,7 +108,7 @@ INLINE_NAMESPACE::Cgi::start (Response * res) {
         close(pip1[1]);
 
         _fd = pip2[0];
-//        if (fcntl(_fd, F_SETFL, O_NONBLOCK) == SYSCALL_ERR)
+//        if (fcntl(_fd, F_SETFL, O_NONBLOCK))
 //            return ;
     }
 }
