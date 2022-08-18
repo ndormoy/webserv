@@ -1,6 +1,6 @@
 <?php
 
-// session_start();
+session_start();
 
 $name = null;
 // permet si logout est activé de supprimer le cookie
@@ -18,7 +18,8 @@ if (!empty($_COOKIE['User']))
 }
 if (!empty($_POST['name']))
 {
-	setcookie("User", $_POST['name']);
+    $_SESSION['name'] = htmlspecialchars($_POST['name']);
+	setcookie("User", $_POST['name'], time()+3600);
 	$name = htmlspecialchars($_POST['name']);
 }
 
