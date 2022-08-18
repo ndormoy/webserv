@@ -16,6 +16,7 @@ void
 INLINE_NAMESPACE::Configuration::parser (void) {
 	string_vector::const_iterator it = _lexer.begin();
 
+    DEBUG_3(CNOUT(BBLU << "Updating : parsing configuration file..." << CRESET));
 	while (it != _lexer.end()) {
 		if (*it == "server" && ((it + 1) != _lexer.end() && (*(it + 1)) == "{")) {
 			INLINE_NAMESPACE::Server* s = new Server();
@@ -40,6 +41,7 @@ INLINE_NAMESPACE::Configuration::lexer (std::string conf_file) {
 	if (ifs.fail()) {
 		throw Configuration::FileCannotBeOpened();
 	}
+    DEBUG_3(CNOUT(BBLU << "Updating : loading configuration file..." << CRESET));
 	while (!ifs.eof()) {
 		std::getline(ifs, buffer);
 		v = vector_spliter(buffer, "}{;", "\t", true);

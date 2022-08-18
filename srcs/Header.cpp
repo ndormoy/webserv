@@ -23,11 +23,9 @@ INLINE_NAMESPACE::Header::fill(Response & reponse)
 			}
 
 			_status = "HTTP/1.1 " + ITOA(it->first) + " " + it->second;
-			DEBUG_5(CNOUT(BYEL << "Status code : " << get_file_extension(reponse.get_request()->get_construct_path()) << CRESET))
 
             _date = "Date: " + get_instant_time_();
 
-    DEBUG_5(CNOUT(BYEL << reponse.get_server() << CRESET))
             _server = "Server: " + reponse.get_server()->get_server_name();
 
     _content_length = "Content-Length: " + ITOA(reponse.get_body().size());

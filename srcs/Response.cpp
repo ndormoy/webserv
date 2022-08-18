@@ -89,22 +89,17 @@ INLINE_NAMESPACE::Response::manage_error_page(void) {
 int
 INLINE_NAMESPACE::Response::manage_cgi(void) {
     Location *location_ptr = _request->get_location();
-    Server *server_ptr = _request->get_server();
     Location::cgi_type cgi = location_ptr->get_cgi();
 
     if (location_ptr == NULL) {
         return (1);
     }
-
-
     for (Location::cgi_type::const_iterator it = cgi.begin(); it != cgi.end(); ++it) {
         if ((it->first == get_file_extension(_request->get_construct_path()))) {
             _cgi = new Cgi(it->first, it->second, location_ptr, _request);
             break;
         }
     }
-
-
     if (_cgi == NULL) {
         return (1);
     }
@@ -142,12 +137,13 @@ void INLINE_NAMESPACE::Response::manage_response(void) {
         manage_error_page();
     }
 
+    DEBUG_3(CNOUT(BBLU << "Updating : creating header..." << CRESET))
     Header header;
+    std::string header_string;
     header.fill(*this);
-    _header = header.append();
-    _body.insert(0, _header);
-
-    DEBUG_3(CCOUT(BGRN, _message_send))
+    header_string = header.append();
+    _body.insert(0, header_string);
+    DEBUG_3(CNOUT(BBLU << "Updating : header created and insert into the body" << CRESET))
 }
 
 
@@ -163,7 +159,6 @@ file_vector_(const std::string &path) {
 
     dp = opendir(path.c_str());
     if (dp == NULL) {
-        DEBUG_1(CNERR(BRED << "Couldn't open the directory" << CRESET));
         return (NULL);
     }
     while ((ep = readdir(dp))) {

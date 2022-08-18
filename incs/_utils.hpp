@@ -45,11 +45,11 @@ class Server;
 
 # define EXCEPTION(x, y)				public: class x : public std::exception {const char * what (void) const throw() {return (y);}};
 
-# define DEBUG_1(x)						if (g_debug_prog_level >= 1) { x }
-# define DEBUG_2(x)						if (g_debug_prog_level >= 2) { x }
-# define DEBUG_3(x)						if (g_debug_prog_level >= 3) { x }
-# define DEBUG_4(x)						if (g_debug_prog_level >= 4) { x }
-# define DEBUG_5(x)						if (g_debug_prog_level >= 5) { x }
+# define DEBUG_1(x)						if (g_debug_prog_level >= 1) { x } // Simple input and output of request and response
+# define DEBUG_2(x)						if (g_debug_prog_level >= 2) { x } // Print full request and full response
+# define DEBUG_3(x)						if (g_debug_prog_level >= 3) { x } // Print update of the server
+# define DEBUG_4(x)						if (g_debug_prog_level >= 4) { x } // Print server config + CGI output
+# define DEBUG_5(x)						if (g_debug_prog_level >= 5) { x } // Print errors
 
 # define LEXER							g_config.getLexer()
 # define SERVERS						g_config.getServers()

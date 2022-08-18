@@ -39,7 +39,11 @@ main (int ac, char **av)
 		
 		try {
 			g_config.lexer(av[((ac == 2) ? 1 : 2)]);
+            DEBUG_3(CNOUT(BBLU << "Updating : configuration file has been loaded" << CRESET));
 			g_config.parser();
+            DEBUG_3(CNOUT(BBLU << "Updating : parsing done, configuration file is correct" << CRESET));
+            DEBUG_4(CNOUT(BMAG << "[Configuration file set]" << CRESET));
+            DEBUG_4(CNOUT(BWHT << read_file(av[((ac == 2) ? 1 : 2)]) << CRESET));
 		} catch (std::exception &e) {
 			std::cerr << e.what() << std::endl;
 			return (EXIT_FAILURE);

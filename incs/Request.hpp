@@ -103,7 +103,6 @@ class Request
 			//_body.insert(_body.end(), str, str + strlen(str));
 			_chunked = (str.find("\r\n\r\n") == std::string::npos);
 			_error_value = request_parser();
-			DEBUG_5(CNOUT(*this));
 		}
 
 		Request (char *str, int size) :
@@ -132,7 +131,6 @@ class Request
 			_body.insert(0, str, size);
 			//_chunked = (str.find("\r\n\r\n") == std::string::npos);
 			_error_value = request_parser();
-			DEBUG_5(CNOUT(*this));
 		}
 
 	public:

@@ -19,9 +19,13 @@ INLINE_NAMESPACE::Cgi::wait (Response * res) {
     read_output(_fd);
     waitpid(-1, &status, 0);
     if (WIFEXITED(status) && WEXITSTATUS(status) == EXIT_FAILURE) {
+        DEBUG_5(CNOUT(BRED << "CGI failed" << CRESET));
         this->_request->set_error_value(502);
     }
     close (_fd);
+    DEBUG_3(CNOUT(BBLU << "Updating : CGI has been successfully executed" << CRESET));
+    DEBUG_4(CNOUT(BMAG << "[CGI]" << CRESET))
+    DEBUG_4(CNOUT(BWHT << _output << CRESET))
 
     std::string header;
     std::string content;
@@ -77,22 +81,31 @@ INLINE_NAMESPACE::Cgi::start (Response * res) {
     int pip1[2];
     int pip2[2];
 
-    if (pipe(pip1) == SYSCALL_ERR || pipe(pip2) == SYSCALL_ERR)
+    DEBUG_3(CNOUT(BBLU << "Updating : starting CGI..." << CRESET));
+    if (pipe(pip1) == SYSCALL_ERR || pipe(pip2) == SYSCALL_ERR) {
+        DEBUG_5(CNOUT(BRED << "Error : pipe() failed (l." << __LINE__ << ")" << CRESET))
         return;
-    if (write(pip1[1], _request->get_content().c_str(), _request->get_content().length()) == SYSCALL_ERR)
+    }
+    if (write(pip1[1], _request->get_content().c_str(), _request->get_content().length()) == SYSCALL_ERR) {
+        DEBUG_5(CNOUT(BRED << "Error : write() failed (l." << __LINE__ << ")" << CRESET))
         return;
+    }
 
     if ((pid = fork()) == SYSCALL_ERR) {
         return;
     } else if (pid == 0) {
         close(pip1[1]);
-        if (dup2(pip1[0], 0) == SYSCALL_ERR)
-            return ;
+        if (dup2(pip1[0], 0) == SYSCALL_ERR) {
+            DEBUG_5(CNOUT(BRED << "Error : dup2() failed (l." << __LINE__ << ")" << CRESET))
+            return;
+        }
         close(pip1[0]);
 
         close(pip2[0]);
-        if (dup2(pip2[1], 1) == SYSCALL_ERR)
-            return ;
+        if (dup2(pip2[1], 1) == SYSCALL_ERR) {
+            DEBUG_5(CNOUT(BRED << "Error : dup2 failed (l." << __LINE__ << ")" << CRESET))
+            return;
+        }
         close(pip2[1]);
 
         if (execve(_exec.c_str(), NULL, this->_env) == SYSCALL_ERR) {
@@ -106,11 +119,7 @@ INLINE_NAMESPACE::Cgi::start (Response * res) {
         close(pip1[0]);
         close(pip2[1]);
         close(pip1[1]);
-
         _fd = pip2[0];
-
-//        if (fcntl(_fd, F_SETFL, O_NONBLOCK))
-//            return ;
     }
 }
 
@@ -118,6 +127,7 @@ void
 INLINE_NAMESPACE::Cgi::init (void) {
     string_vector env_vars = create_env();
 
+    DEBUG_3(CNOUT(BBLU << "Updating : environment variables for CGI created" << CRESET))
     if (!(_env = static_cast<char **>(malloc(sizeof(char *) * (env_vars.size() + 1)))))
         return ;
     for (int i = 0; i < env_vars.size(); i++) {
@@ -134,8 +144,6 @@ INLINE_NAMESPACE::Cgi::init (void) {
 string_vector
 INLINE_NAMESPACE::Cgi::create_env (void) const {
     string_vector envs(24);
-
-    DEBUG_5(CNOUT(_request))
 
     envs[0] = "CONTENT_LENGTH=" + ITOA(_request->get_params("Content-Length"));
     envs[1] = "CONTENT_TYPE=" + _request->get_params("Content-Type"); // mostly text/html
