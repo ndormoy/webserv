@@ -33,4 +33,5 @@ INLINE_NAMESPACE::Socket::setup (int port) {
 	if (listen(_master_socket, MAX_CLIENT) < 0) {
 		throw Socket::fListenError();
 	}
+
 }

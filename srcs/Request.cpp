@@ -48,7 +48,7 @@ find_location_ (INLINE_NAMESPACE::Server * srv, std::string path) {
 		if (tmp_path.empty() || path.rfind(tmp_path, 0) == 0)
 			return ((*it));
 	}
-	return (NULL);
+    return (NULL);
 }
 
 static std::string
@@ -132,7 +132,6 @@ INLINE_NAMESPACE::Request::parse_content (void) {
     if (ret == std::string::npos)
         return;
 
-
     std::string content = _body.substr(ret + 4);
     string_vector vector = delimiter_spliter(content);
     for (string_vector::const_iterator it = vector.begin(); it != vector.end(); it++) {
@@ -170,25 +169,25 @@ INLINE_NAMESPACE::Request::set_final_path (void) {
 	} else {
 		tmp = _path;
 	}
-
 	if (path_is_dir(tmp) && !_location->get_index().empty()) {
         tmp += "/" + _location->get_index();
 	}
 	_construct_path = tmp;
-
+    DEBUG_3(CNOUT(BBLU << "Updating : final path is \'" << _construct_path << "\'" << CRESET));
 }
 
 short
 INLINE_NAMESPACE::Request::check_request (void) {
-    if (!path_is_valid(_construct_path))
-         return (404);
-    if (path_is_dir(_construct_path)) {
+    if (!path_is_valid(_construct_path)) {
+        return (404);
+    } if (path_is_dir(_construct_path)) {
         return (403);
     } if (_server && _server->get_max_body_size() < _content_file.length()) {
         return (413);
     }
-    if (!(_location && _method & _location->get_methods()))
+    if (!(_location && _method & _location->get_methods())) {
         return (405);
+    }
     return (0);
 }
 
@@ -197,25 +196,24 @@ INLINE_NAMESPACE::Request::request_parser (void) {
 	string_vector v = delimiter_spliter(_body);
 	int pos;
     int ret;
-	
+
+    DEBUG_3(CNOUT(BBLU << "Updating : parsing Request" << CRESET))
 	if (v.empty()) {
+        DEBUG_5(CNOUT(BRED << "Error : Request body is empty" << CRESET));
 		return (400);
 	} else if ((ret = parse_first_line(v[0])) != 0) {
-		DEBUG_5(CNOUT(BRED << "Request : invalid first line" << CRESET))
+        DEBUG_5(CNOUT(BRED << "Error : Request first line is invalid" << CRESET));
 		return (ret);
 	} else if ((pos = _path.find('?')) != std::string::npos) {
-		DEBUG_5(CNOUT(BYEL << "Query string has been found" << CRESET));
 		_query_string = _path.substr(pos + 1, _path.length());
 		_path = remove_slash(_path.substr(0, pos));
 	}
-	DEBUG_4(CNOUT(BGRN << *this << CRESET));
 	for (string_vector::const_iterator it = v.begin() + 1; it != v.end(); it++) {
 		if (!is_header_(*it).empty()) {
             request_line_parser(*it);
         }
 	}
     parse_content();
-//    CNOUT(_content);
 	_server = find_server_(_params["Host"]);
 	_location = find_location_(_server, _path);
 	_chunked = ((_params["Transfer-Encoding"].find("chunked")) != std::string::npos);
@@ -226,11 +224,6 @@ INLINE_NAMESPACE::Request::request_parser (void) {
 	// getContent (changed path)
 	return (200);
 }
-
-/**
- * @brief this function check if we are in a upload process
- * 
- */
 
 bool	INLINE_NAMESPACE::Request::is_upload_case (void) {
 	if (_method == M_POST) {
