@@ -13,8 +13,6 @@
 
 #include "webserv.hpp"
 
-
-
 std::string	find_path(char * buffer)
 {
 	std::string path = "";

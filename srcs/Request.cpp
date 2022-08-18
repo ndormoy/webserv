@@ -286,6 +286,7 @@ void INLINE_NAMESPACE::Request::unchunk_body () {
 	std::string	head = "";
 	std::string	last_line = "";
 	std::stringstream ss;
+    std::string s1;
 	int count = 0;
 	int hex_count = -1;
 	int	i = 0;
@@ -309,8 +310,10 @@ void INLINE_NAMESPACE::Request::unchunk_body () {
 		else
 		{
 			last_line = line;
-			hex_count = std::stoi(last_line.substr(0, last_line.find("\r\n")), nullptr, 16);
-			CNOUT(URED << "hex_count : " << hex_count << CRESET)
+            s1 = last_line.substr(0, last_line.find("\r\n"));
+            std::istringstream iss(s1);
+            iss >> std::hex >> hex_count;
+            CNOUT(URED << "hex_count : " << hex_count << CRESET)
 		}
 		i++;
 		// BUG ATTENTION LE DELIM EN DESSOUS EST SENSE ETRE 0\r\n mais le \n nique tout 
