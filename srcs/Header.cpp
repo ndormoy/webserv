@@ -4,7 +4,7 @@ static const std::string
 get_instant_time_ (void) {
 
     char buf[1000];
-    time_t now = time(_nullptr);
+    time_t now = time(NULL);
     struct tm tm = *gmtime(&now);
     strftime(buf, sizeof buf, "%a, %d %b %Y %H:%M:%S %Z", &tm);
     return (buf);

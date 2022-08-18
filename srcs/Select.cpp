@@ -97,7 +97,7 @@ INLINE_NAMESPACE::Select::start (void) {
 		}
 
 			//CNOUT("Selecting...")
-			if (select(get_max_sub_socket() + 1, &_readfds, _nullptr, _nullptr, _nullptr) == SYSCALL_ERR) {
+			if (select(get_max_sub_socket() + 1, &_readfds, NULL, NULL, NULL) == SYSCALL_ERR) {
 				throw Select::fSelectError();
 			}
 			new_request();

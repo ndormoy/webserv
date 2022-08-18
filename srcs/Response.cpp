@@ -102,7 +102,7 @@ INLINE_NAMESPACE::Response::manage_cgi (void) {
     Server * server_ptr =       _request->get_server();
     Location::cgi_type cgi =    location_ptr->get_cgi();
 
-    if (location_ptr == _nullptr) {
+    if (location_ptr == NULL) {
         return;
     }
 
@@ -117,7 +117,7 @@ INLINE_NAMESPACE::Response::manage_cgi (void) {
     }
 
 
-    if (_cgi == _nullptr) {
+    if (_cgi == NULL) {
         return;
     }
     _cgi->init();
@@ -187,7 +187,7 @@ void	INLINE_NAMESPACE::Response::create_index(void)
 	struct dirent *ep;
 	
 	dp = opendir (_request->get_construct_path().c_str());
-	if (dp != _nullptr)
+	if (dp != NULL)
 	{
 		while ((ep = readdir (dp)))
 		{

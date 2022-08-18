@@ -103,10 +103,10 @@ INLINE_NAMESPACE::Server::create_server (string_vector::const_iterator & it) {
 										{&Server::_set_server_name, "server_name"},
 										{&Server::_set_error_page, "error_page"},
 										{&Server::_set_location, "location"},
-										{_nullptr, ""} };
+										{NULL, ""} };
 	
 	while (it != LEXER.end() && *it != "}") {
-		for (idx = 0; pairs[idx].f != _nullptr; idx++) {
+		for (idx = 0; pairs[idx].f != NULL; idx++) {
 			if (*it == pairs[idx].str) {
 				++it;
 				(this->*pairs[idx].f)(it);

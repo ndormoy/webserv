@@ -16,6 +16,7 @@ void
 INLINE_NAMESPACE::Cgi::wait (Response * res) {
     int status;
 
+    read_output(_fd);
     waitpid(-1, &status, 0);
     if (WIFEXITED(status) && WEXITSTATUS(status) == EXIT_FAILURE) {
         this->_request->set_error_value(502);
@@ -43,7 +44,6 @@ INLINE_NAMESPACE::Cgi::wait (Response * res) {
         }
     }
     res->set_body(_output);
-    CNOUT(*this)
 }
 
 void
@@ -74,44 +74,37 @@ INLINE_NAMESPACE::Cgi::read_output(int fd) {
 void
 INLINE_NAMESPACE::Cgi::start (Response * res) {
     pid_t pid;
-    int     pip1[2];
-    int     pip2[2];
+    int pip1[2];
+    int pip2[2];
 
     if (pipe(pip1) == SYSCALL_ERR || pipe(pip2) == SYSCALL_ERR)
-        return ;
+        return;
+    if (write(pip1[1], _request->get_content().c_str(), _request->get_content().length()) == SYSCALL_ERR)
+        return;
 
-    for (int i = 0; _env[i]; i++) {
-        CNOUT(BBLU << _env[i] << " " << i << CRESET);
-    }
-
-
-    write(pip1[1], _request->get_content().c_str(), _request->get_content().length());
-
-//    write(pip1[1], "name=Mathias", strlen("name=Mathias"));
-//    write(1, res->get_body().c_str(), res->get_body().size());
-    if ((pid = fork()) == SYSCALL_ERR)
-        return ;
-    if (pid == 0) {
+    if ((pid = fork()) == SYSCALL_ERR) {
+        return;
+    } else if (pid == 0) {
         close(pip1[1]);
-        dup2(pip1[0], 0);
+        if (dup2(pip1[0], 0) == SYSCALL_ERR)
+            return ;
         close(pip1[0]);
 
         close(pip2[0]);
-        dup2(pip2[1], 1);
+        if (dup2(pip2[1], 1) == SYSCALL_ERR)
+            return ;
         close(pip2[1]);
 
         execve(_exec.c_str(), NULL, this->_env);
         exit(EXIT_SUCCESS);
-//        close(pip1[0]);
     } else {
         close(pip1[0]);
         close(pip2[1]);
         close(pip1[1]);
 
         _fd = pip2[0];
-        read_output(_fd);
-        CNOUT("OUTPUT -> |" << _output << "|");
-//        close(pip1[1]);
+        if (fcntl(_fd, F_SETFL, O_NONBLOCK) == SYSCALL_ERR)
+            return ;
     }
 }
 

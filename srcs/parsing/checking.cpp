@@ -140,7 +140,7 @@ checker(const string_vector & v, std::size_t flags) {
 						{&error_val_, CHECK_ERROR_CODE},
 						{&default_, CHECK_DEFAULT},
 						{&file_is_reg_, CHECK_IS_REG},
-						{_nullptr, 0} };
+						{NULL, 0} };
 
 	for (int i = 0; pairs[i].flag != 0; i++) {
 		if (flags & pairs[i].flag) {

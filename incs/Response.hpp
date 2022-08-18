@@ -34,9 +34,9 @@ class Response
 			_error_path(""),
 			_message_send(""),
 			_error_value(0),
-			_server(_nullptr),
-			_location(_nullptr),
-            _cgi (_nullptr)
+			_server(NULL),
+			_location(NULL),
+            _cgi (NULL)
 		{ }
 
 		Response (Request * request) :
@@ -49,7 +49,7 @@ class Response
 			_error_value(request->get_error_value()),
 			_server(request->get_server()),
 			_location(request->get_location()),
-            _cgi(_nullptr)
+            _cgi(NULL)
 		{ }
 
 		Response (const Response & copy) {
