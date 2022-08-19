@@ -38,11 +38,10 @@ INLINE_NAMESPACE::Header::fill(Response & reponse)
     _server = "Server: " + reponse.get_server()->get_server_name();
     _content_length = "Content-Length: " + ITOA(reponse.get_body().size());
     _content_type += type + ";charset=UTF-8";
-    if (reponse.get_cgi() != NULL) {
+    if (!reponse.get_cgi()->get_param("Set-Cookie").empty()) {
         _cookie = "Set-Cookie: " + reponse.get_cgi()->get_param("Set-Cookie");
     }
 
-    //_cookie = "Set-Cookie: " + reponse.get_cookie();
 }
 
 std::string

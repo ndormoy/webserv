@@ -64,12 +64,15 @@ std::string	read_file(std::string path)
 	if (file.is_open())
 	{
 		std::string line;
-		while (getline(file, line))
-			content += line + "\n";
+		while (getline(file, line)) {
+            content += line + "\n";
+        }
 		file.close();
 	}
 	else
 		content = "Problem reading file";
+
+//    COUT(content)
 	return content;
 }
 

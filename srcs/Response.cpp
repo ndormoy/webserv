@@ -145,7 +145,12 @@ void INLINE_NAMESPACE::Response::manage_response(void) {
     std::string header_string;
     header.fill(*this);
     header_string = header.append();
+//    header_string = "HTTP/1.1 200 OK\r\n";
     _body.insert(0, header_string);
+//    _body.append("\r\n\r\n");
+
+    // CNOUT("response size = " << _body.size())
+
     DEBUG_3(CNOUT(BBLU << "Updating : header created and insert into the body" << CRESET))
 }
 

@@ -130,7 +130,6 @@ INLINE_NAMESPACE::Select::start(void) {
                     Request *request = new Request(buffer, bytes);
 
                     if (request->get_method() == M_POST) {
-                        DEBUG_3(CNOUT(BBLU << "Updating : POST Request is parsing..."))
                         while (bytes > 0) {
                             if (_client_socket[i] != 0 && FD_ISSET(_client_socket[i], &_readfds)) {
                                 for (int j = 0; j < 10025; j++) {
@@ -192,7 +191,7 @@ INLINE_NAMESPACE::Select::start(void) {
                             }
                         }
                         //TODO reparse chunked body
-                        request->unchunk_body();
+//                        request->unchunk_body();
                     }
 
                     DEBUG_3(CNOUT(BBLU << "Updating : Request has been parsed" << CRESET))
