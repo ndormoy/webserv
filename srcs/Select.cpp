@@ -16,7 +16,7 @@
 void
 INLINE_NAMESPACE::Select::webserv_log_input(Request &request) {
 
-    COUT(BWHT << "Incoming Request  ➜ " << CRESET)
+    COUT(BWHT << "Incoming Request   ➜ " << CRESET)
     if (request.get_error_value() == FATAL_ERROR)
         COUT(BRED << "FATAL ERROR" << CRESET)
     else {
@@ -43,7 +43,7 @@ void
 INLINE_NAMESPACE::Select::webserv_log_output(Response &response) {
     std::map<short, std::string> errors = init_error_map();
 
-    COUT(BWHT << "Incoming Response ➜ " << CRESET)
+    COUT(BWHT << "Outcoming Response ➜ " << CRESET)
     COUT(BYEL << "HTTP/1.1 " << CRESET)
     if (response.get_error_value() == 200)
         COUT(BGRN << ITOA(response.get_error_value()) << CRESET)
