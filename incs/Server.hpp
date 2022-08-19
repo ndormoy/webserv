@@ -130,6 +130,7 @@ class Server {
 		 * @param Iterator iterator that navigates the lexer
 		 */
 		void				create_server (string_vector::const_iterator &);
+        std::string         return_path_matching (int);
 
 	private:
 

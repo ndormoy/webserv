@@ -10,33 +10,39 @@ get_instant_time_ (void) {
     return (buf);
 }
 
+static const std::string
+find_content_type_ (std::map<std::string, std::string> & content_type, const std::string & ext) {
+
+    for (std::map<std::string, std::string>::iterator it = content_type.begin(); it != content_type.end(); it++) {
+        if (it->first == ext)
+            return (it->second);
+    }
+    return ("");
+}
+
 void
 INLINE_NAMESPACE::Header::fill(Response & reponse)
 {
-			//_file_size = calculate_size_file((char *)_request.get_path().c_str());
-			std::map<short, std::string> error_pages = webserv::init_error_map();
-    		std::map<short, std::string>::const_iterator it = error_pages.begin();
-	
-			for (; it != error_pages.end(); ++it) {
-			    if (it->first == _status_code)
-			        break;
-			}
+    std::map<short, std::string> error_pages = webserv::init_error_map();
+    std::map<short, std::string>::const_iterator it = error_pages.begin();
+    std::map<std::string, std::string> content_type = init_content_type();
+    std::string type = find_content_type_(content_type, get_file_extension(reponse.get_request()->get_construct_path()));
 
-			_status = "HTTP/1.1 " + ITOA(it->first) + " " + it->second;
+    for (; it != error_pages.end(); ++it) {
+        if (it->first == _status_code)
+            break;
+    }
 
-            _date = "Date: " + get_instant_time_();
-
-            _server = "Server: " + reponse.get_server()->get_server_name();
-
+    _status = "HTTP/1.1 " + ITOA(it->first) + " " + it->second;
+    _date = "Date: " + get_instant_time_();
+    _server = "Server: " + reponse.get_server()->get_server_name();
     _content_length = "Content-Length: " + ITOA(reponse.get_body().size());
-
-    _content_type += init_content_type().at(get_file_extension(reponse.get_request()->get_construct_path())) + ";charset=UTF-8";
-
+    _content_type += type + ";charset=UTF-8";
     if (reponse.get_cgi() != NULL) {
-                _cookie = "Set-Cookie: " + reponse.get_cgi()->get_param("Set-Cookie");
-            }
+        _cookie = "Set-Cookie: " + reponse.get_cgi()->get_param("Set-Cookie");
+    }
 
-				//_cookie = "Set-Cookie: " + reponse.get_cookie();
+    //_cookie = "Set-Cookie: " + reponse.get_cookie();
 }
 
 std::string
