@@ -1,4 +1,4 @@
-#include "webserv.hpp"
+ #include "webserv.hpp"
 #include <iostream>
 #include <fstream>
 #include <dirent.h>
@@ -65,8 +65,16 @@ void INLINE_NAMESPACE::Response::manage_response_post(void) {
 
 
 void INLINE_NAMESPACE::Response::manage_response_get(void) {
-    _body.append(read_file(_request->get_construct_path()));
-    _body.append("\r\n\r\n");
+	int size = 0;
+	size = read_file(_request->get_construct_path()).size();
+	CNOUT(UMAG << "size: " << size << CRESET)
+	_body.insert(_body.size(), read_file(_request->get_construct_path()).c_str(), size);
+	CNOUT(UMAG << "body size: " << _body.size() << CRESET)
+	_body.insert(_body.size(), "\r\n\r\n", 4);
+	CNOUT(UMAG << "body size: " << _body.size() << CRESET)
+
+	// _body.append(read_file(_request->get_construct_path()));
+	// _body.append("\r\n\r\n");
 }
 
 void

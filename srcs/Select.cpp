@@ -129,14 +129,16 @@ INLINE_NAMESPACE::Select::start(void) {
                     buffer[bytes] = '\0';
                     Request *request = new Request(buffer, bytes);
 
+
+								CNOUT(UMAG << "1 --------------------------------" << request->get_method() << CRESET)
                     if (request->get_method() == M_POST) {
                         DEBUG_3(CNOUT(BBLU << "Updating : POST Request is parsing..."))
-                        while (bytes > 0) {
+                        while (bytes > 0) {				
                             if (_client_socket[i] != 0 && FD_ISSET(_client_socket[i], &_readfds)) {
                                 for (int j = 0; j < 10025; j++) {
                                     buffer[j] = '\0';
                                 }
-                                bytes = recv(_client_socket[i], buffer, 1024, 0);
+                                bytes = recv(_client_socket[i], buffer, 10024, 0);
                                 DEBUG_3(CNOUT(BBLU << "Updating : recv has read " << bytes << " bytes" << CRESET))
                                 if (bytes == SYSCALL_ERR) {
                                     DEBUG_5(CNOUT(BRED << "Error : recv() failed (l." << __LINE__ << ")" << CRESET))
@@ -206,11 +208,25 @@ INLINE_NAMESPACE::Select::start(void) {
                     DEBUG_3(CNOUT(BBLU << "Updating : Response has been created" << CRESET))
                     DEBUG_1(webserv_log_output(response);)
                     DEBUG_3(CNOUT(BBLU << "Updating : sending the response..." << CRESET))
-                    if (send(_client_socket[i], response.get_message_send().c_str(),
-                             response.get_message_send().length(), 0) == SYSCALL_ERR) {
-                        DEBUG_5(CNOUT(BRED << "Error : send() failed (l." << __LINE__ << ")" << CRESET))
-                        throw Select::fSendError();
-                    }
+                    // if (send(_client_socket[i], response.get_message_send().c_str(),
+                    //          response.get_message_send().length(), 0) == SYSCALL_ERR) {
+                    //     DEBUG_5(CNOUT(BRED << "Error : send() failed (l." << __LINE__ << ")" << CRESET))
+                    //     throw Select::fSendError();
+                    // }
+					size_t start = 0;
+        			std::string tmp;
+					int	nb_piece = calculate_size_piece_file(response.get_message_send().size());
+        			for (int j = 0; j < nb_piece; j++)
+        			{
+        			    tmp = response.get_message_send().substr(start, response.get_message_send().size() / nb_piece);
+        			    send(_client_socket[i], tmp.c_str(), tmp.size(), 0);
+        			    //usleep(500000);
+        			    start += tmp.size();
+        			}
+        			tmp = response.get_message_send().substr(start);
+					//std::cout << response.get_message_send().size() << std::endl;
+        			send(_client_socket[i], tmp.c_str(), tmp.size(), 0);
+	
                     DEBUG_3(CNOUT(BBLU << "Updating : Response has been sent" << CRESET))
                 }
             }

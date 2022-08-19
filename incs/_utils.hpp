@@ -150,6 +150,14 @@ bool						checker(const string_vector & v, std::size_t flags);
 int							calculate_size_file (char *filename);
 
 /**
+ * @brief return the number we need to divide the file to download because of the limit of send
+ * 
+ * @param filename 
+ * @return int - number of pieces for the file
+ */
+int							calculate_size_piece_file (int mb_size);
+
+/**
  * @brief Return if str is a HTTP header
  * 
  * @param str 
