@@ -37,7 +37,9 @@ void INLINE_NAMESPACE::Response::create_upload_file(std::string upload_path) {
     final_path.append("/");
     final_path.append(_request->get_filename());
     if (upload_path.empty())
-        file.open(("example_html/upload/" + _request->get_filename()).c_str(), std::ios::out | std::ios::binary);
+	{
+		file.open(("example_html/upload/" + _request->get_filename()).c_str(), std::ios::out | std::ios::binary);
+	}
     else
         file.open(final_path.c_str(), std::ios::out | std::ios::binary);
     file << _request->get_content_file();
@@ -51,7 +53,8 @@ void INLINE_NAMESPACE::Response::manage_response_post(void) {
     if (_request->define_upload()) {
         isupload = true;
     }
-    if (location_ptr && location_ptr->get_upload_path().empty() && isupload) {
+    if (location_ptr && !location_ptr->get_upload_path().empty() && isupload) {
+		CNOUT(UMAG << location_ptr->get_upload_path() << CRESET)
         create_upload_file(location_ptr->get_upload_path());
     }
     if (isupload) {
@@ -67,12 +70,8 @@ void INLINE_NAMESPACE::Response::manage_response_post(void) {
 void INLINE_NAMESPACE::Response::manage_response_get(void) {
 	int size = 0;
 	size = read_file(_request->get_construct_path()).size();
-	CNOUT(UMAG << "size: " << size << CRESET)
 	_body.insert(_body.size(), read_file(_request->get_construct_path()).c_str(), size);
-	CNOUT(UMAG << "body size: " << _body.size() << CRESET)
 	_body.insert(_body.size(), "\r\n\r\n", 4);
-	CNOUT(UMAG << "body size: " << _body.size() << CRESET)
-
 	// _body.append(read_file(_request->get_construct_path()));
 	// _body.append("\r\n\r\n");
 }

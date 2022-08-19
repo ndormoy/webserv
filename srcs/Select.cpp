@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/15 11:12:07 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/19 17:55:47 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,8 +129,6 @@ INLINE_NAMESPACE::Select::start(void) {
                     buffer[bytes] = '\0';
                     Request *request = new Request(buffer, bytes);
 
-
-								CNOUT(UMAG << "1 --------------------------------" << request->get_method() << CRESET)
                     if (request->get_method() == M_POST) {
                         DEBUG_3(CNOUT(BBLU << "Updating : POST Request is parsing..."))
                         while (bytes > 0) {				
