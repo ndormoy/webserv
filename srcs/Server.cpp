@@ -123,3 +123,13 @@ INLINE_NAMESPACE::Server::create_server (string_vector::const_iterator & it) {
 		throw Configuration::SyntaxError();
 	}
 }
+
+std::string
+INLINE_NAMESPACE::Server::return_path_matching(int return_code) {
+    for (std::vector<std::pair<int, std::string> >::const_iterator it = _error_pages.begin(); it != _error_pages.end(); it++) {
+        if (it->first == return_code) {
+            return (it->second);
+        }
+    }
+    return ("");
+}

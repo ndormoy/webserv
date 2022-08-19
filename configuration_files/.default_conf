@@ -1,0 +1,20 @@
+server {
+	server_name default_server.fr;
+	listen 192.0.0.1:8080;
+	error_page 404 www/error_pages;
+	client_max_body_size 8m;
+
+	location /
+	{
+		allow_methods GET DELETE;
+		root www;
+		# index index.html;
+
+		return 403 www/error_pages/403.html;
+		return 405 www/error_pages/405.html;z
+		auto_index on;
+		cgi .hello_world bin/hello_world_cgi;
+		cgi .php bin/php-cgi;
+		upload example_html/upload;
+	}
+}

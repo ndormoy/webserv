@@ -25,15 +25,15 @@ class Header
 			_content_length("Content-Length: "),
 			_cookie(""),
 			_status("\r\n"),
-			_status_code(200)
+			_status_code(0)
 		{ }
 
-		Header(const Request & request): 
+		Header(const Response & response):
 			_content_type("Content-Type: "),
 			_content_length("Content-Length: "),
 			_cookie("Set-Cookie: "),
 			// _content_encoding("Content-Encoding: "),
-			_status_code(request.get_error_value())
+			_status_code(response.get_error_value())
 		{ }
 
 		~Header (void)

@@ -81,8 +81,10 @@ INLINE_NAMESPACE::Response::manage_error_page(void) {
         _body = auto_index(_request->get_path());
     } else if (_location && !(ret = _location->return_path_matching(_error_value)).empty()) {
         _body.append(read_file(ret));
+    } else if (_server && !(ret = _server->return_path_matching(_error_value)).empty()) {
+        _body.append(read_file(ret));
     } else {
-        _body.append(create_html_error_page(_request->get_error_value()));
+        _body.append(create_html_error_page(_error_value));
     }
 }
 
@@ -133,12 +135,13 @@ void INLINE_NAMESPACE::Response::manage_response(void) {
             else if (_request->get_method() == M_DELETE)
                 manage_response_delete();
         }
-    } else {
+    }
+    if (_error_value != 200) {
         manage_error_page();
     }
 
     DEBUG_3(CNOUT(BBLU << "Updating : creating header..." << CRESET))
-    Header header;
+    Header header(*this);
     std::string header_string;
     header.fill(*this);
     header_string = header.append();

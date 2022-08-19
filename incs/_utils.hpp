@@ -39,7 +39,7 @@ class Server;
 # define CCOUT(color, x)				std::cout << color << x << CRESET << std::endl;
 # define CONFIG_STRING_MAX_SIZE			100
 // TODO before release the project change the number of max_client to 999 and make some tests
-# define MAX_CLIENT						4 // BUG which number should we put here, dont put to much if u dont want to fail select()
+# define MAX_CLIENT						512 // BUG which number should we put here, dont put to much if u dont want to fail select()
 # define BUFFER_SIZE					1025 // BUG undifined value
 # define WWW_PATH                       "./www/"
 

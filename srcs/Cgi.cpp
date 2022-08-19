@@ -19,8 +19,8 @@ INLINE_NAMESPACE::Cgi::wait (Response * res) {
     read_output(_fd);
     waitpid(-1, &status, 0);
     if (WIFEXITED(status) && WEXITSTATUS(status) == EXIT_FAILURE) {
-        DEBUG_5(CNOUT(BRED << "CGI failed" << CRESET));
-        this->_request->set_error_value(502);
+        DEBUG_5(CNOUT(BRED << "Error : CGI failed" << CRESET));
+        res->set_error_value(502);
     }
     close (_fd);
     DEBUG_3(CNOUT(BBLU << "Updating : CGI has been successfully executed" << CRESET));
@@ -114,7 +114,7 @@ INLINE_NAMESPACE::Cgi::start (Response * res) {
             close(pip1[1]);
             // TODO free everything we need to free
         }
-        exit(EXIT_SUCCESS);
+        exit(EXIT_FAILURE);
     } else {
         close(pip1[0]);
         close(pip2[1]);
