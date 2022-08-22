@@ -50,6 +50,12 @@ void INLINE_NAMESPACE::Response::manage_response_post(void) {
     bool isupload = false;
     Location *location_ptr = _request->get_location();
 
+//	CNOUT(UMAG << location_ptr->get_path)
+	if (access(location_ptr->get_upload_path().c_str(), R_OK) < 0)
+	{
+		set_error_value(403);
+		return ;
+	}
     if (_request->define_upload()) {
         isupload = true;
     }
