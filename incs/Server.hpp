@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:55:35 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/09 13:48:18 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/22 14:47:52 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ class Server {
 	
 
 	private:
-		int 										_port;
+		std::vector<int> 							_port;
 		std::string 								_ip;
 		size_t 										_max_body_size;
 		bool										_default;
@@ -40,7 +40,7 @@ class Server {
 		 * @brief Construct a new Server object
 		 */
 		Server (void) :
-			_port(0),
+			_port(),
 			_ip(""),
 			_max_body_size(8000000), //TODO check la taille max si cest bon on peut la mettre a 1Mo = 8Mb
 			_default(false),
@@ -91,7 +91,7 @@ class Server {
 		/**
 		 * @brief Get the server port
 		 */
-		int					get_port (void) const 			{return (_port);}
+		std::vector<int>	&				get_port (void)			{return (_port);}
 
 		/**
 		 * @brief Get the server ip
@@ -179,7 +179,6 @@ class Server {
 		 */
 		friend std::ostream & operator<< (std::ostream & o, const Server & s) {
 			CNO("server :", o);
-			CNO("port -> " << s._port, o);
 			CNO("max_body_size -> " << s._max_body_size, o);
 			CNO("server_name -> " << s._server_name, o);
 			CNO("default -> " << s._default, o);
@@ -190,6 +189,9 @@ class Server {
 			CNO("location :", o);
 			for (location_type::const_iterator it = s._locations.begin(); it != s._locations.end(); it++) {
 				CO(*(*it), o);
+			}
+			for (std::vector<int>::const_iterator it = s._port.begin(); it != s._port.end(); it++) {
+				CNO("ports -> " << *it, o);
 			}
 			return (o);
 		}		

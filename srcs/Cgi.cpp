@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Cgi.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 14:43:52 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/16 10:15:57 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/22 14:57:53 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ INLINE_NAMESPACE::Cgi::create_env (void) const {
 
     envs[8] = "SCRIPT_FILENAME=" + _request->get_construct_path(); // /home/mamaurai/www/index.html
     envs[9] = "SERVER_PROTOCOL=HTTP/1.1"; // usually HTTP/1.1
-    envs[10] = "SERVER_PORT=" + ITOA(_request->get_location()->get_server()->get_port()); // 8080 for exemple
+    envs[10] = "SERVER_PORT=" + ITOA(_request->get_params("Host").substr(_request->get_params("Host").find(":"))); // 8080 for exemple
     envs[11] = "AUTH_TYPE=Basic";
     envs[12] = "SERVER_NAME=" + _request->get_location()->get_server()->get_server_name();
     envs[13] = "SERVER_SOFTWARE=webserv/beta";
