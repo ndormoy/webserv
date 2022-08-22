@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/22 15:19:19 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/22 17:36:07 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,9 @@ INLINE_NAMESPACE::Select::start(void) {
                     DEBUG_1(webserv_log_input(*request);)
 
                     DEBUG_3(CNOUT(BBLU << "Updating : creating response..." << CRESET))
-                    Response response(request); // BUG peut etre le pb
+                    //if (request.get_body().empty())
+					//	response.
+					Response response(request); // BUG peut etre le pb
                     response.manage_response();
                     response.set_message_send(response.get_body());
 

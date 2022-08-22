@@ -86,6 +86,11 @@ void
 INLINE_NAMESPACE::Response::manage_error_page(void) {
     std::string ret;
 
+	if (_error_value == 400)
+	{
+		_body.append(create_html_error_page(_error_value));
+		return ;
+	}
     if (_location
         && _error_value == 403
         && _location->get_autoindex()
