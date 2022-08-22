@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/22 14:00:15 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/22 14:02:20 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,11 @@ INLINE_NAMESPACE::Select::start(void) {
     size_t size_total = 0;
 
 	//BUG peut etre les 5 lignes en dessous foute la merde
-	//sigset_t set;
-	//sigaddset(&set, SIGPIPE);
-	//int retcode = sigprocmask(SIG_BLOCK, &set, NULL);
-	//if (retcode == -1)
-	//	throw std::runtime_error("sigprocmask error");
+	sigset_t set;
+	sigaddset(&set, SIGPIPE);
+	int retcode = sigprocmask(SIG_BLOCK, &set, NULL);
+	if (retcode == -1)
+		throw std::runtime_error("sigprocmask error");
     while (true) {
         FD_ZERO(&_readfds);
         for (socket_type::iterator it = _sockets.begin(); it != _sockets.end(); ++it) {
