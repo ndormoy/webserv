@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 17:09:05 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/28 13:47:23 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/08/22 15:17:05 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,12 @@ INLINE_NAMESPACE::Server::_set_port (string_vector::const_iterator & it) {
 		}
 		_default = (v.size() == 2 ? true : false);
 		FOREACH_SERVER {
-			if (port == (*it)->get_port()) {
-				throw Configuration::DuplicatePort();
+			for (std::vector<int>::const_iterator it2 = (*it)->get_port().begin(); it2 != (*it)->get_port().end(); it2++) {
+				if (*it2 == port)
+					throw Configuration::DuplicatePort();
 			}
 		}
-		_port = port;
+		_port.push_back(port);
 	} else {
 		throw Configuration::InvalidPort();
 	}

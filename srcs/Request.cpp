@@ -27,8 +27,10 @@ find_server_ (std::string str) {
 		return (NULL);
 		
 	FOREACH_SERVER {
-		if ((*it)->get_port() == std::atoll(port.c_str()))
-			return ((*it));
+		for (std::vector<int>::const_iterator it2 = (*it)->get_port().begin(); it2 != (*it)->get_port().end(); it2++) {
+			if (*it2 == std::atoi(port.c_str()))
+				return (*it);
+		}
 	}
 	return (NULL);
 }
@@ -67,15 +69,6 @@ is_header_ (const std::string & str) {
     }
     return ("");
 }
-
-
-
-
-
-
-
-
-
 
 
 short
@@ -178,6 +171,7 @@ INLINE_NAMESPACE::Request::set_final_path (void) {
 
 short
 INLINE_NAMESPACE::Request::check_request (void) {
+	CNOUT(_construct_path)
     if (!path_is_valid(_construct_path)) {
         return (404);
     } if (path_is_dir(_construct_path)) {

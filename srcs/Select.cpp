@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Select.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/23 10:08:32 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/22 14:51:20 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,16 @@ INLINE_NAMESPACE::Select::setup(void) {
 
     DEBUG_3(CNOUT(BBLU << "Updating : servers are setting up..." << CRESET))
     FOREACH_SERVER {
-        INLINE_NAMESPACE::Socket sock;
-        sock.setup((*it)->get_port());
-        for (int i = 0; i < MAX_CLIENT; i++)
-            _client_socket[i] = 0;
-        //fcntl(sock.get_master_socket(), F_SETFL, O_NONBLOCK); //BUG le pb provient peut etre de linit du master socket
-        //FD_SET(sock.get_master_socket(), &_readfds); //BUG on le refait ces deux lignes juste apres
-        DEBUG_3(CNOUT(BBLU << "Updating : server " << (*it)->get_port() << " is ready to be used" << CRESET))
-        _sockets.push_back(sock);
+		for (std::vector<int>::iterator it2 = (*it)->get_port().begin(); it2 != (*it)->get_port().end(); ++it2) {
+	        INLINE_NAMESPACE::Socket sock;
+	        sock.setup((*it2));
+	        for (int i = 0; i < MAX_CLIENT; i++)
+	            _client_socket[i] = 0;
+	        //fcntl(sock.get_master_socket(), F_SETFL, O_NONBLOCK); //BUG le pb provient peut etre de linit du master socket
+	        //FD_SET(sock.get_master_socket(), &_readfds); //BUG on le refait ces deux lignes juste apres
+	        DEBUG_3(CNOUT(BBLU << "Updating : server " << (*it2) << " is ready to be used" << CRESET))
+	        _sockets.push_back(sock);
+		}
     }
 }
 
