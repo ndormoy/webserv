@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/23 11:40:17 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/08/23 12:30:54 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ INLINE_NAMESPACE::Select::start(void) {
 
 	//BUG peut etre les 5 lignes en dessous foute la merde
 	sigset_t set;
+    memset(&set, 0, sizeof(sigset_t));
 	sigaddset(&set, SIGPIPE);
 	int retcode = sigprocmask(SIG_BLOCK, &set, NULL);
 	if (retcode == -1)
