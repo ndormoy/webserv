@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:00:32 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/23 14:38:37 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/08/23 12:36:08 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,17 @@ class Select {
 		int				_max_sub_socket;
 		int				_client_socket[MAX_CLIENT];
 	public:
-		Select (void)
+		Select (void) :
+			_sockets(),
+			_max_sub_socket(0),
+			_client_socket()
 		{ }
 
-		Select (const Select& ref) {
+		Select (const Select& ref) :
+			_sockets(),
+			_max_sub_socket(0),
+			_client_socket()
+		{
 			*this = ref;
 		}
 		
