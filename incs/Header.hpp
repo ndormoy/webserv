@@ -58,7 +58,6 @@ class Header
 	public: /* Methods */
 		void			fill (Response & response);
 		std::string		append (void);
-		//TODO create a function that put all the cookie in one string with the good notation
 	public: /* Operators */
 		Header & operator=(const Header & copy) {
             _date = copy._date;

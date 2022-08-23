@@ -12,9 +12,6 @@
 
 #include "webserv.hpp"
 
-// TODO rework those functions
-
-
 static INLINE_NAMESPACE::Server *
 find_server_ (std::string str) {
 	if (str.empty()) {
@@ -132,21 +129,6 @@ INLINE_NAMESPACE::Request::parse_content (void) {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// TODO Rework this function
 void
 INLINE_NAMESPACE::Request::set_final_path (void) {
 	if (_location == NULL) {
@@ -298,6 +280,6 @@ void INLINE_NAMESPACE::Request::unchunk_body () {
 		}
 		// CNOUT(UMAG << line << CRESET)
 	}
-	_body = head + unchunk_body; //TODO check if it's ok
+	_body = head + unchunk_body;
 	//CNOUT(BYEL << _body << CRESET)
 }

@@ -15,8 +15,6 @@
 
 #include "webserv.hpp"
 
-// TODO operator =
-
 _BEGIN_NAMESPACE_WEBSERV
 
 class Socket {

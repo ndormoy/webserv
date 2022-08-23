@@ -72,8 +72,6 @@ INLINE_NAMESPACE::Select::setup(void) {
 	        sock.setup((*it2));
 	        for (int i = 0; i < MAX_CLIENT; i++)
 	            _client_socket[i] = 0;
-	        //fcntl(sock.get_master_socket(), F_SETFL, O_NONBLOCK); //BUG le pb provient peut etre de linit du master socket
-	        //FD_SET(sock.get_master_socket(), &_readfds); //BUG on le refait ces deux lignes juste apres
 	        DEBUG_3(CNOUT(BBLU << "Updating : server " << (*it2) << " is ready to be used" << CRESET))
 	        _sockets.push_back(sock);
 		}
@@ -84,7 +82,6 @@ void
 INLINE_NAMESPACE::Select::start(void) {
     size_t size_total = 0;
 
-	//BUG peut etre les 5 lignes en dessous foute la merde
 	sigset_t set;
     memset(&set, 0, sizeof(sigset_t));
 	sigaddset(&set, SIGPIPE);
@@ -213,7 +210,7 @@ INLINE_NAMESPACE::Select::start(void) {
                     DEBUG_3(CNOUT(BBLU << "Updating : creating response..." << CRESET))
                     //if (request.get_body().empty())
 					//	response.
-					Response response(request); // BUG peut etre le pb
+					Response response(request);
                     response.manage_response();
                     response.set_message_send(response.get_body());
 
@@ -267,7 +264,7 @@ INLINE_NAMESPACE::Select::new_request(void) {
         /*
             la deuxieme conditions permets deviter d'ajouter tj des sockets null pour ensuite rajouter sur le mem index une socket
         */
-        if (_client_socket[i] == 0 && _new_socket != 0) //BUG LA SECONDE CONDITION PEUT VRAIMENT TOUT DEFONCER VRAIMENT PAS SUR DE CETTTE AJOUT ATTENTION GUS
+        if (_client_socket[i] == 0 && _new_socket != 0)
         {
             DEBUG_3(CNOUT(BBLU << "Updating : adding \'" << _new_socket << "\' to client socket number " << i << CRESET))
             _client_socket[i] = _new_socket;

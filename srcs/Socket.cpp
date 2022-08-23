@@ -29,7 +29,6 @@ INLINE_NAMESPACE::Socket::setup (int port) {
 	if (bind(_master_socket, (struct sockaddr *)&_address, sizeof(_address)) < 0) {
 		throw Socket::fBindError();
 	}
-	//TODO cest surement pas MAX_CLIENT mais autres choses
 	if (listen(_master_socket, MAX_CLIENT) < 0) {
 		throw Socket::fListenError();
 	}

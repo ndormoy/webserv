@@ -17,8 +17,6 @@
 
 _BEGIN_NAMESPACE_WEBSERV
 
-// TODO operator overload "<<"
-
 class Server;
 
 class Location
