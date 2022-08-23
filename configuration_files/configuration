@@ -1,13 +1,14 @@
 server {
 	server_name first_server.fr;
 	listen 192.0.0.45:8080;
+	listen 8090;
 	client_max_body_size 15;
 
 	location /
 	{
 		allow_methods GET DELETE;
 		root www;
-		index index.html;
+		# index index.html;
 
 		return 403 www/error_pages/403.html;
 		return 405 www/error_pages/405.html;
