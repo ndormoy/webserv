@@ -46,6 +46,12 @@ calculate_size_file (char *filename)
 	return (end - begin);
 }
 
+int
+calculate_size_piece_file(int mb_size)
+{
+	return ((mb_size /= 1000000) + 1);
+}
+
 //BUG surement a tej pb merge 
 bool
 is_header (const std::string & str) {
@@ -64,12 +70,15 @@ std::string	read_file(std::string path)
 	if (file.is_open())
 	{
 		std::string line;
-		while (getline(file, line))
-			content += line + "\n";
+		while (getline(file, line)) {
+            content += line + "\n";
+        }
 		file.close();
 	}
 	else
 		content = "Problem reading file";
+
+//    COUT(content)
 	return content;
 }
 

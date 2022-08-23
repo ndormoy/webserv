@@ -1,4 +1,4 @@
-#include "webserv.hpp"
+ #include "webserv.hpp"
 #include <iostream>
 #include <fstream>
 #include <dirent.h>
@@ -9,7 +9,7 @@
 
 void INLINE_NAMESPACE::Response::manage_response_delete(void) {
     //BUG doit on proteger la suppresion du fichier ? si oui qu'elles sont les regles de gestion des droits ?
-    if (std::remove(_request->get_construct_path().c_str()) != 0) {
+	if (std::remove(_request->get_construct_path().c_str()) != 0) {
         _request->set_error_value(403);
     }
     if (_request->get_error_value() == 200) {
@@ -37,7 +37,9 @@ void INLINE_NAMESPACE::Response::create_upload_file(std::string upload_path) {
     final_path.append("/");
     final_path.append(_request->get_filename());
     if (upload_path.empty())
-        file.open(("example_html/upload/" + _request->get_filename()).c_str(), std::ios::out | std::ios::binary);
+	{
+		file.open(("example_html/upload/" + _request->get_filename()).c_str(), std::ios::out | std::ios::binary);
+	}
     else
         file.open(final_path.c_str(), std::ios::out | std::ios::binary);
     file << _request->get_content_file();
@@ -48,10 +50,17 @@ void INLINE_NAMESPACE::Response::manage_response_post(void) {
     bool isupload = false;
     Location *location_ptr = _request->get_location();
 
+//	CNOUT(UMAG << location_ptr->get_path)
+	if (access(location_ptr->get_upload_path().c_str(), R_OK) < 0)
+	{
+		set_error_value(403);
+		return ;
+	}
     if (_request->define_upload()) {
         isupload = true;
     }
-    if (location_ptr && location_ptr->get_upload_path().empty() && isupload) {
+    if (location_ptr && !location_ptr->get_upload_path().empty() && isupload) {
+		CNOUT(UMAG << location_ptr->get_upload_path() << CRESET)
         create_upload_file(location_ptr->get_upload_path());
     }
     if (isupload) {
@@ -65,14 +74,23 @@ void INLINE_NAMESPACE::Response::manage_response_post(void) {
 
 
 void INLINE_NAMESPACE::Response::manage_response_get(void) {
-    _body.append(read_file(_request->get_construct_path()));
-    _body.append("\r\n\r\n");
+	int size = 0;
+	size = read_file(_request->get_construct_path()).size();
+	_body.insert(_body.size(), read_file(_request->get_construct_path()).c_str(), size);
+	_body.insert(_body.size(), "\r\n\r\n", 4);
+	// _body.append(read_file(_request->get_construct_path()));
+	// _body.append("\r\n\r\n");
 }
 
 void
 INLINE_NAMESPACE::Response::manage_error_page(void) {
     std::string ret;
 
+	if (_error_value == 400)
+	{
+		_body.append(create_html_error_page(_error_value));
+		return ;
+	}
     if (_location
         && _error_value == 403
         && _location->get_autoindex()
@@ -145,7 +163,12 @@ void INLINE_NAMESPACE::Response::manage_response(void) {
     std::string header_string;
     header.fill(*this);
     header_string = header.append();
+//    header_string = "HTTP/1.1 200 OK\r\n";
     _body.insert(0, header_string);
+//    _body.append("\r\n\r\n");
+
+    // CNOUT("response size = " << _body.size())
+
     DEBUG_3(CNOUT(BBLU << "Updating : header created and insert into the body" << CRESET))
 }
 

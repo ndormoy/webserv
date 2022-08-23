@@ -45,7 +45,7 @@ class Response
 			_server(request->get_server()),
 			_location(request->get_location()),
             _cgi(NULL)
-		{ }
+		{}
 
 		Response (const Response & copy) {
 			*this = copy;
