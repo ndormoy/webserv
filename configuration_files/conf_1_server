@@ -1,0 +1,36 @@
+#test comment
+
+server {
+	server_name exemple.fr;
+	listen 8080;
+	error_page 404 example_html/bar.html;
+	client_max_body_size 1m;
+	
+	location example_html
+	{
+		allow_methods GET POST DELETE;
+		root example_html;
+		index example_html;
+		
+		return 301 example_html;
+		auto_index on;
+		cgi .php example_html/bar.html;
+		upload example_html;
+	}
+}
+
+#test
+
+
+
+
+
+
+
+
+
+
+
+
+
+
