@@ -260,5 +260,7 @@ std::string INLINE_NAMESPACE::Response::auto_index(std::string location_path) {
     index += "</html>\n";
     _body.append(index);
     _body.append("\r\n\r\n");
+
+    delete list;
     return index;
 }

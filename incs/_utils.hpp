@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _utils.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:33:58 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/12 15:29:17 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/23 11:08:54 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,5 +202,7 @@ std::string					remove_slash (const std::string & str);
 std::string					get_file_extension(const std::string & path);
 
 string_vector               delimiter_spliter (std::string str);
+
+void						quit_program (int);
 
 #endif /* _UTILS_HPP */

@@ -41,7 +41,6 @@ INLINE_NAMESPACE::Header::fill(Response & reponse)
     if (reponse.get_cgi() && !reponse.get_cgi()->get_param("Set-Cookie").empty()) {
         _cookie = "Set-Cookie: " + reponse.get_cgi()->get_param("Set-Cookie");
     }
-
 }
 
 std::string

@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 16:28:05 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/10 09:37:16 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/08/23 11:40:20 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int 								g_debug_prog_level = -1;
 INLINE_NAMESPACE::Configuration		g_config;
 string_vector						g_header = INLINE_NAMESPACE::init_header();
+bool								g_exit = false;
 
 int
 main (int ac, char **av)
@@ -49,6 +50,9 @@ main (int ac, char **av)
 			return (EXIT_FAILURE);
 		}
 
+		signal(SIGINT, quit_program);
+		signal(SIGQUIT, quit_program);
+
 		try {
 			INLINE_NAMESPACE::Select select;
 			select.setup();
@@ -58,16 +62,12 @@ main (int ac, char **av)
 			return (EXIT_FAILURE);
 		}
 
+		DEBUG_1(CNOUT(BRED << "Webserv is closed..." << CRESET))
+
 
 	} else {
 		std::cerr << INVALID_ARG << std::endl;
 	}
 
-	
-	
 	return (EXIT_SUCCESS);
 }
-
-// TODO add Mo and Ko multiplacator in define
-// TODO Change construct path creator
-// TODO Check if cgi exec is executable.

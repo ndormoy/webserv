@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/22 14:51:20 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/08/23 11:40:17 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,10 @@ INLINE_NAMESPACE::Select::start(void) {
         }
 
         DEBUG_3(CNOUT(BBLU << "Updating : selecting..."))
-        if (select(get_max_sub_socket() + 1, &_readfds, NULL, NULL, NULL) == SYSCALL_ERR) {
+        int select_ret = select(get_max_sub_socket() + 1, &_readfds, NULL, NULL, NULL);
+        if (g_exit) {
+            return;
+        } if (select_ret == SYSCALL_ERR) {
             throw Select::fSelectError();
         }
         new_request();
@@ -234,6 +237,7 @@ INLINE_NAMESPACE::Select::start(void) {
         			tmp = response.get_message_send().substr(start);
 					//std::cout << response.get_message_send().size() << std::endl;
         			send(_client_socket[i], tmp.c_str(), tmp.size(), 0);
+                    delete request;
 	
                     DEBUG_3(CNOUT(BBLU << "Updating : Response has been sent" << CRESET))
                 }
