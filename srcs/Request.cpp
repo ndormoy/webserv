@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Request.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/15 16:42:56 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/23 10:17:34 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,7 @@ INLINE_NAMESPACE::Request::request_parser (void) {
     DEBUG_3(CNOUT(BBLU << "Updating : parsing Request" << CRESET))
 	if (v.empty()) {
         DEBUG_5(CNOUT(BRED << "Error : Request body is empty" << CRESET));
-		return (400);
+		return (FATAL_ERROR);
 	} else if ((ret = parse_first_line(v[0])) != 0) {
         DEBUG_5(CNOUT(BRED << "Error : Request first line is invalid" << CRESET));
 		return (ret);
