@@ -18,7 +18,7 @@ html{
     background-color:#ebebec;
 
     background-image:-webkit-radial-gradient(center, #ebebec, #b4b4b4);
-    background-image:-moz-radial-gradient(center, #376b0b, #b4b4b4);
+    background-image:-moz-radial-gradient(center, #e32525, #b4b4b4);
     background-image:radial-gradient(center, #ebebec, #b4b4b4);
 
     min-height:900px;
@@ -56,7 +56,7 @@ section, footer, header, aside{
     background-image:-moz-linear-gradient(top, #373a3d, #313437);
     background-image:linear-gradient(top, #373a3d, #313437);
 
-    width:1000px;
+    width:700px;
     padding:60px;
     border-radius:3px;
 

@@ -12,7 +12,7 @@
 	<div class="text">
 			>>Session has been closed<<</p>
 	<div class="img">
-	<img src="https://media.giphy.com/media/jUwpNzg9IcyrK/giphy.gif"  width="255"
+	<img src="https://media.giphy.com/media/jUwpNzg9IcyrK/giphy.gif"  width="255"></img>
 		<br><br>
 
 </body>
