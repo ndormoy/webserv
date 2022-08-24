@@ -57,11 +57,14 @@ void INLINE_NAMESPACE::Response::manage_response_post(void) {
 	}
     if (_request->define_upload()) {
         isupload = true;
-    }
+    }else
+		set_error_value(413);
+
     if (location_ptr && !location_ptr->get_upload_path().empty() && isupload) {
 		CNOUT(UMAG << location_ptr->get_upload_path() << CRESET)
         create_upload_file(location_ptr->get_upload_path());
     }
+
     if (isupload) {
         _body.append("<html>\n");
         _body.append("<body>\n");

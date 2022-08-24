@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Request.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/23 10:17:34 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/08/24 15:11:38 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,9 +156,13 @@ INLINE_NAMESPACE::Request::check_request (void) {
 	CNOUT(_construct_path)
     if (!path_is_valid(_construct_path)) {
         return (404);
-    } if (path_is_dir(_construct_path)) {
+    } 
+	if (path_is_dir(_construct_path)) {
         return (403);
-    } if (_server && _server->get_max_body_size() < _content_file.length()) {
+    } 
+	CNOUT(UMAG <<  "MAX BODYSIZE: " <<_server->get_max_body_size() << CRESET)
+	CNOUT(UMAG << "CONTENT FILE LENGHT:"<< _content_file.length() << CRESET)
+	if (_server && _server->get_max_body_size() < _content_file.length()) {
         return (413);
     }
     if (!(_location && _method & _location->get_methods())) {
@@ -222,7 +226,7 @@ bool	INLINE_NAMESPACE::Request::define_upload(void)
 {
 	if(!is_upload_case())
 		return (false);
-	
+
 	_boundary = vector_spliter((_params["Content-Type"].substr(_params["Content-Type"].find("boundary=") + 9, _params["Content-Type"].length())), " ", "", false)[0];
 	if (_body.find("filename=") != std::string::npos) {
 		_filename = _body.substr(_body.find("filename=") + 9, _body.length());
@@ -232,6 +236,9 @@ bool	INLINE_NAMESPACE::Request::define_upload(void)
 	_content_file = _content_file.substr(_content_file.find(_boundary) + _boundary.length(), _content_file.length());
 	_content_file = _content_file.substr(0, _content_file.find(_boundary) - 2);
 	_content_file = _content_file.substr(_content_file.find("\r\n\r\n") + 4, _content_file.length());
+	if (_server->get_max_body_size() < _content_file.length())
+		return (false);
+	//CNOUT(BYEL <<  "INSIDE -------" << _content_file.length()<< CRESET)
 	return (true);
 }
 
