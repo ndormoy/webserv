@@ -20,8 +20,15 @@ if (!session_id())
     	        <h1><a href="/">
 					<button class="btn btn-primary w3-black w3-padding-large w3-large w3-margin-top"> Back to Index </button>
 				</a></h1>
-			<div class="text">
-			>>Session has been created<<</p>
+				<div class="text">
+				>>Session has been created<<</p>
+				<h1><a href="session_display.php">
+					<button class="btn btn-primary w3-red w3-padding-large w3-large w3-margin-top"> Session Display </button>
+				</a></h1>
+				<h1><a href="set_session.php">
+					<button class="btn btn-primary w3-red w3-padding-large w3-large w3-margin-top"> Set Session </button>
+				</a></h1>
+			
 		<div class="img">
 			<img src="https://media.giphy.com/media/cT5gKT412jHqw/giphy.gif"  width="255"></img>
 			<br><br>
@@ -53,9 +60,9 @@ if (!session_id())
 				<a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
 				<a href="../index.html" class="w3-bar-item w3-button w3-padding-large w3-hover-white">Home</a>
 				<a href="../Download/download.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Download</a>
-				<a href="../Upload/upload.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-white">Upload</a>
+				<a href="../Upload/upload.html" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Upload</a>
 				<a href="../Coockie/form_w_cookie.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Cookie</a>
-				<a href="../Session/session_start.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Session</a>
+				<a href="../Session/session_start.php" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-white">Session</a>
 			  </div>
 		
 			  <!-- Navbar on small screens -->
