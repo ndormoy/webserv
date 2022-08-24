@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/23 12:30:54 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/08/24 11:30:56 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ INLINE_NAMESPACE::Select::start(void) {
             throw Select::fSelectError();
         }
         new_request();
-        char buffer[10025]; // pas sur de l'emplacement
+        char buffer[10025];
         int bytes = 0;
 
         for (int i = 0; i < MAX_CLIENT; i++) {
@@ -208,8 +208,6 @@ INLINE_NAMESPACE::Select::start(void) {
                     DEBUG_1(webserv_log_input(*request);)
 
                     DEBUG_3(CNOUT(BBLU << "Updating : creating response..." << CRESET))
-                    //if (request.get_body().empty())
-					//	response.
 					Response response(request);
                     response.manage_response();
                     response.set_message_send(response.get_body());
@@ -217,11 +215,6 @@ INLINE_NAMESPACE::Select::start(void) {
                     DEBUG_3(CNOUT(BBLU << "Updating : Response has been created" << CRESET))
                     DEBUG_1(webserv_log_output(response);)
                     DEBUG_3(CNOUT(BBLU << "Updating : sending the response..." << CRESET))
-                    // if (send(_client_socket[i], response.get_message_send().c_str(),
-                    //          response.get_message_send().length(), 0) == SYSCALL_ERR) {
-                    //     DEBUG_5(CNOUT(BRED << "Error : send() failed (l." << __LINE__ << ")" << CRESET))
-                    //     throw Select::fSendError();
-                    // }
 					size_t start = 0;
         			std::string tmp;
 					int	nb_piece = calculate_size_piece_file(response.get_message_send().size());
@@ -229,11 +222,9 @@ INLINE_NAMESPACE::Select::start(void) {
         			{
         			    tmp = response.get_message_send().substr(start, response.get_message_send().size() / nb_piece);
         			    send(_client_socket[i], tmp.c_str(), tmp.size(), 0);
-        			    //usleep(500000);
         			    start += tmp.size();
         			}
         			tmp = response.get_message_send().substr(start);
-					//std::cout << response.get_message_send().size() << std::endl;
         			send(_client_socket[i], tmp.c_str(), tmp.size(), 0);
                     delete request;
 	
@@ -261,9 +252,6 @@ INLINE_NAMESPACE::Select::new_request(void) {
         }
     }
     for (int i = 0; i < MAX_CLIENT; i++) {
-        /*
-            la deuxieme conditions permets deviter d'ajouter tj des sockets null pour ensuite rajouter sur le mem index une socket
-        */
         if (_client_socket[i] == 0 && _new_socket != 0)
         {
             DEBUG_3(CNOUT(BBLU << "Updating : adding \'" << _new_socket << "\' to client socket number " << i << CRESET))

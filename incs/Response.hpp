@@ -25,7 +25,7 @@ class Response
 
 		Response (void) :
 			_file_size(0),
-			//_header(""),
+			_body(""),
 			_request(NULL),
 			_error_path(""),
 			_message_send(""),
@@ -37,7 +37,7 @@ class Response
 
 		Response (Request * request) :
 			_file_size(0),
-			//_header("HTTP/1.1 "),
+			_body(""),
 			_request(request),
 			_error_path(""),
 			_message_send(""),
@@ -101,24 +101,22 @@ class Response
 
 		friend std::ostream& operator<<(std::ostream& o, const Response & ref) {
 			o << ref._file_size << std::endl;
-			//o << ref._header << std::endl;
-			// o << ref._request << std::endl;
-			// o << ref._files << std::endl;
+			o << ref._body << std::endl;
+			o << ref._request << std::endl;
 			o << ref._error_path << std::endl;
 			o << ref._message_send << std::endl;
 			o << ref._error_value << std::endl;
 			o << ref._server << std::endl;
 			o << ref._location << std::endl;
-            o << ref._body << std::endl;
+            o << ref._cgi << std::endl;
 			return o;
 		}
 
 		Response & operator=(const Response & copy) {
 			if (this == &copy) {return (*this);}
 			_file_size = copy._file_size;
-			//_header = copy._header;
+			_body = copy._body;
 			_request = copy._request;
-			// _files = copy._files;
 			_error_path = copy._error_path;
 			_message_send = copy._message_send;
 			_error_value = copy._error_value;

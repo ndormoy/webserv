@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:11:19 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/23 11:19:38 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/08/24 14:08:10 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@
 #include <sys/wait.h>
 #include <cassert>
 #include <signal.h>
-// #include <bits/stdc++.h>
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -56,14 +55,12 @@ extern bool                             g_exit;
 extern string_vector 					g_header;
 
 #include "_init.hpp"
-#include "_nullptr.hpp"
 #include "_colors.hpp"
 #include "Location.hpp"
 #include "Server.hpp"
 #include "Configuration.hpp"
 #include "Socket.hpp"
 #include "Select.hpp"
-#include "Cookie.hpp"
 #include "Request.hpp"
 #include "Cgi.hpp"
 #include "Response.hpp"

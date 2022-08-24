@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:55:35 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/22 14:47:52 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/08/24 11:38:23 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,6 @@ class Server {
 
 	public:
 	
-		/**
-		 * @brief Construct a new Server object
-		 */
 		Server (void) :
 			_port(),
 			_ip(""),
@@ -48,10 +45,7 @@ class Server {
 			_error_pages(),
 			_locations()
 		{ }
-		
-		/**
-		 * @brief Destroy the Server object
-		 */
+
 		virtual ~Server (void) {
 			for (location_type::iterator it = _locations.begin(); it != _locations.end(); ++it) {
 				delete *it;
@@ -59,129 +53,55 @@ class Server {
 			_locations.clear();
 			_error_pages.clear();
 		}
-		
-		/**
-		 * @brief Construct a new Server object
-		 * @param ref The Server object to copy
-		 */
+
 		Server (const Server& ref) {
 			*this = ref;
 		}
 
-		/**
-		 * @brief Assign a Server object to another
-		 * @param ref The Server object to assign
-		 * @return The Server object assigned
-		 */
+		std::vector<int>	&				get_port (void)					{return (_port);}
+		std::string							get_ip (void) const 			{return (_ip);}
+		size_t 								get_max_body_size (void) const 	{return (_max_body_size);}
+		std::string 						get_server_name (void) const 	{return (_server_name);}
+		error_page_type 					get_error_pages (void) const 	{return (_error_pages);}
+		location_type 						get_locations (void) const 		{return (_locations);}
+		bool								get_default (void) const 		{return (_default);}
+		void								create_server (string_vector::const_iterator &);
+        std::string         				return_path_matching (int);
+
+	private:
+
+		void								_set_port (string_vector::const_iterator &);
+		void								_set_max_body_size (string_vector::const_iterator &);
+		void								_set_server_name (string_vector::const_iterator &);
+		void								_set_error_page (string_vector::const_iterator &);
+		void								_set_location (string_vector::const_iterator &);
+		
+
+
+	public:
+		
 		Server&	operator= (const Server& ref) {
 			if (this == &ref) {return (*this);}
 			
 			_port = ref._port;
 			_ip = ref._ip;
 			_max_body_size = ref._max_body_size;
-			_server_name = ref._server_name;
 			_default = ref._default;
+			_server_name = ref._server_name;
 			_error_pages = ref._error_pages;
 			_locations = ref._locations;
 			return (*this);
 		}
 
-		// GETTERS
-
-		/**
-		 * @brief Get the server port
-		 */
-		std::vector<int>	&				get_port (void)			{return (_port);}
-
-		/**
-		 * @brief Get the server ip
-		 */
-		std::string			get_ip (void) const 			{return (_ip);}
-
-		/**
-		 * @brief Get the server max body size
-		 */
-		size_t 				get_max_body_size (void) const 	{return (_max_body_size);}
-
-		/**
-		 * @brief Get the server name
-		 */
-		std::string 		get_server_name (void) const 	{return (_server_name);}
-
-		/**
-		 * @brief Get the server error pages
-		 */
-		error_page_type 	get_error_pages (void) const 	{return (_error_pages);}
-
-		/**
-		 * @brief Get the server locations
-		 */
-		location_type 		get_locations (void) const 		{return (_locations);}
-
-		/**
-		 * @brief Get the server default setting
-		 */
-		bool				get_default (void) const 		{return (_default);}
-
-		// FUNCTIONS
-
-		/**
-		 * @brief Navigates the vector and stock every server settings
-		 * @param Iterator iterator that navigates the lexer
-		 */
-		void				create_server (string_vector::const_iterator &);
-        std::string         return_path_matching (int);
-
-	private:
-
-		/**
-		 * @brief Set the server listen port
-		 * @param Iterator iterator that navigates the lexer
-		 */
-		void				_set_port (string_vector::const_iterator &);
-
-		/**
-		 * @brief Set the server max body size
-		 * @param Iterator iterator that navigates the lexer
-		 */
-		void				_set_max_body_size (string_vector::const_iterator &);
-
-		/**
-		 * @brief Set the server name
-		 * @param Iterator iterator that navigates the lexer
-		 */
-		void				_set_server_name (string_vector::const_iterator &);
-
-		/**
-		 * @brief Set the server error pages
-		 * @param Iterator iterator that navigates the lexer
-		 */
-		void				_set_error_page (string_vector::const_iterator &);
-
-		/**
-		 * @brief Set the server locations block
-		 * @param Iterator iterator that navigates the lexer
-		 */
-		void				_set_location (string_vector::const_iterator &);
-		
-
-
-	public:
-
-	
-
-		/**
-		 * @brief operator overload << for Server class, used mostly with --debug option
-		 * 
-		 * @param o Output stream
-		 * @param s Server object
-		 * @return std::ostream& - Output stream
-		 */
 		friend std::ostream & operator<< (std::ostream & o, const Server & s) {
-			CNO("server :", o);
+			CNO("--> Server :", o);
+			for (std::vector<int>::const_iterator it = s._port.begin(); it != s._port.end(); it++) {
+				CNO("ports -> " << *it, o);
+			}
+			CNO("ip -> " << s._ip, o);
 			CNO("max_body_size -> " << s._max_body_size, o);
-			CNO("server_name -> " << s._server_name, o);
 			CNO("default -> " << s._default, o);
+			CNO("server_name -> " << s._server_name, o);
 			CNO("error pages :", o);
 			for (error_page_type::const_iterator it = s._error_pages.begin(); it != s._error_pages.end(); it++) {
 				CNO(it->first << " -- " << it->second, o);
@@ -190,16 +110,10 @@ class Server {
 			for (location_type::const_iterator it = s._locations.begin(); it != s._locations.end(); it++) {
 				CO(*(*it), o);
 			}
-			for (std::vector<int>::const_iterator it = s._port.begin(); it != s._port.end(); it++) {
-				CNO("ports -> " << *it, o);
-			}
 			return (o);
 		}		
 };
 
-/**
- * @brief Structure used to store a pair of string and Server member function
- */
 typedef struct s_function_pair_server {
 	void (Server::*f) (string_vector::const_iterator &);
 	std::string	str;

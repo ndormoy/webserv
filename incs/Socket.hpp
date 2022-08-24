@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Socket.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:13:50 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/27 09:28:09 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/24 11:38:33 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,22 +45,8 @@ class Socket {
 			*this = ref;
 		}
 		
-		~Socket (void)
+		virtual ~Socket (void)
 		{ }
-		
-		Socket& operator= (const Socket& ref) {
-			if (this == &ref) {return (*this);}
-			
-			_fd = ref._fd;
-			_addrlen = ref._addrlen;
-			_port = ref._port;
-			_master_socket = ref._master_socket;
-			_sub_socket = ref._sub_socket;
-			_address = ref._address;
-			_readfds = ref._readfds;
-			
-			return *this;
-		}
 
 	public:
 
@@ -85,8 +71,24 @@ class Socket {
 		EXCEPTION(fListenError, "setup : listen function failed")
 		
 	public:
+	
+		Socket& operator= (const Socket& ref) {
+			if (this == &ref) {return (*this);}
+			
+			_fd = ref._fd;
+			_addrlen = ref._addrlen;
+			_port = ref._port;
+			_master_socket = ref._master_socket;
+			_sub_socket = ref._sub_socket;
+			_address = ref._address;
+			_client = ref._client;
+			_readfds = ref._readfds;
+			
+			return *this;
+		}
+
 		friend std::ostream& operator<< (std::ostream& os, const Socket& ref) {
-			os << "--> Socket" << std::endl;
+			os << "--> Socket :" << std::endl;
 			os << "Fd : " << ref._fd << std::endl;
 			os << "Addrlen : " << ref._addrlen << std::endl;
 			os << "Port : " << ref._port << std::endl;

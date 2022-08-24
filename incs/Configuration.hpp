@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:32:45 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/26 15:30:14 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/08/24 14:06:57 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,11 @@ class Configuration {
 
 	public:
 
-		/**
-		 * @brief Construct a new Configuration object
-		 */
 		Configuration (void) :
 			_servers(*new server_vector()),
 			_lexer(*new lexer_type())
 		{ }
-		
-		/**
-		 * @brief Destroy the Configuration object
-		 */
+
 		virtual ~Configuration (void) {
 			for (server_vector::iterator it = _servers.begin(); it != _servers.end(); ++it) {
 				delete *it;
@@ -50,10 +44,7 @@ class Configuration {
 		}
 
 	private:
-		/**
-		 * @brief Construct a new Configuration object
-		 * @param ref The Configuration object to copy
-		 */
+
 		Configuration (const Configuration & ref) :
 			_servers(ref._servers),
 			_lexer(ref._lexer)
@@ -63,40 +54,15 @@ class Configuration {
 
 	public:
 
-		/**
-		 * @brief Get the Servers object
-		 * @return server_vector&
-		 */
 		server_vector& 		getServers (void) const {return (_servers);}
-		
-		/**
-		 * @brief Get the Lexer object
-		 * @return lexer_type& 
-		 */
 		lexer_type& 		getLexer (void) const 	{return (_lexer);}
-
-		/**
-		 * @brief Read the configuration file, then add every element to the lexer vector
-		 * @param filename The filename of the configuration file
-		 */
 		void	lexer (std::string);
-
-		/**
-		 * @brief Parse the lexer vector
-		 */
 		void	parser (void);
 
 		void	setup (void);
 
 	public:
 
-		/**
-		 * @brief operator overload << for Configuation class, used mostly with --debug option
-		 * 
-		 * @param o Output stream
-		 * @param c Configuration object
-		 * @return std::ostream& - Output stream
-		 */
 		friend std::ostream & operator<< (std::ostream & o, const Configuration & c ) { 
         	CNO("configuration of webserv", o);
 			CNO("debug_level = " << g_debug_prog_level, o);
@@ -106,17 +72,10 @@ class Configuration {
         	return (o);
     	}
 
-	/**
-	 * @brief Exception thrown when the configuration file is not valid
-	 */
 
 	EXCEPTION(FileCannotBeOpened, "configuration_file can't be opened, please check if the file exist and your allowed to open it")
 	EXCEPTION(InvalidFile, "configuration_file : invalid file")
 	EXCEPTION(SyntaxError, "configuration_file : syntax error")
-
-	/**
-	 * @brief Exception thrown when the server block is invalid
-	 */
 
 	EXCEPTION(InvalidPort, "configuration_file : invalid port")
 	EXCEPTION(InvalidBodySizeMax, "configuration_file : invalid body size max")
@@ -124,10 +83,6 @@ class Configuration {
 	EXCEPTION(InvalidErrorPage, "configuration_file : invalid error page")
 	EXCEPTION(InvalidLocation, "configuration_file : invalid location")
 	EXCEPTION(DuplicatePort, "configuration_file : duplicate port")
-
-	/**
-	 * @brief Exception thrown when a location block is invalid
-	 */
 
 	EXCEPTION(InvalidMethod, "configuration_file : invalid method field")
 	EXCEPTION(InvalidRoot, "configuration_file : invalid root field")
@@ -139,9 +94,6 @@ class Configuration {
 	EXCEPTION(InvalidKeyword, "configuration_file : invalid keyword")
 };
 
-/**
- * @brief Structure used to store a pair of string and Configuration member function
- */
 typedef struct s_function_pair_config {
 	void (Configuration::*f) (std::ifstream  &);
 	std::string	str;

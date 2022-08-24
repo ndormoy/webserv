@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 15:06:23 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/02 15:37:11 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/08/24 14:08:34 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ class Response;
 class Cgi
 {
 	private:
-
 		char ** 	_env;
 		std::string _exec;
 		std::string _extension;
@@ -34,14 +33,13 @@ class Cgi
         std::map<std::string, std::string> _params;
 
 	public:
-
 		Cgi (void) :
-			_env(_nullptr),
+			_env(NULL),
 			_exec(""),
 			_extension(""),
 			_fd(-1),
-			_request(_nullptr),
-			_location(_nullptr),
+			_request(NULL),
+			_location(NULL),
 			_output(""),
             _params()
 		{
@@ -52,7 +50,7 @@ class Cgi
 		{ }
 
 		Cgi (Request & request) :
-			_env(_nullptr),
+			_env(NULL),
 			_exec(""),
 			_extension(""),
 			_fd(-1),
@@ -65,7 +63,7 @@ class Cgi
         }
 
         Cgi (const std::string & ext, const std::string & path, Location * loc, Request * req) :
-            _env(_nullptr),
+            _env(NULL),
             _exec(path),
             _extension(ext),
             _fd(-1),
@@ -102,12 +100,12 @@ class Cgi
         std::string         get_param (std::string key) const       { return _params.at(key); }
 
 		void				clear (void) {
-			_env = _nullptr;
+			_env = NULL;
 			_exec = "";
 			_extension = "";
 			_fd = -1;
-			_request = _nullptr;
-			_location = _nullptr;
+			_request = NULL;
+			_location = NULL;
 			_output = "";
             _params.clear();
 		}
@@ -153,9 +151,6 @@ class Cgi
 
 			return (*this);
 		}
-
-//	public:
-
 };
 
 _END_NAMESPACE_WEBSERV

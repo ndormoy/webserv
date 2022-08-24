@@ -21,7 +21,6 @@ class Request
 		std::string _query_string;
 		Server *	_server;
 		Location *  _location;
-		Cookie *	_cookies;
 		std::string _body;
 		std::string	_boundary;
 		std::string _filename;
@@ -88,7 +87,7 @@ class Request
 			_query_string(""),
 			_server(NULL),
 			_location(NULL),
-			/* _body(str), */
+			_body(""),
 			_boundary(""),
 			_filename(""),
 			_content_file(""),
@@ -100,7 +99,6 @@ class Request
             _params["Accept-Language:"] = "en";
             _params["Content-Disposition:"] = "attachment";
             _params["Connection:"] = "keep-alive";
-			//_body.insert(_body.end(), str, str + strlen(str));
 			_chunked = (str.find("\r\n\r\n") == std::string::npos);
 			_error_value = request_parser();
 		}
@@ -116,7 +114,7 @@ class Request
 			_query_string(""),
 			_server(NULL),
 			_location(NULL),
-			/* _body(str), */
+			_body(""),
 			_boundary(""),
 			_filename(""),
 			_content_file(""),
@@ -129,7 +127,6 @@ class Request
             _params["Content-Disposition:"] = "attachment";
             _params["Connection:"] = "keep-alive";
 			_body.insert(0, str, size);
-			//_chunked = (str.find("\r\n\r\n") == std::string::npos);
 			_error_value = request_parser();
 		}
 

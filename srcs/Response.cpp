@@ -21,14 +21,6 @@ void INLINE_NAMESPACE::Response::manage_response_delete(void) {
         _body.append(create_html_error_page(_request->get_error_value()));
 }
 
-/**
- * @brief function that create the file were the content of a file is stored
- * std::ifstream automatically has the ios::in flag set.
- * std::ofstream automatically has the ios::out flag set.
- * std::fstream has neither ios::in or ios::out automatically
- * @param upload_path 
- */
-
 void INLINE_NAMESPACE::Response::create_upload_file(std::string upload_path) {
     std::ofstream file;
     std::string final_path = upload_path;
@@ -49,7 +41,6 @@ void INLINE_NAMESPACE::Response::manage_response_post(void) {
     bool isupload = false;
     Location *location_ptr = _request->get_location();
 
-//	CNOUT(UMAG << location_ptr->get_path)
 	if (access(location_ptr->get_upload_path().c_str(), R_OK) < 0)
 	{
 		set_error_value(403);
@@ -77,8 +68,6 @@ void INLINE_NAMESPACE::Response::manage_response_get(void) {
 	size = read_file(_request->get_construct_path()).size();
 	_body.insert(_body.size(), read_file(_request->get_construct_path()).c_str(), size);
 	_body.insert(_body.size(), "\r\n\r\n", 4);
-	// _body.append(read_file(_request->get_construct_path()));
-	// _body.append("\r\n\r\n");
 }
 
 void
@@ -134,9 +123,8 @@ INLINE_NAMESPACE::Response::fatal_error(void) {
     _body.append(create_html_error_page(500));
 }
 
-void INLINE_NAMESPACE::Response::manage_response(void) {
-    //TODO faire manage cgi
-
+void
+INLINE_NAMESPACE::Response::manage_response(void) {
     if (_error_value == FATAL_ERROR) {
         _error_value = 500;
         _body = "HTTP/1.1 500 Internal Server Error\r\n\r\n";
@@ -162,19 +150,9 @@ void INLINE_NAMESPACE::Response::manage_response(void) {
     std::string header_string;
     header.fill(*this);
     header_string = header.append();
-//    header_string = "HTTP/1.1 200 OK\r\n";
     _body.insert(0, header_string);
-//    _body.append("\r\n\r\n");
-
-    // CNOUT("response size = " << _body.size())
-
     DEBUG_3(CNOUT(BBLU << "Updating : header created and insert into the body" << CRESET))
 }
-
-
-/*Cette fonction permet de regarder dans le repertoire courant (Et ceux d'apres
-si on clique dessus), et d'ajouter dans une liste les nom des fichiers
-et dossiers presents*/
 
 static std::vector<struct dirent> *
 file_vector_(const std::string &path) {
@@ -193,10 +171,6 @@ file_vector_(const std::string &path) {
     return (list);
 }
 
-/*Permet de mettre dans une string en html les fichiers/dossier
-du repertoire courant, pour pouvoir les afficher en reponse
-c'est l'auto index*/
-
 std::string INLINE_NAMESPACE::Response::auto_index(std::string location_path) {
     std::vector<struct dirent> *list = file_vector_(_request->get_construct_path());
     if (list == NULL)
@@ -205,7 +179,6 @@ std::string INLINE_NAMESPACE::Response::auto_index(std::string location_path) {
     std::string index;
     int len;
 
-    //fill_start_header();
     index += "<html>\n";
     index += "<head><title>Indexito /</title></head>\n";
     index += "<h1>Index of " + _request->get_construct_path() + "</h1>\n";

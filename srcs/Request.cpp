@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/23 10:17:34 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/08/24 11:29:26 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ is_header_ (const std::string & str) {
     }
     return ("");
 }
-
 
 short
 INLINE_NAMESPACE::Request::parse_first_line (std::string str) {
@@ -132,7 +131,7 @@ INLINE_NAMESPACE::Request::parse_content (void) {
 void
 INLINE_NAMESPACE::Request::set_final_path (void) {
 	if (_location == NULL) {
-		 _construct_path = _path;
+		_construct_path = _path;
 		return;
 	}
 	std::string tmp;
@@ -197,7 +196,6 @@ INLINE_NAMESPACE::Request::request_parser (void) {
     if ((ret = check_request()) != 0) {
         return (ret);
     }
-	// getContent (changed path)
 	return (200);
 }
 
@@ -211,12 +209,6 @@ bool	INLINE_NAMESPACE::Request::is_upload_case (void) {
 	}
 	return (false);
 }	
-
-/**
- * @brief this functions define filename, content-type and parse-it
- * 
- * @return true or false
- */
 
 bool	INLINE_NAMESPACE::Request::define_upload(void)
 {
@@ -235,11 +227,6 @@ bool	INLINE_NAMESPACE::Request::define_upload(void)
 	return (true);
 }
 
-/**
- * @brief this function unchunk the body of the request and check if the hex count is ok
- * @param request 
- */
-
 void INLINE_NAMESPACE::Request::unchunk_body () {
 	std::string unchunk_body = "";
 	std::string	head = "";
@@ -256,12 +243,8 @@ void INLINE_NAMESPACE::Request::unchunk_body () {
 		if ((i != 0) && (i % 2 != 0))
 		{
 			unchunk_body += line.substr(line.find("\r\n")+ 1, line.length());
-			// CNOUT(BYEL << i << "---------------- " << unchunk_body << CRESET)
 			if ((hex_count != -1) && hex_count != (line.length() - 1))
 			{
-//				CNOUT(BRED << "Error : chunked are not good." << CRESET)
-//				CNOUT(BRED << "->" << hex_count << CRESET)
-//				CNOUT(BRED << "XXXXXX" << line.length() << CRESET)
 				//TODO que faire pour le comportement ?
 				return ;
 			}
@@ -278,8 +261,6 @@ void INLINE_NAMESPACE::Request::unchunk_body () {
 		if (hex_count == 0 && line.find("0\r") != std::string::npos) {
 			break;
 		}
-		// CNOUT(UMAG << line << CRESET)
 	}
 	_body = head + unchunk_body;
-	//CNOUT(BYEL << _body << CRESET)
 }

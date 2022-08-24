@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _utils.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 15:33:04 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/11 15:49:49 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/24 11:27:08 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ str_is_print (std::string str) {
 	}
 	return (true);
 }
-
 
 int
 calculate_size_file (char *filename)
@@ -76,8 +75,6 @@ std::string	read_file(std::string path)
 	}
 	else
 		content = "Problem reading file";
-
-//    COUT(content)
 	return content;
 }
 
@@ -108,10 +105,6 @@ create_html_error_page (int error_code) {
     }
     if (it == error_pages.end())
         return ("");
-
-   /* page += ITOA(error_code) + " " + it->second + "\r\n";
-    page += "Content-Type: text/html;charset=UTF-8\r\n";
-    page += "Content-Length: " + ITOA(it->second.length() + 127) + "\r\n\n\n";*/
 	
     page += "<!DOCTYPE html>\r\n";
     page += "<html>\r\n";

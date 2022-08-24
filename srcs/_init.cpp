@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _init.cpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 10:06:42 by gmary             #+#    #+#             */
-/*   Updated: 2022/08/15 17:04:12 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/24 11:26:49 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,6 @@ INLINE_NAMESPACE::init_content_type() {
     content_map[".3gp"] = "video/3gpp audio/3gpp";
     content_map[".3g2"] = "video/3gpp2 audio/3gpp2";
     content_map[".7z"] = "application/x-7z-compressed";
-    content_map[".txt"] = "text/plain";
 
     return (content_map);
 }

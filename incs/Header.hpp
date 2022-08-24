@@ -25,15 +25,18 @@ class Header
 			_content_length("Content-Length: "),
 			_cookie(""),
 			_status("\r\n"),
-			_status_code(0)
+			_status_code(0),
+			_server(""),
+			_date("")
 		{ }
 
 		Header(const Response & response):
 			_content_type("Content-Type: "),
 			_content_length("Content-Length: "),
 			_cookie("Set-Cookie: "),
-			// _content_encoding("Content-Encoding: "),
-			_status_code(response.get_error_value())
+			_status_code(response.get_error_value()),
+			_server(""),
+			_date("")
 		{ }
 
 		~Header (void)
@@ -58,6 +61,7 @@ class Header
 	public: /* Methods */
 		void			fill (Response & response);
 		std::string		append (void);
+
 	public: /* Operators */
 		Header & operator=(const Header & copy) {
             _date = copy._date;
@@ -77,6 +81,7 @@ class Header
 			o << ref._cookie << std::endl;
             o << ref._status << std::endl;
             o << ref._server << std::endl;
+			o << ref._date << std::endl;
 			return o;
 		}
 

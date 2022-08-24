@@ -32,7 +32,6 @@ INLINE_NAMESPACE::Header::fill(Response & reponse)
         if (it->first == _status_code)
             break;
     }
-
     _status = "HTTP/1.1 " + ITOA(it->first) + " " + it->second;
     _date = "Date: " + get_instant_time_();
 	_server = "Server: " + reponse.get_server()->get_server_name();

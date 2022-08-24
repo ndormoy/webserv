@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 16:28:05 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/23 13:07:31 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/08/24 11:24:44 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ int 								g_debug_prog_level = -1;
 INLINE_NAMESPACE::Configuration		g_config;
 string_vector						g_header = INLINE_NAMESPACE::init_header();
 bool								g_exit = false;
+
+void
+quit_program (int signal) {
+    g_exit = true;
+    DEBUG_1(CNOUT(BRED << "Webserv is closing..." << CRESET))
+}
 
 static std::string
 set_options_ (int ac, char **av) {
@@ -73,7 +79,6 @@ main (int ac, char **av)
 	}
 
 	DEBUG_1(CNOUT(BRED << "Webserv is closed..." << CRESET))
-
 
 	return (EXIT_SUCCESS);
 }

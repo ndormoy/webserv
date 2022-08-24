@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 14:43:52 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/22 14:57:53 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/08/24 11:27:38 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,6 @@ INLINE_NAMESPACE::Cgi::create_env (void) const {
             envs[7] = "REQUEST_METHOD=";
             break;
     }
-
     envs[8] = "SCRIPT_FILENAME=" + _request->get_construct_path(); // /home/mamaurai/www/index.html
     envs[9] = "SERVER_PROTOCOL=HTTP/1.1"; // usually HTTP/1.1
     envs[10] = "SERVER_PORT=" + ITOA(_request->get_params("Host").substr(_request->get_params("Host").find(":"))); // 8080 for exemple
@@ -186,6 +185,3 @@ INLINE_NAMESPACE::Cgi::create_env (void) const {
 
     return (envs);
 }
-
-
-
