@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/24 15:11:38 by gmary            ###   ########.fr       */
+/*   Updated: 2022/08/24 15:28:58 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,8 +160,6 @@ INLINE_NAMESPACE::Request::check_request (void) {
 	if (path_is_dir(_construct_path)) {
         return (403);
     } 
-	CNOUT(UMAG <<  "MAX BODYSIZE: " <<_server->get_max_body_size() << CRESET)
-	CNOUT(UMAG << "CONTENT FILE LENGHT:"<< _content_file.length() << CRESET)
 	if (_server && _server->get_max_body_size() < _content_file.length()) {
         return (413);
     }
