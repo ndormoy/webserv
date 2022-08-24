@@ -229,7 +229,7 @@ INLINE_NAMESPACE::Select::start(void) {
         			{
         			    tmp = response.get_message_send().substr(start, response.get_message_send().size() / nb_piece);
         			    send(_client_socket[i], tmp.c_str(), tmp.size(), 0);
-        			    //usleep(500000);
+        			    usleep(50000);
         			    start += tmp.size();
         			}
         			tmp = response.get_message_send().substr(start);

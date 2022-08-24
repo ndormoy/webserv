@@ -222,7 +222,6 @@ bool	INLINE_NAMESPACE::Request::define_upload(void)
 {
 	if(!is_upload_case())
 		return (false);
-	
 	_boundary = vector_spliter((_params["Content-Type"].substr(_params["Content-Type"].find("boundary=") + 9, _params["Content-Type"].length())), " ", "", false)[0];
 	if (_body.find("filename=") != std::string::npos) {
 		_filename = _body.substr(_body.find("filename=") + 9, _body.length());
