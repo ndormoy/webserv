@@ -43,7 +43,6 @@
 			<input type="submit" value="Submit">
 	</form>
 </center>
-<body>
 			<!-- Navbar -->
 			<div class="w3-top">
 			  <div class="w3-bar w3-red w3-card w3-left-align w3-large">
