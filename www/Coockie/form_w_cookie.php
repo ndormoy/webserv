@@ -31,11 +31,15 @@ if (!empty($_POST['name']))
 <br><br>
 
 <?php
+	echo "<center>";
 	if ($name) { ?>
-	<p>Hello <?php echo($name); ?> !</p>
-	<a href="form_w_cookie.php?action=logout" >
-		<button class="btn btn-primary w3-black w3-padding-medium w3-medium w3-margin-top"> Log out </button>
-	</a>
+	
+		<p>Hello <?php echo($name); ?> !</p>
+		
+		<a href="form_w_cookie.php?action=logout" >
+			<button class="btn btn-primary w3-black w3-padding-medium w3-medium w3-margin-top"> Log out </button>
+		</a>
+	
 <?php } else { ?>
 	<form action="form_w_cookie.php" method="post">
 	<div class "form-group">
@@ -43,6 +47,7 @@ if (!empty($_POST['name']))
 	</div>
 	<button class="btn btn-primary w3-black w3-padding-medium w3-medium w3-margin-top" > Log in </button>
 </form>
+	</center>
 <?php } ?>
 
 <html>
