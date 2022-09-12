@@ -1,6 +1,8 @@
 server {
 	server_name exemple.fr;
 	listen 192.0.0.1:8080;
+	listen 192.0.0.1:8082;
+	listen 192.0.0.1:8086;
 	error_page 404 example_html/bar.html;
 	client_max_body_size 8m;
 
@@ -17,24 +19,24 @@ server {
 	}
 }
 
-server {
-	server_name exemple.fr;
-	listen 192.0.0.1:8082;
-	error_page 404 example_html/bar.html;
-	client_max_body_size 8m;
-
-	location /
-	{
-		allow_methods GET POST DELETE;
-		root example_html;
-		#index select.html;
-
-		return 403 www/error_pages/403.html;
-		auto_index on;
-		cgi .php bin/php-cgi;
-		upload example_html/upload;
-	}
-}
+#server {
+#	server_name exemple.fr;
+#	listen 192.0.0.1:8082;
+#	error_page 404 example_html/bar.html;
+#	client_max_body_size 8m;
+#
+#	location /
+#	{
+#		allow_methods GET POST DELETE;
+#		root example_html;
+#		#index select.html;
+#
+#		return 403 www/error_pages/403.html;
+#		auto_index on;
+#		cgi .php bin/php-cgi;
+#		upload example_html/upload;
+#	}
+#}
 
 # server {
 # 	server_name website.fr;
@@ -57,32 +59,32 @@ server {
 
 #test
 
-server {
-	server_name exemple.fr;
-	listen 8081;
-	error_page 404 example_html/bar.html;
-	client_max_body_size 8m;
-	
-	location example_html
-	{
-		allow_methods GET POST DELETE;
-		root example_html;
-		index bar.html;
-		
-		return 404 www/error_pages/404.html;
-		auto_index on;
-		cgi .php example_html/bar.html;
-		upload example_html/upload;
-	}
-
-	location example_html {
-		allow_methods GET POST DELETE;
-		root example_html;
-		index example_html;
-		
-		return 404 www/error_pages/404.html;
-		auto_index on;
-		cgi .php example_html/bar.html;
-		upload example_html/upload;
-	}
-}
+#server {
+#	server_name exemple.fr;
+#	listen 8081;
+#	error_page 404 example_html/bar.html;
+#	client_max_body_size 8m;
+#	
+#	location example_html
+#	{
+#		allow_methods GET POST DELETE;
+#		root example_html;
+#		index bar.html;
+#		
+#		return 404 www/error_pages/404.html;
+#		auto_index on;
+#		cgi .php example_html/bar.html;
+#		upload example_html/upload;
+#	}
+#
+#	location example_html {
+#		allow_methods GET POST DELETE;
+#		root example_html;
+#		index example_html;
+#		
+#		return 404 www/error_pages/404.html;
+#		auto_index on;
+#		cgi .php example_html/bar.html;
+#		upload example_html/upload;
+#	}
+#}

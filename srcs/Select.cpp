@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/24 11:30:56 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/09/12 10:38:38 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,6 +222,7 @@ INLINE_NAMESPACE::Select::start(void) {
         			{
         			    tmp = response.get_message_send().substr(start, response.get_message_send().size() / nb_piece);
         			    send(_client_socket[i], tmp.c_str(), tmp.size(), 0);
+        			    usleep(50000);
         			    start += tmp.size();
         			}
         			tmp = response.get_message_send().substr(start);
