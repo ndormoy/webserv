@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:38:48 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/27 10:52:45 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/09/12 13:30:32 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@ INLINE_NAMESPACE::Configuration::parser (void) {
     DEBUG_3(CNOUT(BBLU << "Updating : parsing configuration file..." << CRESET));
 	while (it != _lexer.end()) {
 		if (*it == "server" && ((it + 1) != _lexer.end() && (*(it + 1)) == "{")) {
+			if (_servers.size() > MAX_SERVER) {
+				throw Configuration::TooManyServer();
+			}
 			INLINE_NAMESPACE::Server* s = new Server();
 			it += 2;
 			_servers.push_back(s);

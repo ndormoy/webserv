@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 14:43:52 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/24 11:27:38 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/09/12 13:39:36 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ INLINE_NAMESPACE::Cgi::start (Response * res) {
         }
         close(pip2[1]);
 
-        if (execve(_exec.c_str(), NULL, this->_env) == SYSCALL_ERR) {
+        if (execve(_exec.c_str(), (char *[2]){const_cast<char *>(_exec.c_str()), NULL}, this->_env) == SYSCALL_ERR) {
             close(pip1[0]);
             close(pip2[1]);
             close(pip1[1]);

@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:33:58 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/24 11:22:02 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/09/12 13:33:36 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ class Server;
 
 # define INVALID_ARG					"invalid argument number\n./webserv [--debug=`debug_value`] [configuration_file]"
 # define FILE_MISSING					"configuration file missing\n./webserv [--debug=`debug_value`] [configuration_file]"
-# define DEFAULT_FILE	 				"configuration_files/conf"
+# define DEFAULT_FILE	 				"configuration_files/.default.conf"
 
 # define SYSCALL_ERR					(-1)
 # define FATAL_ERROR                    (-1)
@@ -42,6 +42,7 @@ class Server;
 // TODO before release the project change the number of max_client to 999 and make some tests
 # define MAX_CLIENT						512 // BUG which number should we put here, dont put to much if u dont want to fail select()
 # define BUFFER_SIZE					1025 // BUG undifined value
+# define MAX_SERVER						20
 # define WWW_PATH                       "./www/"
 
 # define EXCEPTION(x, y)				public: class x : public std::exception {const char * what (void) const throw() {return (y);}};

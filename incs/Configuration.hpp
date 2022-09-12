@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:32:45 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/24 14:06:57 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/09/12 13:30:27 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ class Configuration {
 	EXCEPTION(FileCannotBeOpened, "configuration_file can't be opened, please check if the file exist and your allowed to open it")
 	EXCEPTION(InvalidFile, "configuration_file : invalid file")
 	EXCEPTION(SyntaxError, "configuration_file : syntax error")
+	EXCEPTION(TooManyServer, "configuration_file : too many server")
 
 	EXCEPTION(InvalidPort, "configuration_file : invalid port")
 	EXCEPTION(InvalidBodySizeMax, "configuration_file : invalid body size max")
