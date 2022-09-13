@@ -16,8 +16,8 @@
 class Server;
 
 # define INLINE_NAMESPACE				webserv
-#define _BEGIN_NAMESPACE_WEBSERV		namespace INLINE_NAMESPACE {
-#define _END_NAMESPACE_WEBSERV 	 		}
+# define _BEGIN_NAMESPACE_WEBSERV		namespace INLINE_NAMESPACE {
+# define _END_NAMESPACE_WEBSERV 	 		}
 
 # define DEBUG_OPTION					"--debug="
 # define DEBUG_LEVEL_MAX					5
@@ -25,7 +25,12 @@ class Server;
 
 # define INVALID_ARG					"invalid argument number\n./webserv [--debug=`debug_value`] [configuration_file]"
 # define FILE_MISSING					"configuration file missing\n./webserv [--debug=`debug_value`] [configuration_file]"
-# define DEFAULT_FILE	 				"configuration_files/.default.conf"
+
+#if defined(__APPLE__) && defined(__MACH__)
+# define DEFAULT_FILE	 				"configuration_files/.default_mac.conf"
+#else
+# define DEFAULT_FILE	 				"configuration_files/.default_ubuntu.conf"
+#endif
 
 # define SYSCALL_ERR					(-1)
 # define FATAL_ERROR                    (-1)
