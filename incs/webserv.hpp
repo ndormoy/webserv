@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:11:19 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/24 14:08:10 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/09/14 14:39:29 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 #include <errno.h>
 #include <string.h>
 #include <sys/types.h>
+#include <libgen.h>
 #include <sys/wait.h>
 #include <cassert>
 #include <signal.h>

@@ -129,8 +129,8 @@ INLINE_NAMESPACE::Response::fatal_error(void) {
 void
 INLINE_NAMESPACE::Response::manage_response(void) {
     if (_error_value == FATAL_ERROR) {
-        _error_value = 500;
-        _body = "HTTP/1.1 500 Internal Server Error\r\n\r\n";
+        _error_value = 400;
+        _body = "HTTP/1.1 400 Bad Request\r\n\r\n";
         _body.append(create_html_error_page(500));
         return;
     }
@@ -163,8 +163,9 @@ file_vector_(const std::string &path) {
     DIR *dp;
     struct dirent *ep;
 
-    dp = opendir(path.c_str());
+    dp = opendir(path.empty() ? "." : path.c_str());
     if (dp == NULL) {
+        delete list;
         return (NULL);
     }
     while ((ep = readdir(dp))) {
@@ -176,8 +177,10 @@ file_vector_(const std::string &path) {
 
 std::string INLINE_NAMESPACE::Response::auto_index(std::string location_path) {
     std::vector<struct dirent> *list = file_vector_(_request->get_construct_path());
-    if (list == NULL)
+    if (list == NULL) {
+        delete list;
         return (create_html_error_page(404));
+    }
 
     std::string index;
     int len;

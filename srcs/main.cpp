@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 16:28:05 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/24 11:24:44 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/09/14 10:27:44 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ bool								g_exit = false;
 void
 quit_program (int signal) {
     g_exit = true;
-    DEBUG_1(CNOUT(BRED << "Webserv is closing..." << CRESET))
+    DEBUG_1(CNOUT(BRED << std::endl << "Webserv is closing..." << CRESET))
 }
 
 static std::string

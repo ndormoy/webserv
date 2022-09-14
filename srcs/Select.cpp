@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/12 10:38:38 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/09/14 10:29:32 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,16 @@ void
 INLINE_NAMESPACE::Select::webserv_log_input(Request &request) {
 
     COUT(BWHT << "Incoming Request   ➜ " << CRESET)
-    if (request.get_error_value() == FATAL_ERROR)
-        COUT(BRED << "FATAL ERROR" << CRESET)
-    else {
-        if (request.get_method() == M_GET)
-            COUT(BGRN << "GET " << CRESET)
-        else if (request.get_method() == M_POST)
-            COUT(BGRN << "POST " << CRESET)
-        else if (request.get_method() == M_DELETE)
-            COUT(BGRN << "DELETE " << CRESET)
-        else
-            COUT(BRED << "ERROR " << CRESET)
-    }
-    COUT(BYEL << "/" << request.get_path() << " " << CRESET)
+    if (request.get_method() == M_GET)
+        COUT(BGRN << "GET " << CRESET)
+    else if (request.get_method() == M_POST)
+        COUT(BGRN << "POST " << CRESET)
+    else if (request.get_method() == M_DELETE)
+        COUT(BGRN << "DELETE " << CRESET)
+    else
+        COUT(BRED << "ERROR " << CRESET)
+
+    COUT(BYEL << "/" << request.get_construct_path() << " " << CRESET)
     if (!request.get_params("Host").empty()) {
         COUT(BYEL << "Host: " << request.get_params("Host") << CRESET)
     }

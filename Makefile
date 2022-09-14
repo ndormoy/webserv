@@ -6,7 +6,7 @@
 #    By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/10 15:51:05 by gmary             #+#    #+#              #
-#    Updated: 2022/08/23 12:31:46 by mamaurai         ###   ########.fr        #
+#    Updated: 2022/09/14 10:13:17 by mamaurai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ SRCS =		${shell find ./srcs -name "*.cpp"}
 CC =		c++
 CPPFLAGS =	-Ofast
 CPPFLAGS = 	-MD  -std=c++98 #-Wall -Wextra -Werror 
-CPPFLAGS += -g3  #-fsanitize=address 
+CPPFLAGS += -g3  -fsanitize=address 
 OBJS = 		$(addprefix ${OBJDIR}/,${SRCS:.cpp=.o})
 DEP =		$(addprefix ${OBJDIR}/,${SRC:.cpp=.d})
 RM =		rm -rf

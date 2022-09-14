@@ -15,7 +15,6 @@ class Header
 		std::string	_cookie;
 		std::string _status;
         std::string _server;
-		// std::string	_content_encoding;
 		int			_status_code;
 
 	public: /* Constructors */
