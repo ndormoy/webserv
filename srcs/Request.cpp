@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Request.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/14 16:00:18 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/09/15 11:17:21 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,4 +285,28 @@ void INLINE_NAMESPACE::Request::unchunk_body () {
 		}
 	}
 	_body = head + unchunk_body;
+}
+
+void
+INLINE_NAMESPACE::Request::add_body(char * str_add, int bytes) { 
+	if (!max_body_size_check(bytes))
+		return ;
+	_body.insert(_body.size(), str_add, bytes);  
+}
+
+/**
+ * @brief this function is used to check max body size
+ * 
+ * @param size 
+ * @return true false
+ */
+
+bool
+INLINE_NAMESPACE::Request::max_body_size_check(size_t size) {
+	if (size > _server->get_max_body_size()) {
+		//! TODO besoin de set l'erreur a 413
+		set_error_value(413);
+		return (false);
+	}
+	return (true);
 }

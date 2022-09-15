@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 17:09:05 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/22 15:17:05 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/09/15 10:49:22 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,3 +134,4 @@ INLINE_NAMESPACE::Server::return_path_matching(int return_code) {
     }
     return ("");
 }
+
