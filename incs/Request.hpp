@@ -126,6 +126,7 @@ class Request
             _params["Accept-Language:"] = "en";
             _params["Content-Disposition:"] = "attachment";
             _params["Connection:"] = "keep-alive";
+			// add_body(str, size);
 			_body.insert(0, str, size);
 			_error_value = request_parser();
 		}
@@ -148,8 +149,8 @@ class Request
 		std::string				get_content_file (void) const		{ return (_content_file); }
         std::string             get_content (void) const            { return (_content); }
 
-		void					add_body(char * str_add, int bytes);
-//		void					add_body(char * str_add, int bytes) { _body.insert(_body.size(), str_add, bytes);  }
+		// void					add_body(char * str_add, int bytes);
+		void					add_body(char * str_add, int bytes) { _body.insert(_body.size(), str_add, bytes);  }
 
 		void					set_chunked (bool b) 			{ _chunked = b; }
 		void					set_error_value (int i)			{ _error_value = i; }

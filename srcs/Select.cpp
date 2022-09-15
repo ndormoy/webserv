@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Select.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/14 10:29:32 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/09/15 11:49:38 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,8 +134,9 @@ INLINE_NAMESPACE::Select::start(void) {
                     size_total += bytes;
                     buffer[bytes] = '\0';
                     Request *request = new Request(buffer, bytes);
+					request->max_body_size_check(size_total);
 
-                    if (request->get_method() == M_POST) {
+					if (request->get_method() == M_POST) {
                         DEBUG_3(CNOUT(BBLU << "Updating : POST Request is parsing..."))
                         while (bytes > 0) {				
                             if (_client_socket[i] != 0 && FD_ISSET(_client_socket[i], &_readfds)) {
@@ -160,6 +161,8 @@ INLINE_NAMESPACE::Select::start(void) {
                                     buffer[bytes] = '\0';
                                     request->add_body(buffer, bytes);
                                     size_total += bytes;
+									if (request->max_body_size_check(size_total))
+										break;
                                 }
                             } else
                                 break;
@@ -190,6 +193,8 @@ INLINE_NAMESPACE::Select::start(void) {
                                     buffer[bytes] = '\0';
                                     size_total += bytes;
                                     request->add_body(buffer, bytes);
+									if (request->max_body_size_check(size_total))
+										break;
                                 }
                             }
                             std::string buffer_s(buffer);

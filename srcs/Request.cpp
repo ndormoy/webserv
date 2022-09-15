@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/15 11:17:21 by gmary            ###   ########.fr       */
+/*   Updated: 2022/09/15 11:46:14 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,13 +287,6 @@ void INLINE_NAMESPACE::Request::unchunk_body () {
 	_body = head + unchunk_body;
 }
 
-void
-INLINE_NAMESPACE::Request::add_body(char * str_add, int bytes) { 
-	if (!max_body_size_check(bytes))
-		return ;
-	_body.insert(_body.size(), str_add, bytes);  
-}
-
 /**
  * @brief this function is used to check max body size
  * 
@@ -305,8 +298,10 @@ bool
 INLINE_NAMESPACE::Request::max_body_size_check(size_t size) {
 	if (size > _server->get_max_body_size()) {
 		//! TODO besoin de set l'erreur a 413
+		CNOUT(BRED << "Error : Request body size is too big" << CRESET);
 		set_error_value(413);
 		return (false);
 	}
+	CNOUT(BGRN << "OKKK" << CRESET);
 	return (true);
 }
