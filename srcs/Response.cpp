@@ -48,12 +48,15 @@ void INLINE_NAMESPACE::Response::manage_response_post(void) {
 	}
     if (_request->define_upload()) {
         isupload = true;
-    }else
-		set_error_value(413);
-
+    }
     if (location_ptr && !location_ptr->get_upload_path().empty() && isupload) {
 		CNOUT(UMAG << location_ptr->get_upload_path() << CRESET)
         create_upload_file(location_ptr->get_upload_path());
+    } else if (location_ptr && !isupload) {
+        int size = 0;
+	    size = read_file(_request->get_construct_path()).size();
+        _body.insert(_body.size(), read_file(_request->get_construct_path()).c_str(), size);
+	    _body.insert(_body.size(), "\r\n\r\n", 4);
     }
 
     if (isupload) {

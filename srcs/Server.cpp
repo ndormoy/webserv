@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ndormoy <ndormoy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 17:09:05 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/22 15:17:05 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/09/15 15:24:18 by ndormoy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,6 @@ INLINE_NAMESPACE::Server::_set_port (string_vector::const_iterator & it) {
 			port = std::atoll(v[0].c_str());
 		}
 		_default = (v.size() == 2 ? true : false);
-		FOREACH_SERVER {
-			for (std::vector<int>::const_iterator it2 = (*it)->get_port().begin(); it2 != (*it)->get_port().end(); it2++) {
-				if (*it2 == port)
-					throw Configuration::DuplicatePort();
-			}
-		}
 		_port.push_back(port);
 	} else {
 		throw Configuration::InvalidPort();
