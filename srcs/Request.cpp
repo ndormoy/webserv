@@ -6,7 +6,7 @@
 /*   By: ndormoy <ndormoy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/15 16:44:31 by ndormoy          ###   ########.fr       */
+/*   Updated: 2022/09/15 17:16:02 by ndormoy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,9 @@ INLINE_NAMESPACE::Request::set_final_path (void) {
 
 short
 INLINE_NAMESPACE::Request::check_request (void) {
+	if (!_server || !_location) {
+		return (400);
+	}
     if (!path_is_valid(_construct_path)) {
         return (404);
     } 
