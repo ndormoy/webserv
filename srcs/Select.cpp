@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/15 11:49:38 by gmary            ###   ########.fr       */
+/*   Updated: 2022/09/15 15:58:47 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ INLINE_NAMESPACE::Select::start(void) {
                     size_total += bytes;
                     buffer[bytes] = '\0';
                     Request *request = new Request(buffer, bytes);
-					request->max_body_size_check(size_total);
+					//request->max_body_size_check(size_total);
 
 					if (request->get_method() == M_POST) {
                         DEBUG_3(CNOUT(BBLU << "Updating : POST Request is parsing..."))
@@ -161,8 +161,8 @@ INLINE_NAMESPACE::Select::start(void) {
                                     buffer[bytes] = '\0';
                                     request->add_body(buffer, bytes);
                                     size_total += bytes;
-									if (request->max_body_size_check(size_total))
-										break;
+									//if (request->max_body_size_check(size_total) == false)
+									//	break;
                                 }
                             } else
                                 break;
@@ -193,8 +193,8 @@ INLINE_NAMESPACE::Select::start(void) {
                                     buffer[bytes] = '\0';
                                     size_total += bytes;
                                     request->add_body(buffer, bytes);
-									if (request->max_body_size_check(size_total))
-										break;
+									//if (request->max_body_size_check(size_total) == false)
+									//	break;
                                 }
                             }
                             std::string buffer_s(buffer);
@@ -208,7 +208,8 @@ INLINE_NAMESPACE::Select::start(void) {
 
                     DEBUG_3(CNOUT(BBLU << "Updating : Request has been parsed" << CRESET))
                     DEBUG_1(webserv_log_input(*request);)
-
+					if (request->get_error_value() != 413 && request->get_body().size() > 0)
+						request->max_body_size_check(size_total);
                     DEBUG_3(CNOUT(BBLU << "Updating : creating response..." << CRESET))
 					Response response(request);
                     response.manage_response();
