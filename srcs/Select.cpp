@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/15 15:58:47 by gmary            ###   ########.fr       */
+/*   Updated: 2022/09/16 08:29:18 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ INLINE_NAMESPACE::Select::start(void) {
         }
 
         DEBUG_3(CNOUT(BBLU << "Updating : selecting..."))
-        int select_ret = select(get_max_sub_socket() + 1, &_readfds, NULL, NULL, NULL);
+        int select_ret = select(get_max_sub_socket() + 1, &_readfds, &_readfds + 1, NULL, NULL);
         if (g_exit) {
             return;
         } if (select_ret == SYSCALL_ERR) {
