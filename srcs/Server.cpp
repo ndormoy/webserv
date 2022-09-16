@@ -30,6 +30,7 @@ INLINE_NAMESPACE::Server::_set_port (string_vector::const_iterator & it) {
 		}
 		_default = (v.size() == 2 ? true : false);
 		_port.push_back(port);
+
 	} else {
 		throw Configuration::InvalidPort();
 	}

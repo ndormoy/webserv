@@ -134,7 +134,7 @@ INLINE_NAMESPACE::Response::manage_response(void) {
     if (_error_value == FATAL_ERROR) {
         _error_value = 400;
         _body = "HTTP/1.1 400 Bad Request\r\n\r\n";
-        _body.append(create_html_error_page(500));
+        _body.append(create_html_error_page(400));
         return;
     }
     if (_error_value == 200) {

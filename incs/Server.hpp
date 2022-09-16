@@ -59,7 +59,7 @@ class Server {
 		}
 
 		std::vector<int>	&				get_port (void)					{return (_port);}
-		std::string							get_ip (void) const 			{return (_ip);}
+		std::string	&						get_ip (void)        			{return (_ip);}
 		size_t 								get_max_body_size (void) const 	{return (_max_body_size);}
 		std::string 						get_server_name (void) const 	{return (_server_name);}
 		error_page_type 					get_error_pages (void) const 	{return (_error_pages);}

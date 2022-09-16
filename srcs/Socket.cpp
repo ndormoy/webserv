@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   Socket.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndormoy <ndormoy@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mathias.mrsn <mathias.mrsn@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:45:57 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/15 15:25:49 by ndormoy          ###   ########.fr       */
+/*   Updated: 2022/09/16 15:17:41 by mathias.mrs      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "webserv.hpp"
 
 void
-INLINE_NAMESPACE::Socket::setup (int port) {
+INLINE_NAMESPACE::Socket::setup (int port, std::string & ip) {
 	
 	int opt = true;
 		
@@ -26,7 +26,7 @@ INLINE_NAMESPACE::Socket::setup (int port) {
 	_address.sin_family = AF_INET;
     _address.sin_addr.s_addr = INADDR_ANY;
     _address.sin_port = htons(port);
-//    inet_aton("", reinterpret_cast<in_addr *>(&_address.sin_addr.s_addr));
+    _address.sin_addr.s_addr = inet_addr("127.0.0.1");
 	if (bind(_master_socket, (struct sockaddr *)&_address, sizeof(_address)) < 0 && errno != 48) {
 		throw Socket::fBindError();
 	}

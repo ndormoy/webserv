@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   Select.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mathias.mrsn <mathias.mrsn@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/16 10:37:52 by gmary            ###   ########.fr       */
+/*   Updated: 2022/09/16 15:46:33 by mathias.mrs      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "webserv.hpp"
 
@@ -66,7 +65,7 @@ INLINE_NAMESPACE::Select::setup(void) {
     FOREACH_SERVER {
 		for (std::vector<int>::iterator it2 = (*it)->get_port().begin(); it2 != (*it)->get_port().end(); ++it2) {
 	        INLINE_NAMESPACE::Socket sock;
-	        sock.setup((*it2));
+	        sock.setup((*it2), (*it)->get_ip());
 	        for (int i = 0; i < MAX_CLIENT; i++)
 	            _client_socket[i] = 0;
 	        DEBUG_3(CNOUT(BBLU << "Updating : server " << (*it2) << " is ready to be used" << CRESET))
@@ -121,7 +120,7 @@ INLINE_NAMESPACE::Select::start(void) {
         _init_socket();
 
         DEBUG_3(CNOUT(BBLU << "Updating : selecting..."))
-        int select_ret = select(get_max_sub_socket() + 1, &_readfds, &_readfds + 1, NULL, NULL);
+        int select_ret = select(get_max_sub_socket() + 1, &_readfds, &_writefds, NULL, NULL);
         if (g_exit) {
             return;
         } if (select_ret == SYSCALL_ERR) {
