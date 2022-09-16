@@ -6,7 +6,7 @@
 /*   By: mathias.mrsn <mathias.mrsn@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/16 15:46:33 by mathias.mrs      ###   ########.fr       */
+/*   Updated: 2022/09/16 17:20:08 by mathias.mrs      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ INLINE_NAMESPACE::Select::webserv_log_output(Response &response) {
     DEBUG_2(COUT(BMAG << "[Response send by server]" << CRESET << std::endl))
     DEBUG_2(COUT(BWHT << response.get_body() << CRESET << std::endl))
     DEBUG_2(COUT(BMAG << "[End of response]" << CRESET << std::endl))
-
 }
 
 void
@@ -114,7 +113,7 @@ INLINE_NAMESPACE::Select::start(void) {
 	sigaddset(&set, SIGPIPE);
 	int retcode = sigprocmask(SIG_BLOCK, &set, NULL);
 	if (retcode == -1)
-		throw std::runtime_error("sigprocmask error");
+		throw std::runtime_error("sigprocmask()");
 
     while (true) {
         _init_socket();
@@ -204,45 +203,42 @@ INLINE_NAMESPACE::Select::start(void) {
                             }
                         }
                         //TODO reparse chunked body
-//                        request->unchunk_body();
                     }
 
-//                    if (_client_socket[i] != 0 && FD_ISSET(_client_socket[i], &_writefds)) {
-                        DEBUG_3(CNOUT(BBLU << "Updating : Request has been parsed" << CRESET))
-                        DEBUG_1(webserv_log_input(*request);)
-                        if (request->get_error_value() != 413 && request->get_body().size() > 0)
-                            request->max_body_size_check(size_total);
-                        DEBUG_3(CNOUT(BBLU << "Updating : creating response..." << CRESET))
-                        Response response(request);
-                        response.manage_response();
-                        response.set_message_send(response.get_body());
+                    DEBUG_3(CNOUT(BBLU << "Updating : Request has been parsed" << CRESET))
+                    DEBUG_1(webserv_log_input(*request);)
+                    if (request->get_error_value() != 413 && request->get_body().size() > 0)
+                        request->max_body_size_check(size_total);
+                    DEBUG_3(CNOUT(BBLU << "Updating : creating response..." << CRESET))
+                    Response response(request);
+                    response.manage_response();
+                    response.set_message_send(response.get_body());
 
-                        DEBUG_3(CNOUT(BBLU << "Updating : Response has been created" << CRESET))
-                        DEBUG_1(webserv_log_output(response);)
-                        DEBUG_3(CNOUT(BBLU << "Updating : sending the response..." << CRESET))
-                        size_t start = 0;
-                        std::string tmp;
-                        int	nb_piece = calculate_size_piece_file(response.get_message_send().size());
-                        for (int j = 0; j < nb_piece; j++)
-                        {
-                            tmp = response.get_message_send().substr(start, response.get_message_send().size() / nb_piece);
-                            send(_client_socket[i], tmp.c_str(), tmp.size(), 0);
-                            if (bytes == SYSCALL_ERR) {
-                                DEBUG_5(CNOUT(BRED << "Error : send() failed (l." << __LINE__ << ")" << CRESET))
-                                disconnect_client(i);
-                                break;
-                            }
-                            usleep(50000);
-                            start += tmp.size();
-                        }
-                        tmp = response.get_message_send().substr(start);
+                    DEBUG_3(CNOUT(BBLU << "Updating : Response has been created" << CRESET))
+                    DEBUG_1(webserv_log_output(response);)
+                    DEBUG_3(CNOUT(BBLU << "Updating : sending the response..." << CRESET))
+                    size_t start = 0;
+                    std::string tmp;
+                    int	nb_piece = calculate_size_piece_file(response.get_message_send().size());
+                    for (int j = 0; j < nb_piece; j++)
+                    {
+                        tmp = response.get_message_send().substr(start, response.get_message_send().size() / nb_piece);
                         send(_client_socket[i], tmp.c_str(), tmp.size(), 0);
                         if (bytes == SYSCALL_ERR) {
                             DEBUG_5(CNOUT(BRED << "Error : send() failed (l." << __LINE__ << ")" << CRESET))
                             disconnect_client(i);
                             break;
                         }
-//                    }
+                        usleep(50000);
+                        start += tmp.size();
+                    }
+                    tmp = response.get_message_send().substr(start);
+                    send(_client_socket[i], tmp.c_str(), tmp.size(), 0);
+                    if (bytes == SYSCALL_ERR) {
+                        DEBUG_5(CNOUT(BRED << "Error : send() failed (l." << __LINE__ << ")" << CRESET))
+                        disconnect_client(i);
+                        break;
+                    }
                     delete request;
                     DEBUG_3(CNOUT(BBLU << "Updating : Response has been sent" << CRESET))
                 }

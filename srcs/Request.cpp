@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Request.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mathias.mrsn <mathias.mrsn@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/16 08:41:39 by gmary            ###   ########.fr       */
+/*   Updated: 2022/09/16 17:35:18 by mathias.mrs      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,38 +58,40 @@ find_server_ (std::string str) {
 
 static INLINE_NAMESPACE::Location *
 find_location_ (INLINE_NAMESPACE::Server * srv, std::string path) {
-	int max_size = 0;
-	if (srv == NULL)
-		return (NULL);
-		
-	INLINE_NAMESPACE::Server::location_type loc = srv->get_locations();
-	static INLINE_NAMESPACE::Location * save;
-	std::string tmp_path;
-	std::string tmp_loc_path;
-	
-	for (INLINE_NAMESPACE::Server::location_type::const_iterator it = loc.begin(); it != loc.end(); it++) {
-		tmp_path = (*it)->get_path().substr((((*it)->get_path()[0] == '/') ? 1 : 0), (*it)->get_path().length());
-		if (!tmp_path.empty() && tmp_path.length() != path.length())
-			tmp_path = (tmp_path + ((tmp_path[tmp_path.length() - 1] != '/') ? "/" : ""));
+    int max_size = 0;
+    if (srv == NULL)
+        return (NULL);
+        
+    INLINE_NAMESPACE::Server::location_type loc = srv->get_locations();
+    static INLINE_NAMESPACE::Location * save;
+    std::string tmp_path;
+    std::string tmp_loc_path;
+    
+    for (INLINE_NAMESPACE::Server::location_type::const_iterator it = loc.begin(); it != loc.end(); it++) {
+        tmp_path = (*it)->get_path().substr((((*it)->get_path()[0] == '/') ? 1 : 0), (*it)->get_path().length());
+        if (strncmp(tmp_path.c_str(), "./", 2) == 0)
+        {
+            tmp_path = tmp_path.substr(2, tmp_path.length() - 2);
+            (*it)->set_path(tmp_path);
+        }
+        if (!tmp_path.empty() && tmp_path.length() != path.length())
+            tmp_path = (tmp_path + ((tmp_path[tmp_path.length() - 1] != '/') ? "/" : ""));
 
-		// CNOUT("loc_path" << tmp_path);
-		// tmp_loc_path = (tmp_loc_path + ((tmp_loc_path[tmp_loc_path.length() - 1] != '/') ? "/" : ""));
+        // CNOUT("loc_path" << tmp_path);
+        // tmp_loc_path = (tmp_loc_path + ((tmp_loc_path[tmp_loc_path.length() - 1] != '/') ? "/" : ""));
 
-		// CNOUT(BRED << tmp_path << " " << path << std::endl << CRESET);
-		
-		if ((tmp_path.empty() || path.rfind(tmp_path, 0) == 0) && max_size <= tmp_path.length()) {
-			max_size = tmp_path.length();
-			save = *it;
-			CNOUT("is in" << max_size);
-		}
-		// CNOUT(*(it))
-	}
-	if (!save) {
-    	return (NULL);
-	} else {
-		 CNOUT((*save))
-		return (save);
-	}
+        if ((tmp_path.empty() || path.rfind(tmp_path, 0) == 0) && max_size <= tmp_path.length()) {
+            max_size = tmp_path.length();
+            save = *it;
+        
+        }
+    }
+    if (!save) {
+        return (NULL);
+    } else {
+         CNOUT((*save))
+        return (save);
+    }
 }
 
 static std::string
@@ -116,9 +118,9 @@ INLINE_NAMESPACE::Request::parse_first_line (std::string str) {
 	if (vector.size() < 3)
 		return (FATAL_ERROR);
 	else if ((vector[0] != "GET" && vector[0] != "POST" && vector[0] != "DELETE"))
-		return (FATAL_ERROR);
+		return (405);
 	else if (vector[2] != "HTTP/1.1")
-		return (FATAL_ERROR);
+		return (505);
 
 	if (vector[0] == "GET") {
 		_method |= M_GET;
