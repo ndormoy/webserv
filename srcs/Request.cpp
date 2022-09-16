@@ -3,54 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   Request.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndormoy <ndormoy@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/15 17:16:02 by ndormoy          ###   ########.fr       */
+/*   Updated: 2022/09/16 08:41:39 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "webserv.hpp"
 
-static bool
-is_number_(const std::string& s)
-{
-    std::string::const_iterator it = s.begin();
-    while (it != s.end() && std::isdigit(*it)) ++it;
-    return !s.empty() && it == s.end();
-}
-
 static INLINE_NAMESPACE::Server *
 find_server_ (std::string str) {
 	if (str.empty()) {
 		return (NULL);
-	} 
+	}
 
 	int pos = str.find(":");
-	std::string s_name = str.substr(0, pos);
-	std::string port;
-	if (pos != std::string::npos)
-		port = str.substr(pos + 1, str.size());
-	if (s_name.empty()) {
-		CNOUT("exit 3")
+	std::string port = str.substr(pos + 1);
+	if (port.empty() || pos == std::string::npos || port.length() > 5)
 		return (NULL);
-	}
-	if (!port.empty() && (port.length() > 5 || !is_number_(port))) {
-		CNOUT("exit 4")
-		return (NULL);
-	}
+		
 	FOREACH_SERVER {
-		if ((*it)->get_server_name() == s_name) {
-			if (port.empty()) {
-				CNOUT("exit 1 -> " << (*it)->get_server_name())
+		for (std::vector<int>::const_iterator it2 = (*it)->get_port().begin(); it2 != (*it)->get_port().end(); it2++) {
+			if (*it2 == std::atoi(port.c_str()))
 				return (*it);
-			}
-			for (std::vector<int>::const_iterator it2 = (*it)->get_port().begin(); it2 != (*it)->get_port().end(); it2++) {
-				if (*it2 == std::atoi(port.c_str())) {
-					CNOUT("exit 1 -> " << (*it)->get_server_name())
-					return (*it);
-				}
-			}
 		}
 	}
 	return (NULL);
@@ -194,9 +170,6 @@ INLINE_NAMESPACE::Request::set_final_path (void) {
 
 short
 INLINE_NAMESPACE::Request::check_request (void) {
-	if (!_server || !_location) {
-		return (400);
-	}
     if (!path_is_valid(_construct_path)) {
         return (404);
     } 
@@ -312,4 +285,21 @@ void INLINE_NAMESPACE::Request::unchunk_body () {
 		}
 	}
 	_body = head + unchunk_body;
+}
+
+/**
+ * @brief this function is used to check max body size
+ * 
+ * @param size 
+ * @return true false
+ */
+
+bool
+INLINE_NAMESPACE::Request::max_body_size_check(size_t size) {
+	if (_server && (size > _server->get_max_body_size())) {
+		CNOUT(BRED << "Error : Request body size is too big" << CRESET);
+		set_error_value(413);
+		return (false);
+	}
+	return (true);
 }
