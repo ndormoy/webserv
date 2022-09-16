@@ -67,6 +67,10 @@ class Select {
 		void			start (void);
 		void			new_request (void);
 		void			disconnect_client(int i);
+
+    private:
+        void _init_socket (void);
+
 	public:
 
 		EXCEPTION(fSelectError, "execution : function select failed")

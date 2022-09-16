@@ -26,6 +26,7 @@ INLINE_NAMESPACE::Socket::setup (int port) {
 	_address.sin_family = AF_INET;
     _address.sin_addr.s_addr = INADDR_ANY;
     _address.sin_port = htons(port);
+//    inet_aton("", reinterpret_cast<in_addr *>(&_address.sin_addr.s_addr));
 	if (bind(_master_socket, (struct sockaddr *)&_address, sizeof(_address)) < 0 && errno != 48) {
 		throw Socket::fBindError();
 	}
