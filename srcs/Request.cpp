@@ -6,7 +6,7 @@
 /*   By: mathias.mrsn <mathias.mrsn@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/16 17:35:18 by mathias.mrs      ###   ########.fr       */
+/*   Updated: 2022/09/16 17:41:16 by mathias.mrs      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ INLINE_NAMESPACE::Request::parse_first_line (std::string str) {
 	string_vector vector = vector_spliter(str, " ", "", false);
 	
 	if (vector.size() < 3)
-		return (FATAL_ERROR);
+		return (400);
 	else if ((vector[0] != "GET" && vector[0] != "POST" && vector[0] != "DELETE"))
 		return (405);
 	else if (vector[2] != "HTTP/1.1")

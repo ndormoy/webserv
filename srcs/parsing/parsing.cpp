@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mathias.mrsn <mathias.mrsn@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:09:26 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/27 10:56:55 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/09/16 18:07:15 by mathias.mrs      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ remove_comment_ (string_vector & v) {
 static void
 separe_special_char_ (string_vector & v, const char * delims) {
 	string_vector::iterator it = v.begin();
-	// std::string	delims[] = {"{", "}", ";", ""};
 	std::string save_s;
 	std::string c;
 	std::size_t	f_val;

@@ -83,15 +83,15 @@ void
 INLINE_NAMESPACE::Response::manage_error_page(void) {
     std::string ret;
 
-	if (_error_value == 400)
-	{
-		_body.append(create_html_error_page(_error_value));
-		return ;
-	}
+	// if (_error_value == 400)
+	// {
+	// 	_body.append(create_html_error_page(_error_value));
+	// 	return ;
+	// }
     if (_location
         && _error_value == 403
         && _location->get_autoindex()
-        && (path_is_dir(_request->get_construct_path())) || _request->get_construct_path().empty()) {
+        && ((path_is_dir(_request->get_construct_path())) || _request->get_construct_path().empty())) {
         _error_value = 200;
         _body = auto_index(_request->get_path());
     } else if (_location && !(ret = _location->return_path_matching(_error_value)).empty()) {
