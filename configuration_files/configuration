@@ -1,68 +1,35 @@
 server {
-	server_name first_server.fr;
-	listen 192.0.0.45:8080;
-	listen 8090;
-	client_max_body_size 15;
+	server_name localhost;
+	listen 192.0.0.1:8080;
+	client_max_body_size 8m;
 
 	location /
 	{
-		allow_methods GET DELETE;
+		allow_methods GET POST DELETE;
 		root www;
-		# index index.html;
+		index index.html;
 
 		return 403 www/error_pages/403.html;
-		return 405 www/error_pages/405.html;
 		auto_index on;
 		cgi .php bin/php-cgi;
+		upload www;
 	}
 }
 
 server {
-	server_name second_server.fr;
-	listen 192.0.0.87:8081;
-	error_page 404 www/error_pages/404.html;
-
-	location www
-	{
-		allow_methods GET POST DELETE;
-		root www/Session;
-
-		auto_index on;
-		cgi .php bin/php-cgi;
-		upload example_html/upload;
-	}
-}
-
-server {
-	server_name third_server.fr;
-	listen 192.0.0.203:8082;
+	server_name exemple2.fr;
+	listen 192.0.0.1:8080;
+	client_max_body_size 8m;
 
 	location /
 	{
 		allow_methods GET POST DELETE;
 		root www;
+		index index.html;
 
-		auto_index on;
+		return 403 www/error_pages/404.html;
+		auto_index off;
 		cgi .php bin/php-cgi;
-		cgi .hello_world bin/hello_world_cgi;
-		upload example_html/upload;
+		upload www;
 	}
 }
-
-server {
-	server_name third_server.fr;
-	listen 192.0.0.203:8084;
-	client_max_body_size 100M;
-
-	location /
-	{
-		allow_methods GET POST DELETE;
-		root example_html;
-
-		auto_index on;
-		cgi .php bin/php-cgi;
-		cgi .hello_world bin/hello_world_cgi;
-		upload example_html/upload;
-	}
-}
-

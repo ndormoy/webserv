@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Socket.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ndormoy <ndormoy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:45:57 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/20 09:36:55 by gmary            ###   ########.fr       */
+/*   Updated: 2022/09/15 15:25:49 by ndormoy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ INLINE_NAMESPACE::Socket::setup (int port) {
 	}
 	_address.sin_family = AF_INET;
     _address.sin_addr.s_addr = INADDR_ANY;
-    _address.sin_port = htons(port);	
-	if (bind(_master_socket, (struct sockaddr *)&_address, sizeof(_address)) < 0) {
+    _address.sin_port = htons(port);
+	if (bind(_master_socket, (struct sockaddr *)&_address, sizeof(_address)) < 0 && errno != 48) {
 		throw Socket::fBindError();
 	}
 	if (listen(_master_socket, MAX_CLIENT) < 0) {

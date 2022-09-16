@@ -6,27 +6,51 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/16 08:41:39 by gmary            ###   ########.fr       */
+/*   Updated: 2022/09/16 14:21:05 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "webserv.hpp"
 
+static bool
+is_number_(const std::string& s)
+{
+    std::string::const_iterator it = s.begin();
+    while (it != s.end() && std::isdigit(*it)) ++it;
+    return !s.empty() && it == s.end();
+}
+
 static INLINE_NAMESPACE::Server *
 find_server_ (std::string str) {
 	if (str.empty()) {
 		return (NULL);
-	}
+	} 
 
 	int pos = str.find(":");
-	std::string port = str.substr(pos + 1);
-	if (port.empty() || pos == std::string::npos || port.length() > 5)
+	std::string s_name = str.substr(0, pos);
+	std::string port;
+	if (pos != std::string::npos)
+		port = str.substr(pos + 1, str.size());
+	if (s_name.empty()) {
+		CNOUT("exit 3")
 		return (NULL);
-		
+	}
+	if (!port.empty() && (port.length() > 5 || !is_number_(port))) {
+		CNOUT("exit 4")
+		return (NULL);
+	}
 	FOREACH_SERVER {
-		for (std::vector<int>::const_iterator it2 = (*it)->get_port().begin(); it2 != (*it)->get_port().end(); it2++) {
-			if (*it2 == std::atoi(port.c_str()))
+		if ((*it)->get_server_name() == s_name) {
+			if (port.empty()) {
+				CNOUT("exit 1 -> " << (*it)->get_server_name())
 				return (*it);
+			}
+			for (std::vector<int>::const_iterator it2 = (*it)->get_port().begin(); it2 != (*it)->get_port().end(); it2++) {
+				if (*it2 == std::atoi(port.c_str())) {
+					CNOUT("exit 1 -> " << (*it)->get_server_name())
+					return (*it);
+				}
+			}
 		}
 	}
 	return (NULL);
@@ -170,6 +194,9 @@ INLINE_NAMESPACE::Request::set_final_path (void) {
 
 short
 INLINE_NAMESPACE::Request::check_request (void) {
+	if (!_server || !_location) {
+		return (400);
+	}
     if (!path_is_valid(_construct_path)) {
         return (404);
     } 
