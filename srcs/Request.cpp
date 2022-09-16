@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/15 15:42:18 by gmary            ###   ########.fr       */
+/*   Updated: 2022/09/16 08:41:39 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,17 +296,10 @@ void INLINE_NAMESPACE::Request::unchunk_body () {
 
 bool
 INLINE_NAMESPACE::Request::max_body_size_check(size_t size) {
-
-	CNOUT(BGRN << "AVANT" << CRESET)
-	if (_server && _server->get_max_body_size())
-		;
-	CNOUT(BGRN << "APRES" << CRESET)
 	if (_server && (size > _server->get_max_body_size())) {
-		//! TODO besoin de set l'erreur a 413
 		CNOUT(BRED << "Error : Request body size is too big" << CRESET);
 		set_error_value(413);
 		return (false);
 	}
-	CNOUT(BGRN << "OKKK" << CRESET);
 	return (true);
 }

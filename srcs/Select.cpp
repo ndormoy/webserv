@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/16 08:29:18 by gmary            ###   ########.fr       */
+/*   Updated: 2022/09/16 10:34:43 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,15 @@ INLINE_NAMESPACE::Select::setup(void) {
 }
 
 void
+INLINE_NAMESPACE::Select::disconnect_client(int i) {
+	FD_CLR(_client_socket[i], &_readfds);
+    if (_client_socket[i] > 0) {
+        close(_client_socket[i]);
+    }
+    _client_socket[i] = 0;
+}
+
+void
 INLINE_NAMESPACE::Select::start(void) {
     size_t size_total = 0;
 
@@ -122,19 +131,15 @@ INLINE_NAMESPACE::Select::start(void) {
                 bytes = recv(_client_socket[i], buffer, 10024, 0);
                 if (bytes == SYSCALL_ERR) {
                     DEBUG_5(CNOUT(BRED << "Error : recv() failed (l." << __LINE__ << ")" << CRESET))
+					disconnect_client(i);
                     break;
                 } else if (bytes == 0) {
                     DEBUG_3(CNOUT(BBLU << "Updating : client disconnected = " << _client_socket[i] << "#" << CRESET))
-                    FD_CLR(_client_socket[i], &_readfds);
-                    if (_client_socket[i] > 0) {
-                        close(_client_socket[i]);
-                    }
-                    _client_socket[i] = 0;
+                    disconnect_client(i);
                 } else {
                     size_total += bytes;
                     buffer[bytes] = '\0';
                     Request *request = new Request(buffer, bytes);
-					//request->max_body_size_check(size_total);
 
 					if (request->get_method() == M_POST) {
                         DEBUG_3(CNOUT(BBLU << "Updating : POST Request is parsing..."))
@@ -145,24 +150,19 @@ INLINE_NAMESPACE::Select::start(void) {
                                 }
                                 bytes = recv(_client_socket[i], buffer, 10024, 0);
                                 DEBUG_3(CNOUT(BBLU << "Updating : recv has read " << bytes << " bytes" << CRESET))
-                                if (bytes == SYSCALL_ERR) {
+								if (bytes == SYSCALL_ERR) {
                                     DEBUG_5(CNOUT(BRED << "Error : recv() failed (l." << __LINE__ << ")" << CRESET))
-                                    break;
+									disconnect_client(i);
+									break;
                                 } else if (bytes == 0) {
-                                    DEBUG_3(CNOUT(
-                                            BBLU << "Updating : client disconnected = " << _client_socket[i] << "#"
-                                                 << CRESET))
-                                    FD_CLR(_client_socket[i], &_readfds);
-                                    if (_client_socket[i] > 0) {
-                                        close(_client_socket[i]);
-                                    }
-                                    _client_socket[i] = 0;
+                                    DEBUG_3(CNOUT(BBLU << "Updating : client disconnected = " << _client_socket[i] << "#" << CRESET))
+									disconnect_client(i);
                                 } else {
                                     buffer[bytes] = '\0';
                                     request->add_body(buffer, bytes);
                                     size_total += bytes;
-									//if (request->max_body_size_check(size_total) == false)
-									//	break;
+									if (bytes < 10024)
+										break;
                                 }
                             } else
                                 break;
@@ -179,22 +179,18 @@ INLINE_NAMESPACE::Select::start(void) {
                                 bytes = recv(_client_socket[i], buffer, 10024, 0);
                                 DEBUG_3(CNOUT(BBLU << "Updating : recv has read " << bytes << " bytes" << CRESET))
                                 if (bytes == SYSCALL_ERR) {
-                                    DEBUG_5(CNOUT(BRED << "Error : recv() failed (l." << __LINE__ << ")" << CRESET))
+									DEBUG_5(CNOUT(BRED << "Error : recv() failed (l." << __LINE__ << ")" << CRESET))
+									disconnect_client(i);
                                     break;
                                 } else if (bytes == 0) {
-                                    DEBUG_3(CNOUT(
-                                            BBLU << "Updating : client disconnected = " << _client_socket[i] << CRESET))
-                                    FD_CLR(_client_socket[i], &_readfds);
-                                    if (_client_socket[i] > 0) {
-                                        close(_client_socket[i]);
-                                    }
-                                    _client_socket[i] = 0;
+                                    DEBUG_3(CNOUT(BBLU << "Updating : client disconnected = " << _client_socket[i] << CRESET))
+									disconnect_client(i);
                                 } else {
                                     buffer[bytes] = '\0';
                                     size_total += bytes;
                                     request->add_body(buffer, bytes);
-									//if (request->max_body_size_check(size_total) == false)
-									//	break;
+									if (bytes < 10024)
+										break;
                                 }
                             }
                             std::string buffer_s(buffer);
@@ -231,7 +227,6 @@ INLINE_NAMESPACE::Select::start(void) {
         			tmp = response.get_message_send().substr(start);
         			send(_client_socket[i], tmp.c_str(), tmp.size(), 0);
                     delete request;
-	
                     DEBUG_3(CNOUT(BBLU << "Updating : Response has been sent" << CRESET))
                 }
             }
