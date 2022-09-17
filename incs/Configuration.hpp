@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Configuration.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mathias.mrsn <mathias.mrsn@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:32:45 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/12 13:30:27 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/09/17 15:23:44 by mathias.mrs      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ class Configuration {
 			_lexer(ref._lexer)
 		{ }
 		
-		
-
 	public:
 
 		server_vector& 		getServers (void) const {return (_servers);}
@@ -60,6 +58,10 @@ class Configuration {
 		void	parser (void);
 
 		void	setup (void);
+
+	private:
+
+		bool	_duplicate_server (std::vector<Server *> &);
 
 	public:
 
@@ -77,13 +79,13 @@ class Configuration {
 	EXCEPTION(InvalidFile, "configuration_file : invalid file")
 	EXCEPTION(SyntaxError, "configuration_file : syntax error")
 	EXCEPTION(TooManyServer, "configuration_file : too many server")
+	EXCEPTION(DuplicateServer, "configuration_file : duplicate server")
 
 	EXCEPTION(InvalidPort, "configuration_file : invalid port")
 	EXCEPTION(InvalidBodySizeMax, "configuration_file : invalid body size max")
 	EXCEPTION(InvalidServerName, "configuration_file : invalid server name")
 	EXCEPTION(InvalidErrorPage, "configuration_file : invalid error page")
 	EXCEPTION(InvalidLocation, "configuration_file : invalid location")
-	EXCEPTION(DuplicatePort, "configuration_file : duplicate port")
 
 	EXCEPTION(InvalidMethod, "configuration_file : invalid method field")
 	EXCEPTION(InvalidRoot, "configuration_file : invalid root field")

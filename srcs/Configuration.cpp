@@ -3,14 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   Configuration.cpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mathias.mrsn <mathias.mrsn@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:38:48 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/12 13:30:32 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/09/17 15:31:49 by mathias.mrs      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "webserv.hpp"
+
+bool
+INLINE_NAMESPACE::Configuration::_duplicate_server (std::vector<Server *> & server) {
+	std::vector<Server *>::const_iterator current = server.end() - 1;
+	FOREACH_SERVER {
+		if (current == it) {
+			break;
+		} else {
+			if ((*it)->get_server_name() == (*current)->get_server_name()) {
+				for (std::vector<int>::iterator it2 = (*it)->get_port().begin(); it2 != (*it)->get_port().end(); ++it2) {
+					if (std::find((*current)->get_port().begin(), (*current)->get_port().end(), *it2) != (*current)->get_port().end()) {
+						return (true);
+					}
+				}
+			}
+		}
+	}
+	return (false);
+}
 
 void
 INLINE_NAMESPACE::Configuration::parser (void) {
@@ -26,6 +45,9 @@ INLINE_NAMESPACE::Configuration::parser (void) {
 			it += 2;
 			_servers.push_back(s);
 			s->create_server(it);
+			if (_duplicate_server(_servers)) {
+				throw Configuration::DuplicateServer();
+			}
 		} else {
 			throw Configuration::SyntaxError();
 		}
