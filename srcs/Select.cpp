@@ -6,11 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/09/19 10:05:29 by gmary            ###   ########.fr       */
-=======
-/*   Updated: 2022/09/19 13:41:04 by gmary            ###   ########.fr       */
->>>>>>> master
+/*   Updated: 2022/09/19 16:55:23 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +145,7 @@ INLINE_NAMESPACE::Select::start(void) {
                     buffer[bytes] = '\0';
                     Request *request = new Request(buffer, bytes);
 
-					if (request->get_method() == M_POST) {
+					if (request->get_method() == M_POST && bytes >= 10024) {
                         DEBUG_3(CNOUT(BBLU << "Updating : POST Request is parsing..."))
                         while (bytes > 0) {				
                             if (_client_socket[i] != 0 && FD_ISSET(_client_socket[i], &_readfds)) {
@@ -161,6 +157,7 @@ INLINE_NAMESPACE::Select::start(void) {
 								if (bytes == SYSCALL_ERR) {
                                     DEBUG_5(CNOUT(BRED << "Error : recv() failed (l." << __LINE__ << ")" << CRESET))
 									disconnect_client(i);
+									CNOUT(UMAG <<  "------------------------------->" << CRESET)
 									break;
                                 } else if (bytes == 0) {
                                     DEBUG_3(CNOUT(BBLU << "Updating : client disconnected = " << _client_socket[i] << "#" << CRESET))
@@ -177,7 +174,7 @@ INLINE_NAMESPACE::Select::start(void) {
                         }
                     }
 
-                    if (request->get_chunked()) {
+                    if (request->get_chunked() && bytes >= 10024) {
                         DEBUG_3(CNOUT(BBLU << "Updating : chunked Request is parsing..."))
                         while (bytes > 0) {
                             for (int j = 0; j < 10024; j++) {
