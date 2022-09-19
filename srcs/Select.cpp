@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Select.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ndormoy <ndormoy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/19 16:55:23 by gmary            ###   ########.fr       */
+/*   Updated: 2022/09/19 17:26:01 by ndormoy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,11 @@ INLINE_NAMESPACE::Select::_init_socket (void) {
         FD_SET(it->get_master_socket(), &_readfds);
         if (it->get_master_socket() > get_max_sub_socket())
             set_max_sub_socket(it->get_master_socket());
-
+        FD_SET(it->get_master_socket(), &_writefds);
         for (int i = 0; i < MAX_CLIENT; i++) {
             if (_client_socket[i] > 0) {
                 FD_SET(_client_socket[i], &_readfds);
+                FD_SET(_client_socket[i], &_writefds);
             }
             if (_client_socket[i] > get_max_sub_socket()) {
                 set_max_sub_socket(_client_socket[i]);
@@ -224,22 +225,29 @@ INLINE_NAMESPACE::Select::start(void) {
                     for (int j = 0; j < nb_piece; j++)
                     {
                         tmp = response.get_message_send().substr(start, response.get_message_send().size() / nb_piece);
-                        send(_client_socket[i], tmp.c_str(), tmp.size(), 0);
-                        if (bytes == SYSCALL_ERR) {
-                            DEBUG_5(CNOUT(BRED << "Error : send() failed (l." << __LINE__ << ")" << CRESET))
-                            disconnect_client(i);
-                            break;
+                        if (FD_ISSET(_client_socket[i], &_writefds))
+                        {
+                        	send(_client_socket[i], tmp.c_str(), tmp.size(), 0);
+                        	if (bytes == SYSCALL_ERR) {
+                        	    DEBUG_5(CNOUT(BRED << "Error : send() failed (l." << __LINE__ << ")" << CRESET))
+                        	    disconnect_client(i);
+                        	    break;
+                        	}
+                        	usleep(50000);
+                        	start += tmp.size();
                         }
-                        usleep(50000);
-                        start += tmp.size();
                     }
                     tmp = response.get_message_send().substr(start);
-                    send(_client_socket[i], tmp.c_str(), tmp.size(), 0);
-                    if (bytes == SYSCALL_ERR) {
-                        DEBUG_5(CNOUT(BRED << "Error : send() failed (l." << __LINE__ << ")" << CRESET))
-                        disconnect_client(i);
-                        break;
-                    }
+					if (FD_ISSET(_client_socket[i], &_writefds))
+                    {
+						send(_client_socket[i], tmp.c_str(), tmp.size(), 0);
+                  		if (bytes == SYSCALL_ERR) {
+                        	DEBUG_5(CNOUT(BRED << "Error : send() failed (l." << __LINE__ << ")" << CRESET))
+                        	disconnect_client(i);
+                        	break;
+                 		}
+					}
+                    
                     delete request;
                     DEBUG_3(CNOUT(BBLU << "Updating : Response has been sent" << CRESET))
                 }
