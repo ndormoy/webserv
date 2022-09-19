@@ -6,7 +6,7 @@
 /*   By: mathias.mrsn <mathias.mrsn@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/16 17:41:16 by mathias.mrs      ###   ########.fr       */
+/*   Updated: 2022/09/19 13:39:40 by mathias.mrs      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,8 +196,8 @@ INLINE_NAMESPACE::Request::set_final_path (void) {
 
 short
 INLINE_NAMESPACE::Request::check_request (void) {
-    if (!_server || !_location) {
-        return (400);
+    if (!_location) {
+        return (403);
     }
     if (!path_is_valid(_construct_path)) {
         return (404);
