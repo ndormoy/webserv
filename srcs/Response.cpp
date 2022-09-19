@@ -74,8 +74,11 @@ void INLINE_NAMESPACE::Response::manage_response_post(void) {
 
 void INLINE_NAMESPACE::Response::manage_response_get(void) {
 	int size = 0;
-	size = read_file(_request->get_construct_path()).size();
-	_body.insert(_body.size(), read_file(_request->get_construct_path()).c_str(), size);
+	if (return_path_url() == false)
+	{
+		size = read_file(_request->get_construct_path()).size();
+		_body.insert(_body.size(), read_file(_request->get_construct_path()).c_str(), size);
+	}
 	_body.insert(_body.size(), "\r\n\r\n", 4);
 }
 
@@ -247,4 +250,21 @@ std::string INLINE_NAMESPACE::Response::auto_index(std::string location_path) {
 
     delete list;
     return index;
+}
+
+bool
+INLINE_NAMESPACE::Response::return_path_url(void)
+{
+	std::string ret;
+
+	if (_location && !(ret = _location->return_path_matching(_error_value)).empty()) {
+        _body.append(read_file(ret));
+    } else if (_server && !(ret = _server->return_path_matching(_error_value)).empty()) {
+        _body.append(read_file(ret));
+	} else
+	{
+		_body.append("");
+		return (false);
+	}
+	return (true);
 }
