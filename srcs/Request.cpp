@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/16 14:21:05 by gmary            ###   ########.fr       */
+/*   Updated: 2022/09/19 10:05:19 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,74 +22,76 @@ is_number_(const std::string& s)
 
 static INLINE_NAMESPACE::Server *
 find_server_ (std::string str) {
-	if (str.empty()) {
-		return (NULL);
-	} 
+    if (str.empty()) {
+        return (NULL);
+    }
 
-	int pos = str.find(":");
-	std::string s_name = str.substr(0, pos);
-	std::string port;
-	if (pos != std::string::npos)
-		port = str.substr(pos + 1, str.size());
-	if (s_name.empty()) {
-		CNOUT("exit 3")
-		return (NULL);
-	}
-	if (!port.empty() && (port.length() > 5 || !is_number_(port))) {
-		CNOUT("exit 4")
-		return (NULL);
-	}
-	FOREACH_SERVER {
-		if ((*it)->get_server_name() == s_name) {
-			if (port.empty()) {
-				CNOUT("exit 1 -> " << (*it)->get_server_name())
-				return (*it);
-			}
-			for (std::vector<int>::const_iterator it2 = (*it)->get_port().begin(); it2 != (*it)->get_port().end(); it2++) {
-				if (*it2 == std::atoi(port.c_str())) {
-					CNOUT("exit 1 -> " << (*it)->get_server_name())
-					return (*it);
-				}
-			}
-		}
-	}
-	return (NULL);
+    int pos = str.find(":");
+    std::string s_name = str.substr(0, pos);
+    std::string port;
+    if (pos != std::string::npos)
+        port = str.substr(pos + 1, str.size());
+    if (s_name.empty()) {
+        CNOUT("exit 3")
+        return (NULL);
+    }
+    if (!port.empty() && (port.length() > 5 || !is_number_(port))) {
+        CNOUT("exit 4")
+        return (NULL);
+    }
+    FOREACH_SERVER {
+        if ((*it)->get_server_name() == s_name) {
+            if (port.empty()) {
+                CNOUT("exit 1 -> " << (*it)->get_server_name())
+                return (*it);
+            }
+            for (std::vector<int>::const_iterator it2 = (*it)->get_port().begin(); it2 != (*it)->get_port().end(); it2++) {
+                if (*it2 == std::atoi(port.c_str())) {
+                    CNOUT("exit 1 -> " << (*it)->get_server_name())
+                    return (*it);
+                }
+            }
+        }
+    }
+    return (NULL);
 }
 
 static INLINE_NAMESPACE::Location *
 find_location_ (INLINE_NAMESPACE::Server * srv, std::string path) {
-	int max_size = 0;
-	if (srv == NULL)
-		return (NULL);
-		
-	INLINE_NAMESPACE::Server::location_type loc = srv->get_locations();
-	static INLINE_NAMESPACE::Location * save;
-	std::string tmp_path;
-	std::string tmp_loc_path;
-	
-	for (INLINE_NAMESPACE::Server::location_type::const_iterator it = loc.begin(); it != loc.end(); it++) {
-		tmp_path = (*it)->get_path().substr((((*it)->get_path()[0] == '/') ? 1 : 0), (*it)->get_path().length());
-		if (!tmp_path.empty() && tmp_path.length() != path.length())
-			tmp_path = (tmp_path + ((tmp_path[tmp_path.length() - 1] != '/') ? "/" : ""));
+    int max_size = 0;
+    if (srv == NULL)
+        return (NULL);
+        
+    INLINE_NAMESPACE::Server::location_type loc = srv->get_locations();
+    static INLINE_NAMESPACE::Location * save;
+    std::string tmp_path;
+    std::string tmp_loc_path;
+    
+    for (INLINE_NAMESPACE::Server::location_type::const_iterator it = loc.begin(); it != loc.end(); it++) {
+        tmp_path = (*it)->get_path().substr((((*it)->get_path()[0] == '/') ? 1 : 0), (*it)->get_path().length());
+        if (strncmp(tmp_path.c_str(), "./", 2) == 0)
+        {
+            tmp_path = tmp_path.substr(2, tmp_path.length() - 2);
+            (*it)->set_path(tmp_path);
+        }
+        if (!tmp_path.empty() && tmp_path.length() != path.length())
+            tmp_path = (tmp_path + ((tmp_path[tmp_path.length() - 1] != '/') ? "/" : ""));
 
-		// CNOUT("loc_path" << tmp_path);
-		// tmp_loc_path = (tmp_loc_path + ((tmp_loc_path[tmp_loc_path.length() - 1] != '/') ? "/" : ""));
+        // CNOUT("loc_path" << tmp_path);
+        // tmp_loc_path = (tmp_loc_path + ((tmp_loc_path[tmp_loc_path.length() - 1] != '/') ? "/" : ""));
 
-		// CNOUT(BRED << tmp_path << " " << path << std::endl << CRESET);
-		
-		if ((tmp_path.empty() || path.rfind(tmp_path, 0) == 0) && max_size <= tmp_path.length()) {
-			max_size = tmp_path.length();
-			save = *it;
-			CNOUT("is in" << max_size);
-		}
-		// CNOUT(*(it))
-	}
-	if (!save) {
-    	return (NULL);
-	} else {
-		// CNOUT((*save))
-		return (save);
-	}
+        if ((tmp_path.empty() || path.rfind(tmp_path, 0) == 0) && max_size <= tmp_path.length()) {
+            max_size = tmp_path.length();
+            save = *it;
+        
+        }
+    }
+    if (!save) {
+        return (NULL);
+    } else {
+         CNOUT((*save))
+        return (save);
+    }
 }
 
 static std::string
@@ -114,11 +116,11 @@ INLINE_NAMESPACE::Request::parse_first_line (std::string str) {
 	string_vector vector = vector_spliter(str, " ", "", false);
 	
 	if (vector.size() < 3)
-		return (FATAL_ERROR);
+		return (400);
 	else if ((vector[0] != "GET" && vector[0] != "POST" && vector[0] != "DELETE"))
-		return (FATAL_ERROR);
+		return (405);
 	else if (vector[2] != "HTTP/1.1")
-		return (FATAL_ERROR);
+		return (505);
 
 	if (vector[0] == "GET") {
 		_method |= M_GET;
@@ -194,9 +196,9 @@ INLINE_NAMESPACE::Request::set_final_path (void) {
 
 short
 INLINE_NAMESPACE::Request::check_request (void) {
-	if (!_server || !_location) {
-		return (400);
-	}
+    if (!_server || !_location) {
+        return (400);
+    }
     if (!path_is_valid(_construct_path)) {
         return (404);
     } 

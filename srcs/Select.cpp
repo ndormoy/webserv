@@ -6,10 +6,9 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/16 14:20:59 by gmary            ###   ########.fr       */
+/*   Updated: 2022/09/19 10:05:29 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "webserv.hpp"
 
@@ -55,7 +54,6 @@ INLINE_NAMESPACE::Select::webserv_log_output(Response &response) {
     DEBUG_2(COUT(BMAG << "[Response send by server]" << CRESET << std::endl))
     DEBUG_2(COUT(BWHT << response.get_body() << CRESET << std::endl))
     DEBUG_2(COUT(BMAG << "[End of response]" << CRESET << std::endl))
-
 }
 
 void
@@ -66,7 +64,7 @@ INLINE_NAMESPACE::Select::setup(void) {
     FOREACH_SERVER {
 		for (std::vector<int>::iterator it2 = (*it)->get_port().begin(); it2 != (*it)->get_port().end(); ++it2) {
 	        INLINE_NAMESPACE::Socket sock;
-	        sock.setup((*it2));
+	        sock.setup((*it2), (*it)->get_ip());
 	        for (int i = 0; i < MAX_CLIENT; i++)
 	            _client_socket[i] = 0;
 	        DEBUG_3(CNOUT(BBLU << "Updating : server " << (*it2) << " is ready to be used" << CRESET))
@@ -85,6 +83,28 @@ INLINE_NAMESPACE::Select::disconnect_client(int i) {
 }
 
 void
+INLINE_NAMESPACE::Select::_init_socket (void) {
+    FD_ZERO(&_readfds);
+    FD_ZERO(&_writefds);
+    for (socket_type::iterator it = _sockets.begin(); it != _sockets.end(); ++it) {
+        if (fcntl(it->get_master_socket(), F_SETFL, O_NONBLOCK))
+            DEBUG_5(CNOUT(BRED << "Error : fcntl() failed (l." << __LINE__ << ")" << CRESET))
+        FD_SET(it->get_master_socket(), &_readfds);
+        if (it->get_master_socket() > get_max_sub_socket())
+            set_max_sub_socket(it->get_master_socket());
+
+        for (int i = 0; i < MAX_CLIENT; i++) {
+            if (_client_socket[i] > 0) {
+                FD_SET(_client_socket[i], &_readfds);
+            }
+            if (_client_socket[i] > get_max_sub_socket()) {
+                set_max_sub_socket(_client_socket[i]);
+            }
+        }
+    }
+}
+
+void
 INLINE_NAMESPACE::Select::start(void) {
     size_t size_total = 0;
 
@@ -93,29 +113,13 @@ INLINE_NAMESPACE::Select::start(void) {
 	sigaddset(&set, SIGPIPE);
 	int retcode = sigprocmask(SIG_BLOCK, &set, NULL);
 	if (retcode == -1)
-		throw std::runtime_error("sigprocmask error");
+		throw std::runtime_error("sigprocmask()");
+
     while (true) {
-        FD_ZERO(&_readfds);
-        for (socket_type::iterator it = _sockets.begin(); it != _sockets.end(); ++it) {
-
-            if (fcntl(it->get_master_socket(), F_SETFL, O_NONBLOCK))
-                DEBUG_5(CNOUT(BRED << "Error : fcntl() failed (l." << __LINE__ << ")" << CRESET))
-            FD_SET(it->get_master_socket(), &_readfds);
-            if (it->get_master_socket() > get_max_sub_socket())
-                set_max_sub_socket(it->get_master_socket());
-
-            for (int i = 0; i < MAX_CLIENT; i++) {
-                if (_client_socket[i] > 0) {
-                    FD_SET(_client_socket[i], &_readfds);
-                }
-                if (_client_socket[i] > get_max_sub_socket()) {
-                    set_max_sub_socket(_client_socket[i]);
-                }
-            }
-        }
+        _init_socket();
 
         DEBUG_3(CNOUT(BBLU << "Updating : selecting..."))
-        int select_ret = select(get_max_sub_socket() + 1, &_readfds, &_readfds + 1, NULL, NULL);
+        int select_ret = select(get_max_sub_socket() + 1, &_readfds, &_writefds, NULL, NULL);
         if (g_exit) {
             return;
         } if (select_ret == SYSCALL_ERR) {
@@ -199,43 +203,42 @@ INLINE_NAMESPACE::Select::start(void) {
                             }
                         }
                         //TODO reparse chunked body
-//                        request->unchunk_body();
                     }
 
                     DEBUG_3(CNOUT(BBLU << "Updating : Request has been parsed" << CRESET))
                     DEBUG_1(webserv_log_input(*request);)
-					if (request->get_error_value() != 413 && request->get_body().size() > 0)
-						request->max_body_size_check(size_total);
+                    if (request->get_error_value() != 413 && request->get_body().size() > 0)
+                        request->max_body_size_check(size_total);
                     DEBUG_3(CNOUT(BBLU << "Updating : creating response..." << CRESET))
-					Response response(request);
+                    Response response(request);
                     response.manage_response();
                     response.set_message_send(response.get_body());
 
                     DEBUG_3(CNOUT(BBLU << "Updating : Response has been created" << CRESET))
                     DEBUG_1(webserv_log_output(response);)
                     DEBUG_3(CNOUT(BBLU << "Updating : sending the response..." << CRESET))
-					size_t start = 0;
-        			std::string tmp;
-					int	nb_piece = calculate_size_piece_file(response.get_message_send().size());
-        			for (int j = 0; j < nb_piece; j++)
-        			{
-        			    tmp = response.get_message_send().substr(start, response.get_message_send().size() / nb_piece);
-        			    send(_client_socket[i], tmp.c_str(), tmp.size(), 0);
-						if (bytes == SYSCALL_ERR) {
+                    size_t start = 0;
+                    std::string tmp;
+                    int	nb_piece = calculate_size_piece_file(response.get_message_send().size());
+                    for (int j = 0; j < nb_piece; j++)
+                    {
+                        tmp = response.get_message_send().substr(start, response.get_message_send().size() / nb_piece);
+                        send(_client_socket[i], tmp.c_str(), tmp.size(), 0);
+                        if (bytes == SYSCALL_ERR) {
                             DEBUG_5(CNOUT(BRED << "Error : send() failed (l." << __LINE__ << ")" << CRESET))
-							disconnect_client(i);
-							break;
-						}
-        			    usleep(50000);
-        			    start += tmp.size();
-        			}
-        			tmp = response.get_message_send().substr(start);
-        			send(_client_socket[i], tmp.c_str(), tmp.size(), 0);
-					if (bytes == SYSCALL_ERR) {
+                            disconnect_client(i);
+                            break;
+                        }
+                        usleep(50000);
+                        start += tmp.size();
+                    }
+                    tmp = response.get_message_send().substr(start);
+                    send(_client_socket[i], tmp.c_str(), tmp.size(), 0);
+                    if (bytes == SYSCALL_ERR) {
                         DEBUG_5(CNOUT(BRED << "Error : send() failed (l." << __LINE__ << ")" << CRESET))
-						disconnect_client(i);
-						break;
-					}
+                        disconnect_client(i);
+                        break;
+                    }
                     delete request;
                     DEBUG_3(CNOUT(BBLU << "Updating : Response has been sent" << CRESET))
                 }

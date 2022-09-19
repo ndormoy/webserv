@@ -62,7 +62,7 @@ class Socket {
 		void				set_sub_socket (int sub) {_sub_socket = sub;}
 	public:
 	
-		void setup (int);
+		void setup (int, std::string &);
 
 	public:
 		EXCEPTION(fSocketError, "setup : socket function failed")

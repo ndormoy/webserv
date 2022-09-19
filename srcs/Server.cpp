@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 17:09:05 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/16 14:20:40 by gmary            ###   ########.fr       */
+/*   Updated: 2022/09/19 10:05:33 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ INLINE_NAMESPACE::Server::_set_port (string_vector::const_iterator & it) {
 		}
 		_default = (v.size() == 2 ? true : false);
 		_port.push_back(port);
+
 	} else {
 		throw Configuration::InvalidPort();
 	}

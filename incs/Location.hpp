@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Location.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mathias.mrsn <mathias.mrsn@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/01 16:03:56 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/24 14:04:50 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/09/16 17:24:23 by mathias.mrs      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,12 @@ class Location
 		cgi_type		get_cgi (void) const		 	{return (_cgi);}
 		std::string		get_upload_path (void) const 	{return (_upload_path);}
         Server *        get_server (void) const         {return (_server);}
+		
 		void			create_location (string_vector::const_iterator &);
         std::string     return_path_matching (int);
 
         void            set_server (Server * s) {_server = s;}
+		void			set_path (std::string const str) {_path = str;}
 
 	private:
 
