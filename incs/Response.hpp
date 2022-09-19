@@ -93,9 +93,9 @@ class Response
 		void			generate_header(void);
 		std::string		auto_index(std::string location_path);
 		void			create_upload_file(std::string);
-        int             manage_cgi (void);
-        void            fatal_error (void);
-
+		int				manage_cgi (void);
+		void			fatal_error (void);
+		bool			return_path_url(void);
 
 	public: /* Operators overloaded */
 
