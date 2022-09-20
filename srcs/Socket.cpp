@@ -6,7 +6,7 @@
 /*   By: mathias.mrsn <mathias.mrsn@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:45:57 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/16 15:17:41 by mathias.mrs      ###   ########.fr       */
+/*   Updated: 2022/09/20 11:29:09 by mathias.mrs      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,11 @@ INLINE_NAMESPACE::Socket::setup (int port, std::string & ip) {
     _address.sin_addr.s_addr = INADDR_ANY;
     _address.sin_port = htons(port);
     _address.sin_addr.s_addr = inet_addr("127.0.0.1");
-	if (bind(_master_socket, (struct sockaddr *)&_address, sizeof(_address)) < 0 && errno != 48) {
+#if defined(USE_HOSTNAME) && (USE_HOSTNAME == true)
+	if (bind(_master_socket, (struct sockaddr *)&_address, sizeof(_address)) < 0  && errno != 48) {
+#else
+	if (bind(_master_socket, (struct sockaddr *)&_address, sizeof(_address)) < 0) {
+#endif
 		throw Socket::fBindError();
 	}
 	if (listen(_master_socket, MAX_CLIENT) < 0) {

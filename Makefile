@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gmary <gmary@student.42.fr>                +#+  +:+       +#+         #
+#    By: mathias.mrsn <mathias.mrsn@student.42.f    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/10 15:51:05 by gmary             #+#    #+#              #
-#    Updated: 2022/09/19 11:30:00 by gmary            ###   ########.fr        #
+#    Updated: 2022/09/20 11:21:55 by mathias.mrs      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,7 @@ endif
 
 $(OBJDIR)/%.o: %.cpp
 				@printf "%-15s ${_YELLOW}${_BOLD}$<${_END}...\n" "Compiling"
-				@mkdir -p $(dir $@) $(DEPDIR)
+				@mkdir -p $(dir $@) $(DEPDIR) 2> /dev/null
 				@${CC} ${CPPFLAGS} -o $@ ${INCS} -c $< 
 
 ${NAME}:	${OBJS} ${DEP} 
@@ -80,7 +80,7 @@ clean:
 fclean:		clean
 				@printf "%-15s ${_RED}${_BOLD}${NAME}${_END}...\n" "Deleting"
 				@${RM} ${NAME}
-				@rm -rf www/Upload/file_to_upload
+				@rm -rf www/Upload/file_to_upload 2> /dev/null
 
 re:			fclean 
 			@make all
