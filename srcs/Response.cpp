@@ -216,6 +216,14 @@ std::string INLINE_NAMESPACE::Response::auto_index(std::string location_path) {
 
             index += "<tr>\n";
             index += "<td><a href=\"";
+            
+            index += "/";
+            index += _request->get_path();
+            // CNOUT("--> " << _request->get_path() << " --> " << it->d_name);
+            if (!_request->get_path().empty()) {
+                index += ((_request->get_path()[(_request->get_path().size() - 1)] == '/') ? "" : "/");
+            }
+            
             index += it->d_name;
             index += S_ISDIR(s.st_mode) ? "/" : "";
             index += "\">";
