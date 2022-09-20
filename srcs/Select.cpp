@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Select.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndormoy <ndormoy@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/19 17:26:01 by ndormoy          ###   ########.fr       */
+/*   Updated: 2022/09/20 13:56:02 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ INLINE_NAMESPACE::Select::start(void) {
     while (true) {
         _init_socket();
 
-        DEBUG_3(CNOUT(BBLU << "Updating : selecting..."))
+        // DEBUG_3(CNOUT(BBLU << "Updating : selecting..."))
         int select_ret = select(get_max_sub_socket() + 1, &_readfds, &_writefds, NULL, NULL);
         if (g_exit) {
             return;
@@ -158,7 +158,6 @@ INLINE_NAMESPACE::Select::start(void) {
 								if (bytes == SYSCALL_ERR) {
                                     DEBUG_5(CNOUT(BRED << "Error : recv() failed (l." << __LINE__ << ")" << CRESET))
 									disconnect_client(i);
-									CNOUT(UMAG <<  "------------------------------->" << CRESET)
 									break;
                                 } else if (bytes == 0) {
                                     DEBUG_3(CNOUT(BBLU << "Updating : client disconnected = " << _client_socket[i] << "#" << CRESET))
@@ -167,8 +166,11 @@ INLINE_NAMESPACE::Select::start(void) {
                                     buffer[bytes] = '\0';
                                     request->add_body(buffer, bytes);
                                     size_total += bytes;
-									if (bytes < 10024)
+									if (bytes < 10024 || !request->max_body_size_check(size_total))
+									{
+										shutdown(_client_socket[i], SHUT_RD);
 										break;
+									}
                                 }
                             } else
                                 break;
@@ -196,7 +198,10 @@ INLINE_NAMESPACE::Select::start(void) {
                                     size_total += bytes;
                                     request->add_body(buffer, bytes);
 									if (bytes < 10024)
+									{
+										shutdown(_client_socket[i], SHUT_RD);
 										break;
+									}
                                 }
                             }
                             std::string buffer_s(buffer);
@@ -248,6 +253,8 @@ INLINE_NAMESPACE::Select::start(void) {
                  		}
 					}
                     
+					// CNOUT(UMAG << "------------------------------->" << size_total << " error = " << request->get_error_value() << CRESET)
+					// exit(0);
                     delete request;
                     DEBUG_3(CNOUT(BBLU << "Updating : Response has been sent" << CRESET))
                 }
