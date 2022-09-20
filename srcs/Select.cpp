@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/20 09:59:17 by gmary            ###   ########.fr       */
+/*   Updated: 2022/09/20 13:45:02 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,8 +167,11 @@ INLINE_NAMESPACE::Select::start(void) {
                                     buffer[bytes] = '\0';
                                     request->add_body(buffer, bytes);
                                     size_total += bytes;
-									if (bytes < 10024)
+									if (bytes < 10024 || !request->max_body_size_check(size_total))
+									{
+										shutdown(_client_socket[i], SHUT_RD);
 										break;
+									}
                                 }
                             } else
                                 break;
@@ -196,7 +199,10 @@ INLINE_NAMESPACE::Select::start(void) {
                                     size_total += bytes;
                                     request->add_body(buffer, bytes);
 									if (bytes < 10024)
+									{
+										shutdown(_client_socket[i], SHUT_RD);
 										break;
+									}
                                 }
                             }
                             std::string buffer_s(buffer);
@@ -248,6 +254,8 @@ INLINE_NAMESPACE::Select::start(void) {
                  		}
 					}
                     
+					// CNOUT(UMAG << "------------------------------->" << size_total << " error = " << request->get_error_value() << CRESET)
+					// exit(0);
                     delete request;
                     DEBUG_3(CNOUT(BBLU << "Updating : Response has been sent" << CRESET))
                 }
