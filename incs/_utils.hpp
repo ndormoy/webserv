@@ -6,7 +6,7 @@
 /*   By: mathias.mrsn <mathias.mrsn@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:33:58 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/16 17:17:48 by mathias.mrs      ###   ########.fr       */
+/*   Updated: 2022/09/20 11:30:40 by mathias.mrs      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ class Server;
 # define DEBUG_OPTION					"--debug="
 # define DEBUG_LEVEL_MAX					5
 # define DEBUG_LEVEL_MIN					0
+# define USE_HOSTNAME						false
 
 # define INVALID_ARG					"invalid argument number\n./webserv [--debug=`debug_value`] [configuration_file]"
 # define FILE_MISSING					"configuration file missing\n./webserv [--debug=`debug_value`] [configuration_file]"

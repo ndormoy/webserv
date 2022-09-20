@@ -6,7 +6,7 @@
 /*   By: mathias.mrsn <mathias.mrsn@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:32:45 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/17 15:23:44 by mathias.mrs      ###   ########.fr       */
+/*   Updated: 2022/09/20 11:21:12 by mathias.mrs      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ class Configuration {
 	EXCEPTION(InvalidServerName, "configuration_file : invalid server name")
 	EXCEPTION(InvalidErrorPage, "configuration_file : invalid error page")
 	EXCEPTION(InvalidLocation, "configuration_file : invalid location")
+	EXCEPTION(DuplicatePort, "configuration_file : duplicate port")
 
 	EXCEPTION(InvalidMethod, "configuration_file : invalid method field")
 	EXCEPTION(InvalidRoot, "configuration_file : invalid root field")

@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   Request.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mathias.mrsn <mathias.mrsn@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/19 15:41:10 by gmary            ###   ########.fr       */
+/*   Updated: 2022/09/20 11:29:14 by mathias.mrs      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "webserv.hpp"
+
+#if defined(USE_HOSTNAME) && (USE_HOSTNAME == true)
 
 static bool
 is_number_(const std::string& s)
@@ -55,6 +57,30 @@ find_server_ (std::string str) {
     }
     return (NULL);
 }
+
+#else
+
+static INLINE_NAMESPACE::Server *
+find_server_ (std::string str) {
+	if (str.empty()) {
+		return (NULL);
+	}
+
+	int pos = str.find(":");
+	std::string port = str.substr(pos + 1);
+	if (port.empty() || pos == std::string::npos || port.length() > 5)
+		return (NULL);
+		
+	FOREACH_SERVER {
+		for (std::vector<int>::const_iterator it2 = (*it)->get_port().begin(); it2 != (*it)->get_port().end(); it2++) {
+			if (*it2 == std::atoi(port.c_str()))
+				return (*it);
+		}
+	}
+	return (NULL);
+}
+
+#endif
 
 static INLINE_NAMESPACE::Location *
 find_location_ (INLINE_NAMESPACE::Server * srv, std::string path) {
