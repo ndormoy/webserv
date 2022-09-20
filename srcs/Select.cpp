@@ -6,7 +6,7 @@
 /*   By: mathias.mrsn <mathias.mrsn@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/19 18:00:28 by mathias.mrs      ###   ########.fr       */
+/*   Updated: 2022/09/20 13:06:41 by mathias.mrs      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ INLINE_NAMESPACE::Select::start(void) {
     while (true) {
         _init_socket();
 
-        DEBUG_3(CNOUT(BBLU << "Updating : selecting..."))
+        // DEBUG_3(CNOUT(BBLU << "Updating : selecting..."))
         int select_ret = select(get_max_sub_socket() + 1, &_readfds, &_writefds, NULL, NULL);
         if (g_exit) {
             return;
