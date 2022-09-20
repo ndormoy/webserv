@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Select.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ndormoy <ndormoy@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/19 17:26:01 by ndormoy          ###   ########.fr       */
+/*   Updated: 2022/09/20 09:59:17 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ INLINE_NAMESPACE::Select::start(void) {
     while (true) {
         _init_socket();
 
-        DEBUG_3(CNOUT(BBLU << "Updating : selecting..."))
+        // DEBUG_3(CNOUT(BBLU << "Updating : selecting..."))
         int select_ret = select(get_max_sub_socket() + 1, &_readfds, &_writefds, NULL, NULL);
         if (g_exit) {
             return;
