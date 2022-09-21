@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Cgi.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 14:43:52 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/12 13:39:36 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/09/21 11:15:12 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,14 @@ INLINE_NAMESPACE::Cgi::start (Response * res) {
         close(pip1[1]);
         _fd = pip2[0];
     }
+}
+
+void
+INLINE_NAMESPACE::Cgi::free_env (void) {
+	for (char **it = _env; *it; it++) {
+		free(*it);
+	}
+	free(_env);
 }
 
 void

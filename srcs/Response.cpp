@@ -121,11 +121,14 @@ INLINE_NAMESPACE::Response::manage_cgi(void) {
         }
     }
     if (_cgi == NULL) {
+		//delete _cgi;
         return (1);
     }
     _cgi->init();
     _cgi->start(this);
     _cgi->wait(this);
+	_cgi->free_env();
+	delete _cgi;
     return (0);
 }
 
