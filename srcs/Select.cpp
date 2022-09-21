@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Select.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/21 13:13:43 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/09/21 15:00:26 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ INLINE_NAMESPACE::Select::start(void) {
         for (int i = 0; i < MAX_CLIENT; i++) {
             size_total = bytes;
             if (_client_socket[i] != 0 && FD_ISSET(_client_socket[i], &_readfds)) {
-                bytes = recv(_client_socket[i], buffer, 10024, 0);
+				bytes = recv(_client_socket[i], buffer, 10024, 0);
                 if (bytes == SYSCALL_ERR) {
                     DEBUG_5(CNOUT(BRED << "Error : recv() failed (l." << __LINE__ << ")" << CRESET))
 					disconnect_client(i);
@@ -227,7 +227,7 @@ INLINE_NAMESPACE::Select::start(void) {
                     size_t start = 0;
                     std::string tmp;
                     int	nb_piece = calculate_size_piece_file(response.get_message_send().size());
-                    for (int j = 0; j < nb_piece; j++)
+                    for (int j = 0; j <= nb_piece; j++)
                     {
                         tmp = response.get_message_send().substr(start, response.get_message_send().size() / nb_piece);
                         if (FD_ISSET(_client_socket[i], &_writefds))
@@ -238,23 +238,24 @@ INLINE_NAMESPACE::Select::start(void) {
                         	    disconnect_client(i);
                         	    break;
                         	}
+							else if (bytes == 0) {
+								break ;
+							}
                         	usleep(50000);
                         	start += tmp.size();
                         }
                     }
-                    tmp = response.get_message_send().substr(start);
-					if (FD_ISSET(_client_socket[i], &_writefds))
-                    {
-						send(_client_socket[i], tmp.c_str(), tmp.size(), 0);
-                  		if (bytes == SYSCALL_ERR) {
-                        	DEBUG_5(CNOUT(BRED << "Error : send() failed (l." << __LINE__ << ")" << CRESET))
-                        	disconnect_client(i);
-                        	break;
-                 		}
-					}
+                    // tmp = response.get_message_send().substr(start);
+					// if (FD_ISSET(_client_socket[i], &_writefds))
+                    // {
+					// 	send(_client_socket[i], tmp.c_str(), tmp.size(), 0);
+                  	// 	if (bytes == SYSCALL_ERR) {
+                    //     	DEBUG_5(CNOUT(BRED << "Error : send() failed (l." << __LINE__ << ")" << CRESET))
+                    //     	disconnect_client(i);
+                    //     	break;
+                 	// 	}
+					// }
                     
-					// CNOUT(UMAG << "------------------------------->" << size_total << " error = " << request->get_error_value() << CRESET)
-					// exit(0);
                     delete request;
                     if (response.get_cgi() != NULL)
                         delete response.get_cgi();
