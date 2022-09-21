@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/21 12:49:04 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/09/21 13:13:43 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,6 +256,8 @@ INLINE_NAMESPACE::Select::start(void) {
 					// CNOUT(UMAG << "------------------------------->" << size_total << " error = " << request->get_error_value() << CRESET)
 					// exit(0);
                     delete request;
+                    if (response.get_cgi() != NULL)
+                        delete response.get_cgi();
                     DEBUG_3(CNOUT(BBLU << "Updating : Response has been sent" << CRESET))
                 }
             }
