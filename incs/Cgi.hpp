@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 15:06:23 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/21 10:15:59 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/09/21 12:49:35 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,13 +112,13 @@ class Cgi
 
 	public:
 
-		int read_output (int);
-        void start (Response *);
-        void init (void);
-        string_vector create_env (void) const;
-        void    manage_output (Response *);
-        void    wait (Response *);
-
+		int 				read_output (int);
+        void				start (Response *);
+        void				init (void);
+        string_vector		create_env (void) const;
+        void				manage_output (Response *);
+        void				wait (Response *);
+		void				free_env(void);
 	public:
 
 		friend std::ostream& operator << (std::ostream& o, const Cgi & ref) {

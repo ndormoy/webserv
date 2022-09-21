@@ -11,14 +11,14 @@ server {
 
 		return 403 www/error_pages/403.html;
 		auto_index on;
-		cgi .php bin/php-cgi;
+		cgi .php bin/php-cgi_ubuntu;
 		upload www;
 	}
 }
 
 server {
 	server_name exemple2.fr;
-	listen 192.0.0.1:8080;
+	listen 192.0.0.1:8081;
 	client_max_body_size 8m;
 
 	location /

@@ -121,11 +121,14 @@ INLINE_NAMESPACE::Response::manage_cgi(void) {
         }
     }
     if (_cgi == NULL) {
+		//delete _cgi;
         return (1);
     }
     _cgi->init();
     _cgi->start(this);
     _cgi->wait(this);
+	_cgi->free_env();
+	delete _cgi;
     return (0);
 }
 
@@ -214,6 +217,14 @@ std::string INLINE_NAMESPACE::Response::auto_index (void) {
 
             index += "<tr>\n";
             index += "<td><a href=\"";
+            
+            index += "/";
+            index += _request->get_path();
+            // CNOUT("--> " << _request->get_path() << " --> " << it->d_name);
+            if (!_request->get_path().empty()) {
+                index += ((_request->get_path()[(_request->get_path().size() - 1)] == '/') ? "" : "/");
+            }
+            
             index += it->d_name;
             index += S_ISDIR(s.st_mode) ? "/" : "";
             index += "\">";

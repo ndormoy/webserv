@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 14:43:52 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/21 11:02:08 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/09/21 12:48:58 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,14 @@ INLINE_NAMESPACE::Cgi::start (__attribute__((unused))Response * res) {
         close(pip1[1]);
         _fd = pip2[0];
     }
+}
+
+void
+INLINE_NAMESPACE::Cgi::free_env (void) {
+	for (char **it = _env; *it; it++) {
+		free(*it);
+	}
+	free(_env);
 }
 
 void
