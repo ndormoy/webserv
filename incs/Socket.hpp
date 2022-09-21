@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:13:50 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/24 11:38:33 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/09/21 10:13:47 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ class Socket {
 		void				set_sub_socket (int sub) {_sub_socket = sub;}
 	public:
 	
-		void setup (int, std::string &);
+		void setup (int);
 
 	public:
 		EXCEPTION(fSocketError, "setup : socket function failed")

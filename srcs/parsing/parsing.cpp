@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathias.mrsn <mathias.mrsn@student.42.f    +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 10:09:26 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/16 18:07:15 by mathias.mrs      ###   ########.fr       */
+/*   Updated: 2022/09/21 10:08:50 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ vector_spliter (std::string str, const char * delims, const char * to_replace, b
 		std::replace(str.begin(), str.end(), to_replace[i], ' ');
 	}
     int start = 0U;
-    int end = str.find(' ');
+    uint64_t end = str.find(' ');
     while (end != std::string::npos)
     {
 		stockage = str.substr(start, end - start);

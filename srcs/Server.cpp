@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathias.mrsn <mathias.mrsn@student.42.f    +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 17:09:05 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/20 11:27:13 by mathias.mrs      ###   ########.fr       */
+/*   Updated: 2022/09/21 10:08:29 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void
 INLINE_NAMESPACE::Server::_set_port (string_vector::const_iterator & it) {
 	string_vector v = get_until_semicolon(it);
 	int port;
-	int ret;
+	uint64_t ret;
 
 	if ((v.size() == 1 || v.size() == 2) && CHECKER(v, CHECK_PORT | CHECK_DEFAULT)) {
 		if ((ret = v[0].find(":")) != std::string::npos) {

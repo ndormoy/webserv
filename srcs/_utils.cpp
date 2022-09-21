@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 15:33:04 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/08/24 11:27:08 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/09/21 11:10:27 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ delimiter_spliter (std::string str) {
     string_vector vector;
     std::string stockage;
 
-    int end = str.find("\r\n");
+    uint64_t end = str.find("\r\n");
     while (end != std::string::npos)
     {
         stockage = str.substr(0, end);

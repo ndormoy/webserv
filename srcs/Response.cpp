@@ -96,7 +96,7 @@ INLINE_NAMESPACE::Response::manage_error_page(void) {
         && _location->get_autoindex()
         && ((path_is_dir(_request->get_construct_path())) || _request->get_construct_path().empty())) {
         _error_value = 200;
-        _body = auto_index(_request->get_path());
+        _body = auto_index();
     } else if (_location && !(ret = _location->return_path_matching(_error_value)).empty()) {
         _body.append(read_file(ret));
     } else if (_server && !(ret = _server->return_path_matching(_error_value)).empty()) {
@@ -184,15 +184,13 @@ file_vector_(const std::string &path) {
     return (list);
 }
 
-std::string INLINE_NAMESPACE::Response::auto_index(std::string location_path) {
+std::string INLINE_NAMESPACE::Response::auto_index (void) {
     std::vector<struct dirent> *list = file_vector_(_request->get_construct_path());
     if (list == NULL) {
         delete list;
         return (create_html_error_page(404));
     }
-
     std::string index;
-    int len;
 
     index += "<html>\n";
     index += "<head><title>Indexito /</title></head>\n";

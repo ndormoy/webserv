@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 07:53:38 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/07/28 17:21:37 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/09/21 10:11:37 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ file_is_reg_ (const string_vector & v) {
 
 static bool
 port_ (const string_vector & v) {
-	int ret;
+	uint64_t ret;
 	struct sockaddr_in adr_inet;
 	
 	if ((ret = v[0].find(":")) == std::string::npos) {
@@ -96,7 +96,7 @@ port_ (const string_vector & v) {
 
 inline static bool
 max_b_s_ (const string_vector & v) {
-	if (v[0].find_first_not_of("0123456789") == std::string::npos && v[0].length() < 20 && std::atoll(v[0].c_str()) < SIZE_MAX) {
+	if (v[0].find_first_not_of("0123456789") == std::string::npos && v[0].length() < 20 && std::atoll(v[0].c_str()) < static_cast<long long>(SIZE_MAX)) {
 		return (true);
 	} else if (v[0].find_first_not_of("0123456789") == v[0].length() - 1
 			&& v[0].length() < 12

@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   Socket.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathias.mrsn <mathias.mrsn@student.42.f    +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:45:57 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/20 11:29:09 by mathias.mrs      ###   ########.fr       */
+/*   Updated: 2022/09/21 10:13:34 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "webserv.hpp"
 
 void
-INLINE_NAMESPACE::Socket::setup (int port, std::string & ip) {
+INLINE_NAMESPACE::Socket::setup (int port) {
 	
 	int opt = true;
 		

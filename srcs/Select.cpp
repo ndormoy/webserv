@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Select.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathias.mrsn <mathias.mrsn@student.42.f    +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/20 13:16:47 by mathias.mrs      ###   ########.fr       */
+/*   Updated: 2022/09/21 11:11:30 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ INLINE_NAMESPACE::Select::setup(void) {
     FOREACH_SERVER {
 		for (std::vector<int>::iterator it2 = (*it)->get_port().begin(); it2 != (*it)->get_port().end(); ++it2) {
 	        INLINE_NAMESPACE::Socket sock;
-	        sock.setup((*it2), (*it)->get_ip());
+	        sock.setup((*it2));
 	        for (int i = 0; i < MAX_CLIENT; i++)
 	            _client_socket[i] = 0;
 	        DEBUG_3(CNOUT(BBLU << "Updating : server " << (*it2) << " is ready to be used" << CRESET))

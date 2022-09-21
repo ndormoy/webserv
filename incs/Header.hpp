@@ -20,22 +20,22 @@ class Header
 	public: /* Constructors */
 
 		Header (void):
+			_date(""),
 			_content_type("Content-Type: "),
 			_content_length("Content-Length: "),
 			_cookie(""),
 			_status("\r\n"),
-			_status_code(0),
 			_server(""),
-			_date("")
+			_status_code(0)
 		{ }
 
 		Header(const Response & response):
+			_date(""),
 			_content_type("Content-Type: "),
 			_content_length("Content-Length: "),
 			_cookie("Set-Cookie: "),
-			_status_code(response.get_error_value()),
 			_server(""),
-			_date("")
+			_status_code(response.get_error_value())
 		{ }
 
 		~Header (void)

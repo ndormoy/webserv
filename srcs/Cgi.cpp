@@ -6,7 +6,7 @@
 /*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 14:43:52 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/12 13:39:36 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/09/21 11:02:08 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ INLINE_NAMESPACE::Cgi::wait (Response * res) {
 }
 
 void
-INLINE_NAMESPACE::Cgi::manage_output (Response * res) {
-    int ret;
+INLINE_NAMESPACE::Cgi::manage_output (__attribute__((unused))Response * res) {
+    uint64_t ret;
     if ((ret = _output.find("\r\n\r\n")) != std::string::npos) {
         _output.erase(0, ret + 4);
         res->set_body(_output);
@@ -76,7 +76,7 @@ INLINE_NAMESPACE::Cgi::read_output(int fd) {
 }
 
 void
-INLINE_NAMESPACE::Cgi::start (Response * res) {
+INLINE_NAMESPACE::Cgi::start (__attribute__((unused))Response * res) {
     pid_t pid;
     int pip1[2];
     int pip2[2];
@@ -130,9 +130,9 @@ INLINE_NAMESPACE::Cgi::init (void) {
     DEBUG_3(CNOUT(BBLU << "Updating : environment variables for CGI created" << CRESET))
     if (!(_env = static_cast<char **>(malloc(sizeof(char *) * (env_vars.size() + 1)))))
         return ;
-    for (int i = 0; i < env_vars.size(); i++) {
+    for (uint64_t i = 0; i < env_vars.size(); i++) {
         if ((_env[i] = strdup(env_vars[i].c_str())) == NULL) {
-            for (int j = 0; j < i; j++)
+            for (uint64_t j = 0; j < i; j++)
                 free(_env[j]);
             free(_env);
             return ;

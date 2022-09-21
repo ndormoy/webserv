@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Request.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathias.mrsn <mathias.mrsn@student.42.f    +#+  +:+       +#+        */
+/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/20 11:29:14 by mathias.mrs      ###   ########.fr       */
+/*   Updated: 2022/09/21 11:10:06 by mamaurai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ find_server_ (std::string str) {
 		return (NULL);
 	}
 
-	int pos = str.find(":");
+	uint64_t pos = str.find(":");
 	std::string port = str.substr(pos + 1);
 	if (port.empty() || pos == std::string::npos || port.length() > 5)
 		return (NULL);
@@ -84,7 +84,7 @@ find_server_ (std::string str) {
 
 static INLINE_NAMESPACE::Location *
 find_location_ (INLINE_NAMESPACE::Server * srv, std::string path) {
-    int max_size = 0;
+    uint64_t max_size = 0;
     if (srv == NULL)
         return (NULL);
         
@@ -165,7 +165,7 @@ void
 INLINE_NAMESPACE::Request::request_line_parser (std::string str) {
 	std::string header_name;
 	std::string content;
-	int pos = str.find(": ");
+	uint64_t pos = str.find(": ");
 
 	if (pos == std::string::npos)
 		return;
@@ -185,7 +185,7 @@ INLINE_NAMESPACE::Request::request_line_parser (std::string str) {
 
 void
 INLINE_NAMESPACE::Request::parse_content (void) {
-    int ret;
+    uint64_t ret;
 
     ret = _body.find("\r\n\r\n");
     if (ret == std::string::npos)
@@ -243,7 +243,7 @@ INLINE_NAMESPACE::Request::check_request (void) {
 int
 INLINE_NAMESPACE::Request::request_parser (void) {
 	string_vector v = delimiter_spliter(_body);
-	int pos;
+	uint64_t pos;
     int ret;
 
     DEBUG_3(CNOUT(BBLU << "Updating : parsing Request" << CRESET))
@@ -310,8 +310,7 @@ void INLINE_NAMESPACE::Request::unchunk_body () {
 	std::string	last_line = "";
 	std::stringstream ss;
     std::string s1;
-	int count = 0;
-	int hex_count = -1;
+	int64_t hex_count = -1;
 	int	i = 0;
 
 	head = _body.substr(0, _body.find("\r\n\r\n") + 4);
@@ -320,9 +319,7 @@ void INLINE_NAMESPACE::Request::unchunk_body () {
 		if ((i != 0) && (i % 2 != 0))
 		{
 			unchunk_body += line.substr(line.find("\r\n")+ 1, line.length());
-			if ((hex_count != -1) && hex_count != (line.length() - 1))
-			{
-				//TODO que faire pour le comportement ?
+			if ((hex_count != -1) && static_cast<uint64_t>(hex_count) != (line.length() - 1)) {
 				return ;
 			}
 		}
@@ -334,20 +331,12 @@ void INLINE_NAMESPACE::Request::unchunk_body () {
             iss >> std::hex >> hex_count;
 		}
 		i++;
-		// BUG ATTENTION LE DELIM EN DESSOUS EST SENSE ETRE 0\r\n mais le \n nique tout 
 		if (hex_count == 0 && line.find("0\r") != std::string::npos) {
 			break;
 		}
 	}
 	_body = head + unchunk_body;
 }
-
-/**
- * @brief this function is used to check max body size
- * 
- * @param size 
- * @return true false
- */
 
 bool
 INLINE_NAMESPACE::Request::max_body_size_check(size_t size) {

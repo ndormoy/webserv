@@ -91,7 +91,7 @@ class Response
 		bool			manage_autoindex(void);
 		void			manage_error_page(void);
 		void			generate_header(void);
-		std::string		auto_index(std::string location_path);
+		std::string		auto_index (void);
 		void			create_upload_file(std::string);
 		int				manage_cgi (void);
 		void			fatal_error (void);
