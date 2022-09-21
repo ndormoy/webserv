@@ -3,17 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-<<<<<<< HEAD
 #    By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/10 15:51:05 by gmary             #+#    #+#              #
-#    Updated: 2022/09/21 10:02:32 by mamaurai         ###   ########.fr        #
-=======
-#    By: gmary <gmary@student.42.fr>                +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/08/10 15:51:05 by gmary             #+#    #+#              #
-#    Updated: 2022/09/21 11:03:00 by gmary            ###   ########.fr        #
->>>>>>> 242d6db1b58748a6c6a372fcf04d3337e640c802
+#    Updated: 2022/09/21 12:51:55 by mamaurai         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,13 +16,8 @@ SRCS =		${shell find ./srcs -name "*.cpp"}
 
 CC =		c++
 CPPFLAGS =	-Ofast
-<<<<<<< HEAD
 CPPFLAGS = 	-MD  -std=c++98 -Wall -Wextra -Werror 
 CPPFLAGS += -g3  -fsanitize=address 
-=======
-CPPFLAGS = 	-MD  -std=c++98 #-static-libstdc++ #-Wall -Wextra -Werror 
-CPPFLAGS += -g3  #-fsanitize=address 
->>>>>>> 242d6db1b58748a6c6a372fcf04d3337e640c802
 OBJS = 		$(addprefix ${OBJDIR}/,${SRCS:.cpp=.o})
 DEP =		$(addprefix ${OBJDIR}/,${SRC:.cpp=.d})
 RM =		rm -rf
