@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   _utils.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathias.mrsn <mathias.mrsn@student.42.f    +#+  +:+       +#+        */
+/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 15:33:58 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/20 11:30:40 by mathias.mrs      ###   ########.fr       */
+/*   Updated: 2022/09/22 15:53:36 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ bool						str_is_print(std::string str);
 string_vector				get_until_semicolon (string_vector::const_iterator & it);
 
 bool						checker(const string_vector & v, std::size_t flags);
+
+bool						endsWith(std::string const &str, std::string const &suffix);
 
 int							calculate_size_file (char *filename);
 

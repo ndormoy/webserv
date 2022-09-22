@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/22 11:40:03 by gmary            ###   ########.fr       */
+/*   Updated: 2022/09/22 16:12:46 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,18 +128,23 @@ INLINE_NAMESPACE::Select::start(void) {
 		}
 
 		new_request();
+        for (int j = 0; j < 10025; j++) {
+            buffer[j] = '\0';
+        }
         for (int i = 0; i < MAX_CLIENT; i++) {
             size_total = bytes;
             if (_client_socket[i] != 0 && FD_ISSET(_client_socket[i], &_readfds)) {
                     buffer[bytes] = '\0';
-                    Request *request = new Request(buffer, bytes);
+                    Request *		request = new Request();
+                    // Request *request = new Request(buffer, bytes);
                        DEBUG_3(CNOUT(BBLU << "Updating : POST Request is parsing..."))
                        do {
                            if (_client_socket[i] != 0 && FD_ISSET(_client_socket[i], &_readfds)) {
                                for (int j = 0; j < 10025; j++) {
                                    buffer[j] = '\0';
                                }
-                               bytes = recv(_client_socket[i], buffer, 10024, 0);
+                            	bytes = recv(_client_socket[i], buffer, 10024, 0);
+								// request->set_error_value(request->request_parser());
                                DEBUG_3(CNOUT(BBLU << "Updating : recv has read " << bytes << " bytes" << CRESET))
 							if (bytes == SYSCALL_ERR) {
 								CNOUT(BBLU << "SYSCALLLLLLLLLLLL" << CRESET)
@@ -149,15 +154,19 @@ INLINE_NAMESPACE::Select::start(void) {
                                } else if (bytes == 0) {
 								CNOUT(BRED << "INNNNNNNN" << CRESET)
                                    DEBUG_3(CNOUT(BBLU << "Updating : client disconnected = " << _client_socket[i] << "#" << CRESET))
-								disconnect_client(i);
+									disconnect_client(i);
 								break;
                                } else {
                                    buffer[bytes] = '\0';
                                    request->add_body(buffer, bytes);
                                    size_total += bytes;
-								CNOUT(BGRN << "outttttt" << bytes << CRESET)
-								if (bytes < 10024)
-									break ;
+								
+								CNOUT(BGRN<< "bytes : " << bytes << " size total : " << size_total << CRESET)
+								// if (/* bytes < 10024 */request->get_body().rfind("\r\n\r\n")  != std::string::npos)
+								// {
+								// 	CNOUT("FUCKKKKKKKKKKKKKKKKKKKKKK")
+                                //     break ;
+                                // }
 								if (!request->max_body_size_check(size_total))
 								{
 									CNOUT(BMAG << "shutdown =========================" << CRESET)
@@ -167,11 +176,9 @@ INLINE_NAMESPACE::Select::start(void) {
                                }
                            } else
                                break;
-                       } while (bytes > 0);
+                       } while (/* bytes > 0 && */ request->get_body().rfind("\r\n\r\n") == std::string::npos/*  endsWith(request->get_body(), "\r\n\r\n") == false && endsWith(request->get_body(), "\n\r\n") == false && endsWith(request->get_body(), "\n\n") == false && endsWith(request->get_body(), "\r\n\n") */);
                 
 					request->set_error_value(request->request_parser());
-					CNOUT(BGRN << "SORTIE DE BOUCLEEEEE:" << request->get_body() << "\n" << CRESET)
-
                     DEBUG_3(CNOUT(BBLU << "Updating : Request has been parsed" << CRESET))
                     DEBUG_1(webserv_log_input(*request);)
                     if (request->get_error_value() != 413 && request->get_body().size() > 0)
