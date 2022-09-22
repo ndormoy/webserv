@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/22 11:13:17 by gmary            ###   ########.fr       */
+/*   Updated: 2022/09/22 11:40:03 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,6 @@ INLINE_NAMESPACE::Select::start(void) {
 		throw std::runtime_error("sigprocmask()");
 
     while (true) {
-
-        // DEBUG_3(CNOUT(BBLU << "Updating : selecting..."))
         char buffer[10025];
         int bytes = 0;
         _init_socket();
@@ -133,96 +131,46 @@ INLINE_NAMESPACE::Select::start(void) {
         for (int i = 0; i < MAX_CLIENT; i++) {
             size_total = bytes;
             if (_client_socket[i] != 0 && FD_ISSET(_client_socket[i], &_readfds)) {
-              /*   bytes = recv(_client_socket[i], buffer, 10024, 0);
-                if (bytes == SYSCALL_ERR) {
-                    DEBUG_5(CNOUT(BRED << "Error : recv() failed (l." << __LINE__ << ")" << CRESET))
-					disconnect_client(i);
-                    break;
-                } else if (bytes == 0) {
-                    DEBUG_3(CNOUT(BBLU << "Updating : client disconnected = " << _client_socket[i] << "#" << CRESET))
-                    disconnect_client(i);
-                } else {
-                    size_total += bytes; */
                     buffer[bytes] = '\0';
                     Request *request = new Request(buffer, bytes);
-
-					/* if (request->get_method() == M_POST && bytes >= 10024)  */{
-                        DEBUG_3(CNOUT(BBLU << "Updating : POST Request is parsing..."))
-                        do {
-                            if (_client_socket[i] != 0 && FD_ISSET(_client_socket[i], &_readfds)) {
-                                for (int j = 0; j < 10025; j++) {
-                                    buffer[j] = '\0';
-                                }
-                                bytes = recv(_client_socket[i], buffer, 10024, 0);
-                                DEBUG_3(CNOUT(BBLU << "Updating : recv has read " << bytes << " bytes" << CRESET))
-								if (bytes == SYSCALL_ERR) {
-									CNOUT(BBLU << "SYSCALLLLLLLLLLLL" << CRESET)
-                                    DEBUG_5(CNOUT(BRED << "Error : recv() failed (l." << __LINE__ << ")" << CRESET))
-									disconnect_client(i);
+                       DEBUG_3(CNOUT(BBLU << "Updating : POST Request is parsing..."))
+                       do {
+                           if (_client_socket[i] != 0 && FD_ISSET(_client_socket[i], &_readfds)) {
+                               for (int j = 0; j < 10025; j++) {
+                                   buffer[j] = '\0';
+                               }
+                               bytes = recv(_client_socket[i], buffer, 10024, 0);
+                               DEBUG_3(CNOUT(BBLU << "Updating : recv has read " << bytes << " bytes" << CRESET))
+							if (bytes == SYSCALL_ERR) {
+								CNOUT(BBLU << "SYSCALLLLLLLLLLLL" << CRESET)
+                                   DEBUG_5(CNOUT(BRED << "Error : recv() failed (l." << __LINE__ << ")" << CRESET))
+								disconnect_client(i);
+								break;
+                               } else if (bytes == 0) {
+								CNOUT(BRED << "INNNNNNNN" << CRESET)
+                                   DEBUG_3(CNOUT(BBLU << "Updating : client disconnected = " << _client_socket[i] << "#" << CRESET))
+								disconnect_client(i);
+								break;
+                               } else {
+                                   buffer[bytes] = '\0';
+                                   request->add_body(buffer, bytes);
+                                   size_total += bytes;
+								CNOUT(BGRN << "outttttt" << bytes << CRESET)
+								if (bytes < 10024)
+									break ;
+								if (!request->max_body_size_check(size_total))
+								{
+									CNOUT(BMAG << "shutdown =========================" << CRESET)
+									shutdown(_client_socket[i], SHUT_RD);
 									break;
-                                } else if (bytes == 0) {
-									CNOUT(BRED << "INNNNNNNN" << CRESET)
-                                    DEBUG_3(CNOUT(BBLU << "Updating : client disconnected = " << _client_socket[i] << "#" << CRESET))
-									disconnect_client(i);
-									break;
-                                } else {
-                                    buffer[bytes] = '\0';
-                                    request->add_body(buffer, bytes);
-                                    size_total += bytes;
-									CNOUT(BGRN << "outttttt" << bytes << CRESET)
-									if (bytes < 10024)
-									{
-										//disconnect_client(i);
-										break ;
-									}
-										
-									if (/* bytes < 10024 ||  */!request->max_body_size_check(size_total))
-									{
-										CNOUT(BMAG << "shutdown =========================" << CRESET)
-										shutdown(_client_socket[i], SHUT_RD);
-										break;
-									}
-                                }
-                            } else
-                                break;
-                        } while (bytes > 0);
-                    }
+								}
+                               }
+                           } else
+                               break;
+                       } while (bytes > 0);
+                
 					request->set_error_value(request->request_parser());
 					CNOUT(BGRN << "SORTIE DE BOUCLEEEEE:" << request->get_body() << "\n" << CRESET)
-/*                     if (request->get_chunked() && bytes >= 10024) {
-                        DEBUG_3(CNOUT(BBLU << "Updating : chunked Request is parsing..."))
-                        while (bytes > 0) {
-                            for (int j = 0; j < 10024; j++) {
-                                buffer[j] = '\0';
-                            }
-                            if (_client_socket[i] != 0 && FD_ISSET(_client_socket[i], &_readfds)) {
-                                bytes = recv(_client_socket[i], buffer, 10024, 0);
-                                DEBUG_3(CNOUT(BBLU << "Updating : recv has read " << bytes << " bytes" << CRESET))
-                                if (bytes == SYSCALL_ERR) {
-									DEBUG_5(CNOUT(BRED << "Error : recv() failed (l." << __LINE__ << ")" << CRESET))
-									disconnect_client(i);
-                                    break;
-                                } else if (bytes == 0) {
-                                    DEBUG_3(CNOUT(BBLU << "Updating : client disconnected = " << _client_socket[i] << CRESET))
-									disconnect_client(i);
-                                } else {
-                                    buffer[bytes] = '\0';
-                                    size_total += bytes;
-                                    request->add_body(buffer, bytes);
-									if (bytes < 10024)
-									{
-										shutdown(_client_socket[i], SHUT_RD);
-										break;
-									}
-                                }
-                            }
-                            std::string buffer_s(buffer);
-                            if (buffer_s.find("\0\r\n\r\n") != std::string::npos) {
-                                break;
-                            }
-                        }
-                        //TODO reparse chunked body
-                    } */
 
                     DEBUG_3(CNOUT(BBLU << "Updating : Request has been parsed" << CRESET))
                     DEBUG_1(webserv_log_input(*request);)
@@ -257,28 +205,12 @@ INLINE_NAMESPACE::Select::start(void) {
                         	start += tmp.size();
                         }
                     }
-                    // tmp = response.get_message_send().substr(start);
-					// if (FD_ISSET(_client_socket[i], &_writefds))
-                    // {
-					// 	send(_client_socket[i], tmp.c_str(), tmp.size(), 0);
-                  	// 	if (bytes == SYSCALL_ERR) {
-                    //     	DEBUG_5(CNOUT(BRED << "Error : send() failed (l." << __LINE__ << ")" << CRESET))
-                    //     	disconnect_client(i);
-                    //     	break;
-                 	// 	}
-					// }
-                    
                     delete request;
                     if (response.get_cgi() != NULL)
                         delete response.get_cgi();
-					//CNOUT("EXIITTT")
-					//exit(0);
-					//break ;
                     DEBUG_3(CNOUT(BBLU << "Updating : Response has been sent" << CRESET))
                 }
             }
-        /* } */
-
     }
 }
 
