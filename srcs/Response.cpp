@@ -128,7 +128,7 @@ INLINE_NAMESPACE::Response::manage_cgi(void) {
     _cgi->start(this);
     _cgi->wait(this);
 	_cgi->free_env();
-	delete _cgi;
+	// delete _cgi;
     return (0);
 }
 

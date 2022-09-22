@@ -52,7 +52,10 @@ class Response
 		}
 
 		~Response (void)
-		{ }
+		{ 
+			// if (_cgi != NULL)
+			// 	delete _cgi;
+		}
 
 	public: /* Accessors */
 
