@@ -128,7 +128,8 @@ class Request
             _params["Connection:"] = "keep-alive";
 			// add_body(str, size);
 			_body.insert(0, str, size);
-			_error_value = request_parser();
+			//_error_value = request_parser();
+			_error_value = 200;
 		}
 
 	public:

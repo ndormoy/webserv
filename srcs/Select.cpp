@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/22 10:56:16 by gmary            ###   ########.fr       */
+/*   Updated: 2022/09/22 11:13:17 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ INLINE_NAMESPACE::Select::start(void) {
 									CNOUT(BGRN << "outttttt" << bytes << CRESET)
 									if (bytes < 10024)
 									{
-										disconnect_client(i);
+										//disconnect_client(i);
 										break ;
 									}
 										
@@ -187,6 +187,7 @@ INLINE_NAMESPACE::Select::start(void) {
                                 break;
                         } while (bytes > 0);
                     }
+					request->set_error_value(request->request_parser());
 					CNOUT(BGRN << "SORTIE DE BOUCLEEEEE:" << request->get_body() << "\n" << CRESET)
 /*                     if (request->get_chunked() && bytes >= 10024) {
                         DEBUG_3(CNOUT(BBLU << "Updating : chunked Request is parsing..."))
@@ -270,6 +271,9 @@ INLINE_NAMESPACE::Select::start(void) {
                     delete request;
                     if (response.get_cgi() != NULL)
                         delete response.get_cgi();
+					//CNOUT("EXIITTT")
+					//exit(0);
+					//break ;
                     DEBUG_3(CNOUT(BBLU << "Updating : Response has been sent" << CRESET))
                 }
             }
