@@ -6,7 +6,7 @@
 /*   By: ndormoy <ndormoy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/23 11:16:46 by ndormoy          ###   ########.fr       */
+/*   Updated: 2022/09/23 15:55:21 by ndormoy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,12 +148,12 @@ INLINE_NAMESPACE::Select::start(void) {
 								//TODO: reparse ici seulement pour le premier appelle de recv
                                DEBUG_3(CNOUT(BBLU << "Updating : recv has read " << bytes << " bytes" << CRESET))
 							if (bytes == SYSCALL_ERR) {
-								CNOUT(BBLU << "SYSCALLLLLLLLLLLL" << CRESET)
+								// CNOUT(BBLU << "SYSCALLLLLLLLLLLL" << CRESET)
                                    DEBUG_5(CNOUT(BRED << "Error : recv() failed (l." << __LINE__ << ")" << CRESET))
 								disconnect_client(i);
 								break;
                                } else if (bytes == 0) {
-								CNOUT(BRED << "INNNNNNNN" << CRESET)
+								// CNOUT(BRED << "INNNNNNNN" << CRESET)
                                    DEBUG_3(CNOUT(BBLU << "Updating : client disconnected = " << _client_socket[i] << "#" << CRESET))
 									disconnect_client(i);
 								break;
@@ -166,11 +166,11 @@ INLINE_NAMESPACE::Select::start(void) {
 									request->set_error_value(request->request_parser());
 									first = 1;
 								}
-								CNOUT(BGRN<< "bytes : " << bytes << " size total : " << size_total << CRESET)
-                                CNOUT(BRED << (unsigned long)atoll(request->get_params("Content-Length").c_str()) << CRESET)
+								// CNOUT(BGRN<< "bytes : " << bytes << " size total : " << size_total << CRESET)
+                                // CNOUT(BRED << (unsigned long)atoll(request->get_params("Content-Length").c_str()) << CRESET)
 								if (size_total > (unsigned long)atoll(request->get_params("Content-Length").c_str()) /* - 353 */)
 								{
-									CNOUT("FUCKKKKKKKKKKKKKKKKKKKKKK")
+									// CNOUT("FUCKKKKKKKKKKKKKKKKKKKKKK")
                                     break ;
                                 }
 								if (!request->max_body_size_check(size_total))
@@ -183,7 +183,12 @@ INLINE_NAMESPACE::Select::start(void) {
                            } else
                                break;
                        } while (bytes > 0);
-                    CNOUT("SORTIIIIIIIIIIIIE")
+                    if (request->get_body().empty())
+                    {
+						delete request;
+						continue;
+                    }
+                    // CNOUT("SORTIIIIIIIIIIIIE")
 					// request->set_error_value(request->request_parser());
                     DEBUG_3(CNOUT(BBLU << "Updating : Request has been parsed" << CRESET))
                     DEBUG_1(webserv_log_input(*request);)
@@ -200,24 +205,30 @@ INLINE_NAMESPACE::Select::start(void) {
                     size_t start = 0;
                     std::string tmp;
                     int	nb_piece = calculate_size_piece_file(response.get_message_send().size());
-                    for (int j = 0; j <= nb_piece; j++)
-                    {
-                        tmp = response.get_message_send().substr(start, response.get_message_send().size() / nb_piece);
-                        if (FD_ISSET(_client_socket[i], &_writefds))
-                        {
-                        	send(_client_socket[i], tmp.c_str(), tmp.size(), 0);
-                        	if (bytes == SYSCALL_ERR) {
-                        	    DEBUG_5(CNOUT(BRED << "Error : send() failed (l." << __LINE__ << ")" << CRESET))
-                        	    disconnect_client(i);
-                        	    break;
-                        	}
-							else if (bytes == 0) {
-								break ;
-							}
-                        	usleep(50000);
-                        	start += tmp.size();
-                        }
-                    }
+                    for (;start < response.get_message_send().size();)
+                	{
+                	    tmp = response.get_message_send().substr(start, response.get_message_send().size() / nb_piece);
+                	    if (FD_ISSET(_client_socket[i], &_writefds))
+                	    {
+                	        if (tmp.empty())
+                	            CNOUT("AIIIIIE")
+                	        bytes = send(_client_socket[i], tmp.c_str(), tmp.size(), 0);
+                	        if (bytes == SYSCALL_ERR)
+                	        {
+                	            CNOUT("SYSCALL_ERR")
+                	            DEBUG_5(CNOUT(BRED << "Error : send() failed (l." << __LINE__ << ")" << CRESET))
+                	            disconnect_client(i);
+                	            break;
+                	        }
+                	        else if (bytes == 0)
+                	        {
+                	            CNOUT("BYTS = 0")
+                	            break;
+                	        }
+                	        usleep(300000);
+                	        start += bytes;
+                	    }
+                	}
                     delete request;
                     if (response.get_cgi() != NULL)
                         delete response.get_cgi();

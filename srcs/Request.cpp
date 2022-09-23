@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Request.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathias.mrsn <mathias.mrsn@student.42.f    +#+  +:+       +#+        */
+/*   By: ndormoy <ndormoy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/23 14:58:31 by mathias.mrs      ###   ########.fr       */
+/*   Updated: 2022/09/23 15:38:32 by ndormoy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ find_location_ (INLINE_NAMESPACE::Server * srv, std::string path) {
     if (!save) {
         return (NULL);
     } else {
-         CNOUT((*save))
+        //  CNOUT((*save))
         return (save);
     }
 }

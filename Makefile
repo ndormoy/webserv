@@ -6,7 +6,7 @@
 #    By: ndormoy <ndormoy@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/10 15:51:05 by gmary             #+#    #+#              #
-#    Updated: 2022/09/23 15:06:17 by ndormoy          ###   ########.fr        #
+#    Updated: 2022/09/23 15:22:28 by ndormoy          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,7 +66,6 @@ $(OBJDIR)/%.o: %.cpp
 				@${CC} ${CPPFLAGS} -o $@ ${INCS} -c $< 
 
 ${NAME}:	${OBJS} ${DEP} 
-				# @mkdir www/Upload/file_to_upload
 				@sh is_file_to_upload.sh
 				@printf "%-15s ${_PURPLE}${_BOLD}${NAME}${_END}...\n" "Compiling"
 				@${CC} ${CPPFLAGS} -o ${NAME} ${INCS} ${OBJS}
