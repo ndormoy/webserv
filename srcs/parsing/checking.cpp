@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checking.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mathias.mrsn <mathias.mrsn@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 07:53:38 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/21 10:11:37 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/09/23 14:59:25 by mathias.mrs      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ port_ (const string_vector & v) {
 
 inline static bool
 max_b_s_ (const string_vector & v) {
-	if (v[0].find_first_not_of("0123456789") == std::string::npos && v[0].length() < 20 && std::atoll(v[0].c_str()) < static_cast<long long>(SIZE_MAX)) {
+	if (v[0].find_first_not_of("0123456789") == std::string::npos && v[0].length() < 20 && std::atoll(v[0].c_str()) < LLONG_MAX) {
 		return (true);
 	} else if (v[0].find_first_not_of("0123456789") == v[0].length() - 1
 			&& v[0].length() < 12

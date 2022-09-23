@@ -26,6 +26,7 @@ class Request
 		std::string _filename;
 		std::string _content_file;
         std::string _content;
+		std::string _header_content;
 
 	public:
 		Request (void) :
@@ -43,7 +44,8 @@ class Request
 			_boundary(""),
 			_filename(""),
 			_content_file(""),
-            _content("")
+            _content(""),
+			_header_content("")
 		{
 			FOREACH_HEADER {
 				_params[*it] = "";
@@ -73,7 +75,8 @@ class Request
 			_boundary(ref._boundary),
 			_filename(ref._filename),
 			_content_file(ref._content_file),
-            _content(ref._content)
+            _content(ref._content),
+			_header_content(ref._header_content)
 		{ }
 
 		Request (const std::string str) :
@@ -91,7 +94,8 @@ class Request
 			_boundary(""),
 			_filename(""),
 			_content_file(""),
-            _content("")
+            _content(""),
+			_header_content("")
 		{
             FOREACH_HEADER {
                 _params[*it] = "";
@@ -118,7 +122,8 @@ class Request
 			_boundary(""),
 			_filename(""),
 			_content_file(""),
-            _content("")
+            _content(""),
+			_header_content("")
 		{
             FOREACH_HEADER {
                 _params[*it] = "";
@@ -149,6 +154,7 @@ class Request
 		std::string				get_filename (void) const			{ return (_filename); }
 		std::string				get_content_file (void) const		{ return (_content_file); }
         std::string             get_content (void) const            { return (_content); }
+		std::string				get_header_content (void) const		{ return (_header_content); }
 
 		// void					add_body(char * str_add, int bytes);
 		void					add_body(char * str_add, int bytes) { _body.insert(_body.size(), str_add, bytes);  }
@@ -168,6 +174,7 @@ class Request
 		void					set_params (param_type & p)		{ _params = p; }
 		void					set_body (std::string str)			{ _body = str; }
         void					set_content (std::string str)		{ _content = str; }
+		void					set_header_content (std::string str)	{ _header_content = str; }
 
 		bool					params_exist(std::string str) 						{ if (_params.find(str) != _params.end()) return false; else return true; }
 
@@ -187,6 +194,7 @@ class Request
 			_filename = "";
 			_content_file = "";
             _content = "";
+			_header_content = "";
 		}
 
 	public:
@@ -223,6 +231,7 @@ class Request
 			_filename = ref._filename;
 			_content_file = ref._content_file;
             _content = ref._content;
+			_header_content = ref._header_content;
 			return *this;
 		}
 
@@ -241,6 +250,7 @@ class Request
 			o << "Filename: " << ref._filename << std::endl;
 			o << "Content file: " << ref._content_file << std::endl;
             o << "Content: " << ref._content << std::endl;
+			o << "Header content: " << ref._header_content << std::endl;
 			o << "Params: " << std::endl;
 			for (std::map<std::string, std::string>::const_iterator it = ref._params.begin(); it != ref._params.end(); ++it) {
 				o << " -> " << it->first << ": " << it->second << std::endl;

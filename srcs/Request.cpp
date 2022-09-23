@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Request.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaurai <mamaurai@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mathias.mrsn <mathias.mrsn@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/23 14:38:10 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/21 11:10:06 by mamaurai         ###   ########.fr       */
+/*   Updated: 2022/09/23 14:58:31 by mathias.mrs      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,6 +267,7 @@ INLINE_NAMESPACE::Request::request_parser (void) {
 	_location = find_location_(_server, _path);
 	_chunked = ((_params["Transfer-Encoding"].find("chunked")) != std::string::npos);
 	set_final_path();
+	_header_content = _body.substr(0, _body.find("\r\n\r\n") + 4);
     if ((ret = check_request()) != 0) {
         return (ret);
     }
@@ -340,7 +341,7 @@ void INLINE_NAMESPACE::Request::unchunk_body () {
 
 bool
 INLINE_NAMESPACE::Request::max_body_size_check(size_t size) {
-	if (_server && (size > _server->get_max_body_size())) {
+	if (_server && (size - _header_content.size() > _server->get_max_body_size())) {
 		CNOUT(BRED << "Error : Request body size is too big" << CRESET);
 		set_error_value(413);
 		return (false);
