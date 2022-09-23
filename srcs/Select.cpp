@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Select.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ndormoy <ndormoy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 11:30:22 by mamaurai          #+#    #+#             */
-/*   Updated: 2022/09/22 17:15:15 by gmary            ###   ########.fr       */
+/*   Updated: 2022/09/23 11:16:46 by ndormoy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ INLINE_NAMESPACE::Select::start(void) {
     while (true) {
         char buffer[10025];
         int bytes = 0;
+        int	first = 0;
         _init_socket();
 		int select_ret = select(get_max_sub_socket() + 1, &_readfds, &_writefds, NULL, NULL);
 		if (g_exit) {
@@ -145,7 +146,6 @@ INLINE_NAMESPACE::Select::start(void) {
                                }
                             	bytes = recv(_client_socket[i], buffer, 10024, 0);
 								//TODO: reparse ici seulement pour le premier appelle de recv
-								// request->set_error_value(request->request_parser());
                                DEBUG_3(CNOUT(BBLU << "Updating : recv has read " << bytes << " bytes" << CRESET))
 							if (bytes == SYSCALL_ERR) {
 								CNOUT(BBLU << "SYSCALLLLLLLLLLLL" << CRESET)
@@ -161,9 +161,14 @@ INLINE_NAMESPACE::Select::start(void) {
                                    buffer[bytes] = '\0';
                                    request->add_body(buffer, bytes);
                                    size_total += bytes;
-								
+								if (first == 0)
+								{
+									request->set_error_value(request->request_parser());
+									first = 1;
+								}
 								CNOUT(BGRN<< "bytes : " << bytes << " size total : " << size_total << CRESET)
-								if (/* bytes < 10024 */request->get_body().rfind("\r\n\r\n")  != std::string::npos)
+                                CNOUT(BRED << (unsigned long)atoll(request->get_params("Content-Length").c_str()) << CRESET)
+								if (size_total > (unsigned long)atoll(request->get_params("Content-Length").c_str()) /* - 353 */)
 								{
 									CNOUT("FUCKKKKKKKKKKKKKKKKKKKKKK")
                                     break ;
@@ -177,9 +182,9 @@ INLINE_NAMESPACE::Select::start(void) {
                                }
                            } else
                                break;
-                       } while (bytes > 0 /* && request->get_body().rfind("\r\n\r\n") == std::string::npos *//*  endsWith(request->get_body(), "\r\n\r\n") == false && endsWith(request->get_body(), "\n\r\n") == false && endsWith(request->get_body(), "\n\n") == false && endsWith(request->get_body(), "\r\n\n") */);
-                
-					request->set_error_value(request->request_parser());
+                       } while (bytes > 0);
+                    CNOUT("SORTIIIIIIIIIIIIE")
+					// request->set_error_value(request->request_parser());
                     DEBUG_3(CNOUT(BBLU << "Updating : Request has been parsed" << CRESET))
                     DEBUG_1(webserv_log_input(*request);)
                     if (request->get_error_value() != 413 && request->get_body().size() > 0)

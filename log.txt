@@ -1,0 +1,360 @@
+location of webserv
+debug_level = 0
+methods = 
+root = www
+index = index.html
+path = 
+autoindex = 1
+cgi = 
+.php bin/php-cgi_ubuntu
+upload_path = www
+server = 0x7fd54dd04100
+
+[1;32mbytes : 10024 size total : 10024[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 20048[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 30072[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 40096[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 50120[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 60144[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 70168[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 80192[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 90216[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 100240[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 110264[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 120288[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 130312[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 140336[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 150360[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 160384[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 170408[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 180432[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 190456[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 200480[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 210504[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 220528[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 230552[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 240576[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 250600[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 260624[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 270648[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 280672[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 290696[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 300720[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 310744[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 320768[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 330792[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 340816[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 350840[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 360864[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 370888[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 380912[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 390936[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 400960[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 410984[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 421008[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 431032[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 441056[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 451080[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 461104[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 471128[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 481152[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 491176[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 501200[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 511224[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 521248[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 531272[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 541296[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 551320[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 561344[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 571368[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 581392[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 591416[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 601440[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 611464[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 621488[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 631512[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 641536[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 651560[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 661584[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 671608[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 681632[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 691656[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 701680[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 711704[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 721728[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 731752[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 741776[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 751800[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 761824[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 771848[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 781872[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 791896[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 801920[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 811944[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 821968[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 831992[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 842016[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 852040[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 862064[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 872088[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 882112[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 892136[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 902160[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 912184[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 922208[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 932232[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 942256[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 952280[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 962304[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 972328[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 982352[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 992376[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1002400[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1012424[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1022448[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1032472[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1042496[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1052520[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1062544[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1072568[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1082592[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1092616[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1102640[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1112664[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1122688[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1132712[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1142736[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1152760[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1162784[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1172808[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1182832[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1192856[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1202880[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1212904[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1222928[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1232952[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1242976[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1253000[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1263024[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1273048[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1283072[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1293096[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1303120[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1313144[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1323168[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1333192[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1343216[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1353240[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1363264[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1373288[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1383312[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1393336[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1403360[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1413384[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1423408[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1433432[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1443456[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1453480[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1463504[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1473528[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1483552[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1493576[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1503600[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1513624[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1523648[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1533672[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1543696[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1553720[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1563744[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1573768[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1583792[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1593816[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1603840[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1613864[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1623888[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1633912[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1643936[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1653960[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1663984[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1674008[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1684032[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1694056[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1704080[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1714104[0m
+[1;31m1724791[0m
+[1;32mbytes : 10024 size total : 1724128[0m
+[1;31m1724791[0m
+[1;32mbytes : 1367 size total : 1725495[0m
+[1;31m1724791[0m
+FUCKKKKKKKKKKKKKKKKKKKKKK
+SORTIIIIIIIIIIIIE
